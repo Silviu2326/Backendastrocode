@@ -170,7 +170,7 @@ Authorization: Bearer <tu-jwt-token>
 
 ### Login
 ```bash
-curl -X POST http://localhost:3001/api/auth/login \
+curl -X POST https://astrocode-eba407d9ef8a.herokuapp.com/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "admin@demo.com",
@@ -180,7 +180,7 @@ curl -X POST http://localhost:3001/api/auth/login \
 
 ### Crear Proyecto
 ```bash
-curl -X POST http://localhost:3001/api/projects \
+curl -X POST https://astrocode-eba407d9ef8a.herokuapp.com/api/projects \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <tu-token>" \
   -d '{

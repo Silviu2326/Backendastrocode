@@ -2805,7 +2805,7 @@ const generateAdvancedPackageJson = async (framework, includeDatabase) => {
   JWT_EXPIRES_IN=7d
   
   # CORS
-  ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001
+  ALLOWED_ORIGINS=http://localhost:3000,https://astrocode-eba407d9ef8a.herokuapp.com
   
   # Rate Limiting
   RATE_LIMIT_MAX=100
@@ -3103,7 +3103,7 @@ const generateAdvancedPackageJson = async (framework, includeDatabase) => {
   # ==============================================
   # CORS - Orígenes permitidos (separados por coma)
   # ==============================================
-  ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001,http://localhost:5173
+  ALLOWED_ORIGINS=http://localhost:3000,https://astrocode-eba407d9ef8a.herokuapp.com,http://localhost:5173
   
   # ==============================================
   # RATE LIMITING

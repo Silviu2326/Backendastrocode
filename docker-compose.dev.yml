@@ -51,7 +51,7 @@ services:
       - REDIS_PORT=6379
       - QUEUE_MANAGER_PORT=3001
       - LOG_LEVEL=debug
-      - ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001
+      - ALLOWED_ORIGINS=http://localhost:3000,https://astrocode-eba407d9ef8a.herokuapp.com
     ports:
       - "3001:3001"
     volumes:
