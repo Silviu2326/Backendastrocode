@@ -1,0 +1,123 @@
+```json
+{
+  "softwares": [
+    {
+      "name": "RivalSense AI",
+      "description": "Plataforma de inteligencia competitiva que utiliza IA para monitorear en tiempo real los sitios web, precios, campañas de marketing y redes sociales de los competidores. Genera alertas y dashboards para ayudar a las empresas a reaccionar rápidamente a los movimientos del mercado.",
+      "targetClient": "Gerentes de producto, marketing y estrategas de negocio en empresas de tecnología de tamaño mediano (B2B o B2C). Necesitan mantenerse por delante de la competencia pero carecen de recursos para un equipo de analistas dedicado.",
+      "pages": [
+        {
+          "name": "Dashboard Principal",
+          "description": "Vista general de las métricas clave de la competencia, con gráficos de evolución y alertas recientes.",
+          "route": "/dashboard"
+        },
+        {
+          "name": "Seguimiento de Competidores",
+          "description": "Panel para agregar, editar y organizar los competidores a monitorear.",
+          "route": "/competitors"
+        },
+        {
+          "name": "Análisis de Precios",
+          "description": "Visualización histórica de los cambios de precios de los productos de la competencia.",
+          "route": "/pricing-tracker"
+        },
+        {
+          "name": "Monitor de Contenido",
+          "description": "Feed en tiempo real de nuevas publicaciones de blog, campañas y menciones en redes sociales de los rivales.",
+          "route": "/content-monitor"
+        },
+        {
+          "name": "Configuración de Alertas",
+          "description": "Personalización de notificaciones por correo electrónico o Slack para eventos específicos (ej. cambio de precio).",
+          "route": "/settings/alerts"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$40,000 - $75,000 USD",
+        "monthlyRevenuePotential": "$15,000 - $50,000 USD",
+        "breakEvenTime": "18-24 meses",
+        "marketSize": "Global, enfocado en empresas de tecnología y e-commerce. Valor estimado del mercado de Competitive Intelligence > $5B.",
+        "competitionLevel": "Medio"
+      }
+    },
+    {
+      "name": "Sentimind",
+      "description": "Herramienta SaaS que aplica Procesamiento de Lenguaje Natural (NLP) para analizar el sentimiento de los consumidores a partir de reseñas online, redes sociales y foros. Identifica temas clave, emociones y puntos de dolor, presentándolos en un dashboard intuitivo y accionable.",
+      "targetClient": "Gerentes de marca, equipos de Experiencia de Cliente (CX) y analistas de mercado en empresas de bienes de consumo (CPG) o e-commerce. Necesitan entender la 'voz del cliente' a escala sin leer manualmente miles de comentarios.",
+      "pages": [
+        {
+          "name": "Dashboard de Sentimiento",
+          "description": "Puntuaciones de sentimiento agregado, nubes de palabras con temas principales y tendencias generales.",
+          "route": "/"
+        },
+        {
+          "name": "Fuentes de Datos",
+          "description": "Conectar cuentas de redes sociales, sitios de reseñas (vía API) o subir datasets personalizados.",
+          "route": "/data-sources"
+        },
+        {
+          "name": "Análisis por Tema",
+          "description": "Análisis profundo de temas específicos como 'envío', 'precio' o 'atención al cliente'.",
+          "route": "/topics-analysis"
+        },
+        {
+          "name": "Evolución Temporal",
+          "description": "Gráficos que muestran la evolución del sentimiento y la frecuencia de temas a lo largo del tiempo.",
+          "route": "/trends"
+        },
+        {
+          "name": "Generador de Informes",
+          "description": "Crear y exportar informes en PDF personalizados para compartir con otros departamentos.",
+          "route": "/reports"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$50,000 - $90,000 USD",
+        "monthlyRevenuePotential": "$20,000 - $70,000 USD",
+        "breakEvenTime": "20-30 meses",
+        "marketSize": "Mercado de Social Listening y Voice of Customer (VoC) en rápido crecimiento, valorado en más de $8B.",
+        "competitionLevel": "Alto"
+      }
+    },
+    {
+      "name": "NicheValidator",
+      "description": "Plataforma para emprendedores que valida ideas de negocio. Agrega datos de Google Trends, volumen de búsqueda de palabras clave, menciones en redes y estimadores de mercado para generar un 'puntaje de viabilidad' y un informe detallado sobre cualquier nicho.",
+      "targetClient": "Emprendedores en fase inicial, 'indie hackers' y gerentes de innovación. Buscan validación basada en datos antes de invertir tiempo y dinero en el desarrollo de un nuevo producto.",
+      "pages": [
+        {
+          "name": "Buscador de Nicho",
+          "description": "Página de inicio para introducir una idea, palabra clave o industria para iniciar el análisis.",
+          "route": "/"
+        },
+        {
+          "name": "Informe de Viabilidad",
+          "description": "Página de resultados con puntajes, gráficos sobre tamaño del mercado, interés y competencia.",
+          "route": "/report/niche-name"
+        },
+        {
+          "name": "Análisis de Tendencias",
+          "description": "Gráficos detallados del interés histórico y proyectado del nicho.",
+          "route": "/trends"
+        },
+        {
+          "name": "Panorama Competitivo",
+          "description": "Identificación automática de los principales actores existentes en el nicho.",
+          "route": "/competitors"
+        },
+        {
+          "name": "Mis Informes",
+          "description": "Dashboard personal para guardar, comparar y gestionar los nichos analizados.",
+          "route": "/my-reports"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$25,000 - $50,000 USD",
+        "monthlyRevenuePotential": "$10,000 - $35,000 USD",
+        "breakEvenTime": "12-18 meses",
+        "marketSize": "Mercado grande y fragmentado de herramientas para startups y emprendedores.",
+        "competitionLevel": "Bajo/Medio"
+      }
+    }
+  ]
+}
+```

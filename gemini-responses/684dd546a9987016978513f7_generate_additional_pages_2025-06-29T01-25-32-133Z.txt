@@ -1,0 +1,55 @@
+```json
+{
+  "pages": [
+    {
+      "name": "Panel de Instructor",
+      "description": "Un dashboard dedicado para los creadores de contenido. Permite a los instructores gestionar sus cursos publicados, ver analíticas detalladas de inscripción y progreso de los estudiantes, responder preguntas y reseñas, y administrar sus ingresos y pagos. Es el centro de operaciones para el lado de la oferta de la plataforma.",
+      "route": "/instructor/dashboard",
+      "isEssential": true,
+      "priority": 9
+    },
+    {
+      "name": "Foros de la Comunidad",
+      "description": "Un espacio de interacción social para que los estudiantes y los instructores se conecten. Los usuarios pueden crear hilos de discusión por curso o por tema, resolver dudas de forma colaborativa, compartir recursos y proyectos, y formar grupos de estudio. Fomenta el aprendizaje social y aumenta la retención de usuarios.",
+      "route": "/community",
+      "isEssential": false,
+      "priority": 8
+    },
+    {
+      "name": "Creador y Editor de Cursos",
+      "description": "Una interfaz de autoría (authoring tool) que permite a los instructores crear y editar sus cursos de forma intuitiva. Incluye funcionalidades para subir y organizar contenido (videos, texto, PDFs), crear evaluaciones y cuestionarios, definir la estructura del temario y establecer los prerrequisitos del curso. Es fundamental para la generación de nuevo contenido.",
+      "route": "/instructor/courses/create",
+      "isEssential": true,
+      "priority": 10
+    },
+    {
+      "name": "Rutas de Aprendizaje",
+      "description": "Presenta colecciones de cursos curados y estructurados para alcanzar objetivos profesionales específicos (ej. 'Conviértete en Científico de Datos'). La IA puede recomendar rutas personalizadas basadas en el perfil y metas del usuario. Ayuda a los estudiantes a ver el valor a largo plazo y les proporciona una guía clara en su carrera.",
+      "route": "/learning-paths",
+      "isEssential": false,
+      "priority": 7
+    },
+    {
+      "name": "Centro de Ayuda / FAQ",
+      "description": "Un portal de autoservicio para resolver dudas y problemas comunes. Contiene una base de conocimiento con artículos, tutoriales y una sección de Preguntas Frecuentes (FAQ) sobre facturación, problemas técnicos y uso de la plataforma. Debe incluir un formulario de contacto para soporte especializado.",
+      "route": "/help",
+      "isEssential": true,
+      "priority": 9
+    },
+    {
+      "name": "Blog",
+      "description": "Página de contenido para atraer tráfico orgánico y establecer a Eduplatform como una autoridad en el sector. Publica artículos sobre tendencias en educación, tecnología, consejos de estudio, historias de éxito de estudiantes y noticias de la plataforma. Es una herramienta clave de marketing y SEO.",
+      "route": "/blog",
+      "isEssential": false,
+      "priority": 6
+    },
+    {
+      "name": "Página de Proyectos de Estudiantes",
+      "description": "Una galería o escaparate para mostrar los mejores proyectos realizados por los estudiantes en los diferentes cursos. Sirve como prueba social del valor de la plataforma, inspira a nuevos usuarios y motiva a los estudiantes actuales al ofrecer un espacio para dar visibilidad a su trabajo.",
+      "route": "/showcase",
+      "isEssential": false,
+      "priority": 5
+    }
+  ]
+}
+```

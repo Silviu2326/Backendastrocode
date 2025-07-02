@@ -1,0 +1,57 @@
+{
+  "name": "fe-test",
+  "version": "1.0.0",
+  "description": "Frontend Testing Agent - Generates comprehensive tests for React components including unit, integration, and e2e tests",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix"
+  },
+  "dependencies": {
+    "bullmq": "^4.15.4",
+    "express": "^4.18.2",
+    "ioredis": "^5.3.2",
+    "typescript": "^5.3.3",
+    "ts-node": "^10.9.1",
+    "@testing-library/react": "^14.1.2",
+    "@testing-library/jest-dom": "^6.1.5",
+    "@testing-library/user-event": "^14.5.1",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "@types/jest": "^29.5.11",
+    "ts-jest": "^29.1.1",
+    "puppeteer": "^21.6.1",
+    "playwright": "^1.40.1",
+    "@playwright/test": "^1.40.1",
+    "vitest": "^1.0.4",
+    "@vitest/ui": "^1.0.4",
+    "msw": "^2.0.11",
+    "@storybook/test-runner": "^0.16.0",
+    "axe-playwright": "^1.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@types/express": "^4.17.21",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "eslint": "^8.56.0"
+  },
+  "keywords": [
+    "testing",
+    "jest",
+    "playwright",
+    "react",
+    "frontend",
+    "unit-tests",
+    "integration-tests",
+    "e2e-tests",
+    "test-generation"
+  ],
+  "author": "Frontend Agent System",
+  "license": "MIT"
+}

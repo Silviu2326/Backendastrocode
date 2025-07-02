@@ -1,0 +1,55 @@
+```json
+{
+  "pages": [
+    {
+      "name": "Comparador de Nichos",
+      "description": "Permite a los usuarios seleccionar 2 o 3 de sus informes guardados y comparar las métricas clave (puntaje de viabilidad, volumen de búsqueda, competencia, etc.) en una vista de lado a lado. Facilita la toma de decisiones al contrastar directamente diferentes ideas de negocio.",
+      "route": "/compare",
+      "isEssential": false,
+      "priority": 8
+    },
+    {
+      "name": "Centro de Ayuda / FAQ",
+      "description": "Una base de conocimiento con capacidad de búsqueda que responde a las preguntas más frecuentes de los usuarios. Cubre temas como la metodología de cálculo del puntaje, el significado de las métricas, gestión de la suscripción y solución de problemas comunes, reduciendo la carga del soporte.",
+      "route": "/help",
+      "isEssential": true,
+      "priority": 9
+    },
+    {
+      "name": "Explorador de Nichos Públicos",
+      "description": "Una galería pública de informes de validación pre-generados para nichos populares o de tendencia. Sirve como una demostración en vivo del poder de la herramienta, atrae tráfico orgánico (SEO) e inspira a los usuarios con nuevas ideas. Cada informe público puede ser una versión simplificada del informe completo.",
+      "route": "/explore",
+      "isEssential": false,
+      "priority": 7
+    },
+    {
+      "name": "Página de Contacto",
+      "description": "Un formulario de contacto para que los visitantes y usuarios puedan comunicarse con el equipo de NicheValidator para consultas de ventas, soporte técnico avanzado o propuestas de asociación. Es un canal de comunicación directo y esencial.",
+      "route": "/contact",
+      "isEssential": true,
+      "priority": 10
+    },
+    {
+      "name": "Programa de Afiliados",
+      "description": "Página dedicada para que los usuarios se unan al programa de referidos. Explica los beneficios (comisiones, recompensas), proporciona un enlace de afiliado único y un panel para rastrear clics, registros y ganancias. Fomenta el crecimiento a través del marketing de boca en boca.",
+      "route": "/affiliates",
+      "isEssential": false,
+      "priority": 5
+    },
+    {
+      "name": "Glosario de Métricas",
+      "description": "Una página de referencia que define y explica en detalle cada métrica utilizada en los informes de NicheValidator (ej. 'Dificultad de Palabra Clave', 'Sentimiento Social', 'Tamaño de Mercado Estimado'). Mejora la comprensión del usuario y el valor percibido de los datos.",
+      "route": "/glossary",
+      "isEssential": false,
+      "priority": 6
+    },
+    {
+      "name": "Integraciones",
+      "description": "Muestra las aplicaciones y herramientas de terceros con las que NicheValidator se puede conectar (ej. Trello, Notion, Slack) para exportar datos del informe o crear tareas automáticamente. Aumenta el valor de la herramienta al insertarla en los flujos de trabajo existentes del usuario.",
+      "route": "/integrations",
+      "isEssential": false,
+      "priority": 4
+    }
+  ]
+}
+```

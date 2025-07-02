@@ -1,0 +1,299 @@
+version: '3.8'
+
+services:
+  # Redis for BullMQ queues
+  redis:
+    image: redis:7-alpine
+    container_name: fe-agents-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - fe-agents-network
+
+  # PostgreSQL database
+  postgres:
+    image: postgres:15-alpine
+    container_name: fe-agents-postgres
+    environment:
+      POSTGRES_DB: fe_agents
+      POSTGRES_USER: fe_user
+      POSTGRES_PASSWORD: fe_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fe_user -d fe_agents"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - fe-agents-network
+
+  # Queue Manager - BullMQ Dashboard and API
+  queue-manager:
+    build:
+      context: ./queue-manager
+      dockerfile: Dockerfile.dev
+    container_name: fe-agents-queue-manager
+    environment:
+      - NODE_ENV=development
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - QUEUE_MANAGER_PORT=3001
+      - LOG_LEVEL=debug
+      - ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./queue-manager:/app
+      - /app/node_modules
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - fe-agents-network
+    restart: unless-stopped
+
+  # FE Draft Agent
+  fe-draft:
+    build:
+      context: ./agents/fe-draft
+      dockerfile: Dockerfile.dev
+    container_name: fe-agents-draft
+    environment:
+      - NODE_ENV=development
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - DATABASE_URL=postgresql://fe_user:fe_password@postgres:5432/fe_agents
+      - LOG_LEVEL=debug
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      - ./agents/fe-draft:/app
+      - ./shared:/app/shared
+      - /app/node_modules
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    networks:
+      - fe-agents-network
+    restart: unless-stopped
+
+  # FE Logic Agent
+  fe-logic:
+    build:
+      context: ./agents/fe-logic
+      dockerfile: Dockerfile.dev
+    container_name: fe-agents-logic
+    environment:
+      - NODE_ENV=development
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - DATABASE_URL=postgresql://fe_user:fe_password@postgres:5432/fe_agents
+      - LOG_LEVEL=debug
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      - ./agents/fe-logic:/app
+      - ./shared:/app/shared
+      - /app/node_modules
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    networks:
+      - fe-agents-network
+    restart: unless-stopped
+
+  # FE Style Agent
+  fe-style:
+    build:
+      context: ./agents/fe-style
+      dockerfile: Dockerfile.dev
+    container_name: fe-agents-style
+    environment:
+      - NODE_ENV=development
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - DATABASE_URL=postgresql://fe_user:fe_password@postgres:5432/fe_agents
+      - LOG_LEVEL=debug
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      - ./agents/fe-style:/app
+      - ./shared:/app/shared
+      - /app/node_modules
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    networks:
+      - fe-agents-network
+    restart: unless-stopped
+
+  # FE TypeFix Agent
+  fe-typefix:
+    build:
+      context: ./agents/fe-typefix
+      dockerfile: Dockerfile.dev
+    container_name: fe-agents-typefix
+    environment:
+      - NODE_ENV=development
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - DATABASE_URL=postgresql://fe_user:fe_password@postgres:5432/fe_agents
+      - LOG_LEVEL=debug
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      - ./agents/fe-typefix:/app
+      - ./shared:/app/shared
+      - /app/node_modules
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    networks:
+      - fe-agents-network
+    restart: unless-stopped
+
+  # FE A11y Agent
+  fe-a11y:
+    build:
+      context: ./agents/fe-a11y
+      dockerfile: Dockerfile.dev
+    container_name: fe-agents-a11y
+    environment:
+      - NODE_ENV=development
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - DATABASE_URL=postgresql://fe_user:fe_password@postgres:5432/fe_agents
+      - LOG_LEVEL=debug
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      - ./agents/fe-a11y:/app
+      - ./shared:/app/shared
+      - /app/node_modules
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    networks:
+      - fe-agents-network
+    restart: unless-stopped
+
+  # FE Test Agent
+  fe-test:
+    build:
+      context: ./agents/fe-test
+      dockerfile: Dockerfile.dev
+    container_name: fe-agents-test
+    environment:
+      - NODE_ENV=development
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - DATABASE_URL=postgresql://fe_user:fe_password@postgres:5432/fe_agents
+      - LOG_LEVEL=debug
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      - ./agents/fe-test:/app
+      - ./shared:/app/shared
+      - /app/node_modules
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    networks:
+      - fe-agents-network
+    restart: unless-stopped
+
+  # FE Report Agent
+  fe-report:
+    build:
+      context: ./agents/fe-report
+      dockerfile: Dockerfile.dev
+    container_name: fe-agents-report
+    environment:
+      - NODE_ENV=development
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - DATABASE_URL=postgresql://fe_user:fe_password@postgres:5432/fe_agents
+      - LOG_LEVEL=debug
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      - ./agents/fe-report:/app
+      - ./shared:/app/shared
+      - /app/node_modules
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    networks:
+      - fe-agents-network
+    restart: unless-stopped
+
+  # FE Manager Agent - Orchestrator
+  fe-manager:
+    build:
+      context: ./agents/fe-manager
+      dockerfile: Dockerfile.dev
+    container_name: fe-agents-manager
+    environment:
+      - NODE_ENV=development
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - DATABASE_URL=postgresql://fe_user:fe_password@postgres:5432/fe_agents
+      - LOG_LEVEL=debug
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - QUEUE_MANAGER_URL=http://queue-manager:3001
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./agents/fe-manager:/app
+      - ./shared:/app/shared
+      - /app/node_modules
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      queue-manager:
+        condition: service_started
+    networks:
+      - fe-agents-network
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+    driver: local
+  postgres_data:
+    driver: local
+
+networks:
+  fe-agents-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

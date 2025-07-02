@@ -1,0 +1,229 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización de la Propuesta de Valor en la Sección Principal (Hero)",
+      "description": "Como fundador de una startup que visita la página por primera vez, quiero entender inmediatamente qué es EquityViz y qué problema resuelve para poder decidir en segundos si la herramienta es relevante para mi empresa.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/features/pgina-de-inicio-landing-page/components/HeroSection.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "HeroSection",
+            "type": "component",
+            "path": "src/features/pgina-de-inicio-landing-page/components/HeroSection.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El contenido (título, subtítulo, texto de los botones) debe ser fácilmente configurable, idealmente obtenido desde un sistema de gestión de contenido (CMS) o un archivo de constantes para facilitar pruebas A/B. No se requiere lógica de API en esta etapa, solo navegación.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex flex-col items-center justify-center text-center py-20 bg-gray-50",
+        "colorCoding": "Uso de colores primarios de la marca EquityViz para el botón de CTA principal y colores neutros para el texto y fondo."
+      },
+      "acceptanceCriteria": [
+        "La sección debe ocupar la parte superior de la página (above the fold).",
+        "Debe mostrar un título principal (H1) claro y conciso que comunique el beneficio principal.",
+        "Debe incluir un subtítulo que elabore sobre el problema que se está resolviendo.",
+        "Debe haber un botón de Llamada a la Acción (CTA) principal y visible, como 'Solicitar una Demo', que dirija al usuario a la página de registro o a un formulario de contacto.",
+        "Debe haber un CTA secundario, como 'Ver Precios', que dirija a la página de precios.",
+        "La sección debe ser completamente responsive y verse bien en dispositivos móviles, tablets y de escritorio."
+      ],
+      "additionalSuggestions": [
+        "Considerar incluir una imagen o video corto del producto en acción para aumentar el engagement.",
+        "Implementar un suave efecto de animación en la aparición del texto y los botones para mejorar la experiencia."
+      ],
+      "aiEditorTask": "Crea un nuevo componente llamado 'HeroSection.tsx' en 'src/features/pgina-de-inicio-landing-page/components/'. Este componente debe renderizar un título (h1), un párrafo (p) y dos componentes 'Button' importados de 'src/components/Button.jsx'. Luego, importa e integra 'HeroSection' en la parte superior de 'PáginadeInicio(LandingPage)Page.tsx'.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Presentación de Características Clave del Producto",
+      "description": "Como un gerente de operaciones evaluando EquityViz, quiero ver una sección que destaque las características más importantes del producto para comprender rápidamente sus capacidades y cómo pueden beneficiar a mi equipo.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/features/pgina-de-inicio-landing-page/components/FeaturesSection.tsx",
+        "src/features/pgina-de-inicio-landing-page/components/FeatureCard.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "FeaturesSection",
+            "type": "component",
+            "path": "src/features/pgina-de-inicio-landing-page/components/FeaturesSection.tsx"
+          },
+          {
+            "name": "FeatureCard",
+            "type": "component",
+            "path": "src/features/pgina-de-inicio-landing-page/components/FeatureCard.tsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Los datos de las características (icono, título, descripción) deben ser gestionados a través de un array de objetos en 'FeaturesSection.tsx' para facilitar su mantenimiento y escalabilidad. Cada objeto del array será una prop para el componente 'FeatureCard'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-1 md:grid-cols-3 gap-8 py-16",
+        "colorCoding": "Iconos con el color de acento de la marca. Tarjetas con un fondo sutilmente distinto al de la página para destacarlas."
+      },
+      "acceptanceCriteria": [
+        "La sección debe mostrar un mínimo de 3 características clave.",
+        "Cada característica debe ser presentada en su propia 'tarjeta' o contenedor visual.",
+        "Cada tarjeta de característica debe contener un icono representativo, un título y una descripción breve (2-3 líneas).",
+        "El diseño debe ser limpio y fácil de escanear, utilizando un layout de rejilla (grid).",
+        "La sección debe ser responsive, ajustando el número de columnas según el tamaño de la pantalla (ej. 1 columna en móvil, 3 en escritorio)."
+      ],
+      "additionalSuggestions": [
+        "Añadir un efecto 'hover' a las tarjetas de características para mejorar la interactividad.",
+        "Asegurar que los iconos sean consistentes en estilo y tamaño."
+      ],
+      "aiEditorTask": "Crea dos nuevos componentes en 'src/features/pgina-de-inicio-landing-page/components/': 'FeaturesSection.tsx' y 'FeatureCard.tsx'. 'FeatureCard' debe aceptar props para un icono, título y descripción. 'FeaturesSection' debe renderizar un título y un grid de al menos tres componentes 'FeatureCard' con datos de ejemplo. Finalmente, integra 'FeaturesSection' en 'PáginadeInicio(LandingPage)Page.tsx'.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Exhibición de Prueba Social a través de Testimonios",
+      "description": "Como un potencial cliente indeciso, quiero leer testimonios de otros fundadores o empresas que ya usan EquityViz para ganar confianza en el producto y validar su efectividad.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/features/pgina-de-inicio-landing-page/components/TestimonialsSection.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "TestimonialsSection",
+            "type": "component",
+            "path": "src/features/pgina-de-inicio-landing-page/components/TestimonialsSection.tsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Los testimonios (cita, autor, cargo, empresa, imagen/logo) deben cargarse desde un array de objetos. Se podría usar el hook 'usePáginadeInicio(LandingPage).ts' y 'api.ts' si los testimonios se obtienen de un backend en el futuro, pero para la V1 pueden ser datos estáticos.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-blue-50 py-16 px-4",
+        "colorCoding": "Fondo de sección en un color suave y de confianza (ej. azul claro). El texto de la cita debe ser prominente."
+      },
+      "acceptanceCriteria": [
+        "La sección debe tener un encabezado claro como 'Lo que dicen nuestros clientes'.",
+        "Se deben mostrar al menos dos testimonios.",
+        "Cada testimonio debe incluir la cita, el nombre de la persona, su cargo y el nombre de su empresa.",
+        "Es deseable, pero no bloqueante, incluir una foto de la persona o el logo de la empresa.",
+        "Los testimonios podrían estar presentados en un carrusel o en tarjetas estáticas.",
+        "El diseño debe ser profesional y legible en todos los dispositivos."
+      ],
+      "additionalSuggestions": [
+        "Si se muestran más de 3 testimonios, implementar un carrusel con navegación (puntos o flechas) para no sobrecargar la página verticalmente.",
+        "Utilizar comillas tipográficas grandes para destacar visualmente la cita."
+      ],
+      "aiEditorTask": "Crea el componente 'TestimonialsSection.tsx' en 'src/features/pgina-de-inicio-landing-page/components/'. Dentro, define un array estático de objetos de testimonios. Mapea este array para renderizar cada testimonio con su cita, autor y compañía. Integra 'TestimonialsSection' en 'PáginadeInicio(LandingPage)Page.tsx'.",
+      "priority": "Media",
+      "estimatedHours": 5
+    },
+    {
+      "title": "Navegación Principal de la Página de Inicio",
+      "description": "Como visitante del sitio, quiero una barra de navegación fija en la parte superior con enlaces claros a las secciones clave (Precios, Recursos) y botones de acción (Iniciar Sesión, Registrarse) para poder moverme por el sitio de forma eficiente.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/components/Header.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "Header",
+            "type": "component",
+            "path": "src/components/Header.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          },
+          {
+            "name": "Link",
+            "from": "react-router-dom"
+          }
+        ]
+      },
+      "logicData": "La barra de navegación debe detectar el scroll del usuario para añadir un fondo o sombra, mejorando la visibilidad sobre el contenido. Los enlaces deben usar el enrutador de la aplicación para navegar a otras páginas del proyecto (`/precios`, `/recursos-educativos--aprende`, `/inicio-de-sesin`, `/registro-de-empresa`).",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "fixed top-0 left-0 w-full z-50 flex justify-between items-center p-4 transition-colors duration-300",
+        "colorCoding": "Inicialmente transparente, cambia a un fondo blanco con sombra al hacer scroll."
+      },
+      "acceptanceCriteria": [
+        "La barra de navegación debe estar siempre visible en la parte superior de la ventana (sticky/fixed).",
+        "Debe mostrar el logo de EquityViz, que al hacer clic lleva a la página de inicio ('/').",
+        "Debe contener enlaces de navegación a 'Precios' y 'Recursos'.",
+        "Debe mostrar un botón para 'Iniciar Sesión' y un botón destacado para 'Registrarse' o 'Solicitar Demo'.",
+        "En pantallas pequeñas, el menú de navegación debe colapsarse en un menú de hamburguesa.",
+        "Al hacer clic en el ícono de hamburguesa, se debe desplegar un menú con los enlaces de navegación."
+      ],
+      "additionalSuggestions": [
+        "Agregar un sutil indicador visual en el enlace de la página activa.",
+        "La transición de color de fondo al hacer scroll debe ser suave."
+      ],
+      "aiEditorTask": "Crea un nuevo componente reutilizable 'Header.tsx' en 'src/components/'. Debe incluir el logo, enlaces de navegación (usando 'Link' de react-router-dom) y botones de acción. Implementa la lógica para el menú de hamburguesa en vistas móviles. Luego, integra este componente 'Header' en 'PáginadeInicio(LandingPage)Page.tsx' y en el layout principal de 'App.tsx' para que sea visible en todas las páginas públicas.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Sección de CTA Final para Capturar Leads",
+      "description": "Como un visitante que ha llegado al final de la página, quiero encontrar una llamada a la acción final y clara que me invite a dar el siguiente paso para no tener que volver a buscarla en la parte superior.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/features/pgina-de-inicio-landing-page/components/FinalCTASection.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "FinalCTASection",
+            "type": "component",
+            "path": "src/features/pgina-de-inicio-landing-page/components/FinalCTASection.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "Esta sección es principalmente visual y de navegación. La lógica consiste en dirigir al usuario al flujo de registro o demo al hacer clic en el botón. El contenido del texto (título y subtítulo) debe ser persuasivo y orientado a la acción.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-gray-800 text-white text-center py-16",
+        "colorCoding": "Fondo oscuro de alto contraste para que la sección destaque. El botón de CTA debe usar el color primario brillante de la marca."
+      },
+      "acceptanceCriteria": [
+        "La sección debe estar ubicada cerca del pie de página.",
+        "Debe contener un titular convincente que refuerce el beneficio principal de EquityViz.",
+        "Debe tener un botón de CTA principal, grande y visible, como 'Empieza Ahora' o 'Pide tu Demo Gratuita'.",
+        "El botón debe dirigir al usuario a la página de registro de empresa o al formulario de solicitud de demo.",
+        "El diseño debe ser simple, directo y sin distracciones."
+      ],
+      "additionalSuggestions": [
+        "Incluir una frase corta debajo del botón que aborde una posible objeción, como 'Sin tarjeta de crédito. Cancela cuando quieras.' para reducir la fricción.",
+        "Añadir un sutil patrón o imagen de fondo para que la sección sea más atractiva visualmente."
+      ],
+      "aiEditorTask": "Crea un componente 'FinalCTASection.tsx' en 'src/features/pgina-de-inicio-landing-page/components/'. Este componente debe mostrar un título (h2), un párrafo opcional y un componente 'Button' grande y centrado. Importa e integra 'FinalCTASection' en 'PáginadeInicio(LandingPage)Page.tsx', justo antes del pie de página.",
+      "priority": "Media",
+      "estimatedHours": 4
+    }
+  ]
+}
+```

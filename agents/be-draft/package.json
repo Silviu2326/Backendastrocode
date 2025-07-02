@@ -1,0 +1,44 @@
+{
+  "name": "be-draft-agent",
+  "version": "1.0.0",
+  "description": "Backend Draft Generation Agent",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix"
+  },
+  "dependencies": {
+    "bullmq": "^4.15.4",
+    "express": "^4.18.2",
+    "ioredis": "^5.3.2",
+    "typescript": "^5.3.3",
+    "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.5",
+    "eslint": "^8.56.0",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.8"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "backend",
+    "draft",
+    "generation",
+    "agent",
+    "express",
+    "mongoose",
+    "bullmq"
+  ],
+  "author": "Development Team",
+  "license": "MIT"
+}

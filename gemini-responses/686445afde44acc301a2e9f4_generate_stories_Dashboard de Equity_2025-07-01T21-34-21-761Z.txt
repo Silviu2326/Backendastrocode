@@ -1,0 +1,214 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización del Resumen General de Equity",
+      "description": "Como empleado, quiero ver un resumen claro y conciso de mi equity total en la parte superior del dashboard, para entender de un vistazo el valor actual de mi compensación y mi participación en la empresa.",
+      "pageContext": "Dashboard de Equity",
+      "affectedFiles": [
+        "src/features/dashboard-de-equity/DashboarddeEquityPage.tsx",
+        "src/features/dashboard-de-equity/hooks/useDashboarddeEquity.ts",
+        "src/features/dashboard-de-equity/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "EquitySummaryCard",
+            "path": "src/features/dashboard-de-equity/components/EquitySummaryCard.tsx",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El hook `useDashboarddeEquity.ts` debe obtener de la API (`api.ts`) los siguientes datos agregados para el usuario autenticado: número total de opciones concedidas, número de opciones consolidadas ('vested'), el precio de ejercicio promedio, el valor actual por acción de la empresa (última valoración), y el valor total estimado del equity consolidado. El componente `EquitySummaryCard` mostrará estos datos en tarjetas o 'widgets' individuales.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-2 md:grid-cols-4 gap-4 p-4",
+        "colorCoding": "Usar un color de acento primario para el valor total estimado para destacarlo. Los textos deben ser grandes y legibles."
+      },
+      "acceptanceCriteria": [
+        "El dashboard debe mostrar una tarjeta con el 'Número Total de Opciones Concedidas'.",
+        "El dashboard debe mostrar una tarjeta con el 'Número de Opciones Consolidadas (Vested)'.",
+        "El dashboard debe mostrar una tarjeta con el 'Valor Estimado Actual' del equity consolidado (Opciones Consolidadas * (Valor Actual por Acción - Precio de Ejercicio)).",
+        "Los datos deben cargarse automáticamente al visitar la página y mostrar un estado de 'cargando' mientras se obtienen.",
+        "Si algún dato no está disponible, debe mostrarse un mensaje indicativo (ej. 'N/A')."
+      ],
+      "additionalSuggestions": [
+        "Considerar añadir un pequeño gráfico de 'dona' que muestre el porcentaje de opciones consolidadas vs. las pendientes.",
+        "Añadir tooltips informativos que expliquen cada métrica al pasar el ratón por encima."
+      ],
+      "aiEditorTask": "Crea el componente `EquitySummaryCard.tsx` que reciba como props los datos de resumen de equity (opciones totales, consolidadas, valor estimado) y los muestre en una cuadrícula responsiva. Implementa la lógica de obtención de datos en el hook `useDashboarddeEquity.ts` e intégralo en `DashboarddeEquityPage.tsx`.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Visualización del Calendario de Vesting",
+      "description": "Como empleado, quiero visualizar mi calendario de 'vesting' en una línea de tiempo interactiva, para entender claramente cuándo se consolidarán mis próximas opciones y cuánto he acumulado hasta la fecha.",
+      "pageContext": "Dashboard de Equity",
+      "affectedFiles": [
+        "src/features/dashboard-de-equity/DashboarddeEquityPage.tsx",
+        "src/features/dashboard-de-equity/hooks/useDashboarddeEquity.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "VestingTimeline",
+            "path": "src/features/dashboard-de-equity/components/VestingTimeline.tsx",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El hook `useDashboarddeEquity.ts` debe obtener la lista de todos los eventos de vesting (pasados y futuros) para el usuario. Cada evento debe tener una fecha y el número de opciones que se consolidan. La lógica del componente `VestingTimeline` debe procesar esta lista para mostrarla en una línea de tiempo, marcando el 'cliff' (si existe), los eventos pasados, el evento actual/próximo y los eventos futuros.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "mt-8 p-6 bg-white rounded-lg shadow-md",
+        "colorCoding": "Usar un color (ej. verde) para los tramos consolidados, un color neutro (gris) para los futuros, y una línea vertical para marcar la fecha actual."
+      },
+      "acceptanceCriteria": [
+        "Se debe mostrar una línea de tiempo visual que abarque desde la fecha de inicio del grant hasta la fecha final de vesting.",
+        "La línea de tiempo debe marcar claramente el período de 'cliff'.",
+        "Los hitos de vesting (mensuales, trimestrales, anuales) deben estar marcados en la línea de tiempo.",
+        "Al pasar el ratón sobre un hito de vesting futuro, debe aparecer un tooltip con la fecha y la cantidad de opciones que se consolidarán.",
+        "Una barra de progreso debe indicar el porcentaje total del plan que ya ha sido consolidado."
+      ],
+      "additionalSuggestions": [
+        "Añadir un filtro para visualizar el calendario de un 'grant' específico si el usuario tiene varios.",
+        "Permitir que el usuario cambie entre una vista de línea de tiempo y una vista de tabla detallada."
+      ],
+      "aiEditorTask": "Crea el componente `VestingTimeline.tsx`. Debe aceptar un array de eventos de vesting y renderizar una línea de tiempo SVG o basada en divs con Tailwind. Asegúrate de que sea responsiva y que los tooltips funcionen correctamente. Intégralo en la página principal del dashboard.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Simulación de Valor Futuro del Equity",
+      "description": "Como empleado, quiero usar una herramienta interactiva para simular el valor potencial de mi equity total (consolidado y no consolidado) bajo diferentes escenarios de valoración de la empresa, para mantenerme motivado y entender el potencial de crecimiento.",
+      "pageContext": "Dashboard de Equity",
+      "affectedFiles": [
+        "src/features/dashboard-de-equity/DashboarddeEquityPage.tsx",
+        "src/features/simulador-de-escenarios/hooks/useSimuladordeEscenarios.ts",
+        "src/features/dashboard-de-equity/components/EquityValueSimulator.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "EquityValueSimulator",
+            "path": "src/features/dashboard-de-equity/components/EquityValueSimulator.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "useSimuladordeEscenarios",
+            "from": "src/features/simulador-de-escenarios/hooks/useSimuladordeEscenarios.ts"
+          }
+        ]
+      },
+      "logicData": "Este componente utilizará el hook `useSimuladordeEscenarios`. Necesita el número total de opciones del usuario y el precio de ejercicio. El componente tendrá un slider o un campo de entrada para que el usuario ingrese una valoración futura de la empresa o un precio por acción. La lógica calculará y mostrará el valor potencial del equity total: (Valor por Acción Simulado - Precio de Ejercicio) * Opciones Totales.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "w-full p-6 border border-dashed rounded-lg mt-8 text-center",
+        "colorCoding": "El valor simulado debe mostrarse en un color llamativo (ej. azul brillante) y con una tipografía grande. El slider debe seguir la paleta de colores de la aplicación."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un slider o campo de texto para que el usuario ajuste la valoración de la empresa.",
+        "Al ajustar el slider, el 'Valor Potencial Estimado' de mi equity debe actualizarse en tiempo real.",
+        "Debe haber botones para escenarios predefinidos (ej. '2x Crecimiento', '5x Crecimiento', 'Valoración IPO') que ajusten el slider a un valor predeterminado.",
+        "Se debe mostrar tanto el valor potencial del equity ya consolidado como el del total de opciones.",
+        "Debe haber un aviso legal claro que indique que los valores son proyecciones y no garantías."
+      ],
+      "additionalSuggestions": [
+        "Mostrar el cálculo de forma transparente: (Valor por acción X - Precio de ejercicio Y) * Z Opciones = Valor Potencial.",
+        "Visualizar el resultado en un gráfico de barras simple que compare el valor actual con el valor simulado."
+      ],
+      "aiEditorTask": "Crea el componente `EquityValueSimulator.tsx`. Debe incluir un slider y un display numérico. Importa y utiliza la lógica del hook `useSimuladordeEscenarios`. Integra este componente en una sección destacada del `DashboarddeEquityPage.tsx`.",
+      "priority": "Alta",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Desglose por Paquetes de Opciones (Grants)",
+      "description": "Como empleado que ha recibido múltiples paquetes de opciones (grants), quiero ver un desglose en una tabla para poder comparar los términos de cada uno, como su fecha de concesión y precio de ejercicio.",
+      "pageContext": "Dashboard de Equity",
+      "affectedFiles": [
+        "src/features/dashboard-de-equity/DashboarddeEquityPage.tsx",
+        "src/components/Table.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "GrantsBreakdownTable",
+            "path": "src/features/dashboard-de-equity/components/GrantsBreakdownTable.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Table",
+            "from": "src/components/Table.jsx"
+          }
+        ]
+      },
+      "logicData": "La API debe proporcionar un array de objetos, donde cada objeto representa un 'grant' de equity individual. Cada 'grant' debe contener: ID del Grant, Fecha de Concesión, Número de Opciones, Precio de Ejercicio (Strike Price), y un resumen de su estado de vesting (ej. '30% consolidado'). El componente `GrantsBreakdownTable` usará el componente genérico `Table` para renderizar estos datos.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "w-full text-left border-collapse",
+        "colorCoding": "Usar filas con colores alternos (cebreado) para mejorar la legibilidad. El encabezado de la tabla debe tener un fondo y color de texto distintivos."
+      },
+      "acceptanceCriteria": [
+        "El dashboard debe mostrar una tabla si el usuario tiene uno o más grants.",
+        "La tabla debe tener columnas para: 'Nombre/ID del Grant', 'Fecha de Concesión', 'Cantidad de Opciones', 'Precio de Ejercicio' y 'Estado de Vesting'.",
+        "La tabla debe ser ordenable por cada una de sus columnas.",
+        "Si un usuario solo tiene un grant, la tabla puede mostrarse de forma simplificada o no mostrarse, presentando la información en otro formato.",
+        "La tabla debe ser responsiva y legible en dispositivos móviles, posiblemente convirtiendo las filas en tarjetas."
+      ],
+      "additionalSuggestions": [
+        "Añadir una acción en cada fila para 'Ver Calendario Detallado', que filtre la línea de tiempo de vesting para mostrar solo ese grant.",
+        "Permitir la descarga de los datos de la tabla en formato CSV."
+      ],
+      "aiEditorTask": "Crea el componente `GrantsBreakdownTable.tsx` que importe y utilice el componente `Table` de `src/components/Table.jsx`. El componente debe aceptar una lista de grants como props y renderizarlos. Añade la lógica de obtención de datos de grants al hook `useDashboarddeEquity.ts` y muestra esta tabla en `DashboarddeEquityPage.tsx`.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Acceso Rápido a Documentos Relevantes",
+      "description": "Como empleado, quiero tener una sección en mi dashboard para acceder fácilmente a todos los documentos legales asociados a mi equity, para poder consultarlos sin tener que buscarlos en otro lugar.",
+      "pageContext": "Dashboard de Equity",
+      "affectedFiles": [
+        "src/features/dashboard-de-equity/DashboarddeEquityPage.tsx",
+        "src/features/dashboard-de-equity/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "DocumentsLinkList",
+            "path": "src/features/dashboard-de-equity/components/DocumentsLinkList.tsx",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El `api.ts` del dashboard debe tener una función para llamar a un endpoint (posiblemente del módulo `repositorio-de-documentos`) que devuelva una lista de documentos asociados al usuario. Cada elemento de la lista debe contener el nombre del documento y una URL segura para su descarga o visualización.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "mt-8 p-4 bg-gray-50 rounded-lg",
+        "colorCoding": "Cada enlace de documento puede ir acompañado de un icono de archivo (ej. PDF) para una rápida identificación visual. Usar colores de enlace estándar."
+      },
+      "acceptanceCriteria": [
+        "Debe existir una sección en el dashboard titulada 'Mis Documentos'.",
+        "Esta sección debe listar todos los documentos de equity del empleado (ej. 'Acuerdo de Opción de Compra', 'Plan de Equity de la Empresa').",
+        "Cada documento en la lista debe ser un enlace funcional.",
+        "Al hacer clic en un enlace, el documento debe abrirse en una nueva pestaña del navegador.",
+        "Si no hay documentos disponibles para el usuario, se debe mostrar un mensaje como 'Aún no tienes documentos asociados'."
+      ],
+      "additionalSuggestions": [
+        "Mostrar la fecha de firma o de subida junto a cada documento.",
+        "Integrar una función de búsqueda si la lista de documentos puede llegar a ser muy larga.",
+        "Enviar una notificación al usuario cuando se añade un nuevo documento a su perfil."
+      ],
+      "aiEditorTask": "Crea el componente `DocumentsLinkList.tsx` que acepte un array de objetos de documento (nombre, url) y los renderice como una lista de enlaces. Implementa la llamada a la API en `useDashboarddeEquity.ts` para obtener estos documentos y muestra el componente en la página del dashboard.",
+      "priority": "Media",
+      "estimatedHours": 5
+    }
+  ]
+}
+```

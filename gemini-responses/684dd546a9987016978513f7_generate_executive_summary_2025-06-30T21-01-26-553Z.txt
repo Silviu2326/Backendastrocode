@@ -1,0 +1,15 @@
+```json
+{
+  "executiveSummary": {
+    "overview": "Eduplatform se posiciona para liderar la próxima ola de innovación en el sector EdTech mediante una plataforma de aprendizaje impulsada por Inteligencia Artificial. La visión es transformar la educación estandarizada en una experiencia dinámica, personalizada y medible, diseñada para maximizar el potencial de cada estudiante y optimizar los recursos de las instituciones educativas y corporativas.",
+    "marketSize": "El mercado global de tecnología educativa (EdTech) superará los $400 mil millones para 2026. El segmento específico de IA en la educación está experimentando un crecimiento anual compuesto (CAGR) superior al 35%, representando una de las oportunidades de inversión más atractivas y de más rápido crecimiento dentro del sector tecnológico.",
+    "marketGap": "Las soluciones educativas actuales carecen de personalización real y escalable. Ofrecen un modelo 'one-size-fits-all' que no se adapta a los diferentes ritmos y estilos de aprendizaje, generando desmotivación y resultados subóptimos. Existe una brecha crítica para una plataforma que pueda ofrecer itinerarios de aprendizaje verdaderamente individualizados y tutoría inteligente en tiempo real a gran escala.",
+    "opportunity": "La oportunidad para Eduplatform es capitalizar esta brecha con un modelo de negocio B2B SaaS (Software as a Service) dirigido a instituciones educativas y programas de capacitación corporativa. Al ofrecer una plataforma que mejora demostrablemente las tasas de finalización, el compromiso y el rendimiento, podemos asegurar contratos a largo plazo y generar un foso competitivo (moat) a través de la acumulación de datos y la mejora continua de nuestros algoritmos de IA.",
+    "keyPoints": [
+      "Mercado EdTech masivo y en expansión, con el nicho de IA como el de mayor potencial de crecimiento.",
+      "Solución de aprendizaje hiper-personalizado que resuelve la ineficiencia de los modelos educativos tradicionales.",
+      "Modelo de negocio SaaS escalable con altas barreras de entrada basadas en la tecnología y los datos."
+    ]
+  }
+}
+```

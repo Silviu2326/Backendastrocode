@@ -1,0 +1,242 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Clarificación del Problema y Presentación de la Solución",
+      "description": "Como fundador de una startup que actualmente gestiona el equity en hojas de cálculo, quiero una sección que articule claramente los problemas comunes de este enfoque (riesgos legales, errores, pérdida de tiempo) y cómo EquityViz los soluciona, para reconocer mis propios 'puntos de dolor' y entender el valor fundamental del producto.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/features/pgina-de-inicio-landing-page/components/ProblemSolutionSection.tsx",
+        "src/features/pgina-de-inicio-landing-page/styles/ProblemSolutionSection.css"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ProblemSolutionSection",
+            "path": "src/features/pgina-de-inicio-landing-page/components/ProblemSolutionSection.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "ProblemSolutionSection",
+            "from": "./components/ProblemSolutionSection"
+          }
+        ]
+      },
+      "logicData": "El componente recibirá un array de objetos, donde cada objeto representa un 'punto de dolor' y su correspondiente 'solución'. Ejemplo: [{ problem: 'Errores en Cap Table', description: 'Las hojas de cálculo son propensas a errores...', solution: 'EquityViz automatiza los cálculos...' }]. Los datos pueden ser hardcodeados inicialmente.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "py-16 bg-gray-50",
+        "colorCoding": "Utilizar un esquema de dos columnas. La columna 'Problema' podría usar tonos rojos o de advertencia sutiles (iconos, bordes), y la columna 'Solución' tonos verdes o azules de la marca para indicar resolución y confianza."
+      },
+      "acceptanceCriteria": [
+        "La sección debe estar ubicada después de la sección 'Hero' y antes de 'Features'.",
+        "Debe presentar al menos 3 pares de problema/solución en un formato claro y comparativo (ej. lado a lado o tarjetas interactivas).",
+        "Cada 'problema' debe ser fácilmente identificable para un fundador de startup (ej. 'Complejidad en rondas de financiación', 'Falta de visibilidad para empleados').",
+        "El diseño debe ser visualmente atractivo y guiar al usuario desde el problema hacia la solución que ofrece EquityViz."
+      ],
+      "additionalSuggestions": [
+        "Considerar el uso de iconos para representar visualmente cada problema y solución.",
+        "Añadir una pequeña estadística o dato impactante a cada problema para aumentar su peso."
+      ],
+      "aiEditorTask": "Crea el componente 'ProblemSolutionSection.tsx' que renderiza una sección con un título principal. Dentro, mapea un array de datos (problema/solución) para mostrar cada par en un layout de dos columnas o en tarjetas separadas. Usa clases de Tailwind CSS para el estilo. Importa y renderiza este componente en 'PáginadeInicio(LandingPage)Page.tsx'.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Sección Interactiva 'Cómo Funciona'",
+      "description": "Como un gerente de operaciones evaluando la plataforma, quiero ver una sección visual y simplificada que muestre en 3-4 pasos cómo funciona EquityViz (ej: 1. Importa datos, 2. Gestiona, 3. Simula escenarios), para reducir la incertidumbre y entender lo fácil que es empezar a usar la herramienta.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/features/pgina-de-inicio-landing-page/components/HowItWorksSection.tsx",
+        "src/features/pgina-de-inicio-landing-page/components/StepCard.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "HowItWorksSection",
+            "path": "src/features/pgina-de-inicio-landing-page/components/HowItWorksSection.tsx",
+            "type": "component"
+          },
+          {
+            "name": "StepCard",
+            "path": "src/features/pgina-de-inicio-landing-page/components/StepCard.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "HowItWorksSection",
+            "from": "./components/HowItWorksSection"
+          },
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El componente 'HowItWorksSection' gestionará un array de objetos 'steps'. Cada objeto contendrá: 'stepNumber', 'title', 'description' y 'icon'. Estos datos se pasarán al componente hijo 'StepCard' para su renderización.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid md:grid-cols-3 gap-8 text-center",
+        "colorCoding": "Usar numeración grande y visible para los pasos. Los íconos deben ser consistentes con el branding. El fondo de la sección debe contrastar con las secciones adyacentes."
+      },
+      "acceptanceCriteria": [
+        "La sección debe mostrar una secuencia clara de 3 a 4 pasos.",
+        "Cada paso debe incluir un número, un título corto, una descripción breve y un icono representativo.",
+        "Los pasos deben estar dispuestos horizontalmente en pantallas grandes y apilados verticalmente en móviles.",
+        "La sección debe incluir un CTA secundario, como 'Ver una demo en detalle', que enlace al CTA principal o a un modal."
+      ],
+      "additionalSuggestions": [
+        "Añadir sutiles animaciones de entrada para cada paso a medida que el usuario se desplaza por la página.",
+        "Considerar un carrusel o slider para los pasos en dispositivos muy pequeños si el contenido es extenso."
+      ],
+      "aiEditorTask": "Genera el componente 'HowItWorksSection.tsx' y su subcomponente 'StepCard.tsx'. 'HowItWorksSection' debe definir un array de pasos y mapearlos, renderizando un 'StepCard' para cada uno. 'StepCard' debe aceptar props para el número de paso, título, descripción e icono. Usa Tailwind CSS para un diseño de rejilla responsivo. Integra 'HowItWorksSection' en la página principal.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Sección de Preguntas Frecuentes (FAQ)",
+      "description": "Como un potencial cliente analítico, quiero una sección de FAQ con respuestas a preguntas comunes sobre seguridad, precios, integraciones y soporte, para resolver mis dudas de forma autónoma y rápida sin tener que contactar a ventas.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/features/pgina-de-inicio-landing-page/components/FaqSection.tsx",
+        "src/features/pgina-de-inicio-landing-page/components/FaqItem.tsx",
+        "src/features/pgina-de-inicio-landing-page/hooks/useFaqToggle.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "FaqSection",
+            "path": "src/features/pgina-de-inicio-landing-page/components/FaqSection.tsx",
+            "type": "component"
+          },
+          {
+            "name": "FaqItem",
+            "path": "src/features/pgina-de-inicio-landing-page/components/FaqItem.tsx",
+            "type": "component"
+          },
+          {
+            "name": "useFaqToggle",
+            "path": "src/features/pgina-de-inicio-landing-page/hooks/useFaqToggle.ts",
+            "type": "hook"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El componente 'FaqSection' contendrá un array de objetos FAQ, cada uno con 'question' y 'answer'. El hook 'useFaqToggle' gestionará el estado de visibilidad (abierto/cerrado) de cada 'FaqItem', permitiendo que solo uno esté abierto a la vez (o varios, según se decida).",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "max-w-3xl mx-auto divide-y divide-gray-200",
+        "colorCoding": "Fondo neutro. Las preguntas deben tener un color de texto oscuro y las respuestas un gris ligeramente más claro. Utilizar un ícono de 'chevron' o '+' que rote o cambie para indicar el estado abierto/cerrado."
+      },
+      "acceptanceCriteria": [
+        "La sección debe mostrar una lista de preguntas.",
+        "Por defecto, todas las respuestas deben estar ocultas.",
+        "Al hacer clic en una pregunta, su respuesta correspondiente debe mostrarse con una transición suave (acordeón).",
+        "Al hacer clic de nuevo en la pregunta, la respuesta debe ocultarse.",
+        "El diseño debe ser limpio y fácil de leer."
+      ],
+      "additionalSuggestions": [
+        "Incluir un enlace de '¿No encuentras tu respuesta? Contáctanos' al final de la sección.",
+        "Agregar micro-interacciones, como un cambio de color de fondo al pasar el ratón sobre una pregunta."
+      ],
+      "aiEditorTask": "Crea un hook 'useFaqToggle.ts' para manejar la lógica de acordeón. Luego, crea el componente 'FaqItem.tsx' que usa este hook para mostrar una pregunta y una respuesta expandible. Finalmente, crea 'FaqSection.tsx' que renderiza una lista de componentes 'FaqItem' a partir de un array de datos. Integra 'FaqSection' en la página principal.",
+      "priority": "Media",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Footer Completo y Funcional",
+      "description": "Como cualquier visitante del sitio web, quiero encontrar un footer al final de la página con enlaces organizados a páginas importantes como 'Precios', 'Política de Privacidad', 'Recursos' y perfiles de redes sociales, para poder navegar a información clave y percibir la empresa como profesional y transparente.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/App.tsx",
+        "src/components/Footer.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "Footer",
+            "path": "src/components/Footer.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Footer",
+            "from": "@/components/Footer"
+          }
+        ]
+      },
+      "logicData": "El footer contendrá varias listas de enlaces. Los datos pueden ser un objeto de configuración con arrays para cada columna: 'Producto' (Precios, Demo), 'Empresa' (Nosotros, Contacto), 'Legal' (Privacidad, Términos). También un array para los enlaces a redes sociales con su respectivo icono.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-gray-800 text-gray-300 p-8",
+        "colorCoding": "Fondo oscuro para contrastar con el contenido de la página. Texto de color claro. Los enlaces deben tener un estado 'hover' con un color más brillante. El logo de la empresa debe estar presente."
+      },
+      "acceptanceCriteria": [
+        "El footer debe aparecer en la parte inferior de todas las páginas principales del sitio, no solo en la landing page.",
+        "Debe contener el logo de EquityViz.",
+        "Debe incluir al menos 3 columnas de enlaces: Producto, Empresa y Legal.",
+        "Debe tener enlaces a las redes sociales relevantes (ej. LinkedIn, Twitter).",
+        "Debe mostrar el año actual y los derechos de autor (ej. '© 2025 EquityViz. Todos los derechos reservados')."
+      ],
+      "additionalSuggestions": [
+        "Dado que es un componente global, debería ser creado en 'src/components' y añadido al layout principal en 'src/App.tsx' para que sea reutilizable en todo el proyecto.",
+        "Considerar añadir un campo de suscripción a un boletín informativo en el footer."
+      ],
+      "aiEditorTask": "Crea un componente global 'Footer.tsx' en 'src/components'. Debe tener un fondo oscuro y texto claro. Estructúralo con flexbox o grid para crear columnas de enlaces para 'Producto', 'Compañía' y 'Legal'. Añade una sección para iconos de redes sociales y el texto de copyright. Finalmente, importa y renderiza este componente en el layout principal de la aplicación ('src/App.tsx') para que aparezca en todas las páginas.",
+      "priority": "Media",
+      "estimatedHours": 5
+    },
+    {
+      "title": "Exhibición de Logos de Clientes (Prueba Social)",
+      "description": "Como un inversor o un CEO de una empresa consolidada, quiero ver una sección con los logos de las empresas que ya confían en EquityViz, para aumentar mi confianza en la credibilidad y la validación de mercado del producto.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/features/pgina-de-inicio-landing-page/components/ClientLogosSection.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ClientLogosSection",
+            "path": "src/features/pgina-de-inicio-landing-page/components/ClientLogosSection.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "ClientLogosSection",
+            "from": "./components/ClientLogosSection"
+          }
+        ]
+      },
+      "logicData": "El componente recibirá un array de objetos, donde cada objeto contiene la URL del logo (en formato SVG preferiblemente) y el nombre de la empresa (para el atributo 'alt'). Ejemplo: [{ name: 'TechCorp', logoUrl: '/logos/techcorp.svg' }].",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "py-12 bg-white flex flex-wrap justify-center items-center gap-8",
+        "colorCoding": "Los logos deben mostrarse en escala de grises y cambiar a color al pasar el cursor sobre ellos para mantener la consistencia visual y no distraer, a la vez que se añade un toque interactivo."
+      },
+      "acceptanceCriteria": [
+        "La sección debe tener un título claro como 'Con la confianza de empresas líderes'.",
+        "Debe mostrar una cuadrícula o fila de al menos 5-6 logos de empresas cliente.",
+        "Los logos deben ser de alta calidad y estar alineados y espaciados uniformemente.",
+        "La sección debe ser responsiva, ajustando el número de logos por fila según el tamaño de la pantalla.",
+        "Cada logo debe tener un atributo 'alt' con el nombre de la empresa para accesibilidad."
+      ],
+      "additionalSuggestions": [
+        "Para un efecto más dinámico, se puede implementar un carrusel infinito que desplace los logos lentamente de forma horizontal.",
+        "Asegurarse de tener el permiso de las empresas para usar sus logos."
+      ],
+      "aiEditorTask": "Crea el componente 'ClientLogosSection.tsx'. Debe renderizar un título y luego mapear un array de datos de clientes para mostrar sus logos. Utiliza Tailwind CSS para crear una rejilla flexible y responsiva. Aplica un filtro de escala de grises a las imágenes que se elimine en el estado 'hover'. Integra el componente en 'PáginadeInicio(LandingPage)Page.tsx', idealmente después de la sección de testimonios.",
+      "priority": "Alta",
+      "estimatedHours": 4
+    }
+  ]
+}
+```

@@ -1,0 +1,85 @@
+```json
+{
+  "trends": {
+    "cagr": {
+      "value": "38.2%",
+      "period": "2024-2030",
+      "methodology": "Basado en el análisis de informes de mercado de consultoras líderes (e.g., MarketsandMarkets, Grand View Research, Fortune Business Insights) sobre el sector 'IA en la Educación' y 'EdTech'. La cifra representa un promedio ponderado de las proyecciones, ajustado por el potencial disruptivo de nuevas plataformas basadas en IA generativa."
+    },
+    "growthDrivers": [
+      {
+        "driver": "Personalización del Aprendizaje a Escala",
+        "description": "La IA permite crear rutas de aprendizaje individualizadas basadas en el rendimiento, ritmo y estilo de cada estudiante, superando el modelo tradicional 'one-size-fits-all' y mejorando la retención de conocimiento.",
+        "impact": "Alto"
+      },
+      {
+        "driver": "Demanda de Reskilling y Upskilling",
+        "description": "La rápida evolución tecnológica y del mercado laboral impulsa una demanda constante de formación continua. Las plataformas de IA ofrecen una solución eficiente y accesible para que profesionales adquieran nuevas competencias.",
+        "impact": "Alto"
+      },
+      {
+        "driver": "Accesibilidad y Escalabilidad Global",
+        "description": "Las plataformas online eliminan barreras geográficas, permitiendo el acceso a educación de calidad desde cualquier lugar. La IA automatiza la tutoría y evaluación, permitiendo escalar a millones de usuarios sin un aumento lineal en los costes de personal.",
+        "impact": "Alto"
+      },
+      {
+        "driver": "Eficiencia para Instituciones y Educadores",
+        "description": "La automatización de tareas administrativas, como la calificación, la creación de material didáctico y el seguimiento del progreso, libera tiempo valioso para que los educadores se centren en la interacción de alto valor con los estudiantes.",
+        "impact": "Medio"
+      }
+    ],
+    "barriers": [
+      {
+        "barrier": "Alta Competencia y Saturación del Mercado",
+        "description": "El sector EdTech es extremadamente competitivo, con actores establecidos (Coursera, edX, Khan Academy) y un flujo constante de nuevas startups. Diferenciarse y capturar cuota de mercado es un desafío significativo.",
+        "severity": "Alto"
+      },
+      {
+        "barrier": "Privacidad de Datos y Cumplimiento Normativo",
+        "description": "El manejo de datos de estudiantes, especialmente menores, está sujeto a regulaciones estrictas (GDPR, COPPA). Un fallo en la seguridad o el cumplimiento puede acarrear multas severas y un daño irreparable a la reputación.",
+        "severity": "Alto"
+      },
+      {
+        "barrier": "Brecha Digital y Acceso a la Tecnología",
+        "description": "La dependencia de una conexión a internet estable y dispositivos adecuados excluye a segmentos de la población en regiones con menor desarrollo de infraestructura, limitando el mercado potencial.",
+        "severity": "Medio"
+      },
+      {
+        "barrier": "Preocupaciones Éticas y Sesgos en la IA",
+        "description": "Los modelos de IA pueden perpetuar sesgos existentes en los datos de entrenamiento, llevando a resultados educativos injustos. Además, la fiabilidad y la posibilidad de 'alucinaciones' de la IA son preocupaciones válidas para educadores y padres.",
+        "severity": "Alto"
+      },
+      {
+        "barrier": "Resistencia a la Adopción Institucional",
+        "description": "Los sistemas educativos tradicionales pueden ser lentos y reacios a adoptar nuevas tecnologías. La integración en los currículos oficiales requiere superar barreras burocráticas y el escepticismo de los educadores.",
+        "severity": "Medio"
+      }
+    ],
+    "techTrends": [
+      "IA Generativa y LLMs para tutoría y creación de contenido",
+      "Aprendizaje Adaptativo (Adaptive Learning) en tiempo real",
+      "Analítica de Aprendizaje (Learning Analytics) para predecir el éxito estudiantil",
+      "Gamificación para aumentar el 'engagement' del usuario",
+      "Integración de Realidad Aumentada y Virtual (AR/VR) para experiencias inmersivas"
+    ],
+    "macroFactors": [
+      "Políticas gubernamentales de inversión en digitalización educativa",
+      "Ciclos económicos que afectan los presupuestos de formación corporativa y personal",
+      "Globalización y la creciente demanda de credenciales reconocidas internacionalmente",
+      "Regulación sobre el uso ético de la Inteligencia Artificial y la protección de datos",
+      "Cambios demográficos y la necesidad de aprendizaje a lo largo de toda la vida (lifelong learning)"
+    ],
+    "dataSources": [
+      "Gartner",
+      "MarketsandMarkets",
+      "Grand View Research",
+      "HolonIQ",
+      "PitchBook",
+      "Crunchbase",
+      "World Bank Open Data",
+      "OECD Education Statistics",
+      "Google Trends"
+    ]
+  }
+}
+```

@@ -1,0 +1,121 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model JobRun {
+  id          String   @id @default(cuid())
+  jobId       String
+  jobType     String
+  projectId   String
+  pageId      String?
+  storyIds    String[]
+  status      JobStatus
+  tokensIn    Int      @default(0)
+  tokensOut   Int      @default(0)
+  duration    Int?     // milliseconds
+  error       String?
+  metadata    Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  completedAt DateTime?
+  
+  @@map("job_runs")
+  @@index([projectId])
+  @@index([jobType])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model StoryEmbedding {
+  id          String   @id @default(cuid())
+  storyId     String   @unique
+  projectId   String
+  pageId      String
+  title       String
+  description String
+  embedding   Float[]
+  tags        String[]
+  complexity  String
+  priority    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("story_embeddings")
+  @@index([projectId])
+  @@index([pageId])
+  @@index([complexity])
+  @@index([priority])
+}
+
+model CodeEmbedding {
+  id          String   @id @default(cuid())
+  jobRunId    String
+  storyId     String
+  componentName String
+  filePath    String
+  codeSnippet String
+  embedding   Float[]
+  language    String   @default("typescript")
+  createdAt   DateTime @default(now())
+  
+  jobRun      JobRun   @relation(fields: [jobRunId], references: [id], onDelete: Cascade)
+  
+  @@map("code_embeddings")
+  @@index([storyId])
+  @@index([componentName])
+  @@index([language])
+}
+
+model TokenUsage {
+  id        String   @id @default(cuid())
+  provider  String
+  model     String
+  tokens    Int
+  cost      Float?
+  timestamp DateTime @default(now())
+  jobRunId  String?
+  
+  jobRun    JobRun?  @relation(fields: [jobRunId], references: [id])
+  
+  @@map("token_usage")
+  @@index([provider])
+  @@index([timestamp])
+  @@index([jobRunId])
+}
+
+model SystemMetrics {
+  id          String   @id @default(cuid())
+  metricName  String
+  value       Float
+  unit        String?
+  tags        Json?
+  timestamp   DateTime @default(now())
+  
+  @@map("system_metrics")
+  @@index([metricName])
+  @@index([timestamp])
+}
+
+enum JobStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+  CANCELLED
+  RETRYING
+}
+
+// Add relation fields to JobRun
+model JobRun {
+  // ... existing fields ...
+  codeEmbeddings CodeEmbedding[]
+  tokenUsage     TokenUsage[]
+}

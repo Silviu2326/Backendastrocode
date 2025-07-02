@@ -1,0 +1,202 @@
+# Frontend Component Draft Generator
+
+You are an expert React developer tasked with creating a high-quality component draft based on a user story.
+
+## Context
+
+### User Story
+**ID:** <%= userStory.id %>
+**Title:** <%= userStory.title %>
+**Description:** <%= userStory.description %>
+
+**Acceptance Criteria:**
+<% userStory.acceptanceCriteria.forEach(criteria => { %>
+- <%= criteria %>
+<% }); %>
+
+**Priority:** <%= userStory.priority %> | **Complexity:** <%= userStory.complexity %>
+**Tags:** <%= userStory.tags.join(', ') %>
+
+<% if (userStory.epic) { %>
+### Epic Context
+**Epic:** <%= userStory.epic.title %>
+**Description:** <%= userStory.epic.description %>
+<% } %>
+
+### Component Specification
+**Name:** <%= component.name %>
+**Type:** <%= component.type %>
+**Path:** <%= component.path %>
+
+<% if (component.props && Object.keys(component.props).length > 0) { %>
+**Expected Props:**
+<% Object.entries(component.props).forEach(([prop, type]) => { %>
+- `<%= prop %>`: <%= type %>
+<% }); %>
+<% } %>
+
+<% if (component.dependencies && component.dependencies.length > 0) { %>
+**Dependencies:**
+<% component.dependencies.forEach(dep => { %>
+- <%= dep %>
+<% }); %>
+<% } %>
+
+### Project Configuration
+**Framework:** <%= project.framework %>
+**TypeScript:** <%= project.typescript ? 'Yes' : 'No' %>
+**Styling:** <%= project.styling %>
+<% if (project.stateManagement) { %>
+**State Management:** <%= project.stateManagement %>
+<% } %>
+<% if (project.routing) { %>
+**Routing:** <%= project.routing %>
+<% } %>
+
+<% if (context && context.existingComponents && context.existingComponents.length > 0) { %>
+### Available Components
+<% context.existingComponents.forEach(comp => { %>
+- <%= comp %>
+<% }); %>
+<% } %>
+
+<% if (context && context.designSystem) { %>
+### Design System
+```json
+<%= JSON.stringify(context.designSystem, null, 2) %>
+```
+<% } %>
+
+<% if (context && context.apiEndpoints && context.apiEndpoints.length > 0) { %>
+### Available API Endpoints
+<% context.apiEndpoints.forEach(endpoint => { %>
+- <%= endpoint %>
+<% }); %>
+<% } %>
+
+<% if (context && context.relatedStories && context.relatedStories.length > 0) { %>
+### Related Stories
+<% context.relatedStories.forEach(story => { %>
+- **<%= story.title %>** (ID: <%= story.id %>)
+<% }); %>
+<% } %>
+
+## Instructions
+
+Create a complete React component that fulfills the user story requirements. Follow these guidelines:
+
+### 1. Component Structure
+- Use functional components with hooks
+- Implement proper TypeScript interfaces for props
+- Include comprehensive prop validation
+- Add meaningful default props where appropriate
+
+### 2. Code Quality
+- Write clean, readable, and maintainable code
+- Follow React best practices and conventions
+- Use semantic HTML elements
+- Implement proper error boundaries where needed
+- Add comprehensive JSDoc comments
+
+### 3. Styling Approach
+<% if (project.styling === 'tailwind') { %>
+- Use Tailwind CSS classes for styling
+- Follow responsive design principles
+- Use Tailwind's design tokens for consistency
+<% } else if (project.styling === 'styled-components') { %>
+- Use styled-components for component styling
+- Create reusable styled components
+- Implement theme-based styling
+<% } else if (project.styling === 'scss') { %>
+- Use SCSS modules for component styling
+- Follow BEM methodology for class naming
+- Create mixins for reusable styles
+<% } else { %>
+- Use CSS modules for component styling
+- Follow consistent naming conventions
+- Implement responsive design
+<% } %>
+
+### 4. State Management
+<% if (project.stateManagement === 'redux') { %>
+- Use Redux Toolkit for state management
+- Create appropriate slices and selectors
+- Implement proper action creators
+<% } else if (project.stateManagement === 'zustand') { %>
+- Use Zustand for state management
+- Create focused stores for component state
+- Implement proper state updates
+<% } else if (project.stateManagement === 'context') { %>
+- Use React Context for shared state
+- Implement proper context providers
+- Use useContext hook appropriately
+<% } else { %>
+- Use local component state with useState
+- Implement proper state updates
+- Consider useReducer for complex state
+<% } %>
+
+### 5. Accessibility
+- Include proper ARIA attributes
+- Ensure keyboard navigation support
+- Use semantic HTML elements
+- Provide meaningful alt text for images
+- Implement proper focus management
+
+### 6. Performance
+- Use React.memo for optimization where appropriate
+- Implement proper dependency arrays in hooks
+- Consider code splitting for large components
+- Optimize re-renders with useMemo and useCallback
+
+### 7. Testing Considerations
+- Add data-testid attributes for testing
+- Structure component for easy unit testing
+- Consider edge cases and error states
+
+## Output Format
+
+Provide the complete component code with the following structure:
+
+```typescript
+// Component implementation here
+```
+
+### Additional Files (if needed)
+
+If the component requires additional files (types, styles, utils), provide them as well:
+
+```typescript
+// Additional file content
+```
+
+## Requirements Checklist
+
+Ensure your component includes:
+
+- [ ] Proper TypeScript interfaces and types
+- [ ] Comprehensive prop validation
+- [ ] Error handling and loading states
+- [ ] Responsive design implementation
+- [ ] Accessibility features
+- [ ] Performance optimizations
+- [ ] Clean and maintainable code structure
+- [ ] Proper documentation and comments
+- [ ] Integration with project's styling approach
+- [ ] State management implementation (if needed)
+- [ ] Event handling and user interactions
+- [ ] Data fetching (if required by the story)
+
+## Notes
+
+- Focus on creating a production-ready component
+- Consider the component's reusability across the application
+- Implement proper error boundaries and fallbacks
+- Ensure the component is testable and maintainable
+- Follow the project's established patterns and conventions
+
+---
+
+**Generated at:** <%= timestamp %>
+**Template:** <%= template.name %>
+**Output Format:** <%= template.outputFormat %>

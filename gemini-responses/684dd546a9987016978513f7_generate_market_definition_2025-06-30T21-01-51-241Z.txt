@@ -1,0 +1,28 @@
+```json
+{
+  "marketDefinition": {
+    "problemStatement": "La educación tradicional carece de personalización y escalabilidad, resultando en experiencias de aprendizaje 'talla única' que no se adaptan al ritmo, estilo o nivel de conocimiento individual de cada estudiante. Esto conduce a una menor retención de conocimiento, desmotivación y una brecha en el acceso a tutorías de alta calidad y asequibles.",
+    "targetAudience": "Principalmente, estudiantes de educación superior y profesionales en busca de desarrollo de habilidades (upskilling/reskilling). Secundariamente, instituciones educativas (colegios, universidades) y corporaciones que buscan implementar soluciones de aprendizaje adaptativo para sus estudiantes o empleados (B2B).",
+    "geography": "Inicialmente, mercados de habla hispana (España y Latinoamérica) con potencial de expansión a un mercado global.",
+    "sector": "Tecnología Educativa (EdTech). De forma secundaria, los sectores de Formación Corporativa y Desarrollo Profesional.",
+    "keywords": [
+      "plataforma educativa con IA",
+      "aprendizaje adaptativo",
+      "tutoría inteligente",
+      "educación personalizada",
+      "EdTech",
+      "formación online"
+    ],
+    "naicsCodes": [
+      "611710",
+      "611430",
+      "519130"
+    ],
+    "naceCodes": [
+      "P.85.59",
+      "P.85.60",
+      "J.63.12"
+    ]
+  }
+}
+```

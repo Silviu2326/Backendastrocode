@@ -1,0 +1,55 @@
+```json
+{
+  "marketSize": {
+    "tam": {
+      "value": "25,700,000,000 USD",
+      "description": "El Mercado Total Direccionable (TAM) representa la demanda global total para todas las soluciones de software y servicios de Inteligencia Artificial aplicadas al sector educativo. Esto incluye K-12, educación superior, capacitación corporativa y aprendizaje continuo a nivel mundial.",
+      "methodology": "Análisis Top-Down basado en la agregación de informes de mercado sobre el gasto global en 'IA en la Educación'. Se considera el valor total de los contratos de software, plataformas y servicios relacionados que se venden en este mercado anualmente."
+    },
+    "sam": {
+      "value": "10,800,000,000 USD",
+      "description": "El Mercado Servible Direccionable (SAM) es el subconjunto del TAM al que Eduplatform puede dirigirse de manera realista con su producto y modelo de negocio. Se enfoca en los segmentos de Educación Superior y Capacitación Corporativa en regiones con alta madurez digital y poder adquisitivo, como Norteamérica y Europa.",
+      "methodology": "Filtrado del TAM. Se estima que los segmentos de Educación Superior y Corporativo representan aproximadamente el 60% del TAM. De este subtotal, se considera que los mercados de Norteamérica y Europa constituyen cerca del 70%, resultando en el valor del SAM."
+    },
+    "som": {
+      "value": "216,000,000 USD",
+      "description": "El Mercado Obtenible Servible (SOM) es la porción del SAM que Eduplatform aspira a capturar en un horizonte de 3 a 5 años. Esta cifra es un objetivo realista basado en la capacidad de ejecución, la estrategia de go-to-market, la inversión en marketing y ventas, y la competitividad del producto.",
+      "methodology": "Cálculo basado en una cuota de mercado objetivo realista del SAM. Se proyecta capturar un 2% del SAM a mediano plazo, considerando un entorno competitivo con actores establecidos y otras startups emergentes. Este valor representa el potencial de ingresos anuales recurrentes (ARR) a alcanzar."
+    },
+    "historicalData": [
+      {
+        "year": 2020,
+        "marketValue": "7,700,000,000 USD"
+      },
+      {
+        "year": 2021,
+        "marketValue": "10,400,000,000 USD"
+      },
+      {
+        "year": 2022,
+        "marketValue": "14,100,000,000 USD"
+      },
+      {
+        "year": 2023,
+        "marketValue": "19,000,000,000 USD"
+      }
+    ],
+    "dataSources": [
+      "Gartner",
+      "MarketsandMarkets",
+      "Grand View Research",
+      "HolonIQ (EdTech Intelligence)",
+      "Forrester Research",
+      "Informes de la UNESCO sobre Educación",
+      "Datos del Banco Mundial sobre gasto en educación"
+    ],
+    "assumptions": [
+      "El modelo de negocio principal de Eduplatform es B2B SaaS, dirigido a universidades y corporaciones.",
+      "La estrategia de entrada al mercado se concentra en Norteamérica y Europa debido a su alta tasa de adopción tecnológica.",
+      "El mercado de IA en Educación mantiene una Tasa de Crecimiento Anual Compuesta (CAGR) estimada del 35%, utilizada para la retroproyección de datos históricos.",
+      "Las cifras presentadas son estimaciones para el año en curso y están sujetas a las dinámicas del mercado.",
+      "El SOM representa un objetivo a mediano plazo (3-5 años) y no los ingresos del primer año."
+    ]
+  }
+}
+```

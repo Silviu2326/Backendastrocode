@@ -1,0 +1,124 @@
+```json
+{
+  "competition": {
+    "directCompetitors": [
+      {
+        "name": "Coursera",
+        "description": "Plataforma MOOC líder que se asocia con universidades y empresas para ofrecer cursos, certificados y títulos en línea.",
+        "marketShare": "Estimado 25-35% del mercado de aprendizaje online premium.",
+        "strengths": [
+          "Fuerte reconocimiento de marca y credibilidad académica.",
+          "Amplio catálogo de cursos en diversas disciplinas.",
+          "Credenciales formales (títulos de máster).",
+          "Uso de IA para recomendaciones y retroalimentación."
+        ],
+        "weaknesses": [
+          "La calidad del curso puede ser inconsistente.",
+          "Bajas tasas de finalización en cursos gratuitos.",
+          "La experiencia de aprendizaje puede ser pasiva (videos y cuestionarios)."
+        ],
+        "pricing": "Freemium, suscripción (Coursera Plus ~ $399/año), pago por certificado/título.",
+        "valueProposition": "Aprende de las mejores universidades y empresas del mundo."
+      },
+      {
+        "name": "edX (2U)",
+        "description": "Fundada por Harvard y el MIT, ofrece cursos de nivel universitario y programas de microcredenciales.",
+        "marketShare": "Estimado 15-25% del mercado de aprendizaje online premium.",
+        "strengths": [
+          "Respaldo de instituciones académicas de élite.",
+          "Fuerte rigor académico en sus programas.",
+          "Programas 'MicroMasters' y 'Professional Certificates' bien considerados."
+        ],
+        "weaknesses": [
+          "Catálogo menos extenso que Coursera en áreas no técnicas.",
+          "La experiencia de usuario puede ser menos moderna que la de competidores más nuevos.",
+          "La integración con 2U ha generado incertidumbre en la comunidad."
+        ],
+        "pricing": "Freemium, pago por curso verificado, precios de programas completos.",
+        "valueProposition": "Accede a educación de alta calidad de las mejores instituciones del mundo."
+      },
+      {
+        "name": "Udacity",
+        "description": "Plataforma enfocada en 'Nanodegrees' para habilidades tecnológicas de alta demanda, con un fuerte enfoque en la preparación laboral.",
+        "marketShare": "Estimado 5-10%, pero muy dominante en el nicho de credenciales tecnológicas intensivas.",
+        "strengths": [
+          "Currículo basado en proyectos prácticos y del mundo real.",
+          "Asociaciones con gigantes tecnológicos (Google, AWS, Microsoft).",
+          "Servicios de carrera y mentores personalizados.",
+          "Fuerte enfoque en IA, Machine Learning y Data Science."
+        ],
+        "weaknesses": [
+          "Precio significativamente más alto que otras plataformas.",
+          "Catálogo de cursos muy especializado y limitado a la tecnología.",
+          "Requiere un alto compromiso de tiempo por parte del estudiante."
+        ],
+        "pricing": "Premium, pago por Nanodegree (generalmente $1000 - $2500 por programa).",
+        "valueProposition": "Consigue el trabajo que quieres con las habilidades que las empresas necesitan."
+      },
+      {
+        "name": "DataCamp",
+        "description": "Plataforma de aprendizaje interactivo especializada en ciencia de datos, R, Python y IA.",
+        "marketShare": "Estimado 3-7%, líder en el nicho de aprendizaje interactivo de datos.",
+        "strengths": [
+          "Aprendizaje práctico en el navegador ('aprender haciendo').",
+          "Lecciones cortas y digeribles (microlearning).",
+          "Fuerte comunidad y enfoque en un nicho específico.",
+          "Precio de suscripción asequible."
+        ],
+        "weaknesses": [
+          "Menor profundidad teórica que las plataformas universitarias.",
+          "Las credenciales tienen menos peso que un Nanodegree o un certificado de Coursera.",
+          "Limitado casi exclusivamente a la ciencia de datos."
+        ],
+        "pricing": "Modelo de suscripción (alrededor de $150-$400 al año).",
+        "valueProposition": "Aprende las habilidades de datos que necesitas, a tu propio ritmo."
+      }
+    ],
+    "indirectCompetitors": [
+      {
+        "name": "YouTube / Contenido Gratuito",
+        "description": "Canales educativos de alta calidad (ej. 3Blue1Brown, freeCodeCamp, conferencias de Andrew Ng) que ofrecen conocimiento sin coste. Compiten por el tiempo y la atención del usuario.",
+        "threat": "Alto"
+      },
+      {
+        "name": "LinkedIn Learning / Pluralsight",
+        "description": "Plataformas de aprendizaje orientadas al mercado B2B, donde las empresas compran suscripciones para sus empleados. Ofrecen catálogos extensos de cursos de tecnología.",
+        "threat": "Medio"
+      },
+      {
+        "name": "Herramientas de IA Generativa (ChatGPT, Perplexity)",
+        "description": "No son plataformas educativas, pero los usuarios pueden aprender conceptos, resolver dudas y obtener explicaciones de código directamente. Compiten en el 'momento del aprendizaje'.",
+        "threat": "Medio"
+      },
+      {
+        "name": "Programas Universitarios Tradicionales",
+        "description": "Grados y posgrados en campus o en línea. Ofrecen la máxima credibilidad pero a un coste y compromiso de tiempo mucho mayores.",
+        "threat": "Bajo"
+      }
+    ],
+    "competitiveMatrix": {
+      "factors": [
+        "Personalización con IA",
+        "Credibilidad de Certificación",
+        "Enfoque Práctico (Proyectos)",
+        "Costo / Accesibilidad"
+      ],
+      "ourPosition": "Eduplatform se posicionará ofreciendo la 'Personalización con IA' más avanzada del mercado, un fuerte 'Enfoque Práctico' y un 'Costo' moderado. Inicialmente, la 'Credibilidad de Certificación' será menor que la de Coursera/edX, pero se compensará con un portafolio de proyectos verificable y habilidades demostrables."
+    },
+    "marketGaps": [
+      "Hiper-personalización del aprendizaje: Un sistema de IA que adapte no solo el contenido sino también el tipo de proyecto y la dificultad en tiempo real.",
+      "Micro-credenciales verificables: Certificados para habilidades muy específicas (ej. 'Experto en API de GPT-4') que son más asequibles que un Nanodegree pero más valiosos que un certificado de finalización genérico.",
+      "IA para perfiles no técnicos: Existe una gran demanda para enseñar estrategia, ética y aplicación de IA a gerentes, especialistas en marketing y líderes empresariales.",
+      "Aprendizaje integrado con herramientas reales: Una plataforma que permita a los estudiantes usar APIs de OpenAI, Hugging Face y otras herramientas directamente en sus proyectos."
+    ],
+    "dataSources": [
+      "Crunchbase / PitchBook: Para análisis de financiación y crecimiento de competidores privados/startups.",
+      "SimilarWeb / SEMrush: Para análisis de tráfico web, estrategias de marketing digital y demografía de usuarios.",
+      "SABI / Orbis: Para datos financieros de empresas públicas como Coursera y 2U.",
+      "G2 / Capterra: Para reseñas de usuarios, especialmente en el segmento B2B.",
+      "Informes de mercado de HolonIQ, GSV Ventures: Para tendencias y tamaño del mercado EdTech.",
+      "Análisis manual de sitios web y catálogos de cursos de la competencia."
+    ]
+  }
+}
+```

@@ -1,0 +1,13 @@
+```json
+{
+  "marketDefinition": {
+    "problemStatement": "La dificultad de acceso a educación personalizada y adaptada a las necesidades individuales de cada estudiante, la falta de recursos educativos interactivos y actualizados, y la necesidad de optimizar el tiempo de aprendizaje y mejorar la retención del conocimiento.",
+    "targetAudience": "Estudiantes de todas las edades (niños, adolescentes, adultos), instituciones educativas (escuelas primarias, secundarias, universidades, centros de formación), profesores y tutores, empresas que buscan capacitar a sus empleados, padres interesados en el aprendizaje de sus hijos, y personas que buscan adquirir nuevas habilidades o conocimientos de forma autodidacta.",
+    "geography": "Global, con enfoque inicial en mercados de habla hispana y angloparlante (escalable a otros idiomas y regiones).",
+    "sector": "Educación (primaria, secundaria, superior, formación profesional, capacitación corporativa), Tecnología Educativa (EdTech), Inteligencia Artificial.",
+    "keywords": ["Educación online", "Plataforma educativa", "Inteligencia artificial", "Aprendizaje personalizado", "EdTech", "E-learning", "Capacitación", "Cursos online", "Tutoría virtual", "Adaptative learning"],
+    "naicsCodes": ["611110", "611699", "511210", "541511"],
+    "naceCodes": ["85.20", "85.59", "58.29", "62.01"]
+  }
+}
+```

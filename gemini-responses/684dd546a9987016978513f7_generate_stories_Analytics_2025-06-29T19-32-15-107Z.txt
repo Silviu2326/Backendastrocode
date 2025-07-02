@@ -1,0 +1,156 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Filtrar Analíticas por Rango de Fechas",
+      "description": "Como creador de cursos, quiero filtrar todas las analíticas (tanto generales como por curso) por un rango de fechas específico, para poder analizar el rendimiento durante períodos concretos, como después de una campaña de marketing o durante un trimestre específico.",
+      "pageContext": "Analytics",
+      "affectedFiles": ["pages/analytics.jsx", "components/analytics/DateRangePicker.jsx", "hooks/useAnalyticsData.js"],
+      "componentsModules": {
+        "create": ["DateRangePicker"],
+        "import": ["SummaryDashboard", "CourseDetailView"]
+      },
+      "logicData": "El hook `useAnalyticsData` debe ser modificado para aceptar `startDate` y `endDate` como parámetros. Todas las llamadas a la API (ej. `/api/analytics/summary`, `/api/analytics/course/:id`) deben enviar estos parámetros al backend para filtrar los datos. El componente `DateRangePicker` manejará la lógica de UI para seleccionar fechas y presets.",
+      "styling": {
+        "framework": "TailwindCSS",
+        "classes": ["flex", "items-center", "gap-4", "p-2", "border", "rounded-md"],
+        "colorCoding": "Utilizar colores primarios para los botones de presets ('Últimos 7 días') y un estilo sutil para el campo de selección de rango personalizado."
+      },
+      "acceptanceCriteria": [
+        "Un componente de selector de rango de fechas es visible en la parte superior de la página de Analíticas.",
+        "El selector ofrece presets como 'Últimos 7 días', 'Últimos 30 días', 'Este mes'.",
+        "El usuario puede seleccionar un rango de fechas personalizado usando un calendario.",
+        "Al aplicar un rango de fechas, todos los gráficos y métricas en la página (resumen general y detalle del curso) se actualizan para reflejar solo los datos de ese período.",
+        "El rango de fechas seleccionado permanece activo al navegar entre el resumen general y la vista detallada de un curso."
+      ],
+      "additionalSuggestions": [
+        "Considerar guardar el rango de fechas seleccionado en los parámetros de la URL para que se pueda compartir el enlace con los filtros aplicados.",
+        "Mostrar el rango de fechas seleccionado de forma visible cerca del título del panel."
+      ],
+      "aiEditorTask": "Crea el componente `DateRangePicker.jsx` usando la librería `react-datepicker`. Debe incluir presets para 'Últimos 7 días', 'Últimos 30 días' y 'Este mes', además de la selección de rango personalizado. El estado del rango seleccionado debe ser manejado a través de props (`onDateChange`).",
+      "priority": "Alta",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Exportar Datos de Analíticas de un Curso",
+      "description": "Como creador de cursos, quiero poder exportar los datos de análisis detallado de un curso específico a un archivo CSV, para poder realizar un análisis más profundo en otras herramientas o para mis propios informes.",
+      "pageContext": "Analytics",
+      "affectedFiles": ["components/analytics/CourseDetailView.jsx", "utils/csvExporter.js"],
+      "componentsModules": {
+        "create": [],
+        "import": ["Button", "DownloadIcon"]
+      },
+      "logicData": "Se necesita una función de utilidad `exportToCSV` en `utils/csvExporter.js`. Esta función tomará un array de objetos (los datos del gráfico) y un nombre de archivo. En `CourseDetailView.jsx`, se añadirá un botón 'Exportar' que, al hacer clic, llamará a esta función con los datos actualmente mostrados en el gráfico de rendimiento por lección/bloque.",
+      "styling": {
+        "framework": "TailwindCSS",
+        "classes": ["bg-blue-500", "hover:bg-blue-700", "text-white", "font-bold", "py-2", "px-4", "rounded", "inline-flex", "items-center"],
+        "colorCoding": "Botón con color secundario o de acción, acompañado de un ícono de descarga para mayor claridad."
+      },
+      "acceptanceCriteria": [
+        "En la vista de análisis detallado de un curso, hay un botón 'Exportar a CSV' visible.",
+        "Al hacer clic en el botón, se descarga un archivo con formato CSV.",
+        "El nombre del archivo debe ser descriptivo, ej: 'analiticas_[nombre_del_curso]_[fecha].csv'.",
+        "El archivo CSV contiene las métricas desglosadas por lección o bloque, según la vista activa en ese momento.",
+        "Los datos exportados respetan el filtro de rango de fechas que esté aplicado en la página."
+      ],
+      "additionalSuggestions": [
+        "Añadir la opción de exportar a PDF en el futuro, generando un informe visualmente más atractivo.",
+        "Mostrar una notificación de 'Exportación iniciada' para dar feedback al usuario."
+      ],
+      "aiEditorTask": "Implementa un botón 'Exportar a CSV' en el componente `CourseDetailView`. Al hacer clic, debe tomar los datos del gráfico de rendimiento y usar una librería como `papaparse` o una función helper para convertir el JSON a una cadena CSV y activar la descarga en el navegador.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Comparar Métricas Clave Entre Múltiples Cursos",
+      "description": "Como creador con varios cursos, quiero seleccionar dos o más de mis cursos y ver una comparación lado a lado de sus métricas clave, para identificar rápidamente cuáles están funcionando mejor y tomar decisiones estratégicas.",
+      "pageContext": "Analytics",
+      "affectedFiles": ["pages/analytics.jsx", "components/analytics/CourseComparisonView.jsx", "api/analytics.js"],
+      "componentsModules": {
+        "create": ["CourseComparisonView", "MultiSelectDropdown"],
+        "import": []
+      },
+      "logicData": "Se necesita un nuevo endpoint en la API, `/api/analytics/compare?courses=[id1,id2,id3]`, que devuelva un objeto con las métricas agregadas para los cursos solicitados. El frontend tendrá un nuevo componente `CourseComparisonView` que mostrará estos datos en una tabla. Un componente `MultiSelectDropdown` permitirá al usuario elegir los cursos a comparar.",
+      "styling": {
+        "framework": "TailwindCSS",
+        "classes": ["table-auto", "w-full", "divide-y", "divide-gray-200", "text-left"],
+        "colorCoding": "Usar un fondo alterno para las filas de la tabla para mejorar la legibilidad. Resaltar la columna del curso con mejor rendimiento en una métrica específica con un sutil color verde."
+      },
+      "acceptanceCriteria": [
+        "En el panel principal, hay un botón o pestaña para cambiar al modo 'Comparar Cursos'.",
+        "En el modo de comparación, el usuario puede seleccionar de 2 a 4 cursos de una lista.",
+        "Al seleccionar los cursos, se muestra una tabla donde cada columna representa un curso y cada fila una métrica clave (ej: Inscripciones, Tasa de Finalización, Ingresos, Calificación Promedio).",
+        "Los datos de la comparación se actualizan si se cambia el filtro de rango de fechas.",
+        "El usuario puede salir del modo de comparación y volver a la vista de resumen general."
+      ],
+      "additionalSuggestions": [
+        "Añadir pequeños gráficos de barras dentro de las celdas de la tabla (bar charts in-table) para una comparación visual más rápida.",
+        "Permitir al usuario ordenar la tabla por cualquiera de las métricas."
+      ],
+      "aiEditorTask": "Desarrolla el componente `CourseComparisonView.jsx`. Debe recibir un array de objetos de datos de cursos y renderizar una tabla comparativa. Las cabeceras de la tabla serán los nombres de los cursos, y las filas serán las métricas clave. Asegúrate de que el diseño sea responsive.",
+      "priority": "Alta",
+      "estimatedHours": 16
+    },
+    {
+      "title": "Visualizar Métricas de Ingresos",
+      "description": "Como creador de cursos, quiero ver un desglose de los ingresos generados, tanto en general como por curso, para entender el rendimiento financiero de mi contenido y optimizar mi estrategia de precios o marketing.",
+      "pageContext": "Analytics",
+      "affectedFiles": ["components/analytics/RevenuePanel.jsx", "pages/analytics.jsx", "api/revenue.js"],
+      "componentsModules": {
+        "create": ["RevenuePanel"],
+        "import": ["LineChart", "StatCard"]
+      },
+      "logicData": "Se requiere un nuevo endpoint, `/api/revenue`, que pueda ser filtrado por fecha y, opcionalmente, por `courseId`. Devolverá métricas como `totalRevenue`, `revenueOverTime` (un array de `{date, amount}`), y `averageRevenuePerUser`. El componente `RevenuePanel` consumirá estos datos y los mostrará usando tarjetas de estadísticas y un gráfico de líneas.",
+      "styling": {
+        "framework": "TailwindCSS",
+        "classes": ["grid", "grid-cols-1", "md:grid-cols-3", "gap-4", "p-4", "bg-gray-50", "rounded-lg"],
+        "colorCoding": "Usar el color verde para indicar cifras de ingresos positivos y un gráfico de líneas con un gradiente verde."
+      },
+      "acceptanceCriteria": [
+        "En el panel de Analíticas (tanto general como por curso) hay una sección o pestaña de 'Ingresos'.",
+        "La sección muestra tarjetas con métricas clave: 'Ingresos Totales', 'Nuevas Ventas' e 'Ingreso Promedio por Inscripción'.",
+        "Se muestra un gráfico de líneas que representa los ingresos acumulados a lo largo del período de tiempo seleccionado.",
+        "Todos los datos de ingresos se actualizan correctamente al cambiar el filtro de rango de fechas.",
+        "Si no hay datos de ingresos (ej. cursos gratuitos), la sección muestra un mensaje informativo."
+      ],
+      "additionalSuggestions": [
+        "Añadir un desglose de ingresos por fuente de tráfico si esos datos están disponibles.",
+        "Mostrar una comparación con el período anterior (ej. 'Ingresos: $500, un 10% más que el mes pasado')."
+      ],
+      "aiEditorTask": "Crea el componente `RevenuePanel.jsx`. Debe obtener datos de un endpoint de ingresos y mostrarlos en 3 componentes `StatCard` y un `LineChart` (usando `recharts` o `chart.js`). Asegúrate de manejar los estados de carga y de datos vacíos.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Identificar Estudiantes con Bajo Rendimiento",
+      "description": "Como creador de cursos, dentro de la vista de un curso específico, quiero ver una lista de estudiantes en riesgo de no completarlo, para poder contactarlos y ofrecerles ayuda de forma proactiva, mejorando así las tasas de finalización.",
+      "pageContext": "Analytics",
+      "affectedFiles": ["components/analytics/AtRiskStudentsList.jsx", "components/analytics/CourseDetailView.jsx", "api/analytics.js"],
+      "componentsModules": {
+        "create": ["AtRiskStudentsList"],
+        "import": ["UserAvatar", "ProgressBar"]
+      },
+      "logicData": "Se necesita un endpoint `/api/analytics/course/:id/at-risk-students` que devuelva una lista de estudiantes. El backend definirá la lógica para 'en riesgo' (ej. progreso < 20% después de X días, o inactividad > Y días). Los datos devueltos por estudiante deben incluir: `id`, `name`, `avatarUrl`, `progressPercentage`, `lastActivityDate`.",
+      "styling": {
+        "framework": "TailwindCSS",
+        "classes": ["list-disc", "list-inside", "space-y-4", "p-4", "bg-yellow-50", "border-l-4", "border-yellow-400"],
+        "colorCoding": "Usar un fondo de advertencia (amarillo o naranja pálido) para el contenedor de la lista, para indicar que requiere atención."
+      },
+      "acceptanceCriteria": [
+        "En la vista de análisis detallado de un curso, hay una pestaña o sección llamada 'Estudiantes en Riesgo'.",
+        "La sección muestra una lista de estudiantes, cada uno con su nombre, foto de perfil, progreso actual (como porcentaje) y fecha de última actividad.",
+        "La lista está ordenada por el mayor riesgo (ej. menor progreso o mayor inactividad) en la parte superior.",
+        "Si no hay estudiantes en riesgo, se muestra un mensaje positivo.",
+        "Al pasar el cursor sobre la fecha de última actividad, se muestra la fecha exacta en un tooltip."
+      ],
+      "additionalSuggestions": [
+        "Añadir un botón de 'Contactar' junto a cada estudiante que abra un modal para enviarles un mensaje directo (si el sistema de mensajería existe).",
+        "Permitir al creador descartar a un estudiante de la lista si ya lo ha contactado."
+      ],
+      "aiEditorTask": "Implementa el componente `AtRiskStudentsList.jsx`. Debe recibir una lista de estudiantes como prop y renderizar cada uno en un elemento de lista. Utiliza un componente `ProgressBar` para visualizar el progreso y formatea la fecha de última actividad de forma amigable (ej. 'hace 5 días').",
+      "priority": "Media",
+      "estimatedHours": 10
+    }
+  ]
+}
+```

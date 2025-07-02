@@ -1,0 +1,53 @@
+{
+  "name": "queue-manager",
+  "version": "1.0.0",
+  "description": "BullMQ Queue Manager with monitoring UI",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "tsc",
+    "clean": "rimraf dist",
+    "test": "jest",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix"
+  },
+  "dependencies": {
+    "@bull-board/api": "^5.10.2",
+    "@bull-board/express": "^5.10.2",
+    "@bull-board/ui": "^5.10.2",
+    "bullmq": "^4.15.0",
+    "express": "^4.18.2",
+    "ioredis": "^5.3.2",
+    "winston": "^3.11.0",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "compression": "^1.7.4",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.0",
+    "@types/cors": "^2.8.17",
+    "@types/compression": "^1.7.5",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.54.0",
+    "jest": "^29.7.0",
+    "rimraf": "^5.0.5",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "bullmq",
+    "queue",
+    "redis",
+    "monitoring",
+    "dashboard"
+  ],
+  "author": "Project Team",
+  "license": "MIT"
+}

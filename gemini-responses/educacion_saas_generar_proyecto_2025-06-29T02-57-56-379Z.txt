@@ -1,0 +1,142 @@
+```json
+{
+  "softwares": [
+    {
+      "name": "CogniTutor AI",
+      "description": "Plataforma de IA que ofrece a los estudiantes tutoría personalizada 24/7 y feedback instantáneo en tareas. Utiliza procesamiento de lenguaje natural para analizar ensayos y algoritmos de aprendizaje adaptativo para crear rutas de estudio únicas.",
+      "targetClient": "Instituciones de educación secundaria y superior (B2B). El comprador es el director de departamento o decano que busca mejorar el rendimiento estudiantil, reducir la carga de trabajo de los docentes y ofrecer apoyo escalable fuera del horario de clases.",
+      "pages": [
+        {
+          "name": "Dashboard del Estudiante",
+          "description": "Vista general del progreso, próximas tareas y recomendaciones de estudio.",
+          "route": "/dashboard"
+        },
+        {
+          "name": "Tutor IA",
+          "description": "Interfaz de chat para hacer preguntas y recibir explicaciones detalladas sobre cualquier tema.",
+          "route": "/tutor"
+        },
+        {
+          "name": "Análisis de Tareas",
+          "description": "Área para subir trabajos y recibir feedback instantáneo sobre gramática, estructura y contenido.",
+          "route": "/assignments"
+        },
+        {
+          "name": "Panel del Docente",
+          "description": "Vista agregada del rendimiento de la clase, identificando estudiantes en riesgo y temas problemáticos.",
+          "route": "/teacher/analytics"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$60,000 - $120,000 USD",
+        "monthlyRevenuePotential": "$15,000 - $50,000 USD",
+        "breakEvenTime": "18-24 meses",
+        "marketSize": "Mercado global de IA en Educación, proyectado en +$20 mil millones para 2027.",
+        "competitionLevel": "Medio"
+      }
+    },
+    {
+      "name": "CareerPath Pro",
+      "description": "SaaS que conecta los perfiles académicos de los estudiantes universitarios con las demandas del mercado laboral. Analiza las habilidades del estudiante, sugiere cursos y actividades para cerrar brechas y muestra trayectorias profesionales realistas.",
+      "targetClient": "Universidades y sus departamentos de servicios de carrera. Buscan mejorar las tasas de empleabilidad de sus graduados y ofrecer una herramienta de orientación profesional moderna y basada en datos.",
+      "pages": [
+        {
+          "name": "Perfil de Habilidades",
+          "description": "El estudiante completa su perfil con cursos, proyectos y experiencias para generar un mapa de competencias.",
+          "route": "/profile"
+        },
+        {
+          "name": "Explorador de Carreras",
+          "description": "Base de datos interactiva de profesiones, con datos de salarios, demanda y habilidades requeridas.",
+          "route": "/careers"
+        },
+        {
+          "name": "Análisis de Brechas (Gap Analysis)",
+          "description": "Compara el perfil del estudiante con una carrera objetivo y recomienda cómo adquirir las habilidades faltantes.",
+          "route": "/gap-analysis"
+        },
+        {
+          "name": "Conexión con Empresas",
+          "description": "Módulo para que las empresas asociadas busquen talento según perfiles de habilidades específicos.",
+          "route": "/employers"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$45,000 - $80,000 USD",
+        "monthlyRevenuePotential": "$10,000 - $35,000 USD",
+        "breakEvenTime": "14-20 meses",
+        "marketSize": "Mercado de tecnología para la Educación Superior (Higher EdTech), valorado en +$100 mil millones.",
+        "competitionLevel": "Medio"
+      }
+    },
+    {
+      "name": "LinkEd Hub",
+      "description": "Plataforma de comunicación unificada para colegios que centraliza la interacción entre docentes, padres y alumnos. Integra mensajería segura, calendario de eventos, seguimiento de calificaciones y asistencia en una sola app.",
+      "targetClient": "Colegios de educación K-12 (primaria y secundaria). El cliente es la administración escolar, que necesita optimizar la comunicación, aumentar la participación de los padres y reducir la carga administrativa.",
+      "pages": [
+        {
+          "name": "Muro de Anuncios",
+          "description": "Página principal con noticias, eventos y comunicados importantes del colegio y las clases.",
+          "route": "/home"
+        },
+        {
+          "name": "Mensajería Segura",
+          "description": "Chat directo y en grupo entre padres y docentes, con confirmación de lectura.",
+          "route": "/messages"
+        },
+        {
+          "name": "Progreso Académico",
+          "description": "Acceso en tiempo real a las calificaciones, asistencia y comentarios de los profesores.",
+          "route": "/grades"
+        },
+        {
+          "name": "Calendario Unificado",
+          "description": "Agrega eventos escolares, fechas de exámenes y entregas de tareas en una sola vista.",
+          "route": "/calendar"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$35,000 - $70,000 USD",
+        "monthlyRevenuePotential": "$8,000 - $30,000 USD",
+        "breakEvenTime": "12-18 meses",
+        "marketSize": "Mercado global de sistemas de gestión escolar, muy grande y fragmentado.",
+        "competitionLevel": "Alto"
+      }
+    },
+    {
+      "name": "Credify",
+      "description": "Sistema para la creación, gestión y verificación de micro-credenciales y badges digitales. Permite a instituciones y empresas emitir certificados digitales verificables que los alumnos pueden compartir en redes profesionales.",
+      "targetClient": "Universidades, centros de formación profesional y departamentos de L&D corporativos. Necesitan una forma moderna y segura de certificar competencias específicas y validar el aprendizaje continuo.",
+      "pages": [
+        {
+          "name": "Dashboard de Emisor",
+          "description": "Panel para crear plantillas de badges, definir criterios y emitir credenciales en masa o individualmente.",
+          "route": "/issuer/dashboard"
+        },
+        {
+          "name": "Galería de Badges",
+          "description": "Página pública donde los alumnos pueden mostrar y compartir los badges que han ganado.",
+          "route": "/user/portfolio"
+        },
+        {
+          "name": "Página de Verificación",
+          "description": "Herramienta pública para que terceros (ej. reclutadores) puedan verificar la autenticidad de una credencial.",
+          "route": "/verify"
+        },
+        {
+          "name": "Analíticas",
+          "description": "Informes sobre la emisión, aceptación y compartición de badges para medir el impacto del programa.",
+          "route": "/issuer/analytics"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$40,000 - $75,000 USD",
+        "monthlyRevenuePotential": "$12,000 - $40,000 USD",
+        "breakEvenTime": "15-22 meses",
+        "marketSize": "Mercado de credenciales digitales, en rápido crecimiento y alineado con las tendencias de 'skills-based hiring'.",
+        "competitionLevel": "Medio"
+      }
+    }
+  ]
+}
+```

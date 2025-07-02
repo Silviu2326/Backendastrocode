@@ -1,0 +1,15 @@
+```json
+{
+  "executiveSummary": {
+    "overview": "Eduplatform se posiciona como una solución de vanguardia en tecnología educativa (EdTech), diseñada para transformar el panorama del aprendizaje a través de la inteligencia artificial. Nuestra visión es ofrecer una experiencia educativa hiper-personalizada que se adapta en tiempo real a las necesidades y estilos de aprendizaje de cada estudiante, desde la educación primaria hasta la formación corporativa, mejorando drásticamente la retención de conocimientos y el compromiso del usuario.",
+    "marketSize": "El mercado global de EdTech está en plena expansión, proyectado a superar los $400 mil millones para 2025. Eduplatform se dirige a un segmento clave de este mercado, el de plataformas de aprendizaje adaptativo, cuyo crecimiento es aún más acelerado debido a la creciente demanda de soluciones educativas escalables y efectivas.",
+    "marketGap": "A pesar de la proliferación de plataformas de e-learning, la mayoría ofrece un enfoque estandarizado ('one-size-fits-all') que no atiende las diferencias individuales en el ritmo y estilo de aprendizaje. Existe una brecha significativa en el mercado para una solución que utilice IA no solo para recomendar contenido, sino para crear itinerarios de aprendizaje dinámicos y adaptativos que optimicen el rendimiento de cada usuario.",
+    "opportunity": "La oportunidad para Eduplatform reside en capitalizar esta brecha, convirtiéndose en el estándar de oro para el aprendizaje personalizado impulsado por IA. Al ofrecer una plataforma superior que demuestra mejoras medibles en los resultados educativos, podemos capturar una cuota de mercado significativa a través de un modelo de negocio SaaS (Software as a Service) escalable, dirigido tanto a instituciones educativas (B2B) como a consumidores finales (B2C), generando ingresos recurrentes y un alto valor de vida del cliente (LTV).",
+    "keyPoints": [
+      "Personalización a Escala: Uso de IA para crear rutas de aprendizaje únicas, superando los modelos educativos tradicionales.",
+      "Mercado de Alto Crecimiento: Acceso a un mercado EdTech global de más de $400 mil millones con un modelo de negocio SaaS altamente escalable.",
+      "Ventaja Competitiva Sostenible: La capacidad de nuestra IA para adaptarse y mejorar continuamente crea una barrera de entrada y un producto que se vuelve más valioso con cada interacción del usuario."
+    ]
+  }
+}
+```

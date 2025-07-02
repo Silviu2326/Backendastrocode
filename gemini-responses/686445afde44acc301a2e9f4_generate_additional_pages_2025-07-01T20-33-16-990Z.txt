@@ -1,0 +1,55 @@
+```json
+{
+  "pages": [
+    {
+      "name": "Registro de Empresa",
+      "description": "Formulario de registro para que nuevas empresas creen su cuenta en EquityViz. Este flujo guiaría al administrador a través de la selección de un plan, la creación de la cuenta de la empresa y la configuración inicial de su perfil de administrador. Es el paso siguiente y crucial después del CTA en la página de inicio.",
+      "route": "/registro",
+      "isEssential": true,
+      "priority": 10
+    },
+    {
+      "name": "Configuración de la Empresa (Admin)",
+      "description": "Panel exclusivo para administradores donde pueden gestionar la suscripción y la facturación, actualizar la información del perfil de la empresa (logo, nombre), gestionar los roles de otros administradores e integrar la plataforma con otros sistemas de RRHH. Es el centro de control de la cuenta, separado del dashboard de gestión de empleados.",
+      "route": "/admin/configuracion",
+      "isEssential": true,
+      "priority": 9
+    },
+    {
+      "name": "Centro de Notificaciones",
+      "description": "Un feed centralizado y cronológico donde los usuarios (empleados y admins) ven todas las actualizaciones importantes: hitos de vesting alcanzados, nuevos documentos disponibles, cambios en la valoración de la empresa, o anuncios del administrador. Mejora la comunicación proactiva y el engagement del usuario con la plataforma.",
+      "route": "/notificaciones",
+      "isEssential": false,
+      "priority": 8
+    },
+    {
+      "name": "Historial de Transacciones de Equity",
+      "description": "Una vista de solo lectura para el empleado que funciona como un libro de contabilidad de su equity. Registra cronológicamente cada evento: fecha del 'grant', cada hito de vesting con el número de acciones consolidadas, y cualquier ejercicio de opciones realizado. Aporta una transparencia total y un registro auditable.",
+      "route": "/dashboard/historial",
+      "isEssential": false,
+      "priority": 7
+    },
+    {
+      "name": "Centro de Ayuda y Soporte",
+      "description": "Un portal de auto-servicio con una base de conocimientos (FAQs), tutoriales de la plataforma y un formulario de contacto o sistema de tickets para solicitar ayuda al equipo de EquityViz. Reduce la carga de soporte y empodera a los usuarios para resolver sus dudas rápidamente.",
+      "route": "/soporte",
+      "isEssential": true,
+      "priority": 8
+    },
+    {
+      "name": "Flujo de Invitación de Empleado",
+      "description": "Página o modal que utilizan los administradores para enviar invitaciones a nuevos empleados. Al recibirla, el empleado accede a una página de bienvenida personalizada donde puede crear su contraseña y completar su perfil, iniciando así su onboarding en la plataforma.",
+      "route": "/invitar/empleado",
+      "isEssential": true,
+      "priority": 9
+    },
+    {
+      "name": "Política de Privacidad",
+      "description": "Página legal esencial que informa a los usuarios sobre qué datos se recopilan, cómo se utilizan, con quién se comparten y qué derechos tienen sobre sus datos. Fundamental para el cumplimiento de normativas como GDPR y para generar confianza con empresas y empleados.",
+      "route": "/legal/privacidad",
+      "isEssential": true,
+      "priority": 10
+    }
+  ]
+}
+```

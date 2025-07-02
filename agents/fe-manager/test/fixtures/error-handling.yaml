@@ -1,0 +1,174 @@
+name: "Error Handling and Retry Logic"
+description: "Test error handling, retry mechanisms, and dead letter queue behavior"
+input:
+  stories:
+    - id: "story-error-001"
+      title: "Create Malformed Component"
+      description: "This story intentionally has malformed data to test error handling"
+      priority: 50
+      complexity: 2
+      tags: ["error", "malformed"]
+      metadata:
+        pageId: "error-page"
+        componentType: "invalid-type"
+        forceError: true
+        errorType: "parsing"
+    - id: "story-error-002"
+      title: "Create Network Timeout Component"
+      description: "This story simulates network timeout errors"
+      priority: 60
+      complexity: 3
+      tags: ["error", "network"]
+      metadata:
+        pageId: "timeout-page"
+        componentType: "button"
+        forceError: true
+        errorType: "network"
+        retryable: true
+    - id: "story-error-003"
+      title: "Create AST Parse Error Component"
+      description: "This story simulates AST parsing errors that should go to DLQ"
+      priority: 70
+      complexity: 4
+      tags: ["error", "ast"]
+      metadata:
+        pageId: "ast-error-page"
+        componentType: "form"
+        forceError: true
+        errorType: "ast-parse"
+        retryable: false
+    - id: "story-success-001"
+      title: "Create Valid Component"
+      description: "This story should process successfully"
+      priority: 80
+      complexity: 2
+      tags: ["success", "valid"]
+      metadata:
+        pageId: "success-page"
+        componentType: "card"
+        forceError: false
+  projectConfig:
+    framework: "react"
+    typescript: true
+    styling: "css-modules"
+    errorHandling: "strict"
+  userContext:
+    theme: "default"
+    retryConfig:
+      maxRetries: 3
+      backoffMultiplier: 2
+      initialDelay: 1000
+expected:
+  queues:
+    - name: "fe-draft"
+      jobCount: 4
+      jobs:
+        - name: "generate-component"
+          priority: 80
+          data:
+            storyId: "story-success-001"
+            shouldSucceed: true
+        - name: "generate-component"
+          priority: 70
+          data:
+            storyId: "story-error-003"
+            shouldFail: true
+            errorType: "ast-parse"
+        - name: "generate-component"
+          priority: 60
+          data:
+            storyId: "story-error-002"
+            shouldRetry: true
+            errorType: "network"
+        - name: "generate-component"
+          priority: 50
+          data:
+            storyId: "story-error-001"
+            shouldFail: true
+            errorType: "parsing"
+    - name: "fe-logic"
+      jobCount: 1
+      jobs:
+        - name: "add-logic"
+          priority: 75
+          delay: 500
+          data:
+            storyId: "story-success-001"
+    - name: "fe-style"
+      jobCount: 1
+      jobs:
+        - name: "apply-styles"
+          priority: 70
+          delay: 1000
+          data:
+            storyId: "story-success-001"
+    - name: "dead-letter"
+      jobCount: 2
+      jobs:
+        - name: "handle-failed-job"
+          priority: 10
+          data:
+            originalStoryId: "story-error-001"
+            errorReason: "malformed-data"
+            retryCount: 3
+        - name: "handle-failed-job"
+          priority: 10
+          data:
+            originalStoryId: "story-error-003"
+            errorReason: "ast-parse-error"
+            retryCount: 0
+    - name: "retry-queue"
+      jobCount: 1
+      jobs:
+        - name: "retry-job"
+          priority: 60
+          delay: 2000
+          data:
+            originalStoryId: "story-error-002"
+            retryAttempt: 2
+            errorType: "network"
+  processing:
+    totalJobs: 9
+    estimatedDuration: 12000
+    dependencies:
+      - from: "fe-draft"
+        to: "fe-logic"
+        type: "blocks"
+      - from: "fe-logic"
+        to: "fe-style"
+        type: "enhances"
+      - from: "error-handler"
+        to: "dead-letter"
+        type: "requires"
+      - from: "error-handler"
+        to: "retry-queue"
+        type: "requires"
+  output:
+    components: ["SuccessCard"]
+    files: [
+      "components/SuccessCard.tsx",
+      "components/SuccessCard.test.tsx"
+    ]
+    metrics:
+      tokensUsed: 2500
+      processingTime: 8000
+      successfulJobs: 3
+      failedJobs: 2
+      retriedJobs: 1
+      deadLetterJobs: 2
+    errors:
+      - type: "parsing-error"
+        storyId: "story-error-001"
+        message: "Invalid component type: invalid-type"
+        retryable: false
+      - type: "ast-parse-error"
+        storyId: "story-error-003"
+        message: "Failed to parse AST: missing required field"
+        retryable: false
+      - type: "network-timeout"
+        storyId: "story-error-002"
+        message: "Request timeout after 5000ms"
+        retryable: true
+        retryCount: 2
+timeout: 20000
+tags: ["error-handling", "retry", "dead-letter", "resilience"]

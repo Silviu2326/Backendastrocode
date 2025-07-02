@@ -1,0 +1,118 @@
+```json
+{
+  "segmentation": {
+    "segments": [
+      {
+        "name": "Estudiantes y Aprendizaje Autónomo (B2C)",
+        "description": "Individuos, principalmente estudiantes de educación superior y profesionales en formación continua, que buscan herramientas de aprendizaje personalizadas para mejorar sus conocimientos y habilidades de forma independiente.",
+        "tam": "Mercado global de Educación Superior y Aprendizaje Continuo (~$2 billones USD).",
+        "sam": "Mercado global de EdTech para consumidores y tutores con IA (~$50 mil millones USD).",
+        "som": "Objetivo de captura del 0.1% del SAM en 3 años (~$50 millones USD).",
+        "characteristics": [
+          "Búsqueda de flexibilidad y aprendizaje a su propio ritmo",
+          "Alta sensibilidad al precio y preferencia por modelos freemium o de suscripción baja",
+          "Decisión de compra individual y rápida",
+          "Uso intensivo de dispositivos móviles"
+        ]
+      },
+      {
+        "name": "Instituciones Educativas (K-12 y Superior) (B2B)",
+        "description": "Escuelas, universidades y otras instituciones académicas que buscan implementar soluciones tecnológicas para optimizar procesos de enseñanza, personalizar el aprendizaje del estudiante y reducir la carga administrativa del profesorado.",
+        "tam": "Gasto global en tecnología por parte de instituciones educativas (~$300 mil millones USD).",
+        "sam": "Mercado de plataformas de gestión de aprendizaje (LMS) y herramientas de IA para el sector educativo en mercados clave (Norteamérica, Europa, LATAM) (~$30 mil millones USD).",
+        "som": "Objetivo de captura del 0.5% del SAM en 5 años (~$150 millones USD).",
+        "characteristics": [
+          "Ciclos de venta largos y complejos (6-18 meses)",
+          "Decisión de compra por comité (académico, TI, financiero)",
+          "Requerimiento de integración con sistemas existentes (SIS, LMS)",
+          "Alta importancia de la seguridad de datos y cumplimiento normativo (FERPA, GDPR)",
+          "Clasificación SIC: 8200-8299 (Servicios Educativos)",
+          "Clasificación NAICS: 611 (Servicios Educativos), 611310 (Universidades y Escuelas Profesionales), 611110 (Escuelas Primarias y Secundarias)"
+        ]
+      },
+      {
+        "name": "Formación Corporativa y Desarrollo Profesional (B2B)",
+        "description": "Empresas que invierten en la capacitación (upskilling y reskilling) de sus empleados para mejorar la productividad, la retención de talento y la competitividad en el mercado.",
+        "tam": "Mercado global de formación corporativa (~$400 mil millones USD).",
+        "sam": "Mercado de plataformas de experiencia de aprendizaje (LXP) y herramientas de autoría con IA (~$40 mil millones USD).",
+        "som": "Objetivo de captura del 0.3% del SAM en 5 años (~$120 millones USD).",
+        "characteristics": [
+          "Fuerte enfoque en el Retorno de la Inversión (ROI)",
+          "Necesidad de contenido específico de la industria y personalizable",
+          "Escalabilidad para audiencias globales y diversas",
+          "Análisis de rendimiento y seguimiento del progreso del empleado",
+          "Clasificación NAICS: Aplicable a múltiples industrias, con alta concentración en 51 (Información), 52 (Finanzas y Seguros), 54 (Servicios Profesionales, Científicos y Técnicos), 62 (Asistencia Sanitaria)"
+        ]
+      }
+    ],
+    "buyerPersonas": [
+      {
+        "name": "Ana, la Universitaria Ambiciosa",
+        "role": "Estudiante de Grado",
+        "demographics": {
+          "age": "19-23",
+          "income": "Bajo (estudiante)",
+          "education": "Educación Superior en curso",
+          "location": "Grandes ciudades universitarias"
+        },
+        "painPoints": [
+          "Falta de tiempo para asimilar grandes volúmenes de información.",
+          "Dificultad para obtener retroalimentación personalizada e inmediata.",
+          "Ansiedad ante los exámenes por no sentirse suficientemente preparada.",
+          "Las clases magistrales son poco interactivas y no se adaptan a su ritmo."
+        ],
+        "goals": [
+          "Obtener calificaciones excelentes.",
+          "Comprender profundamente los conceptos, no solo memorizar.",
+          "Optimizar su tiempo de estudio para poder compaginarlo con otras actividades."
+        ],
+        "buyingBehavior": "Busca activamente en línea, confía en las reseñas de otros estudiantes y en las pruebas gratuitas. La decisión es emocional y rápida, basada en la percepción de valor y un precio asequible. Realiza la compra a través del móvil o portátil."
+      },
+      {
+        "name": "Director David Innovador",
+        "role": "Director de Innovación Académica",
+        "demographics": {
+          "age": "45-58",
+          "income": "Alto",
+          "education": "Posgrado (Máster o Doctorado)",
+          "location": "Institución universitaria en una capital importante"
+        },
+        "painPoints": [
+          "Profesores sobrecargados con tareas de calificación y administración.",
+          "Altas tasas de abandono estudiantil en los primeros cursos.",
+          "Presión para mejorar los rankings de la institución y atraer talento.",
+          "Sistemas tecnológicos anticuados y fragmentados."
+        ],
+        "goals": [
+          "Implementar soluciones que mejoren la tasa de retención y éxito estudiantil.",
+          "Liberar tiempo del profesorado para que puedan dedicarse a la investigación y mentoría.",
+          "Posicionar a la institución como un referente en innovación educativa."
+        ],
+        "buyingBehavior": "Lidera la evaluación de nuevas tecnologías. El proceso es largo, involucra a múltiples departamentos (TI, finanzas, claustro) y requiere demos, casos de estudio y un piloto exitoso. La seguridad, escalabilidad y la integración son no negociables."
+      },
+      {
+        "name": "Laura, la Líder de L&D",
+        "role": "Gerente de Aprendizaje y Desarrollo (L&D)",
+        "demographics": {
+          "age": "35-45",
+          "income": "Medio-Alto",
+          "education": "Grado o Máster en RRHH, Psicología o similar",
+          "location": "Sede de una empresa multinacional"
+        },
+        "painPoints": [
+          "Los programas de formación genéricos tienen un bajo nivel de engagement.",
+          "Crear contenido de formación relevante y actualizado es lento y muy costoso.",
+          "Dificultad para medir el impacto real de la formación en los resultados de negocio.",
+          "Necesidad de capacitar a una fuerza laboral distribuida globalmente."
+        ],
+        "goals": [
+          "Acelerar el desarrollo de competencias clave para el negocio (time-to-competency).",
+          "Ofrecer experiencias de aprendizaje personalizadas y efectivas a escala.",
+          "Demostrar el ROI de las iniciativas de formación al comité de dirección."
+        ],
+        "buyingBehavior": "Busca soluciones que se integren con su ecosistema HR Tech (ej. Workday, SuccessFactors). Necesita análisis de datos robustos para justificar la inversión. Valora la capacidad de la plataforma para crear y adaptar contenido rápidamente usando IA. La decisión se basa en un caso de negocio sólido."
+      }
+    ]
+  }
+}
+```

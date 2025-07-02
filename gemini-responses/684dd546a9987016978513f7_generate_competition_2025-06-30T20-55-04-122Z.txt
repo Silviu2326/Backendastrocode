@@ -1,0 +1,127 @@
+```json
+{
+  "competition": {
+    "directCompetitors": [
+      {
+        "name": "Coursera",
+        "description": "Plataforma MOOC líder que se asocia con universidades y empresas de primer nivel para ofrecer cursos, certificados y títulos en línea.",
+        "marketShare": "Líder del mercado (25-35% en el segmento MOOC premium)",
+        "strengths": [
+          "Fuerte reconocimiento de marca y prestigio.",
+          "Asociaciones exclusivas con universidades de élite.",
+          "Certificaciones y títulos con alto valor percibido.",
+          "Catálogo robusto en una amplia variedad de disciplinas académicas y profesionales."
+        ],
+        "weaknesses": [
+          "Precios relativamente altos para certificaciones y títulos.",
+          "La experiencia de aprendizaje puede ser pasiva (videos y cuestionarios).",
+          "La aplicación de IA se centra más en la recomendación que en la tutoría personalizada."
+        ],
+        "pricing": "Freemium, suscripciones (Coursera Plus ~59 USD/mes), especializaciones y títulos de pago por separado (cientos a miles de USD).",
+        "valueProposition": "Accede a la educación de clase mundial de las mejores universidades y empresas para avanzar en tu carrera."
+      },
+      {
+        "name": "Udemy",
+        "description": "Marketplace de aprendizaje en línea con un catálogo masivo de cursos creados por instructores independientes sobre prácticamente cualquier tema.",
+        "marketShare": "Alta (20-30% del mercado de aprendizaje de habilidades en línea)",
+        "strengths": [
+          "Catálogo de cursos extremadamente amplio y diverso, incluyendo temas de nicho.",
+          "Precios muy asequibles debido a descuentos constantes.",
+          "Enfoque en habilidades prácticas y aplicables de inmediato.",
+          "Modelo de negocio sólido para empresas (Udemy Business)."
+        ],
+        "weaknesses": [
+          "Calidad de los cursos muy variable.",
+          "Los certificados de finalización tienen bajo valor curricular.",
+          "El modelo de 'comprar un curso' fomenta la acumulación en lugar de la finalización.",
+          "La IA se utiliza principalmente para la búsqueda y recomendación."
+        ],
+        "pricing": "Modelo de compra por curso (frecuentemente con descuentos de 10-20 USD). Modelo de suscripción para empresas.",
+        "valueProposition": "Aprende cualquier habilidad, a tu propio ritmo, con expertos del mundo real."
+      },
+      {
+        "name": "edX (2U)",
+        "description": "Plataforma MOOC fundada por Harvard y el MIT, ahora parte de 2U. Ofrece cursos de nivel universitario y programas de grado en línea.",
+        "marketShare": "Significativa (15-25% en el segmento MOOC premium)",
+        "strengths": [
+          "Credibilidad y respaldo de instituciones fundadoras de prestigio.",
+          "Fuerte enfoque en ciencias, tecnología, ingeniería y matemáticas (STEM).",
+          "Ofrece MicroMasters y programas de grado completos.",
+          "Rigor académico."
+        ],
+        "weaknesses": [
+          "Interfaz y experiencia de usuario a veces percibidas como menos modernas.",
+          "Menos cursos sobre habilidades creativas o de nicho en comparación con Udemy.",
+          "La integración con 2U está cambiando el modelo y la percepción de la marca."
+        ],
+        "pricing": "Auditoría gratuita de cursos. Pistas verificadas, programas y títulos de pago (similar a Coursera).",
+        "valueProposition": "Obtén acceso a la educación rigurosa de las mejores instituciones para transformar tu vida y tu carrera."
+      },
+      {
+        "name": "Khan Academy",
+        "description": "Organización sin fines de lucro que ofrece educación gratuita y de alta calidad, principalmente para el segmento K-12, con un fuerte componente de IA (Khanmigo).",
+        "marketShare": "Dominante en el segmento de educación K-12 gratuita en línea.",
+        "strengths": [
+          "Totalmente gratuito, alta confianza de marca.",
+          "Pionero en la implementación de tutores de IA conversacionales (Khanmigo).",
+          "Contenido estandarizado y de alta calidad para materias básicas.",
+          "Fuerte misión social que atrae a usuarios y donantes."
+        ],
+        "weaknesses": [
+          "Alcance limitado, principalmente enfocado en K-12 y preparación de exámenes.",
+          "No ofrece certificaciones profesionales.",
+          "El modelo sin fines de lucro puede limitar la velocidad de expansión a nuevos mercados."
+        ],
+        "pricing": "Gratis (basado en donaciones). Ciertas funciones de IA pueden tener un costo o lista de espera.",
+        "valueProposition": "Una educación gratuita de clase mundial para cualquier persona, en cualquier lugar."
+      }
+    ],
+    "indirectCompetitors": [
+      {
+        "name": "YouTube",
+        "description": "La mayor plataforma de video del mundo. Millones de horas de contenido educativo gratuito, aunque no estructurado. Es el principal competidor por el 'tiempo de aprendizaje' del usuario.",
+        "threat": "Alto"
+      },
+      {
+        "name": "Sistemas de Gestión de Aprendizaje (LMS) Corporativos",
+        "description": "Plataformas como Cornerstone, Docebo o TalentLMS, que se centran en la formación y el desarrollo de empleados dentro de las empresas (B2B). Si Eduplatform apunta al mercado corporativo, se convierten en competidores directos.",
+        "threat": "Medio"
+      },
+      {
+        "name": "Plataformas de nicho (Skillshare, DataCamp, etc.)",
+        "description": "Plataformas especializadas en verticales específicas como creatividad (Skillshare) o ciencia de datos (DataCamp). Ofrecen comunidades y herramientas especializadas.",
+        "threat": "Medio"
+      },
+      {
+        "name": "Educación Tradicional y Tutorías",
+        "description": "Universidades, centros de formación profesional y tutores privados. Compiten por el presupuesto de educación del usuario, ofreciendo acreditación formal e interacción humana.",
+        "threat": "Bajo"
+      }
+    ],
+    "competitiveMatrix": {
+      "factors": [
+        "Precio",
+        "Valor de la Certificación",
+        "Personalización con IA",
+        "Amplitud del Catálogo",
+        "Enfoque en Habilidades Prácticas"
+      ],
+      "ourPosition": "Eduplatform debe posicionarse en el cuadrante de 'Alto Valor'. Puede lograrlo ofreciendo un nivel de 'Personalización con IA' superior al de cualquier competidor actual, creando rutas de aprendizaje verdaderamente adaptativas y tutorías interactivas. El precio debería ser competitivo (modelo de suscripción similar a Coursera Plus pero con mayor valor percibido) para capturar cuota de mercado, enfocándose en la obtención de habilidades prácticas con certificaciones basadas en competencias validadas por IA."
+    },
+    "marketGaps": [
+      "Hiper-personalización adaptativa: Crear un currículo que se modifica en tiempo real según el rendimiento y los intereses del alumno, no solo recomendar cursos existentes.",
+      "Mentoría y feedback por IA: Ofrecer un 'tutor de IA' que revise proyectos (código, textos, diseños), dé feedback constructivo y simule escenarios profesionales.",
+      "Certificaciones basadas en competencias validadas por IA: Otorgar credenciales no por completar un curso, sino por demostrar una habilidad en un entorno práctico evaluado por IA, aumentando así el valor de la certificación.",
+      "Micro-aprendizaje corporativo 'just-in-time': Plataforma B2B que se integra con herramientas como Slack o Teams para ofrecer píldoras de conocimiento generadas por IA justo cuando un empleado las necesita."
+    ],
+    "dataSources": [
+      "Crunchbase / PitchBook (para análisis de financiación y tendencias de startups en EdTech).",
+      "SABI / Orbis / Capital IQ (para datos financieros de empresas públicas como 2U/Coursera).",
+      "HolonIQ (para informes de inteligencia de mercado específicos del sector EdTech).",
+      "SimilarWeb / SEMrush (para análisis de tráfico web y estrategias de marketing de competidores).",
+      "Web scraping (para analizar catálogos de cursos, precios y tecnologías utilizadas en las webs de los competidores).",
+      "App Store / Google Play (para analizar reseñas, descargas y características de las aplicaciones móviles de los competidores)."
+    ]
+  }
+}
+```

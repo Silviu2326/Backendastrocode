@@ -1,0 +1,208 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualizar Tendencia Histórica de una Métrica Clave",
+      "description": "Como creador de cursos, quiero seleccionar una métrica clave (ej. Tasa de finalización) y ver su evolución en un gráfico de líneas a lo largo del tiempo para identificar patrones, estacionalidad o el impacto de mis mejoras.",
+      "pageContext": "Analytics",
+      "affectedFiles": [
+        "app/analytics/page.jsx",
+        "components/analytics/CourseDetailAnalytics.jsx",
+        "components/analytics/MetricTrendChart.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "MetricTrendChart",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "CourseDetailAnalytics",
+            "from": "@/components/analytics/CourseDetailAnalytics"
+          },
+          {
+            "name": "MetricTrendChart",
+            "from": "@/components/analytics/MetricTrendChart"
+          }
+        ]
+      },
+      "logicData": "Al hacer clic en una tarjeta de métrica principal (ej. 'Tasa de Finalización'), se debe realizar una llamada a la API para obtener datos históricos de esa métrica específica para el curso seleccionado. Los datos deben estar agrupados por día, semana o mes, dependiendo del rango de fechas general seleccionado. El componente `MetricTrendChart` recibirá esta serie de datos para renderizar el gráfico.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "w-full h-64 p-4 bg-gray-50 rounded-lg shadow",
+        "colorCoding": "Utilizar un color primario de la marca para la línea del gráfico. Los puntos de datos deben ser visibles al pasar el cursor (hover). El fondo del gráfico debe ser neutro para no distraer."
+      },
+      "acceptanceCriteria": [
+        "Al hacer clic en una tarjeta de métrica en el panel detallado de un curso, se muestra un gráfico de líneas.",
+        "El eje X del gráfico representa el tiempo (según el filtro de fecha) y el eje Y representa el valor de la métrica seleccionada.",
+        "Al pasar el cursor sobre el gráfico, un tooltip debe mostrar la fecha y el valor exacto de la métrica para ese punto.",
+        "Debe haber un botón o un ícono para cerrar la vista de tendencia y volver al panel detallado principal."
+      ],
+      "additionalSuggestions": [
+        "Permitir al usuario superponer la tendencia de una segunda métrica para comparación.",
+        "Añadir una línea que represente el promedio de la métrica durante el período seleccionado."
+      ],
+      "aiEditorTask": "Implementa el componente MetricTrendChart usando una librería como Recharts o Chart.js. El componente debe aceptar una prop `data` que sea un array de objetos `{date: string, value: number}`. Asegúrate de que el gráfico sea responsivo.",
+      "priority": "Media",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Correlacionar Analíticas de Lección con Comentarios de Estudiantes",
+      "description": "Como creador de cursos, quiero ver los comentarios y valoraciones de los estudiantes directamente en la vista de análisis por lección para poder contextualizar los datos cuantitativos (como el tiempo de visualización o la tasa de abandono) con feedback cualitativo.",
+      "pageContext": "Analytics",
+      "affectedFiles": [
+        "components/analytics/LessonPerformanceChart.jsx",
+        "components/feedback/LessonCommentsModal.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "LessonCommentsModal",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "LessonPerformanceChart",
+            "from": "@/components/analytics/LessonPerformanceChart"
+          }
+        ]
+      },
+      "logicData": "En la tabla o gráfico de 'Rendimiento por Lección', cada fila de lección necesitará un dato adicional: el recuento de comentarios. Al hacer clic en el ícono de comentarios, se pasará el `lessonId` al `LessonCommentsModal`, que a su vez hará una llamada a la API para obtener todos los comentarios y valoraciones de esa lección específica.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex items-center gap-2 text-gray-500 hover:text-blue-600 cursor-pointer",
+        "colorCoding": "El ícono de comentarios puede ser de un color neutro (gris) y cambiar a un color de acento (azul) al pasar el cursor. El modal debe tener un fondo oscuro semitransparente (overlay)."
+      },
+      "acceptanceCriteria": [
+        "En la vista de 'Rendimiento por Lección', cada lección muestra un ícono de burbuja de chat con un número que indica la cantidad de comentarios.",
+        "Si no hay comentarios para una lección, el ícono puede estar deshabilitado o no mostrarse.",
+        "Al hacer clic en el ícono, se abre un modal que muestra una lista de los comentarios de los estudiantes para esa lección.",
+        "El modal con los comentarios se puede cerrar para volver a la vista de analíticas."
+      ],
+      "additionalSuggestions": [
+        "Dentro del modal, permitir filtrar los comentarios por valoración (ej. mostrar solo comentarios de 1-2 estrellas).",
+        "Añadir un enlace en cada comentario para ir al perfil del estudiante que lo escribió."
+      ],
+      "aiEditorTask": "Crea el componente `LessonCommentsModal`. Debe recibir un `lessonId` como prop. Dentro de un `useEffect`, realiza un fetch a un endpoint `/api/lessons/[lessonId]/comments` y muestra los resultados en una lista desplazable.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Establecer y Monitorear Metas de Rendimiento para un Curso",
+      "description": "Como creador de cursos, quiero establecer una meta numérica para una métrica clave (ej. 'alcanzar el 85% de tasa de finalización') y ver mi progreso actual hacia esa meta visualmente en el panel para mantenerme enfocado y motivado.",
+      "pageContext": "Analytics",
+      "affectedFiles": [
+        "components/analytics/CourseDetailAnalytics.jsx",
+        "components/analytics/MetricCard.jsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "MetricCard",
+            "from": "@/components/analytics/MetricCard"
+          }
+        ]
+      },
+      "logicData": "Se requiere una nueva entidad en la base de datos para almacenar las metas (`CourseMetricGoal` con `courseId`, `metricKey`, `targetValue`). Al renderizar una `MetricCard`, se debe buscar si existe una meta para esa métrica y curso. Si existe, se muestra el progreso. La acción de 'Establecer Meta' debe realizar una operación de creación/actualización (UPSERT) en la base de datos.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700",
+        "colorCoding": "Usar una barra de progreso dentro de la tarjeta de métrica. La barra debe ser verde si el progreso es >80% de la meta, amarilla entre 40-80%, y roja si es <40%."
+      },
+      "acceptanceCriteria": [
+        "En tarjetas de métricas seleccionadas (como Tasa de Finalización, Calificación Promedio), aparece un botón de 'Establecer Meta'.",
+        "Al hacer clic, un campo de entrada permite al usuario definir un valor numérico para la meta.",
+        "Una vez establecida, la tarjeta muestra visualmente el valor actual en relación con la meta (ej. '75% de 1000 inscritos' o una barra de progreso).",
+        "El usuario puede editar o eliminar una meta existente."
+      ],
+      "additionalSuggestions": [
+        "Enviar una notificación al creador cuando alcance una meta establecida.",
+        "Mostrar un pequeño indicador de tendencia (+/-) junto a la métrica para mostrar cómo ha cambiado desde el último período."
+      ],
+      "aiEditorTask": "Modifica el componente `MetricCard` para que muestre condicionalmente una barra de progreso si se le pasa una prop `goalValue`. La barra debe calcular el porcentaje de `currentValue / goalValue`. Añade un botón que active un modal o un campo de entrada para establecer la meta.",
+      "priority": "Media",
+      "estimatedHours": 16
+    },
+    {
+      "title": "Consultar Analíticas en Dispositivos Móviles",
+      "description": "Como creador de cursos, quiero poder acceder a la página de Analíticas desde mi teléfono móvil y ver una versión optimizada del panel principal para poder revisar rápidamente el rendimiento de mis cursos en cualquier lugar.",
+      "pageContext": "Analytics",
+      "affectedFiles": [
+        "app/analytics/page.jsx",
+        "components/analytics/OverallSummary.jsx",
+        "components/analytics/CourseDetailAnalytics.jsx",
+        "styles/globals.css"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "No se requiere nueva lógica de datos, pero sí una refactorización de los componentes existentes para que sean 'mobile-first'. Se deben usar media queries o clases de utilidad responsivas (como las de Tailwind CSS) para ajustar el diseño, tamaño de fuente y espaciado según el tamaño de la pantalla.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4",
+        "colorCoding": "No aplica un esquema de color nuevo, sino la correcta aplicación de breakpoints para reorganizar la UI. Los gráficos complejos pueden ser reemplazados por tarjetas con números clave en vistas móviles."
+      },
+      "acceptanceCriteria": [
+        "La página de Analíticas carga y es completamente visible en un viewport de 375px de ancho sin necesidad de hacer zoom o scroll horizontal.",
+        "Los contenedores (cards) que están en fila en escritorio se apilan verticalmente en móvil.",
+        "El texto es legible y los botones/enlaces son lo suficientemente grandes para ser presionados con el dedo.",
+        "Los gráficos complejos se simplifican o se ocultan en móvil, priorizando las métricas más importantes."
+      ],
+      "additionalSuggestions": [
+        "Considerar un menú de navegación inferior específico para móvil para acceder a las diferentes secciones de las analíticas.",
+        "Implementar 'lazy loading' para los gráficos para mejorar el rendimiento de carga en conexiones móviles."
+      ],
+      "aiEditorTask": "Revisa todos los componentes dentro de `components/analytics` y la página `app/analytics/page.jsx`. Usa los prefijos responsivos de Tailwind (ej. `sm:`, `md:`, `lg:`) para asegurar que el layout se adapte. Por ejemplo, cambia `flex-row` a `flex-col md:flex-row`.",
+      "priority": "Alta",
+      "estimatedHours": 14
+    },
+    {
+      "title": "Explorar el Progreso de un Estudiante Individual desde las Analíticas",
+      "description": "Como creador de cursos, quiero poder hacer clic en un segmento de estudiantes (ej. 'Estudiantes con bajo progreso') y ver una lista de esos individuos, y luego seleccionar uno para ver su ruta de aprendizaje detallada, para poder ofrecer ayuda personalizada.",
+      "pageContext": "Analytics",
+      "affectedFiles": [
+        "components/analytics/StudentSegmentDrilldown.jsx",
+        "app/analytics/page.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "StudentSegmentDrilldown",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "StudentSegmentDrilldown",
+            "from": "@/components/analytics/StudentSegmentDrilldown"
+          }
+        ]
+      },
+      "logicData": "Esta funcionalidad requiere que los puntos de datos en los gráficos (ej. una barra que representa 'estudiantes con <25% de progreso') contengan metadatos, como un identificador de segmento. Al hacer clic, se usa este identificador para llamar a una API (`/api/analytics/segments/[segmentId]/students`) que devuelve la lista de estudiantes. Cada estudiante en la lista debe tener un ID para enlazar a su perfil o página de progreso individual.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center",
+        "colorCoding": "El modal debe ser prominente, con un fondo de página oscurecido para enfocar la atención del usuario. La lista de estudiantes dentro del modal puede usar filas con colores alternos (`hover:bg-gray-100`) para mejorar la legibilidad."
+      },
+      "acceptanceCriteria": [
+        "Ciertas partes de los gráficos de analíticas (ej. barras, porciones de un pie chart) son clickeables.",
+        "Al hacer clic en una de estas partes, se abre un modal con una lista de los estudiantes que pertenecen a ese segmento.",
+        "La lista de estudiantes muestra como mínimo el nombre, avatar y una métrica clave (ej. progreso del curso).",
+        "Hacer clic en un estudiante de la lista redirige al usuario a la página de progreso detallado de ese estudiante."
+      ],
+      "additionalSuggestions": [
+        "Permitir al creador enviar un mensaje directamente a todos los estudiantes de un segmento desde el modal.",
+        "Añadir la capacidad de buscar y ordenar la lista de estudiantes dentro del modal."
+      ],
+      "aiEditorTask": "Implementa el componente `StudentSegmentDrilldown` como un modal que recibe una prop `segmentId`. Debe gestionar su propio estado de carga y de datos. Al montarse, debe hacer fetch de los estudiantes y mostrarlos en una lista. Cada elemento de la lista debe ser un componente `Link` de Next.js que apunte a `/students/[studentId]/progress`.",
+      "priority": "Alta",
+      "estimatedHours": 20
+    }
+  ]
+}
+```

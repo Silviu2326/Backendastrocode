@@ -1,0 +1,62 @@
+```json
+{
+  "pages": [
+    {
+      "name": "Página de Inicio (Landing Page)",
+      "description": "Página principal que presenta la propuesta de valor de NicheValidator. Incluye un 'hero section' con un CTA claro para probar la herramienta, descripción de funcionalidades clave (análisis de tendencias, volumen de búsqueda, etc.), testimonios y una explicación visual del proceso. Su objetivo es convertir visitantes en usuarios registrados.",
+      "route": "/",
+      "isEssential": true,
+      "priority": 10
+    },
+    {
+      "name": "Dashboard de Validación",
+      "description": "El corazón de la aplicación. Es la interfaz principal donde los usuarios, una vez logueados, introducen la idea de negocio o nicho a validar. Contiene el formulario de entrada y presenta un resumen inicial del 'puntaje de viabilidad' tras el análisis, sirviendo como punto de partida para explorar el informe completo.",
+      "route": "/dashboard",
+      "isEssential": true,
+      "priority": 10
+    },
+    {
+      "name": "Informe Detallado de Nicho",
+      "description": "Muestra el análisis completo y desglosado de un nicho. Visualiza con gráficos y datos detallados la información de Google Trends, volumen y competencia de palabras clave, menciones y sentimiento en redes sociales, y estimadores de mercado. Debe ser claro, accionable y permitir la exportación a PDF.",
+      "route": "/report/{reportId}",
+      "isEssential": true,
+      "priority": 9
+    },
+    {
+      "name": "Página de Precios y Planes",
+      "description": "Presenta los diferentes niveles de suscripción (ej. Gratuito, Pro, Business). Detalla claramente las características, límites (ej. número de informes/mes) y costos de cada plan para que el usuario pueda comparar y elegir el más adecuado. Conduce al flujo de pago.",
+      "route": "/pricing",
+      "isEssential": true,
+      "priority": 8
+    },
+    {
+      "name": "Historial de Informes",
+      "description": "Un área personal para el usuario donde se listan todos los informes de validación que ha generado. Permite revisar, comparar, eliminar o volver a ejecutar análisis pasados, funcionando como un archivo personal de investigación de mercado.",
+      "route": "/my-reports",
+      "isEssential": true,
+      "priority": 7
+    },
+    {
+      "name": "Flujo de Autenticación",
+      "description": "Conjunto de páginas y modales para gestionar el acceso del usuario. Incluye el formulario de registro (signup), inicio de sesión (login) y el proceso de recuperación de contraseña (forgot password). Es fundamental para la seguridad y la personalización de la experiencia.",
+      "route": "/login",
+      "isEssential": true,
+      "priority": 9
+    },
+    {
+      "name": "Configuración de Cuenta y Perfil",
+      "description": "Permite al usuario gestionar su información personal (nombre, email), cambiar su contraseña y administrar su suscripción (ver plan actual, historial de facturación, actualizar método de pago, cancelar suscripción).",
+      "route": "/account/settings",
+      "isEssential": true,
+      "priority": 6
+    },
+    {
+      "name": "Blog / Recursos",
+      "description": "Sección de contenido para atraer tráfico orgánico (SEO) y aportar valor a los emprendedores. Incluiría artículos sobre cómo encontrar nichos, validar ideas, estrategias de marketing y casos de estudio. Posiciona a la marca como una autoridad en el sector.",
+      "route": "/blog",
+      "isEssential": false,
+      "priority": 4
+    }
+  ]
+}
+```

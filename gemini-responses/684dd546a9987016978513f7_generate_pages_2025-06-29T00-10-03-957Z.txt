@@ -1,0 +1,69 @@
+```json
+{
+  "pages": [
+    {
+      "name": "Página de Inicio (Landing Page)",
+      "description": "Página principal de marketing que presenta la plataforma, sus beneficios clave (impulsados por IA), testimonios y llamadas a la acción claras para registrarse o explorar los cursos. Es el primer punto de contacto para nuevos visitantes.",
+      "route": "/",
+      "isEssential": true,
+      "priority": 10
+    },
+    {
+      "name": "Catálogo de Cursos",
+      "description": "Galería de todos los cursos disponibles en la plataforma. Permite a los usuarios buscar, filtrar (por categoría, nivel, popularidad) y obtener una vista previa de los cursos antes de registrarse.",
+      "route": "/cursos",
+      "isEssential": true,
+      "priority": 9
+    },
+    {
+      "name": "Detalle del Curso",
+      "description": "Página específica de un curso que muestra el temario completo, objetivos de aprendizaje, información del instructor, duración, precio y reseñas de otros estudiantes. El botón de inscripción es el principal CTA.",
+      "route": "/cursos/:slug",
+      "isEssential": true,
+      "priority": 8
+    },
+    {
+      "name": "Panel de Usuario (Dashboard)",
+      "description": "Página principal para usuarios autenticados. Muestra los cursos en los que está inscrito, su progreso, recomendaciones personalizadas generadas por la IA y un resumen de su actividad reciente.",
+      "route": "/dashboard",
+      "isEssential": true,
+      "priority": 10
+    },
+    {
+      "name": "Visor de Lección",
+      "description": "La interfaz principal de aprendizaje donde el usuario consume el contenido del curso (video, texto, etc.). Incluye funcionalidades de IA como un asistente para dudas, resúmenes automáticos y generación de cuestionarios.",
+      "route": "/aprender/:curso_slug/leccion/:leccion_id",
+      "isEssential": true,
+      "priority": 10
+    },
+    {
+      "name": "Registro de Usuario",
+      "description": "Formulario para que los nuevos usuarios creen una cuenta. Solicita información básica como nombre, correo electrónico y contraseña.",
+      "route": "/registro",
+      "isEssential": true,
+      "priority": 9
+    },
+    {
+      "name": "Inicio de Sesión",
+      "description": "Formulario para que los usuarios existentes accedan a su cuenta.",
+      "route": "/login",
+      "isEssential": true,
+      "priority": 9
+    },
+    {
+      "name": "Planes y Precios",
+      "description": "Página que detalla los diferentes niveles de suscripción, sus características, beneficios y costos. Permite a los usuarios comparar planes y seleccionar el que mejor se adapte a sus necesidades.",
+      "route": "/precios",
+      "isEssential": true,
+      "priority": 7
+    },
+    {
+      "name": "Perfil y Configuración",
+      "description": "Área privada donde el usuario puede editar su información de perfil, cambiar su contraseña, gestionar sus suscripciones, métodos de pago y configurar las preferencias de notificación.",
+      "route": "/cuenta/configuracion",
+      "isEssential": true,
+      "priority": 6
+    }
+  ]
+}
+```

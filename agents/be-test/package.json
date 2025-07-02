@@ -1,0 +1,40 @@
+{
+  "name": "@agents/be-test",
+  "version": "1.0.0",
+  "description": "Backend test generation agent",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix"
+  },
+  "dependencies": {
+    "bullmq": "^4.15.0",
+    "express": "^4.18.2",
+    "ioredis": "^5.3.2",
+    "typescript": "^5.3.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.54.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "ts-node": "^10.9.1"
+  },
+  "keywords": [
+    "backend",
+    "testing",
+    "generation",
+    "agent",
+    "microservice"
+  ],
+  "author": "Backend Agents Team",
+  "license": "MIT"
+}

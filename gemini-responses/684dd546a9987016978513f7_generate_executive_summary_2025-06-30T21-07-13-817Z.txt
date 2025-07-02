@@ -1,0 +1,15 @@
+```json
+{
+  "executiveSummary": {
+    "overview": "Eduplatform es una plataforma de educación potenciada por inteligencia artificial (IA) diseñada para revolucionar el aprendizaje personalizado y accesible. Busca capitalizar la creciente demanda de soluciones educativas online adaptativas y eficientes.",
+    "marketSize": "El mercado global de la educación online se estima en cientos de miles de millones de dólares, con proyecciones de crecimiento significativas impulsadas por la digitalización y la necesidad de aprendizaje continuo. Dentro de este, el segmento de soluciones educativas basadas en IA representa una oportunidad considerable y en rápido crecimiento.",
+    "marketGap": "Existe una brecha significativa en el mercado entre las plataformas de aprendizaje online tradicionales y la capacidad de ofrecer una experiencia verdaderamente personalizada y adaptativa. Muchas plataformas carecen de la inteligencia para identificar las fortalezas y debilidades individuales de los estudiantes, y de ajustar el contenido y el ritmo de aprendizaje en consecuencia.  Además, la accesibilidad a la educación de calidad sigue siendo un desafío, especialmente en regiones con recursos limitados.",
+    "opportunity": "Eduplatform tiene la oportunidad de convertirse en un líder en el mercado de la educación online impulsada por IA al ofrecer una experiencia de aprendizaje altamente personalizada, eficiente y accesible. La IA permitirá adaptar el contenido, ofrecer retroalimentación instantánea y predecir el rendimiento del estudiante, maximizando su potencial de aprendizaje. Esto representa una ventaja competitiva significativa y el potencial de generar ingresos recurrentes a través de suscripciones y licencias.",
+    "keyPoints": [
+      "Personalización del aprendizaje a través de IA para mejorar la retención y el rendimiento.",
+      "Escalabilidad global para llegar a un amplio público y generar ingresos recurrentes.",
+      "Potencial de disrupción en el mercado de la educación online al ofrecer una solución más efectiva y atractiva."
+    ]
+  }
+}
+```

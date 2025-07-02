@@ -1,0 +1,76 @@
+```json
+{
+  "pages": [
+    {
+      "name": "Homepage",
+      "description": "Página principal con presentación de la plataforma, sus funcionalidades clave y un llamado a la acción para registrarse o iniciar sesión.",
+      "route": "/",
+      "isEssential": true,
+      "priority": 1
+    },
+    {
+      "name": "Login",
+      "description": "Página de inicio de sesión para usuarios registrados.",
+      "route": "/login",
+      "isEssential": true,
+      "priority": 2
+    },
+    {
+      "name": "Signup",
+      "description": "Página de registro para nuevos usuarios.",
+      "route": "/signup",
+      "isEssential": true,
+      "priority": 3
+    },
+    {
+      "name": "Course Catalog",
+      "description": "Página que muestra el catálogo de cursos disponibles, con filtros y opciones de búsqueda.",
+      "route": "/courses",
+      "isEssential": true,
+      "priority": 4
+    },
+    {
+      "name": "Course Details",
+      "description": "Página con información detallada de un curso específico, incluyendo descripción, programa, profesor, reseñas y botón de inscripción.",
+      "route": "/courses/:courseId",
+      "isEssential": true,
+      "priority": 5
+    },
+    {
+      "name": "Learning Dashboard",
+      "description": "Panel de control del usuario donde se muestra el progreso en los cursos, recomendaciones personalizadas y acceso a recursos.",
+      "route": "/dashboard",
+      "isEssential": true,
+      "priority": 6
+    },
+    {
+      "name": "Course Content",
+      "description": "Página que muestra el contenido del curso, incluyendo videos, lecturas, ejercicios y evaluaciones.",
+      "route": "/courses/:courseId/content/:lessonId",
+      "isEssential": true,
+      "priority": 7
+    },
+    {
+      "name": "Profile",
+      "description": "Página de perfil del usuario donde puede editar su información personal, preferencias y notificaciones.",
+      "route": "/profile",
+      "isEssential": true,
+      "priority": 8
+    },
+    {
+      "name": "About Us",
+      "description": "Página con información sobre la plataforma, el equipo y la misión.",
+      "route": "/about",
+      "isEssential": false,
+      "priority": 9
+    },
+    {
+      "name": "Contact Us",
+      "description": "Página con formulario de contacto para consultas y soporte.",
+      "route": "/contact",
+      "isEssential": false,
+      "priority": 10
+    }
+  ]
+}
+```

@@ -1,0 +1,31 @@
+{
+  "timestamp": 1750009104358,
+  "data": {
+    "models": [
+      {
+        "name": "Configuracion",
+        "fileName": "configuracion.model.js",
+        "content": "const mongoose = require('mongoose');\nconst { Schema } = mongoose;\n\n// --- Sub-esquemas para mejorar la organización ---\n\nconst AccesibilidadSchema = new Schema({\n  modoOscuro: {\n    type: Boolean,\n    default: false\n  },\n  altoContraste: {\n    type: Boolean,\n    default: false\n  },\n  tamañoFuente: {\n    type: String,\n    enum: ['pequeño', 'normal', 'grande', 'muy-grande'],\n    default: 'normal'\n  },\n  reducirAnimaciones: {\n    type: Boolean,\n    default: false\n  },\n  lecturaAutomatica: {\n    type: Boolean,\n    default: true\n  }\n}, { _id: false }); // _id: false para que no se cree un ObjectId para el subdocumento\n\nconst NotificacionesSchema = new Schema({\n  email: {\n    type: Boolean,\n    default: true\n  },\n  push: {\n    type: Boolean,\n    default: true\n  },\n  frecuencia: {\n    type: String,\n    enum: ['diario', 'semanal', 'mensual', 'nunca'],\n    default: 'diario'\n  }\n}, { _id: false });\n\n// --- Esquema Principal de Configuración ---\n\nconst ConfiguracionSchema = new Schema({\n  // Relación 1-a-1 con el usuario. Clave foránea.\n  usuario: {\n    type: Schema.Types.ObjectId,\n    ref: 'User', // Asume que existe un modelo 'User'\n    required: [true, 'El ID de usuario es obligatorio.'],\n    unique: true, // Garantiza que cada usuario solo tenga un documento de configuración\n  },\n  idioma: {\n    type: String,\n    enum: {\n      values: ['es', 'en', 'pt', 'fr'],\n      message: 'El idioma {VALUE} no es soportado.'\n    },\n    default: 'es',\n    required: true,\n  },\n  profundidad: {\n    type: String,\n    enum: {\n      values: ['basica', 'media', 'avanzada', 'experta'],\n      message: 'El nivel de profundidad {VALUE} no es válido.'\n    },\n    default: 'media',\n    required: true,\n  },\n  ttsVelocidad: {\n    type: Number,\n    min: [0.5, 'La velocidad TTS no puede ser menor a 0.5.'],\n    max: [2.0, 'La velocidad TTS no puede ser mayor a 2.0.'],\n    default: 1.0,\n    required: true,\n  },\n  formatosExportacion: {\n    type: [String],\n    default: ['pdf', 'notion'],\n  },\n  conectores: {\n    type: [String],\n    default: ['notion', 'calendar'],\n  },\n  accesibilidad: {\n    type: AccesibilidadSchema,\n    default: () => ({}) // Función para asegurar que se cree el objeto por defecto\n  },\n  notificaciones: {\n    type: NotificacionesSchema,\n    default: () => ({})\n  },\n  // Campo para Soft-Delete\n  deletedAt: {\n    type: Date,\n    default: null,\n  },\n}, {\n  // Opciones del esquema\n  timestamps: true, // Agrega createdAt y updatedAt automáticamente\n  toJSON: { virtuals: true },\n  toObject: { virtuals: true },\n});\n\n// --- Índices para optimizar consultas ---\n\n// Índice principal para buscar la configuración de un usuario, incluyendo los eliminados lógicamente.\nConfiguracionSchema.index({ usuario: 1, deletedAt: 1 });\n\n// --- Middleware (Hooks) ---\n\n// Hook PRE-SAVE: Lógica de negocio antes de guardar.\nConfiguracionSchema.pre('save', function (next) {\n  // Si las notificaciones por email y push están desactivadas, forzar la frecuencia a 'nunca'.\n  if (this.isModified('notificaciones')) {\n    if (!this.notificaciones.email && !this.notificaciones.push) {\n      this.notificaciones.frecuencia = 'nunca';\n    }\n  }\n  next();\n});\n\n// Hooks PRE-FIND: Implementación de Soft-Delete.\n// Se aplica a todas las operaciones que empiezan con 'find' para excluir documentos eliminados.\nconst excludeDeleted = function (next) {\n  this.where({ deletedAt: null });\n  next();\n};\nConfiguracionSchema.pre('find', excludeDeleted);\nConfiguracionSchema.pre('findOne', excludeDeleted);\nConfiguracionSchema.pre('findOneAndUpdate', excludeDeleted);\nConfiguracionSchema.pre('countDocuments', excludeDeleted);\n\n\n// --- Métodos de Instancia ---\n\n// Método para realizar un soft-delete en un documento específico\nConfiguracionSchema.methods.softDelete = function () {\n  this.deletedAt = new Date();\n  return this.save();\n};\n\n// Método para restaurar un documento eliminado lógicamente\nConfiguracionSchema.methods.restore = function () {\n  this.deletedAt = null;\n  return this.save();\n};\n\n\n// --- Métodos Estáticos ---\n\n// Método para encontrar la configuración de un usuario o crearla si no existe.\nConfiguracionSchema.statics.findOrCreateForUser = async function (userId) {\n  if (!userId) {\n    throw new Error('Se requiere un ID de usuario para buscar o crear la configuración.');\n  }\n  let config = await this.findOne({ usuario: userId });\n\n  if (!config) {\n    config = await this.create({ usuario: userId });\n  }\n\n  return config;\n};\n\n\nconst Configuracion = mongoose.model('Configuracion', ConfiguracionSchema);\n\nmodule.exports = Configuracion;\n",
+        "description": "Modelo Mongoose para la configuración global del usuario. Este esquema está vinculado a un modelo 'User' a través de una referencia obligatoria y única, estableciendo una relación uno a uno. Incorpora sub-esquemas para 'accesibilidad' y 'notificaciones', mejorando la estructura. Implementa validaciones robustas (enum, min/max), valores por defecto y timestamps automáticos. Incluye una estrategia de 'soft-delete' a través del campo 'deletedAt' y middleware que excluye automáticamente los documentos eliminados de las consultas. Proporciona un método estático 'findOrCreateForUser' para simplificar la lógica de obtención/creación de configuraciones y métodos de instancia como 'softDelete' y 'restore' para gestionar el ciclo de vida del documento."
+      }
+    ],
+    "controllers": [],
+    "routes": [],
+    "services": [],
+    "middleware": [],
+    "config": [],
+    "utils": [],
+    "tests": []
+  },
+  "metadata": {
+    "promptLength": 5142,
+    "options": {
+      "type": "models",
+      "framework": "express",
+      "includeDatabase": true,
+      "apiFile": "Configuracion"
+    },
+    "generatedAt": "2025-06-15T17:38:24.358Z",
+    "size": 5669
+  }
+}

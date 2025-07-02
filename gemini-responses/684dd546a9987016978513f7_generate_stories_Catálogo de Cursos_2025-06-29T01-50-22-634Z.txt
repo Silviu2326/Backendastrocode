@@ -1,0 +1,65 @@
+Claro, a pesar de que el código proporcionado corresponde a la página de visualización de un curso individual y no al catálogo, he generado 5 nuevas historias de usuario para funcionalidades adicionales que podrían agregarse a **esta página de curso**, basándome en los componentes y la estructura existentes.
+
+```json
+[
+  {
+    "title": "Toma de Apuntes Personal por Lección",
+    "description": "Como estudiante, quiero tomar y guardar apuntes privados en cada lección para poder consolidar mi aprendizaje y consultar mis notas más tarde.",
+    "acceptanceCriteria": [
+      "Debe existir una pestaña 'Mis Apuntes' junto a 'Contenido' en la interfaz del curso.",
+      "Al seleccionar una lección, el área de apuntes muestra las notas guardadas para esa lección específica.",
+      "Los apuntes se guardan automáticamente a medida que escribo, sin necesidad de un botón de 'Guardar'.",
+      "Puedo exportar todos mis apuntes del curso a un único archivo de texto o PDF."
+    ],
+    "priority": "Alta",
+    "estimatedHours": 20
+  },
+  {
+    "title": "Preguntas y Respuestas por Lección",
+    "description": "Como estudiante, quiero hacer preguntas específicas sobre una lección y ver las preguntas de otros para poder aclarar mis dudas y aprender de la comunidad.",
+    "acceptanceCriteria": [
+      "Debajo del contenido de cada lección (en 'LeccionViewer'), debe haber una sección de 'Preguntas y Respuestas'.",
+      "Puedo escribir y enviar una nueva pregunta relacionada con la lección actual.",
+      "Puedo ver las preguntas de otros usuarios y las respuestas proporcionadas por el instructor u otros estudiantes.",
+      "Puedo votar positivamente las preguntas o respuestas útiles para que destaquen."
+    ],
+    "priority": "Alta",
+    "estimatedHours": 32
+  },
+  {
+    "title": "Descarga de Recursos para Estudio sin Conexión",
+    "description": "Como estudiante con conexión a internet intermitente, quiero descargar los materiales de la lección para poder estudiar en cualquier momento y lugar.",
+    "acceptanceCriteria": [
+      "Cada lección de video en 'NavegadorLecciones' tiene un ícono de descarga.",
+      "Al hacer clic en el ícono, puedo descargar el video de la lección en mi dispositivo.",
+      "Las lecciones que son principalmente texto (artículos) tienen una opción para 'Descargar como PDF'."
+    ],
+    "priority": "Media",
+    "estimatedHours": 25
+  },
+  {
+    "title": "Búsqueda de Contenido Dentro del Curso",
+    "description": "Como estudiante, quiero una barra de búsqueda que funcione dentro del curso actual para encontrar rápidamente en qué lección se mencionó un concepto específico.",
+    "acceptanceCriteria": [
+      "Hay una barra de búsqueda visible en la parte superior del 'NavegadorLecciones'.",
+      "Al escribir un término, la lista de lecciones se filtra en tiempo real para mostrar solo aquellas cuyo título o contenido coincide con la búsqueda.",
+      "Los resultados de la búsqueda resaltan el término buscado en el título de la lección.",
+      "Hacer clic en un resultado de búsqueda me lleva directamente a esa lección."
+    ],
+    "priority": "Media",
+    "estimatedHours": 18
+  },
+  {
+    "title": "Establecer Recordatorios de Estudio",
+    "description": "Como un estudiante ocupado, quiero establecer recordatorios de estudio para este curso para mantenerme al día y crear un hábito de aprendizaje.",
+    "acceptanceCriteria": [
+      "Hay un botón con un ícono de campana o calendario en la página del curso.",
+      "Al hacer clic, puedo configurar recordatorios diarios o semanales (día y hora).",
+      "El sistema me enviará una notificación (por email o push) a la hora establecida para recordarme que debo estudiar.",
+      "Puedo ver y administrar mis recordatorios activos para este curso."
+    ],
+    "priority": "Baja",
+    "estimatedHours": 15
+  }
+]
+```
