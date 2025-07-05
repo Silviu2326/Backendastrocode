@@ -1,0 +1,162 @@
+```json
+{
+  "softwares": [
+    {
+      "name": "CoachFlow",
+      "description": "Plataforma todo-en-uno que ayuda a los entrenadores personales a gestionar su negocio completo, desde la programación y pagos hasta la creación de planes. Incluye una aplicación móvil de marca blanca para sus clientes, mejorando la marca del entrenador y el compromiso del cliente.",
+      "targetClient": "Entrenadores personales independientes y pequeños estudios de fitness (1-5 entrenadores) que buscan profesionalizar su servicio, ahorrar tiempo administrativo y ofrecer una experiencia premium y de marca a sus clientes. Son tecnológicamente competentes pero necesitan una solución fácil de usar.",
+      "pages": [
+        {
+          "name": "Dashboard",
+          "description": "Vista general de métricas clave: ingresos, clientes activos y citas próximas.",
+          "route": "/dashboard"
+        },
+        {
+          "name": "Clientes",
+          "description": "Gestión de perfiles de clientes, seguimiento del progreso, historial y notas privadas.",
+          "route": "/clients"
+        },
+        {
+          "name": "Calendario",
+          "description": "Programación de sesiones individuales y grupales, gestión de disponibilidad.",
+          "route": "/calendar"
+        },
+        {
+          "name": "Constructor de Planes",
+          "description": "Creación y asignación de plantillas de entrenamiento y nutrición personalizadas.",
+          "route": "/plans"
+        },
+        {
+          "name": "Facturación",
+          "description": "Creación de facturas, gestión de suscripciones y seguimiento de pagos.",
+          "route": "/billing"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$30,000 - $60,000 USD",
+        "monthlyRevenuePotential": "$7,500 - $15,000 USD",
+        "breakEvenTime": "18-24 meses",
+        "marketSize": "Global, con más de 1.5 millones de entrenadores certificados en mercados clave.",
+        "competitionLevel": "Alto"
+      }
+    },
+    {
+      "name": "PlanGenius AI",
+      "description": "Un asistente inteligente de IA que reduce drásticamente el tiempo que los entrenadores dedican a crear planes de entrenamiento y nutrición. Al introducir los datos del cliente, la IA genera programas optimizados y personalizados que el entrenador puede revisar, ajustar y enviar.",
+      "targetClient": "Entrenadores con una base de clientes considerable (15+) que dedican muchas horas a la programación. Valoran la eficiencia y buscan herramientas para escalar su negocio de coaching online sin sacrificar la calidad de los planes.",
+      "pages": [
+        {
+          "name": "Dashboard",
+          "description": "Acceso rápido a la generación de planes y a los perfiles de clientes recientes.",
+          "route": "/"
+        },
+        {
+          "name": "Perfiles de Cliente",
+          "description": "Introducción de datos del cliente: objetivos, métricas, equipo disponible y restricciones.",
+          "route": "/clients"
+        },
+        {
+          "name": "Generador AI",
+          "description": "Interfaz principal para generar, visualizar y editar los planes de entrenamiento y nutrición.",
+          "route": "/generator"
+        },
+        {
+          "name": "Biblioteca de Ejercicios",
+          "description": "Base de datos visual de ejercicios con filtros para personalizar los planes generados.",
+          "route": "/library"
+        },
+        {
+          "name": "Integraciones",
+          "description": "Conexión con calendarios y otras plataformas de gestión para exportar planes.",
+          "route": "/integrations"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$20,000 - $40,000 USD",
+        "monthlyRevenuePotential": "$6,000 - $10,000 USD",
+        "breakEvenTime": "12-18 meses",
+        "marketSize": "Subconjunto grande del mercado de entrenadores enfocado en coaching online y eficiencia.",
+        "competitionLevel": "Medio"
+      }
+    },
+    {
+      "name": "FitLead Pro",
+      "description": "Plataforma de automatización de marketing creada para que los entrenadores atraigan y conviertan nuevos clientes. Ofrece un constructor de landing pages, gestión de leads y secuencias de email automatizadas, todo con plantillas específicas para el nicho fitness.",
+      "targetClient": "Entrenadores nuevos o en fase de crecimiento que tienen dificultades con el marketing y las ventas. Son expertos en fitness pero novatos en desarrollo de negocio y necesitan un sistema guiado y fácil de usar para aumentar su cartera de clientes.",
+      "pages": [
+        {
+          "name": "Dashboard",
+          "description": "Resumen del rendimiento de las campañas: leads generados, tasa de conversión y fuentes.",
+          "route": "/dashboard"
+        },
+        {
+          "name": "Landing Pages",
+          "description": "Constructor de páginas de aterrizaje con plantillas de alta conversión para captar leads.",
+          "route": "/pages"
+        },
+        {
+          "name": "Gestión de Leads",
+          "description": "Base de datos de contactos con etiquetas y estado para seguir el embudo de ventas.",
+          "route": "/leads"
+        },
+        {
+          "name": "Automatizaciones",
+          "description": "Creación de flujos de correo electrónico automáticos para nutrir a los nuevos leads.",
+          "route": "/automations"
+        },
+        {
+          "name": "Analíticas",
+          "description": "Informes detallados sobre el rendimiento de cada campaña y canal de marketing.",
+          "route": "/analytics"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$15,000 - $25,000 USD",
+        "monthlyRevenuePotential": "$4,000 - $8,000 USD",
+        "breakEvenTime": "9-15 meses",
+        "marketSize": "Entrenadores que inician su carrera o buscan transicionar al coaching online.",
+        "competitionLevel": "Bajo"
+      }
+    },
+    {
+      "name": "Check-in Flow",
+      "description": "Software especializado en automatizar el proceso de check-in semanal o quincenal con los clientes. Permite a los entrenadores crear formularios de seguimiento personalizados que se envían automáticamente, centralizando las respuestas, fotos de progreso y feedback en un solo lugar.",
+      "targetClient": "Entrenadores de coaching online con un alto volumen de clientes que necesitan un sistema eficiente para monitorear el progreso y mantener la comunicación sin pasar horas revisando emails y mensajes de chat dispersos. Valoran la organización y la comunicación asíncrona.",
+      "pages": [
+        {
+          "name": "Dashboard",
+          "description": "Muro con los últimos check-ins recibidos y clientes que tienen seguimientos pendientes.",
+          "route": "/dashboard"
+        },
+        {
+          "name": "Clientes",
+          "description": "Lista de clientes con su frecuencia de check-in asignada e historial completo.",
+          "route": "/clients"
+        },
+        {
+          "name": "Constructor de Formularios",
+          "description": "Crea y personaliza las plantillas de formularios de check-in con diferentes tipos de preguntas.",
+          "route": "/forms"
+        },
+        {
+          "name": "Respuestas de Check-in",
+          "description": "Bandeja de entrada centralizada para revisar, comparar y responder a los check-ins de los clientes.",
+          "route": "/check-ins"
+        },
+        {
+          "name": "Configuración de Automatización",
+          "description": "Define la frecuencia y el día de envío automático de los formularios para cada cliente.",
+          "route": "/settings/automation"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$10,000 - $20,000 USD",
+        "monthlyRevenuePotential": "$3,000 - $7,000 USD",
+        "breakEvenTime": "8-16 meses",
+        "marketSize": "Mercado de nicho enfocado en entrenadores online que ya tienen un sistema de gestión.",
+        "competitionLevel": "Bajo"
+      }
+    }
+  ]
+}
+```

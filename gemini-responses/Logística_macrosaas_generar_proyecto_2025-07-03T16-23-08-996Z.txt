@@ -1,0 +1,152 @@
+```json
+{
+  "softwares": [
+    {
+      "name": "OmniTrace",
+      "description": "Una plataforma de orquestación y visibilidad de la cadena de suministro de extremo a extremo. Integra datos de ERPs, WMS y TMS para ofrecer un seguimiento unificado en tiempo real, análisis predictivo de disrupciones y automatización de la gestión de excepciones, convirtiendo datos dispares en inteligencia accionable.",
+      "targetClient": "Grandes empresas manufactureras y retailers globales con cadenas de suministro complejas y multinacionales. Necesitan mitigar riesgos, reducir costes por demoras y mejorar la resiliencia y la comunicación con el cliente final.",
+      "pages": [
+        {
+          "name": "Dashboard Central",
+          "description": "Vista global de KPIs, alertas activas y estado de la cadena de suministro.",
+          "route": "/"
+        },
+        {
+          "name": "Mapa de Envíos en Vivo",
+          "description": "Seguimiento visual de todos los activos y envíos en un mapa interactivo con filtros por ruta, estado y transportista.",
+          "route": "/shipments/map"
+        },
+        {
+          "name": "Análisis de Inventario",
+          "description": "Visibilidad del inventario en tránsito, en almacenes y en centros de distribución para prevenir roturas de stock.",
+          "route": "/inventory/analytics"
+        },
+        {
+          "name": "Gestión de Excepciones",
+          "description": "Panel para identificar, gestionar y resolver automáticamente las desviaciones del plan (retrasos, aduanas, daños).",
+          "route": "/exceptions"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$750,000 - $1,500,000 USD",
+        "monthlyRevenuePotential": "$150,000 - $500,000 USD",
+        "breakEvenTime": "24-36 meses",
+        "marketSize": "Global, >$15B USD (Mercado de Visibilidad de Cadena de Suministro)",
+        "competitionLevel": "Alto"
+      }
+    },
+    {
+      "name": "KineticOS",
+      "description": "Plataforma de optimización de operaciones logísticas impulsada por IA. Unifica la gestión de flotas y almacenes, utilizando machine learning para optimizar rutas, predecir mantenimientos, automatizar la asignación de tareas en el almacén y pronosticar la demanda de mano de obra.",
+      "targetClient": "Grandes operadores logísticos (3PL/4PL) y empresas de e-commerce con flotas y centros de distribución propios a gran escala. Su objetivo es reducir drásticamente los costes operativos (combustible, mano de obra) y maximizar la utilización de activos.",
+      "pages": [
+        {
+          "name": "Dashboard de Operaciones",
+          "description": "Resumen en tiempo real del rendimiento de la flota y el almacén con KPIs clave.",
+          "route": "/dashboard"
+        },
+        {
+          "name": "Motor de Optimización de Rutas",
+          "description": "Planifica y re-rutea dinámicamente vehículos basándose en tráfico, entregas y consumo de combustible.",
+          "route": "/routes/optimizer"
+        },
+        {
+          "name": "Gestión Inteligente de Almacén",
+          "description": "Visualización del layout, recomendaciones de slotting y asignación de tareas a operarios o robots.",
+          "route": "/warehouse/management"
+        },
+        {
+          "name": "Mantenimiento Predictivo",
+          "description": "Panel que monitoriza la salud de los vehículos y genera alertas de mantenimiento antes de que ocurran fallos.",
+          "route": "/fleet/maintenance"
+        },
+        {
+          "name": "Análisis y Pronóstico",
+          "description": "Informes de rendimiento y modelos predictivos para la demanda futura y la planificación de recursos.",
+          "route": "/analytics/forecasting"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$1,000,000 - $2,500,000 USD",
+        "monthlyRevenuePotential": "$200,000 - $700,000 USD",
+        "breakEvenTime": "30-48 meses",
+        "marketSize": "Global, >$20B USD (Mercado combinado de TMS & WMS)",
+        "competitionLevel": "Medio"
+      }
+    },
+    {
+      "name": "VerdeRoute",
+      "description": "Suite de software para la contabilidad de carbono y la logística sostenible. Calcula, gestiona y reporta las emisiones de CO2e de la cadena de suministro, ofreciendo optimizaciones para reducir el impacto ambiental y generando informes para auditorías ESG.",
+      "targetClient": "Empresas Fortune 500 y grandes corporaciones con objetivos de sostenibilidad y obligaciones de reporte ESG. Necesitan una herramienta precisa y automatizada para cumplir con la regulación y mejorar su imagen de marca.",
+      "pages": [
+        {
+          "name": "Dashboard de Emisiones",
+          "description": "Visualización de la huella de carbono total, desglosada por modo de transporte, ruta y unidad de negocio.",
+          "route": "/"
+        },
+        {
+          "name": "Modelado de Escenarios",
+          "description": "Permite comparar el impacto en costes y emisiones de diferentes rutas o modos de transporte.",
+          "route": "/scenarios/optimizer"
+        },
+        {
+          "name": "Generador de Informes ESG",
+          "description": "Creación de informes personalizables y conformes a estándares como GRI o SASB.",
+          "route": "/reports/esg"
+        },
+        {
+          "name": "Mercado de Compensación",
+          "description": "Módulo para comprar créditos de carbono verificados para compensar emisiones inevitables.",
+          "route": "/offsetting"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$450,000 - $900,000 USD",
+        "monthlyRevenuePotential": "$80,000 - $350,000 USD",
+        "breakEvenTime": "18-30 meses",
+        "marketSize": "Global, >$10B USD (Mercado de Software de Contabilidad de Carbono, en rápido crecimiento)",
+        "competitionLevel": "Medio"
+      }
+    },
+    {
+      "name": "ReVerseOS",
+      "description": "Plataforma integral para la gestión de logística inversa y devoluciones a nivel empresarial. Automatiza el ciclo completo, desde el portal del cliente hasta la inspección, disposición inteligente (reacondicionar, liquidar, reciclar) y la reconciliación financiera para maximizar la recuperación de valor.",
+      "targetClient": "Grandes retailers multicanal y marcas de e-commerce líderes. Su necesidad principal es transformar el costoso proceso de devoluciones en un centro de recuperación de beneficios y mejora de la experiencia del cliente.",
+      "pages": [
+        {
+            "name": "Dashboard de Devoluciones",
+            "description": "Métricas clave sobre el volumen de devoluciones, costes, valor recuperado y tiempos de ciclo.",
+            "route": "/dashboard"
+        },
+        {
+            "name": "Gestión de RMA",
+            "description": "Panel para crear, aprobar y seguir todas las autorizaciones de devolución de mercancía.",
+            "route": "/rma"
+        },
+        {
+            "name": "Módulo de Disposición",
+            "description": "Motor de reglas para guiar al personal del almacén sobre la mejor acción para cada artículo devuelto.",
+            "route": "/disposition"
+        },
+        {
+            "name": "Canales de Reventa",
+            "description": "Integración con mercados secundarios y liquidadores para vender inventario recuperado.",
+            "route": "/resale"
+        },
+        {
+            "name": "Portal del Cliente",
+            "description": "Configurador para el portal de autoservicio de devoluciones que verán los clientes finales.",
+            "route": "/customer-portal/settings"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$600,000 - $1,200,000 USD",
+        "monthlyRevenuePotential": "$100,000 - $400,000 USD",
+        "breakEvenTime": "20-32 meses",
+        "marketSize": "Global, >$8B USD (Mercado de Software de Gestión de Devoluciones)",
+        "competitionLevel": "Medio"
+      }
+    }
+  ]
+}
+```

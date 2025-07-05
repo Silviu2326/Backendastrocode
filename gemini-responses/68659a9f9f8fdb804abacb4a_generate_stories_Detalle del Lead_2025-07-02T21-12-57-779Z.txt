@@ -1,0 +1,274 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Editar información de contacto del lead",
+      "description": "Como agente inmobiliario, quiero editar la información de contacto de un lead directamente en su página de detalle para mantener sus datos actualizados y precisos sin tener que navegar a otra página.",
+      "pageContext": "Detalle del Lead",
+      "affectedFiles": [
+        "src/pages/leads/[id].jsx",
+        "src/components/leads/LeadDetailCard.jsx",
+        "src/components/modals/EditLeadModal.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "EditLeadModal",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "LeadDetailCard",
+            "from": "@/components/leads/LeadDetailCard"
+          },
+          {
+            "name": "useForm",
+            "from": "react-hook-form"
+          }
+        ]
+      },
+      "logicData": "Al hacer clic en 'Editar' en la tarjeta de detalles del lead, se abrirá un modal (EditLeadModal) pre-poblado con la información actual del lead. El formulario usará react-hook-form para la validación de campos (email, teléfono). Al guardar, se enviará una petición PATCH a la API '/api/leads/{id}' con los datos actualizados. Tras una respuesta exitosa, el modal se cerrará y los datos en LeadDetailCard se actualizarán, ya sea mediante una nueva petición de datos o actualizando el estado local.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "modal modal-open, input input-bordered, btn btn-primary, btn-ghost",
+        "colorCoding": "Usar colores primarios de la marca para botones de acción (Guardar) y colores neutros para cancelación."
+      },
+      "acceptanceCriteria": [
+        "Debe existir un botón o icono de 'Editar' junto a la información de contacto del lead.",
+        "Al hacer clic en 'Editar', se debe abrir un modal con un formulario para editar nombre, email y teléfono.",
+        "El formulario debe mostrar los datos actuales del lead en los campos correspondientes.",
+        "El campo de email debe tener validación para asegurar que es un formato de correo válido.",
+        "El botón 'Guardar' solo se activa si los datos son válidos y han cambiado.",
+        "Al guardar, los cambios se reflejan en la página de detalle sin necesidad de recargarla.",
+        "Un botón 'Cancelar' o un clic fuera del modal debe cerrar el formulario sin guardar los cambios."
+      ],
+      "additionalSuggestions": [
+        "Mostrar una notificación de tipo 'toast' al guardar los cambios con éxito.",
+        "Considerar añadir un campo para una segunda línea telefónica o un contacto alternativo."
+      ],
+      "aiEditorTask": "Crea el componente 'EditLeadModal' que contenga un formulario para actualizar el nombre, email y teléfono de un lead. Implementa la lógica de estado para mostrar/ocultar el modal y la función para enviar la petición PATCH al endpoint '/api/leads/{id}'.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Registrar nueva interacción con el lead",
+      "description": "Como agente inmobiliario, quiero registrar una nueva interacción (llamada, email, nota) en el historial del lead para tener un registro completo y cronológico de todas las comunicaciones.",
+      "pageContext": "Detalle del Lead",
+      "affectedFiles": [
+        "src/pages/leads/[id].jsx",
+        "src/components/interactions/InteractionTimeline.jsx",
+        "src/components/interactions/AddInteractionForm.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AddInteractionForm",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "InteractionTimeline",
+            "from": "@/components/interactions/InteractionTimeline"
+          }
+        ]
+      },
+      "logicData": "Se necesita un formulario (AddInteractionForm) que permita seleccionar el tipo de interacción (dropdown: Llamada, Email, Nota) y escribir un texto descriptivo (textarea). Al enviar, se realizará una petición POST a '/api/leads/{id}/interactions' con el tipo, contenido, y el ID del agente. La respuesta exitosa debe provocar una actualización del componente InteractionTimeline para mostrar la nueva interacción en la parte superior.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "textarea textarea-bordered, select select-bordered, timeline, timeline-item",
+        "colorCoding": "Cada tipo de interacción en el timeline puede tener un icono y un color distintivo (ej. azul para email, verde para llamada, amarillo para nota)."
+      },
+      "acceptanceCriteria": [
+        "Debe haber una sección en la página para añadir una nueva interacción.",
+        "El formulario debe permitir seleccionar el tipo de interacción: Llamada, Email, Nota.",
+        "Debe haber un área de texto para detallar el contenido de la interacción.",
+        "Al guardar, la nueva interacción debe aparecer inmediatamente en la parte superior del historial (timeline).",
+        "Cada entrada en el historial debe mostrar el tipo de interacción, la fecha, la hora y el agente que la registró.",
+        "El área de texto para la descripción debe ser obligatoria."
+      ],
+      "additionalSuggestions": [
+        "Permitir adjuntar archivos a las notas.",
+        "Usar timestamps relativos (ej. 'hace 2 horas') además de la fecha absoluta."
+      ],
+      "aiEditorTask": "Implementa el componente 'AddInteractionForm' con un dropdown para el tipo de interacción y un textarea para el contenido. Crea la función que maneje el POST a '/api/leads/{id}/interactions' y actualice el estado del componente padre para reflejar la nueva interacción en el 'InteractionTimeline'.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Cambiar estado del lead en el embudo de ventas",
+      "description": "Como agente inmobiliario, quiero cambiar el estado de un lead dentro del embudo de ventas para reflejar su progreso en el proceso de venta de forma visual e inmediata.",
+      "pageContext": "Detalle del Lead",
+      "affectedFiles": [
+        "src/pages/leads/[id].jsx",
+        "src/components/leads/LeadFunnelStatus.jsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "LeadFunnelStatus",
+            "from": "@/components/leads/LeadFunnelStatus"
+          }
+        ]
+      },
+      "logicData": "El componente 'LeadFunnelStatus' mostrará las diferentes etapas del embudo (ej. Nuevo, Contactado, Calificado, Propuesta, Cierre). La etapa actual del lead estará resaltada. El usuario podrá hacer clic en otra etapa para cambiar el estado. Esto disparará una petición PATCH a '/api/leads/{id}' con el nuevo 'status'. Opcionalmente, se puede usar una librería de drag-and-drop para una interfaz más rica.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "steps, step, step-primary",
+        "colorCoding": "La etapa activa debe tener un color primario fuerte. Las etapas pasadas un color más tenue y las futuras un color gris neutro."
+      },
+      "acceptanceCriteria": [
+        "La página debe mostrar visualmente el embudo de ventas y la posición actual del lead.",
+        "El usuario debe poder hacer clic en una etapa futura o anterior para cambiar el estado.",
+        "Al intentar cambiar el estado, debe aparecer un modal de confirmación.",
+        "Tras la confirmación, el cambio de estado se guarda y la vista del embudo se actualiza.",
+        "El cambio de estado debe registrarse automáticamente como una nueva entrada en el historial de interacciones (ej. 'Estado cambiado de Contactado a Calificado')."
+      ],
+      "additionalSuggestions": [
+        "Implementar la funcionalidad de arrastrar y soltar (drag-and-drop) para cambiar la etapa.",
+        "Mostrar tooltips con la descripción de cada etapa al pasar el ratón por encima."
+      ],
+      "aiEditorTask": "Modifica el componente 'LeadFunnelStatus' para hacerlo interactivo. Al hacer clic en una etapa, muestra un modal de confirmación. Si el usuario confirma, envía una petición PATCH para actualizar el estado del lead y registra el cambio en el historial de interacciones.",
+      "priority": "Alta",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Asociar una propiedad de interés al lead",
+      "description": "Como agente inmobiliario, quiero buscar y añadir una propiedad de interés al perfil de un lead para mantener un registro de sus preferencias y facilitar el seguimiento.",
+      "pageContext": "Detalle del Lead",
+      "affectedFiles": [
+        "src/pages/leads/[id].jsx",
+        "src/components/properties/InterestedPropertiesList.jsx",
+        "src/components/modals/AddPropertyModal.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AddPropertyModal",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "InterestedPropertiesList",
+            "from": "@/components/properties/InterestedPropertiesList"
+          }
+        ]
+      },
+      "logicData": "Un botón 'Añadir Propiedad' abrirá un modal (AddPropertyModal). Este modal contendrá un campo de búsqueda que consultará el endpoint '/api/properties?search=...' para encontrar propiedades. Los resultados se mostrarán en una lista. Al seleccionar una propiedad, se enviará una petición POST a '/api/leads/{id}/properties' con el ID de la propiedad. La lista de propiedades de interés del lead se actualizará en la UI.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "modal, input input-bordered, list-group, card bg-base-100 shadow-xl",
+        "colorCoding": "Usar tarjetas (cards) para mostrar las propiedades en la lista y en los resultados de búsqueda, con una imagen y detalles clave."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un botón para 'Añadir Propiedad' en la sección de propiedades de interés.",
+        "Al hacer clic, se abre un modal de búsqueda de propiedades.",
+        "El usuario puede buscar propiedades por ID, dirección o nombre.",
+        "Los resultados de la búsqueda se muestran en tiempo real a medida que el usuario escribe.",
+        "El usuario puede seleccionar una propiedad de los resultados para asociarla al lead.",
+        "La propiedad recién asociada aparece en la lista de 'Propiedades de Interés' sin recargar la página.",
+        "No se puede añadir una propiedad que ya está en la lista."
+      ],
+      "additionalSuggestions": [
+        "Permitir desvincular una propiedad del lead directamente desde la lista.",
+        "Los elementos de la lista de propiedades de interés deberían ser enlaces que lleven a la página de detalle de esa propiedad."
+      ],
+      "aiEditorTask": "Crea el componente 'AddPropertyModal'. Dentro, implementa una barra de búsqueda que haga peticiones a un endpoint de propiedades. Muestra los resultados y permite al usuario seleccionar uno para asociarlo al lead actual. Actualiza la 'InterestedPropertiesList' tras la asociación.",
+      "priority": "Media",
+      "estimatedHours": 14
+    },
+    {
+      "title": "Filtrar historial de interacciones",
+      "description": "Como gerente de ventas, quiero filtrar el historial de interacciones por tipo (llamadas, emails, notas) o por agente para revisar rápidamente comunicaciones específicas y auditar el trabajo del equipo.",
+      "pageContext": "Detalle del Lead",
+      "affectedFiles": [
+        "src/pages/leads/[id].jsx",
+        "src/components/interactions/InteractionTimeline.jsx",
+        "src/components/interactions/InteractionFilter.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "InteractionFilter",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "InteractionTimeline",
+            "from": "@/components/interactions/InteractionTimeline"
+          }
+        ]
+      },
+      "logicData": "Se creará un componente 'InteractionFilter' con dos dropdowns: uno para el tipo de interacción y otro para los agentes (obtenidos de la API '/api/users'). La lógica de filtrado se aplicará en el lado del cliente sobre la lista de interacciones ya cargada. Al cambiar un filtro, el estado que contiene la lista de interacciones a mostrar en 'InteractionTimeline' se actualizará.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex gap-4 mb-4, select select-bordered, btn btn-sm",
+        "colorCoding": "Los filtros activos pueden tener un color de fondo sutil para indicar que la lista está siendo filtrada."
+      },
+      "acceptanceCriteria": [
+        "Sobre el historial de interacciones, deben aparecer controles de filtro.",
+        "Un filtro debe permitir seleccionar uno o varios tipos de interacción (Llamada, Email, Nota).",
+        "Otro filtro debe permitir seleccionar un agente específico para ver solo sus interacciones.",
+        "La lista de interacciones se actualiza automáticamente al aplicar o cambiar un filtro.",
+        "Debe haber un botón 'Limpiar Filtros' que restaure la vista completa del historial.",
+        "Si no hay interacciones que coincidan con el filtro, se debe mostrar un mensaje claro (ej. 'No hay interacciones que coincidan con los filtros seleccionados')."
+      ],
+      "additionalSuggestions": [
+        "Añadir un filtro por rango de fechas para acotar aún más la búsqueda.",
+        "Guardar los filtros seleccionados en la URL (query params) para que se puedan compartir vistas filtradas."
+      ],
+      "aiEditorTask": "Crea el componente 'InteractionFilter' con los dropdowns para tipo de interacción y agente. Implementa la lógica de estado en la página 'Detalle del Lead' para filtrar la lista de interacciones que se pasa como prop a 'InteractionTimeline' basándose en los valores seleccionados en los filtros.",
+      "priority": "Media",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Programar una tarea de seguimiento para el lead",
+      "description": "Como agente inmobiliario, quiero programar una tarea de seguimiento asociada a un lead para organizar mi trabajo y no olvidar acciones importantes como llamadas o reuniones.",
+      "pageContext": "Detalle del Lead",
+      "affectedFiles": [
+        "src/pages/leads/[id].jsx",
+        "src/components/tasks/AddTaskForm.jsx",
+        "src/components/tasks/UpcomingTasksList.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AddTaskForm",
+            "type": "component"
+          },
+          {
+            "name": "UpcomingTasksList",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Se añadirá una nueva sección 'Tareas' en la página. Contendrá un botón para abrir un formulario (AddTaskForm) y una lista de tareas pendientes (UpcomingTasksList). El formulario permitirá definir un título, tipo de tarea, y fecha/hora de vencimiento. Al guardar, se hará un POST a '/api/tasks' con los datos de la tarea y el ID del lead asociado. La lista de tareas se actualizará para mostrar la nueva tarea.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "card bg-base-200 p-4, input input-bordered, datepicker, flex justify-between items-center",
+        "colorCoding": "Las tareas vencidas pueden mostrarse en rojo. Las tareas para hoy en amarillo/naranja."
+      },
+      "acceptanceCriteria": [
+        "Debe existir una sección de 'Tareas' en la página de detalle del lead.",
+        "Un botón 'Añadir Tarea' debe estar visible en esta sección.",
+        "El formulario de creación de tareas debe incluir campos para título, tipo de tarea (llamada, email, reunión), y fecha/hora de vencimiento.",
+        "Las tareas creadas deben aparecer en una lista dentro de la sección 'Tareas'.",
+        "Cada tarea en la lista debe mostrar su título, fecha de vencimiento y un checkbox para marcarla como completada.",
+        "Al marcar una tarea como completada, esta debe actualizar su estado visualmente (ej. tachada) o desaparecer de la lista de pendientes."
+      ],
+      "additionalSuggestions": [
+        "Integrar las tareas con un sistema de notificaciones para recordar al agente cuando una tarea está por vencer.",
+        "Permitir asignar la tarea a otro agente del equipo."
+      ],
+      "aiEditorTask": "Crea los componentes 'AddTaskForm' y 'UpcomingTasksList'. Implementa la lógica para crear una nueva tarea (POST a /api/tasks) y mostrar la lista de tareas asociadas a un lead. Añade la funcionalidad para marcar una tarea como completada (PATCH a /api/tasks/{taskId}).",
+      "priority": "Media",
+      "estimatedHours": 16
+    }
+  ]
+}
+```

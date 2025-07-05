@@ -414,154 +414,191 @@ Responde **solo** con el JSON.
 };
 const generarProyectoConIA = async (req, res) => {
   try {
-    console.log('🚀 Iniciando generación de proyectos con Gemini');
+    console.log("🚀 Iniciando generación de proyectos con Gemini");
 
     // ────────────────── 1. Validar parámetros ──────────────────
     const { nicho, tipo } = req.body;
-    
+
     if (!nicho || !tipo) {
       return res.status(400).json({
-        error: 'Parámetros faltantes',
-        message: 'Se requieren los campos nicho y tipo'
+        error: "Parámetros faltantes",
+        message: "Se requieren los campos nicho y tipo",
       });
     }
 
-    const tiposValidos = ['microsaas', 'macrosaas', 'saas'];
+    const tiposValidos = ["microsaas", "macrosaas", "saas"];
     if (!tiposValidos.includes(tipo.toLowerCase())) {
       return res.status(400).json({
-        error: 'Tipo inválido',
-        message: 'El tipo debe ser: microsaas, macrosaas o saas'
+        error: "Tipo inválido",
+        message: "El tipo debe ser: microsaas, macrosaas o saas",
       });
     }
 
     // ────────────────── 2. Validar API-KEY ──────────────────
     if (!process.env.GEMINI_API_KEY) {
       return res.status(500).json({
-        error: 'Configuración faltante',
-        message: 'La API key de Google Gemini no está configurada'
+        error: "Configuración faltante",
+        message: "La API key de Google Gemini no está configurada",
       });
     }
 
     // ────────────────── 3. Instanciar cliente ───────────────
     const client = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-    // ────────────────── 4. Construir prompt ─────────────────
+    // ────────────────── 4. Prompt ────────────────────────────
+    // (Ya no dependemos de la etiqueta <PENSAMIENTO>; Gemini nos dará
+    // el resumen de pensamiento automáticamente cuando se lo pidamos.)
     const prompt = `
-Eres un experto en desarrollo de software y análisis de mercado. Basándote en el nicho "${nicho}" y el tipo de negocio "${tipo}", genera una lista de 3-5 ideas de software viables.
+Eres un experto en desarrollo de software y análisis de mercado.
 
-**Información proporcionada:**
-- Nicho: ${nicho}
-- Tipo de negocio: ${tipo}
+Basándote en el nicho "${nicho}" y el tipo de negocio "${tipo}",
+genera **exactamente** 3-5 ideas de software como JSON válido con este esquema:
 
-**Instrucciones:**
-1. Analiza el nicho y tipo de negocio
-2. Propón entre 3-5 ideas de software específicas para ese nicho
-3. Para cada software incluye:
-   - name: Nombre del software
-   - description: Descripción detallada (2-3 líneas)
-   - targetClient: Cliente ideal (perfil demográfico y necesidades)
-   - pages: Array de 4-6 páginas principales que necesitaría
-   - financialReport: Objeto con análisis financiero básico
-
-**Formato de respuesta (JSON válido):**
 {
   "softwares": [
     {
-      "name": "Nombre del Software",
-      "description": "Descripción detallada del software y su propósito",
-      "targetClient": "Perfil del cliente ideal, demografía y necesidades específicas",
+      "name": "",
+      "description": "",
+      "targetClient": "",
       "pages": [
-        {
-          "name": "Nombre de la página",
-          "description": "Descripción de la funcionalidad",
-          "route": "/ruta"
-        }
+        { "name": "", "description": "", "route": "" }
       ],
       "financialReport": {
-        "estimatedDevelopmentCost": "$X,XXX - $X,XXX USD",
-        "monthlyRevenuePotential": "$X,XXX - $X,XXX USD",
-        "breakEvenTime": "X-X meses",
-        "marketSize": "Tamaño estimado del mercado",
-        "competitionLevel": "Bajo/Medio/Alto"
+        "estimatedDevelopmentCost": "",
+        "monthlyRevenuePotential": "",
+        "breakEvenTime": "",
+        "marketSize": "",
+        "competitionLevel": ""
       }
     }
   ]
 }
 
-Responde **solo** con el JSON válido.
+No añadas explicaciones ni texto fuera del bloque JSON.
     `.trim();
+
+    console.log(`📊 Entrada: Nicho="${nicho}", Tipo="${tipo}"`);
+    console.log("💭 Presupuesto de pensamiento: 2048 tokens (incluyeThoughts)");
 
     // ────────────────── 5. Llamar a Gemini ──────────────────
     const result = await client.models.generateContent({
-      model: 'gemini-2.5-pro-preview-06-05',
-      contents: prompt
+      model: "gemini-2.5-pro",
+      contents: prompt,
+      /* ⭐ ESTA ES LA CLAVE:
+         thinkingConfig debe ir DENTRO de 'config' y con includeThoughts=true */
+      config: {
+        thinkingConfig: {
+          thinkingBudget: 2048,
+          includeThoughts: true,
+        },
+      },
     });
-    const responseText = result.text;
-    await writeGeminiResponseToFile(responseText, 'generar_proyecto', `${nicho}_${tipo}`);
 
-    // ────────────────── 6. Parsear respuesta ────────────────
+    // ────────────────── 6. Separar pensamiento y respuesta ──
+    let thoughts = "";
+    let answer = "";
+
+    const parts = result.candidates?.[0]?.content?.parts ?? [];
+    if (!parts.length) {
+      throw new Error("Respuesta vacía o estructura inesperada en Gemini");
+    }
+
+    for (const part of parts) {
+      if (!part.text) continue;
+      if (part.thought) {
+        thoughts += part.text;
+      } else {
+        answer += part.text;
+      }
+    }
+
+    console.log("🧠 Pensamiento Gemini:\n", thoughts || "(sin pensamiento)");
+    console.log("📄 Respuesta (truncada 300 car.):\n", answer.slice(0, 300), "...");
+
+    await writeGeminiResponseToFile(
+      thoughts + "\n\n" + answer,
+      "generar_proyecto",
+      `${nicho}_${tipo}`
+    );
+
+    // ────────────────── 7. Parsear JSON de la respuesta ────
     let generatedSoftwares;
     try {
-      const jsonString = (responseText.match(/\{[\s\S]*\}/) || [])[0] || responseText;
-      generatedSoftwares = JSON.parse(jsonString);
+      // extraemos el primer bloque {...}
+      const jsonRaw = (answer.match(/\{[\s\S]*\}/) ?? [])[0];
+      generatedSoftwares = JSON.parse(jsonRaw);
 
       if (!Array.isArray(generatedSoftwares.softwares)) {
-        throw new Error('Formato de respuesta inválido');
+        throw new Error("Propiedad 'softwares' ausente o no es un array");
       }
+
+      console.log(
+        `✅ JSON parseado. ${generatedSoftwares.softwares.length} software(s) generado(s)`
+      );
     } catch (err) {
-      console.error('❌ Error al parsear JSON de Gemini:', err);
+      console.error("❌ Error al parsear JSON:", err);
       return res.status(500).json({
-        error: 'Error al procesar respuesta',
-        message: 'La respuesta de Gemini no tiene el formato JSON esperado'
+        error: "Error al procesar respuesta",
+        message:
+          "La respuesta de Gemini no contiene JSON válido con el esquema esperado",
       });
     }
 
-    // ────────────────── 7. Formatear softwares ──────────────
-    const formattedSoftwares = generatedSoftwares.softwares.map((software, idx) => ({
-      id: uuidv4(),
-      name: software.name ?? `Software ${idx + 1}`,
-      description: software.description ?? '',
-      targetClient: software.targetClient ?? 'Cliente no especificado',
-      pages: Array.isArray(software.pages) ? software.pages.map((page, pageIdx) => ({
+    // ────────────────── 8. Formatear entidades ──────────────
+    const formattedSoftwares = generatedSoftwares.softwares.map(
+      (software, idx) => ({
         id: uuidv4(),
-        name: page.name ?? `Página ${pageIdx + 1}`,
-        description: page.description ?? '',
-        route: page.route ?? `/${(page.name || `page-${pageIdx+1}`).toLowerCase().replace(/\s+/g,'-')}`,
-        createdAt: new Date()
-      })) : [],
-      financialReport: {
-        estimatedDevelopmentCost: software.financialReport?.estimatedDevelopmentCost ?? 'No estimado',
-        monthlyRevenuePotential: software.financialReport?.monthlyRevenuePotential ?? 'No estimado',
-        breakEvenTime: software.financialReport?.breakEvenTime ?? 'No estimado',
-        marketSize: software.financialReport?.marketSize ?? 'No estimado',
-        competitionLevel: software.financialReport?.competitionLevel ?? 'No estimado'
-      },
-      createdAt: new Date(),
-      generatedByAI: true
-    }));
+        name: software.name ?? `Software ${idx + 1}`,
+        description: software.description ?? "",
+        targetClient: software.targetClient ?? "Cliente no especificado",
+        pages: Array.isArray(software.pages)
+          ? software.pages.map((page, pageIdx) => ({
+              id: uuidv4(),
+              name: page.name ?? `Página ${pageIdx + 1}`,
+              description: page.description ?? "",
+              route:
+                page.route ??
+                `/${(page.name || `page-${pageIdx + 1}`)
+                  .toLowerCase()
+                  .replace(/\s+/g, "-")}`,
+              createdAt: new Date(),
+            }))
+          : [],
+        financialReport: {
+          estimatedDevelopmentCost:
+            software.financialReport?.estimatedDevelopmentCost ?? "No estimado",
+          monthlyRevenuePotential:
+            software.financialReport?.monthlyRevenuePotential ?? "No estimado",
+          breakEvenTime:
+            software.financialReport?.breakEvenTime ?? "No estimado",
+          marketSize: software.financialReport?.marketSize ?? "No estimado",
+          competitionLevel:
+            software.financialReport?.competitionLevel ?? "No estimado",
+        },
+        createdAt: new Date(),
+        generatedByAI: true,
+      })
+    );
 
-    // ────────────────── 8. Responder ────────────────────────
-    res.json({
-      message: 'Proyectos de software generados exitosamente con Gemini',
+    // ────────────────── 9. Responder ────────────────────────
+    return res.json({
+      message: "Proyectos generados exitosamente con Gemini",
       nicho,
       tipo,
-      generatedSoftwares: formattedSoftwares,
       totalSoftwares: formattedSoftwares.length,
+      generatedSoftwares: formattedSoftwares,
       metadata: {
         generatedAt: new Date(),
-        aiModel: 'gemini-2.5-pro-preview-06-05',
-        basedOn: {
-          nicho,
-          tipo
-        }
-      }
+        aiModel: "gemini-2.5-pro",
+        thinkingBudget: 2048,
+        thinkingVisible: Boolean(thoughts),
+      },
     });
-
   } catch (error) {
-    console.error('❌ Error general en generarProyectoConIA:', error);
-    res.status(500).json({
-      error: 'Error interno del servidor',
-      message: 'Error al generar proyectos con Gemini'
+    console.error("❌ Error general en generarProyectoConIA:", error);
+    return res.status(500).json({
+      error: "Error interno del servidor",
+      message: "Error al generar proyectos con Gemini",
     });
   }
 };
@@ -3972,6 +4009,486 @@ const saveUserStoriesToPage = async (req, res) => {
   }
 };
 
+
+// @desc    Generate and save 6 user stories for all pages in a project
+// @route   POST /api/projects/:projectId/generate-complete-user-stories
+// @access  Private
+const generateUserStoriesForProjectCompleto = async (req, res) => {
+  try {
+    console.log('🚀 Iniciando generación completa de historias de usuario para todo el proyecto');
+
+    // ────────────────── 1. Extraer parámetros ──────────────────
+    const { projectId } = req.params;
+    const numUserStories = 6; // Fijo en 6 como solicitado
+    
+    console.log('🔍 generateUserStoriesForProjectCompleto - Parámetros recibidos:', { projectId, numUserStories });
+    console.log('👤 Usuario autenticado:', req.user?.userId);
+
+    // ────────────────── 2. Cargar proyecto ──────────────────
+    const project = await Project.findOne({
+      _id: projectId,
+      userId: req.user.userId,
+      isActive: true
+    });
+    
+    if (!project) {
+      return res.status(404).json({
+        error: 'Proyecto no encontrado',
+        message: 'El proyecto no existe o no tienes permisos para modificarlo'
+      });
+    }
+
+    console.log('✅ Proyecto encontrado:', project.name);
+    console.log('📄 Páginas encontradas:', project.pages.length);
+
+    if (!project.pages || project.pages.length === 0) {
+      return res.status(400).json({
+        error: 'Sin páginas',
+        message: 'El proyecto no tiene páginas para generar historias de usuario'
+      });
+    }
+
+    // ────────────────── 3. Validar API-KEY ──────────────────
+    if (!process.env.GEMINI_API_KEY) {
+      return res.status(500).json({
+        error: 'Configuración faltante',
+        message: 'La API key de Google Gemini no está configurada'
+      });
+    }
+
+    // ────────────────── 4. Instanciar cliente ───────────────
+    const client = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
+    // ────────────────── 5. Construir información de estructura de archivos ─────────────────
+    const fileStructureInfo = project.fileStructure ? `
+**Estructura de Archivos del Proyecto**
+${project.fileStructure.folders && project.fileStructure.folders.length > 0 
+  ? `\nCarpetas:\n${project.fileStructure.folders.map(folder => 
+      `- ${folder.path || folder.name} (${folder.type})`
+    ).join('\n')}`
+  : ''
+}
+${project.fileStructure.files && project.fileStructure.files.length > 0 
+  ? `\nArchivos:\n${project.fileStructure.files.map(file => 
+      `- ${file.path || file.name} (${file.type})${file.description ? ': ' + file.description : ''}`
+    ).join('\n')}`
+  : ''
+}
+${project.fileStructure.generatedAt ? `\nEstructura generada: ${project.fileStructure.generatedAt}` : ''}
+` : '';
+
+    // ────────────────── 6. Procesar cada página ──────────────────
+    const results = [];
+    const allNewFilesToAdd = [];
+    const allNewFoldersToAdd = [];
+    let totalGeneratedStories = 0;
+
+    for (let pageIndex = 0; pageIndex < project.pages.length; pageIndex++) {
+      const page = project.pages[pageIndex];
+      console.log(`\n📖 Procesando página ${pageIndex + 1}/${project.pages.length}: ${page.name}`);
+
+      try {
+        // ────────────────── 6.1. Construir prompt para esta página ─────────────────
+        const prompt = `
+Eres un experto en desarrollo web y análisis de requerimientos. Basándote en la siguiente información de la página y la estructura del proyecto, genera historias de usuario detalladas.
+
+**Información de la Página**
+- Nombre: ${page.name}
+- Descripción: ${page.description || 'No especificada'}
+- Ruta: ${page.route || 'No especificada'}
+- Proyecto: ${project.name}
+- Stack Tecnológico: ${project.techStack?.join(', ') || 'No especificado'}
+${fileStructureInfo}
+**Parámetros de Generación**
+- Número de historias solicitadas: ${numUserStories}
+- Tipo específico: General
+
+**Historias de Usuario Existentes (NO duplicar):**
+${page.userStories && page.userStories.length > 0 
+  ? page.userStories.map((story, index) => `${index + 1}. ${story.title}: ${story.description}`).join('\n')
+  : 'Ninguna historia existente'
+}
+
+**Instrucciones**
+1. Genera exactamente ${numUserStories} historias de usuario NUEVAS y DIFERENTES a las existentes.
+2. Cada historia debe seguir el formato: "Como [tipo de usuario], quiero [funcionalidad] para [beneficio]".
+3. Incluye criterios de aceptación específicos y realistas.
+4. Asigna prioridad (Alta, Media, Baja) y estimación de horas.
+5. Enfócate en funcionalidades que un usuario final puede realizar en esta página.
+6. Utiliza la estructura de archivos del proyecto para sugerir archivos afectados y componentes relevantes.
+
+**Formato de respuesta (JSON válido)**
+{
+  "userStories": [
+    {
+      "title": "Título descriptivo de la historia",
+      "description": "Como [usuario], quiero [funcionalidad] para [beneficio]",
+      "pageContext": "${page.name}",
+      "affectedFiles": ["archivo1.jsx", "archivo2.js"],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ComponenteNuevo",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "ComponenteExistente",
+            "from": "./components/ComponenteExistente"
+          }
+        ]
+      },
+      "logicData": "Descripción de la lógica y datos necesarios",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "clase1 clase2 clase3",
+        "colorCoding": "Esquema de colores sugerido"
+      },
+      "acceptanceCriteria": ["Criterio 1", "Criterio 2", "Criterio 3"],
+      "additionalSuggestions": ["Sugerencia 1", "Sugerencia 2"],
+      "aiEditorTask": "Instrucción específica para el editor IA",
+      "priority": "Alta|Media|Baja",
+      "estimatedHours": 8
+    }
+  ]
+}
+
+Responde **solo** con el JSON.
+        `.trim();
+
+        // ────────────────── 6.2. Llamar a Gemini ──────────────────
+        const result = await client.models.generateContent({
+          model: 'gemini-2.5-pro-preview-06-05',
+          contents: prompt
+        });
+        const responseText = result.text;
+        await writeGeminiResponseToFile(responseText, `generate_stories_${page.name}`, projectId);
+
+        // ────────────────── 6.3. Parsear respuesta ────────────────
+        let generatedUserStories;
+        try {
+          const jsonString = (responseText.match(/\{[\s\S]*\}/) || [])[0] || responseText;
+          generatedUserStories = JSON.parse(jsonString);
+
+          if (!Array.isArray(generatedUserStories.userStories)) {
+            throw new Error('Formato de respuesta inválido');
+          }
+        } catch (err) {
+          console.error(`❌ Error al parsear JSON de Gemini para página ${page.name}:`, err);
+          results.push({
+            pageId: page.id,
+            pageName: page.name,
+            success: false,
+            error: 'Error al procesar respuesta de Gemini',
+            generatedStories: 0
+          });
+          continue;
+        }
+
+        // ────────────────── 6.4. Formatear historias ──────────────
+        const priorityMap = {
+          'alta': 'high',
+          'media': 'medium', 
+          'baja': 'low'
+        };
+
+        // Función para validar y mapear tipos de componentes
+        const validateComponentType = (type) => {
+          const validTypes = ['component', 'hook', 'service', 'util', 'module'];
+          const typeMap = {
+            'page': 'component',
+            'utility': 'util',
+            'utilities': 'util',
+            'helper': 'util',
+            'helpers': 'util'
+          };
+          
+          const normalizedType = (type || '').toLowerCase();
+          
+          // Si es un tipo válido, devolverlo
+          if (validTypes.includes(normalizedType)) {
+            return normalizedType;
+          }
+          
+          // Si está en el mapa de conversión, usar el mapeo
+          if (typeMap[normalizedType]) {
+            return typeMap[normalizedType];
+          }
+          
+          // Por defecto, devolver 'component'
+          return 'component';
+        };
+
+        // Función para truncar texto a un límite específico
+        const truncateText = (text, maxLength) => {
+          if (!text || typeof text !== 'string') return '';
+          return text.length > maxLength ? text.substring(0, maxLength - 3) + '...' : text;
+        };
+
+        const formattedUserStories = generatedUserStories.userStories.map((story, idx) => ({
+          id: uuidv4(),
+          title: story.title ?? `Historia ${idx + 1}`,
+          description: story.description ?? '',
+          pageContext: story.pageContext ?? page.name,
+          affectedFiles: Array.isArray(story.affectedFiles) ? story.affectedFiles : [],
+          componentsModules: {
+            create: Array.isArray(story.componentsModules?.create) 
+              ? story.componentsModules.create.map(comp => ({
+                  name: comp.name || comp,
+                  type: validateComponentType(comp.type)
+                }))
+              : [],
+            import: Array.isArray(story.componentsModules?.import) 
+              ? story.componentsModules.import.map(imp => ({
+                  name: imp.name || imp,
+                  from: imp.from || ''
+                }))
+              : []
+          },
+          logicData: story.logicData ?? '',
+          styling: {
+            framework: story.styling?.framework ?? 'tailwind',
+            classes: typeof story.styling?.classes === 'string' 
+              ? story.styling.classes 
+              : Array.isArray(story.styling?.classes) 
+                ? story.styling.classes.join(' ') 
+                : '',
+            colorCoding: truncateText(story.styling?.colorCoding ?? '', 200)
+          },
+          acceptanceCriteria: Array.isArray(story.acceptanceCriteria) ? story.acceptanceCriteria : [],
+          additionalSuggestions: Array.isArray(story.additionalSuggestions) ? story.additionalSuggestions : [],
+          aiEditorTask: story.aiEditorTask ?? '',
+          priority: priorityMap[(story.priority || '').toLowerCase()] || 'medium',
+          status: 'pending',
+          estimatedHours: Math.min(40, Math.max(1, Number(story.estimatedHours) || 5))
+        }));
+
+        // ────────────────── 6.5. Procesar archivos y carpetas para esta página ──────────────────
+        const newFilesToAdd = [];
+        const newFoldersToAdd = [];
+
+        formattedUserStories.forEach(story => {
+          // Procesar archivos a crear
+          if (story.componentsModules.create && story.componentsModules.create.length > 0) {
+            story.componentsModules.create.forEach(comp => {
+              const componentName = comp.name;
+              const componentType = comp.type || 'component';
+              
+              // Generar nombre de página para la carpeta
+              const pageName = page.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+              
+              // Determinar la ruta y extensión según el tipo
+              let filePath = '';
+              let folderPath = '';
+              let fileExtension = '.tsx';
+              
+              switch (componentType) {
+                case 'component':
+                  folderPath = `src/features/${pageName}/components`;
+                  filePath = `src/features/${pageName}/components/${componentName}.tsx`;
+                  break;
+                case 'hook':
+                  folderPath = `src/features/${pageName}/hooks`;
+                  filePath = `src/features/${pageName}/hooks/${componentName}.ts`;
+                  fileExtension = '.ts';
+                  break;
+                case 'service':
+                  folderPath = `src/features/${pageName}/services`;
+                  filePath = `src/features/${pageName}/services/${componentName}.ts`;
+                  fileExtension = '.ts';
+                  break;
+                case 'util':
+                  folderPath = `src/features/${pageName}/utils`;
+                  filePath = `src/features/${pageName}/utils/${componentName}.ts`;
+                  fileExtension = '.ts';
+                  break;
+                case 'module':
+                  folderPath = `src/features/${pageName}/modules`;
+                  filePath = `src/features/${pageName}/modules/${componentName}.ts`;
+                  fileExtension = '.ts';
+                  break;
+                default:
+                  folderPath = `src/features/${pageName}/components`;
+                  filePath = `src/features/${pageName}/components/${componentName}.tsx`;
+              }
+
+              // Agregar carpeta padre src/features/[página] si no existe
+              const featureFolderPath = `src/features/${pageName}`;
+              const existingFeatureFolder = project.fileStructure?.folders?.find(f => f.path === featureFolderPath);
+              if (!existingFeatureFolder && !allNewFoldersToAdd.find(f => f.path === featureFolderPath) && !newFoldersToAdd.find(f => f.path === featureFolderPath)) {
+                newFoldersToAdd.push({
+                  path: featureFolderPath,
+                  name: pageName,
+                  type: 'feature'
+                });
+              }
+
+              // Agregar carpeta específica si no existe
+              const existingFolder = project.fileStructure?.folders?.find(f => f.path === folderPath);
+              if (!existingFolder && !allNewFoldersToAdd.find(f => f.path === folderPath) && !newFoldersToAdd.find(f => f.path === folderPath)) {
+                newFoldersToAdd.push({
+                  path: folderPath,
+                  name: folderPath.split('/').pop(),
+                  type: componentType === 'component' ? 'component' : 'folder'
+                });
+              }
+
+              // Agregar archivo si no existe
+              const existingFile = project.fileStructure?.files?.find(f => f.path === filePath);
+              if (!existingFile && !allNewFilesToAdd.find(f => f.path === filePath) && !newFilesToAdd.find(f => f.path === filePath)) {
+                newFilesToAdd.push({
+                  path: filePath,
+                  name: `${componentName}${fileExtension}`,
+                  type: componentType === 'component' ? 'component' : 
+                        componentType === 'hook' ? 'hook' : 
+                        componentType === 'service' ? 'api' : 'component',
+                  description: `${componentType === 'component' ? 'Componente' : 
+                              componentType === 'hook' ? 'Hook personalizado' : 
+                              componentType === 'service' ? 'Servicio' : 
+                              componentType === 'util' ? 'Utilidad' : 'Módulo'} generado para: ${story.title}`
+                });
+              }
+            });
+          }
+
+          // Procesar archivos afectados
+          if (story.affectedFiles && story.affectedFiles.length > 0) {
+            story.affectedFiles.forEach(filePath => {
+              const existingFile = project.fileStructure?.files?.find(f => f.path === filePath);
+              if (!existingFile && !allNewFilesToAdd.find(f => f.path === filePath) && !newFilesToAdd.find(f => f.path === filePath)) {
+                const fileName = filePath.split('/').pop();
+                const folderPath = filePath.substring(0, filePath.lastIndexOf('/'));
+                
+                // Determinar tipo de archivo por extensión
+                let fileType = 'component';
+                if (fileName.endsWith('.ts') || fileName.endsWith('.js')) {
+                  fileType = 'api';
+                } else if (fileName.endsWith('.css') || fileName.endsWith('.scss')) {
+                  fileType = 'style';
+                } else if (fileName.includes('route') || fileName.includes('router')) {
+                  fileType = 'route';
+                }
+
+                // Agregar carpeta si no existe
+                if (folderPath && !project.fileStructure?.folders?.find(f => f.path === folderPath) && !allNewFoldersToAdd.find(f => f.path === folderPath) && !newFoldersToAdd.find(f => f.path === folderPath)) {
+                  newFoldersToAdd.push({
+                    path: folderPath,
+                    name: folderPath.split('/').pop(),
+                    type: 'folder'
+                  });
+                }
+
+                newFilesToAdd.push({
+                  path: filePath,
+                  name: fileName,
+                  type: fileType,
+                  description: `Archivo afectado por: ${story.title}`
+                });
+              }
+            });
+          }
+        });
+
+        // ────────────────── 6.6. Agregar las historias a la página ──────────────────
+        project.pages[pageIndex].userStories.push(...formattedUserStories);
+        
+        // Acumular archivos y carpetas nuevos
+        allNewFilesToAdd.push(...newFilesToAdd);
+        allNewFoldersToAdd.push(...newFoldersToAdd);
+        totalGeneratedStories += formattedUserStories.length;
+
+        console.log(`✅ ${formattedUserStories.length} historias generadas y agregadas para página: ${page.name}`);
+        
+        results.push({
+          pageId: page.id,
+          pageName: page.name,
+          success: true,
+          generatedStories: formattedUserStories.length,
+          totalStoriesInPage: project.pages[pageIndex].userStories.length
+        });
+
+      } catch (pageError) {
+        console.error(`❌ Error procesando página ${page.name}:`, pageError);
+        results.push({
+          pageId: page.id,
+          pageName: page.name,
+          success: false,
+          error: pageError.message,
+          generatedStories: 0
+        });
+      }
+    }
+
+    // ────────────────── 7. Actualizar estructura de archivos ──────────────────
+    if (!project.fileStructure) {
+      project.fileStructure = {
+        folders: [],
+        files: [],
+        generatedAt: new Date(),
+        promptType: 'minimalista'
+      };
+    }
+
+    // Agregar nuevas carpetas
+    if (allNewFoldersToAdd.length > 0) {
+      project.fileStructure.folders.push(...allNewFoldersToAdd);
+      console.log(`📁 ${allNewFoldersToAdd.length} nuevas carpetas agregadas a la estructura`);
+    }
+
+    // Agregar nuevos archivos
+    if (allNewFilesToAdd.length > 0) {
+      project.fileStructure.files.push(...allNewFilesToAdd);
+      console.log(`📄 ${allNewFilesToAdd.length} nuevos archivos agregados a la estructura`);
+    }
+
+    // Actualizar fecha de generación
+    project.fileStructure.generatedAt = new Date();
+
+    // ────────────────── 8. Guardar el proyecto ──────────────────
+    await project.save();
+
+    console.log(`\n🎉 Proceso completado: ${totalGeneratedStories} historias de usuario generadas y guardadas para ${project.pages.length} páginas`);
+
+    // ────────────────── 9. Responder con resumen completo ──────────────────
+    const successfulPages = results.filter(r => r.success).length;
+    const failedPages = results.filter(r => !r.success).length;
+
+    res.json({
+      message: `Generación completa finalizada: ${totalGeneratedStories} historias de usuario creadas para ${successfulPages} páginas`,
+      project: {
+        id: project._id,
+        name: project.name,
+        totalPages: project.pages.length
+      },
+      summary: {
+        totalGeneratedStories,
+        successfulPages,
+        failedPages,
+        storiesPerPage: numUserStories
+      },
+      pageResults: results,
+      fileStructureUpdates: {
+        newFolders: allNewFoldersToAdd.length,
+        newFiles: allNewFilesToAdd.length,
+        addedFolders: allNewFoldersToAdd,
+        addedFiles: allNewFilesToAdd
+      },
+      metadata: {
+        processedAt: new Date(),
+        aiModel: 'gemini-2.5-pro-preview-06-05',
+        fileStructureUpdated: allNewFoldersToAdd.length > 0 || allNewFilesToAdd.length > 0
+      }
+    });
+
+  } catch (error) {
+    console.error('❌ Error general en generateUserStoriesForProjectCompleto:', error);
+    res.status(500).json({
+      error: 'Error interno del servidor',
+      message: 'Error al generar historias de usuario para el proyecto completo'
+    });
+  }
+};
 // @desc    Generate executive summary using Gemini
 // @route   POST /api/projects/:id/generate-executive-summary
 // @access  Private
@@ -6185,5 +6702,6 @@ module.exports = {
   addMultiplePages,
   generarProyectoConIA,
   generarpromptinicial,
-  generateestudiodemercadowithgemini
+  generateestudiodemercadowithgemini,
+  generateUserStoriesForProjectCompleto
 };

@@ -1,0 +1,253 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Filtrar Analíticas por Rango de Fechas",
+      "description": "Como Gerente de Ventas, quiero filtrar todos los informes del panel por un rango de fechas específico para analizar el rendimiento en periodos concretos como el último trimestre o el mes actual.",
+      "pageContext": "Analíticas e Informes",
+      "affectedFiles": [
+        "src/app/(dashboard)/reports/page.jsx",
+        "src/hooks/useAnalyticsData.js",
+        "src/services/analyticsService.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "DatePicker",
+            "from": "@/components/ui/DatePicker"
+          },
+          {
+            "name": "useAnalyticsData",
+            "from": "@/hooks/useAnalyticsData"
+          }
+        ]
+      },
+      "logicData": "El componente `page.jsx` mantendrá el estado del rango de fechas seleccionado a través del `DatePicker`. Este rango se pasará al hook `useAnalyticsData`, que a su vez lo enviará a `analyticsService` para obtener los datos filtrados de la API. Todos los gráficos en la página deben actualizarse automáticamente al cambiar la fecha.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex items-center gap-4 mb-6",
+        "colorCoding": "Utilizar los colores primarios de la aplicación para el selector de fechas activo."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un componente selector de rango de fechas visible en la parte superior de la página.",
+        "Por defecto, el filtro debe mostrar los datos de los últimos 30 días.",
+        "Al seleccionar un nuevo rango de fechas y hacer clic en 'Aplicar', todos los gráficos de la página deben recargarse con la nueva información.",
+        "El componente debe ofrecer preselecciones comunes como 'Últimos 7 días', 'Este mes', 'Último mes'."
+      ],
+      "additionalSuggestions": [
+        "Mostrar un indicador de carga en los gráficos mientras se actualizan los datos.",
+        "El rango de fechas seleccionado debe ser visible de forma clara cerca del selector."
+      ],
+      "aiEditorTask": "Implementa el componente DatePicker en `page.jsx` y modifica el hook `useAnalyticsData` para aceptar y procesar los parámetros de `startDate` y `endDate`. Asegúrate de que la llamada al servicio `analyticsService` incluya estos parámetros.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Visualizar Gráfico de Conversión de Leads",
+      "description": "Como Agente Inmobiliario, quiero ver un gráfico de embudo que muestre la tasa de conversión en cada etapa del pipeline (Nuevo > Contactado > Calificado > Cierre) para entender mi propio rendimiento e identificar cuellos de botella.",
+      "pageContext": "Analíticas e Informes",
+      "affectedFiles": [
+        "src/app/(dashboard)/reports/page.jsx",
+        "src/components/charts/FunnelChart.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "FunnelChart",
+            "type": "component",
+            "path": "src/components/charts/FunnelChart.jsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Card",
+            "from": "@/components/ui/Card"
+          }
+        ]
+      },
+      "logicData": "El componente `FunnelChart` recibirá los datos del hook `useAnalyticsData`. Estos datos deben contener el número de leads en cada etapa del embudo. El gráfico debe calcular y mostrar el porcentaje de conversión entre etapas.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-4 rounded-lg shadow-md",
+        "colorCoding": "Usar un degradado de color (ej. de azul claro a azul oscuro) para representar el avance en el embudo."
+      },
+      "acceptanceCriteria": [
+        "El gráfico debe mostrar al menos 4 etapas del embudo de ventas.",
+        "Cada etapa del embudo debe mostrar el nombre de la etapa y el número de leads.",
+        "Al pasar el cursor sobre una etapa, un tooltip debe mostrar el porcentaje de conversión desde la etapa anterior.",
+        "El gráfico debe estar contenido dentro de un componente `Card` con el título 'Embudo de Conversión'."
+      ],
+      "additionalSuggestions": [
+        "Considerar la posibilidad de hacer clic en una etapa para ver un listado de los leads que se encuentran en ella.",
+        "Mostrar la tasa de conversión general (de Nuevo a Cierre) en un lugar destacado del gráfico."
+      ],
+      "aiEditorTask": "Crea el nuevo componente `FunnelChart.jsx` utilizando una librería de gráficos como `recharts` o `chart.js`. Intégralo en `page.jsx` y conéctalo a los datos de conversión proporcionados por el hook `useAnalyticsData`.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Analizar Efectividad por Canal de Adquisición",
+      "description": "Como Director de Marketing, quiero un gráfico de tarta que desglose el origen de los leads (ej. Portal Inmobiliario, Redes Sociales, Referidos) para evaluar qué canales son más efectivos y optimizar la inversión.",
+      "pageContext": "Analíticas e Informes",
+      "affectedFiles": [
+        "src/app/(dashboard)/reports/page.jsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "PieChart",
+            "from": "@/components/charts/PieChart"
+          },
+          {
+            "name": "Card",
+            "from": "@/components/ui/Card"
+          }
+        ]
+      },
+      "logicData": "El hook `useAnalyticsData` debe proveer un objeto con los canales como claves y el número de leads como valores. El componente `PieChart` renderizará esta información, mostrando cada canal como una porción del gráfico.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-4 rounded-lg shadow-md",
+        "colorCoding": "Asignar un color distintivo y consistente a cada canal de adquisición a través de toda la aplicación."
+      },
+      "acceptanceCriteria": [
+        "El gráfico debe mostrar los 5 canales principales y agrupar el resto en una categoría 'Otros'.",
+        "Cada porción del gráfico debe ser clickeable para filtrar otros informes de la página por ese canal (funcionalidad avanzada).",
+        "Al pasar el cursor sobre una porción, un tooltip debe mostrar el nombre del canal y el porcentaje de leads que representa.",
+        "Debe haber una leyenda clara que asocie cada color con un canal."
+      ],
+      "additionalSuggestions": [
+        "Añadir un conmutador para ver el número absoluto de leads en lugar del porcentaje.",
+        "Junto al gráfico, mostrar una lista de los canales con sus respectivos totales."
+      ],
+      "aiEditorTask": "Integra el componente `PieChart.jsx` en la página `reports/page.jsx`. Asegúrate de que recibe los datos de efectividad de canal desde el hook `useAnalyticsData` y los muestra correctamente, incluyendo tooltips y leyenda.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Comparar Rendimiento entre Agentes",
+      "description": "Como Jefe de Equipo, quiero un gráfico de barras que compare a los agentes basado en una métrica seleccionable (negocios cerrados, leads generados, ingresos) para fomentar una competencia sana y detectar necesidades de formación.",
+      "pageContext": "Analíticas e Informes",
+      "affectedFiles": [
+        "src/app/(dashboard)/reports/page.jsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "BarChart",
+            "from": "@/components/charts/BarChart"
+          },
+          {
+            "name": "Select",
+            "from": "@/components/ui/Select"
+          },
+          {
+            "name": "Card",
+            "from": "@/components/ui/Card"
+          }
+        ]
+      },
+      "logicData": "El componente `page.jsx` tendrá un estado local para la métrica seleccionada. El hook `useAnalyticsData` proporcionará los datos de rendimiento de todos los agentes. El `BarChart` se renderizará dinámicamente según la métrica elegida en el componente `Select`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-4 rounded-lg shadow-md",
+        "colorCoding": "Utilizar un color sólido para las barras, pero resaltar la barra del usuario que está viendo el informe si es un agente."
+      },
+      "acceptanceCriteria": [
+        "Un menú desplegable (`Select`) debe permitir elegir entre al menos 3 métricas: 'Negocios Cerrados', 'Leads Asignados', 'Tasa de Conversión'.",
+        "El gráfico de barras debe actualizarse al cambiar la métrica seleccionada.",
+        "Cada barra representará a un agente y su altura corresponderá al valor de la métrica seleccionada.",
+        "El eje X debe mostrar los nombres de los agentes y el eje Y la escala de la métrica."
+      ],
+      "additionalSuggestions": [
+        "Ordenar las barras de mayor a menor rendimiento por defecto.",
+        "Al hacer clic en la barra de un agente, se podría abrir un modal con un desglose más detallado de su rendimiento."
+      ],
+      "aiEditorTask": "Coloca un componente `Select` sobre el `BarChart` dentro de `page.jsx`. Gestiona el estado de la métrica seleccionada y pasa los datos filtrados correspondientes al `BarChart`. Asegura que la transición al cambiar de métrica sea fluida.",
+      "priority": "Media",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Analizar Tiempos del Ciclo de Venta",
+      "description": "Como Administrador del CRM, quiero ver un gráfico de líneas que muestre la evolución del tiempo promedio del ciclo de venta (en días) a lo largo de los últimos 12 meses para identificar tendencias y evaluar el impacto de los cambios en los procesos.",
+      "pageContext": "Analíticas e Informes",
+      "affectedFiles": [
+        "src/app/(dashboard)/reports/page.jsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "LineChart",
+            "from": "@/components/charts/LineChart"
+          },
+          {
+            "name": "Card",
+            "from": "@/components/ui/Card"
+          }
+        ]
+      },
+      "logicData": "El `analyticsService` debe calcular el tiempo promedio en días desde la creación del lead hasta su cierre para cada mes. El hook `useAnalyticsData` pasará estos datos al `LineChart`, que tendrá los meses en el eje X y el número de días en el eje Y.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-4 rounded-lg shadow-md",
+        "colorCoding": "Usar un color de línea vibrante (ej. verde o morado) para que destaque. Sombrear el área bajo la línea para mejorar la visualización."
+      },
+      "acceptanceCriteria": [
+        "El gráfico debe mostrar una línea que conecta los puntos de datos para cada mes.",
+        "El eje X debe estar etiquetado con los meses (ej. 'Ene', 'Feb', 'Mar').",
+        "El eje Y debe estar etiquetado como 'Días Promedio de Ciclo'.",
+        "Al pasar el cursor sobre un punto de datos, un tooltip debe mostrar el mes exacto y el tiempo promedio del ciclo de venta en días."
+      ],
+      "additionalSuggestions": [
+        "Añadir una línea horizontal que represente el objetivo o el promedio general para una fácil comparación.",
+        "Permitir filtrar este gráfico por agente o equipo."
+      ],
+      "aiEditorTask": "Implementa el `LineChart` en `page.jsx` para mostrar la evolución del ciclo de venta. Asegúrate de que el hook `useAnalyticsData` solicite y procese correctamente esta serie temporal de datos desde el `analyticsService`.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Exportar Panel de Analíticas a PDF",
+      "description": "Como Gerente General, quiero poder descargar una instantánea del panel de analíticas en formato PDF para incluirla en mis informes de gestión mensuales y presentaciones a la junta directiva.",
+      "pageContext": "Analíticas e Informes",
+      "affectedFiles": [
+        "src/app/(dashboard)/reports/page.jsx",
+        "src/components/ui/ExportButton.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ExportButton",
+            "type": "component",
+            "path": "src/components/ui/ExportButton.jsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Se utilizarán librerías como `jspdf` y `html2canvas`. El `ExportButton` contendrá la lógica que, al ser pulsado, selecciona el contenedor principal del dashboard, lo convierte en una imagen a través de `html2canvas` y luego lo inserta en un nuevo documento PDF usando `jspdf`, que finalmente se descarga en el navegador del usuario. El PDF debe respetar los filtros de fecha aplicados.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded inline-flex items-center",
+        "colorCoding": "Usar un color secundario o neutro para el botón, acompañado de un ícono de descarga."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un botón con el texto 'Exportar a PDF' o un ícono representativo en la página.",
+        "Al hacer clic en el botón, se debe generar y descargar un archivo PDF.",
+        "El archivo PDF debe contener una representación visual fiel de todos los gráficos y datos visibles en el panel en ese momento.",
+        "El nombre del archivo exportado debe ser descriptivo, ej. 'Reporte_InmoFlow_2023-10-26.pdf'."
+      ],
+      "additionalSuggestions": [
+        "Añadir una cabecera y pie de página al PDF con el logo de la empresa, el rango de fechas del reporte y la fecha de exportación.",
+        "Mostrar una notificación de 'Generando PDF...' para informar al usuario que el proceso está en curso."
+      ],
+      "aiEditorTask": "Crea el componente `ExportButton.jsx` e instala las dependencias necesarias (`jspdf`, `html2canvas`). Implementa la lógica de exportación y coloca el botón en una esquina de la página `reports/page.jsx`.",
+      "priority": "Baja",
+      "estimatedHours": 12
+    }
+  ]
+}
+```

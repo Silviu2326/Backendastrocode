@@ -1,0 +1,281 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización de la lista de agentes del equipo",
+      "description": "Como administrador, quiero ver una tabla con todos los agentes registrados en la plataforma para tener una visión general de mi equipo y su estado actual.",
+      "pageContext": "Gestión de Equipo",
+      "affectedFiles": ["src/pages/settings/team.jsx", "src/api/agents.js", "src/store/agentsSlice.js", "src/components/ui/table.jsx"],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "TeamTable",
+            "type": "component"
+          },
+          {
+            "name": "TeamTableRow",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Table",
+            "from": "@/components/ui/table"
+          },
+          {
+            "name": "fetchAgents",
+            "from": "@/api/agents"
+          },
+          {
+            "name": "agentsSlice",
+            "from": "@/store/agentsSlice"
+          }
+        ]
+      },
+      "logicData": "Al cargar la página `team.jsx`, se debe realizar una llamada a la API (definida en `agents.js`) para obtener la lista completa de agentes. Los datos recuperados (id, nombre, email, rol, estado, fecha de alta, recuento de leads) se almacenarán en el estado global usando `agentsSlice`. El componente `TeamTable` consumirá estos datos del store y renderizará las filas utilizando `TeamTableRow`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "w-full text-sm text-left rtl:text-right text-gray-500",
+        "colorCoding": "Usar colores de fondo alternos para las filas (ej. bg-white y bg-gray-50). Usar badges de colores para el estado (ej. verde para 'Activo', gris para 'Inactivo') y para el rol."
+      },
+      "acceptanceCriteria": [
+        "La página debe mostrar una tabla al cargarse.",
+        "La tabla debe tener las columnas: 'Nombre', 'Email', 'Rol', 'Leads Asignados', 'Estado' y 'Acciones'.",
+        "Se debe mostrar un estado de carga (spinner o skeleton) mientras se obtienen los datos de los agentes.",
+        "Si no hay agentes, se debe mostrar un mensaje amigable indicándolo.",
+        "Cada fila debe representar a un único agente con su información correspondiente."
+      ],
+      "additionalSuggestions": [
+        "Implementar paginación si la lista de agentes puede ser muy larga.",
+        "Añadir un tooltip al pasar el cursor sobre la columna 'Leads Asignados' para ver más detalles."
+      ],
+      "aiEditorTask": "Crea un componente `TeamTable` que reciba una lista de agentes como prop y la renderice usando los componentes `Table`, `TableHeader`, `TableBody`, `TableRow`, `TableCell` de `@/components/ui/table`.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Añadir un nuevo agente al equipo",
+      "description": "Como administrador, quiero añadir un nuevo agente a través de un formulario para poder expandir mi equipo y darles acceso al CRM.",
+      "pageContext": "Gestión de Equipo",
+      "affectedFiles": ["src/pages/settings/team.jsx", "src/api/agents.js", "src/store/agentsSlice.js", "src/components/ui/modal.jsx", "src/components/ui/form.jsx"],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AddAgentModal",
+            "type": "component"
+          },
+          {
+            "name": "AgentForm",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Modal",
+            "from": "@/components/ui/modal"
+          },
+          {
+            "name": "Button",
+            "from": "@/components/ui/button"
+          },
+          {
+            "name": "Input",
+            "from": "@/components/ui/input"
+          },
+          {
+            "name": "Select",
+            "from": "@/components/ui/select"
+          }
+        ]
+      },
+      "logicData": "Un botón 'Añadir Agente' en `team.jsx` abrirá el componente `AddAgentModal`. Dentro, el componente `AgentForm` gestionará el estado de los campos del formulario. Al enviar, se llamará a una función `createAgent` en `api/agents.js` con los datos del formulario. Si la API responde con éxito, se actualizará el estado en `agentsSlice` para reflejar el nuevo agente y se cerrará el modal.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center",
+        "colorCoding": "Botón principal de acción en el color primario del CRM (ej. azul o verde). Campos del formulario con bordes `border-gray-300` y foco en `focus:ring-blue-500`."
+      },
+      "acceptanceCriteria": [
+        "Debe existir un botón 'Añadir Agente' en la página.",
+        "Al hacer clic en el botón, se debe abrir un modal con un formulario.",
+        "El formulario debe contener campos para: Nombre Completo, Email y Rol (un selector con opciones como 'Agente', 'Administrador').",
+        "El campo de email debe tener validación de formato.",
+        "Todos los campos son obligatorios.",
+        "Al enviar el formulario con éxito, el nuevo agente debe aparecer en la tabla sin necesidad de recargar la página.",
+        "Debe mostrarse una notificación (toast) de éxito o error tras el envío."
+      ],
+      "additionalSuggestions": [
+        "Al añadir un agente, se podría enviar un email de bienvenida automático con una contraseña temporal.",
+        "El selector de 'Rol' podría obtener sus opciones de una API para futura extensibilidad."
+      ],
+      "aiEditorTask": "Implementa el componente `AgentForm` con validación de formulario utilizando una librería como `react-hook-form` o `zod`. Debe incluir campos para nombre, email y un select para el rol.",
+      "priority": "Alta",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Editar la información de un agente existente",
+      "description": "Como administrador, quiero editar los detalles de un agente, como su rol o nombre, para mantener la información del equipo actualizada.",
+      "pageContext": "Gestión de Equipo",
+      "affectedFiles": ["src/pages/settings/team.jsx", "src/api/agents.js", "src/store/agentsSlice.js", "src/components/ui/modal.jsx"],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "EditAgentModal",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "AgentForm",
+            "from": "./components/AgentForm"
+          },
+          {
+            "name": "DropdownMenu",
+            "from": "@/components/ui/dropdown-menu"
+          }
+        ]
+      },
+      "logicData": "En la columna 'Acciones' de cada fila de la tabla, habrá un menú desplegable con la opción 'Editar'. Al hacer clic, se abrirá un `EditAgentModal` que reutilizará el componente `AgentForm`, pero pre-poblado con los datos del agente seleccionado. Al enviar el formulario, se llamará a `updateAgent` en `api/agents.js`. Tras una respuesta exitosa, se actualizará `agentsSlice` y se cerrará el modal.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-4 space-y-4",
+        "colorCoding": "El modal de edición puede tener un título y un botón de acción que indiquen 'Editar' para diferenciarlo del de creación."
+      },
+      "acceptanceCriteria": [
+        "Cada fila de la tabla de agentes debe tener un menú de acciones (ej. un icono de tres puntos).",
+        "El menú de acciones debe contener una opción 'Editar'.",
+        "Al seleccionar 'Editar', se debe abrir un modal con un formulario pre-rellenado con los datos del agente (nombre, email, rol).",
+        "El campo de email no debería ser editable.",
+        "Tras guardar los cambios, la información actualizada debe reflejarse en la tabla sin recargar la página.",
+        "Debe ser posible cambiar el rol de un agente."
+      ],
+      "additionalSuggestions": [
+        "Añadir un log de auditoría para registrar quién y cuándo modificó los datos de un agente.",
+        "Confirmar con el usuario si intenta cerrar el modal con cambios sin guardar."
+      ],
+      "aiEditorTask": "Adapta el componente `AgentForm` para que acepte un objeto `initialData` como prop. Si `initialData` está presente, el formulario debe entrar en modo 'edición' y poblar los campos.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Desactivar/Reactivar un agente",
+      "description": "Como administrador, quiero poder desactivar la cuenta de un agente para revocar su acceso cuando deja la empresa, y reactivarlo si regresa, para gestionar la seguridad y el estado del equipo.",
+      "pageContext": "Gestión de Equipo",
+      "affectedFiles": ["src/pages/settings/team.jsx", "src/api/agents.js", "src/store/agentsSlice.js", "src/components/ui/modal.jsx"],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ConfirmActionModal",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "DropdownMenu",
+            "from": "@/components/ui/dropdown-menu"
+          },
+          {
+            "name": "updateAgentStatus",
+            "from": "@/api/agents"
+          }
+        ]
+      },
+      "logicData": "El menú de acciones en cada fila de la tabla tendrá una opción 'Desactivar' o 'Reactivar' según el estado actual del agente. Al hacer clic, se abrirá un `ConfirmActionModal` preguntando '¿Estás seguro?'. Al confirmar, se llamará a una función en `api/agents.js` que cambia el estado del agente (enviando el ID y el nuevo estado). El `agentsSlice` se actualizará para reflejar el cambio en la UI.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-red-100 border-red-400 text-red-700",
+        "colorCoding": "El modal de confirmación para desactivar debe usar colores de advertencia (rojo). El botón de confirmación debe ser rojo. Para reactivar, se puede usar un color neutro o de éxito (verde)."
+      },
+      "acceptanceCriteria": [
+        "El menú de acciones de un agente 'Activo' debe mostrar la opción 'Desactivar'.",
+        "El menú de acciones de un agente 'Inactivo' debe mostrar la opción 'Reactivar'.",
+        "Al seleccionar la opción, debe aparecer un modal de confirmación.",
+        "Tras confirmar la acción, el estado del agente debe cambiar en la tabla (ej. el badge de 'Activo' cambia a 'Inactivo').",
+        "Un agente desactivado no debe poder iniciar sesión en la plataforma (lógica de backend).",
+        "La acción debe poder deshacerse (reactivando al agente)."
+      ],
+      "additionalSuggestions": [
+        "Al desactivar un agente con leads asignados, el sistema podría preguntar al administrador a quién reasignar esos leads.",
+        "En lugar de eliminar, siempre preferir la desactivación (soft delete) para mantener la integridad de los datos históricos."
+      ],
+      "aiEditorTask": "Crea un componente genérico `ConfirmActionModal` que reciba un título, un mensaje, un texto para el botón de confirmación y una función `onConfirm` como props.",
+      "priority": "Media",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Buscar y filtrar agentes en la lista",
+      "description": "Como administrador, quiero buscar agentes por nombre o email y filtrar la lista por rol para poder encontrar rápidamente a miembros específicos del equipo, especialmente en organizaciones grandes.",
+      "pageContext": "Gestión de Equipo",
+      "affectedFiles": ["src/pages/settings/team.jsx", "src/store/agentsSlice.js"],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "Input",
+            "from": "@/components/ui/input"
+          },
+          {
+            "name": "Select",
+            "from": "@/components/ui/select"
+          }
+        ]
+      },
+      "logicData": "En la página `team.jsx`, sobre la tabla, añadir un campo de búsqueda (Input) y un desplegable (Select) para el rol. Estos controles no harán llamadas a la API. En su lugar, modificarán el estado local o el `agentsSlice` para filtrar la lista de agentes ya cargada. La lógica de filtrado se aplicará en el selector del `agentsSlice` o directamente en el componente antes de pasar los datos a `TeamTable`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex items-center space-x-4 mb-4",
+        "colorCoding": "Los controles de filtro deben ser visualmente discretos pero accesibles, ubicados en la parte superior de la tabla."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un campo de texto para búsqueda encima de la tabla de agentes.",
+        "A medida que escribo en el campo de búsqueda, la lista de agentes se debe filtrar en tiempo real para mostrar solo aquellos cuyo nombre o email coincida.",
+        "Debe haber un menú desplegable para filtrar por rol ('Todos', 'Agente', 'Administrador').",
+        "Al seleccionar un rol, la tabla debe mostrar solo los agentes con ese rol.",
+        "Los filtros de búsqueda y rol deben poder funcionar de manera combinada.",
+        "Debe haber una forma de limpiar los filtros y volver a ver la lista completa."
+      ],
+      "additionalSuggestions": [
+        "Añadir un filtro por 'Estado' (Activo/Inactivo) para una gestión más completa.",
+        "Guardar los filtros aplicados en los parámetros de la URL para que se puedan compartir vistas filtradas."
+      ],
+      "aiEditorTask": "Implementa la lógica de filtrado en `agentsSlice.js`. Crea un nuevo selector que tome el estado completo de agentes y los términos de filtro (texto y rol) y devuelva la lista filtrada.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Supervisar la cartera de leads de un agente",
+      "description": "Como administrador, quiero ver rápidamente un resumen de la cantidad de leads asignados a cada agente para supervisar la distribución del trabajo y el rendimiento del equipo.",
+      "pageContext": "Gestión de Equipo",
+      "affectedFiles": ["src/pages/settings/team.jsx", "src/api/agents.js"],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "Link",
+            "from": "react-router-dom"
+          }
+        ]
+      },
+      "logicData": "La API que obtiene los agentes (`fetchAgents`) debe incluir en su respuesta un campo `leadCount` para cada agente. Este número se mostrará en la columna 'Leads Asignados'. Este número será un enlace. Al hacer clic, se redirigirá al usuario a una página de listado de leads, pre-filtrada por ese agente. Por ejemplo: `/leads?agentId=AGENT_ID`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "text-blue-600 hover:underline font-medium",
+        "colorCoding": "El número en la columna 'Leads Asignados' debe ser de un color distintivo (azul) y tener un estado 'hover' para indicar que es clickeable."
+      },
+      "acceptanceCriteria": [
+        "La tabla de agentes debe tener una columna llamada 'Leads Asignados'.",
+        "Esta columna debe mostrar el número total de leads que actualmente tiene asignado cada agente.",
+        "El número de leads debe ser un enlace.",
+        "Hacer clic en el enlace debe llevar al usuario a la vista de 'Leads', con un filtro aplicado para mostrar solo los leads de ese agente específico.",
+        "Si un agente no tiene leads, debe mostrar '0'."
+      ],
+      "additionalSuggestions": [
+        "Al pasar el ratón sobre el número, un tooltip podría mostrar un desglose, como 'Leads nuevos: 5, En contacto: 10, Cerrados: 2'.",
+        "Considerar la posibilidad de abrir un modal con la lista de leads en lugar de redirigir, para no perder el contexto de la página de equipo."
+      ],
+      "aiEditorTask": "Asegúrate de que la API en `api/agents.js` se actualice para agregar el conteo de leads a la respuesta de cada agente. Luego, en el componente `TeamTableRow`, envuelve el `leadCount` en un componente `Link` de `react-router-dom` que apunte a la ruta correcta con el query param `agentId`.",
+      "priority": "Media",
+      "estimatedHours": 5
+    }
+  ]
+}
+```

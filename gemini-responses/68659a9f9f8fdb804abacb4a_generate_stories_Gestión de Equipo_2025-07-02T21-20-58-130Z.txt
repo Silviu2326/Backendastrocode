@@ -1,0 +1,231 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Añadir un nuevo agente al equipo",
+      "description": "Como administrador, quiero añadir un nuevo agente al equipo a través de un formulario para poder expandir mi equipo y otorgarles acceso a la plataforma InmoFlow CRM.",
+      "pageContext": "Gestión de Equipo",
+      "affectedFiles": [
+        "app/(dashboard)/settings/team/page.jsx",
+        "app/(dashboard)/settings/team/components/AddAgentModal.jsx",
+        "app/(dashboard)/settings/team/_actions/agentActions.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "AddAgentModal",
+            "from": "./components/AddAgentModal"
+          }
+        ]
+      },
+      "logicData": "El botón 'Añadir Agente' en `page.jsx` debe cambiar un estado para mostrar `AddAgentModal`. El modal contendrá un formulario con campos para nombre, email y un selector para el rol (p. ej., 'Agente', 'Administrador'). Al enviar, se llamará a una función `createAgent` en `agentActions.js` que realizará la validación de datos y la inserción en la base de datos. La lógica debe manejar tanto el éxito (cerrar modal y refrescar la lista de agentes) como el error (mostrar un mensaje en el modal).",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50",
+        "colorCoding": "Utilizar el color primario del CRM para el botón de envío y colores de error (rojo) para los mensajes de validación."
+      },
+      "acceptanceCriteria": [
+        "Al hacer clic en el botón 'Añadir Agente', se debe abrir un modal.",
+        "El formulario en el modal debe incluir campos para 'Nombre Completo', 'Email' y un desplegable para 'Rol'.",
+        "El campo de email debe tener validación de formato.",
+        "Todos los campos son obligatorios.",
+        "Al enviar el formulario con éxito, el modal se cierra y el nuevo agente aparece en la `AgentList` sin necesidad de recargar la página.",
+        "Si el email ya existe en el sistema, se debe mostrar un mensaje de error específico.",
+        "El usuario puede cerrar el modal sin añadir un agente haciendo clic fuera de él o en un botón de 'Cancelar'."
+      ],
+      "additionalSuggestions": [
+        "Considerar enviar una invitación por email al nuevo agente para que establezca su contraseña.",
+        "El desplegable de 'Rol' podría obtener sus opciones de una fuente de datos centralizada para facilitar futuras modificaciones de roles."
+      ],
+      "aiEditorTask": "Implementa la lógica de estado en `page.jsx` para controlar la visibilidad de `AddAgentModal`. Crea el formulario dentro de `AddAgentModal` utilizando un hook como `useForm` para la gestión del estado y la validación. Conecta el evento `onSubmit` del formulario a una server action definida en `agentActions.js`.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Modificar el rol de un agente existente",
+      "description": "Como administrador, quiero poder cambiar el rol de un agente directamente desde la lista de equipo para actualizar sus permisos y responsabilidades de forma ágil y eficiente.",
+      "pageContext": "Gestión de Equipo",
+      "affectedFiles": [
+        "app/(dashboard)/settings/team/components/AgentListItem.jsx",
+        "app/(dashboard)/settings/team/_actions/agentActions.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "Dentro de `AgentListItem.jsx`, el rol del agente se mostrará en un componente de tipo `<select>` o un desplegable personalizado. Al cambiar el valor de este componente, se invocará una función `updateAgentRole` de `agentActions.js`, pasándole el ID del agente y el nuevo rol. La interfaz debe reflejar un estado de carga y luego confirmar el cambio o mostrar un error.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-gray-100 border border-gray-300 rounded-md px-2 py-1 focus:ring-2 focus:ring-blue-500",
+        "colorCoding": "El desplegable debe tener un estilo sutil que no sobrecargue la lista. Usar un spinner o un cambio de opacidad para indicar el estado de carga durante la actualización."
+      },
+      "acceptanceCriteria": [
+        "Cada agente en la lista (`AgentListItem`) muestra su rol actual en un control de selección (dropdown).",
+        "El administrador puede hacer clic en el dropdown y ver una lista de roles disponibles (p. ej., 'Agente', 'Administrador').",
+        "Al seleccionar un nuevo rol, se realiza una llamada asíncrona para actualizar los datos.",
+        "Mientras la actualización está en proceso, se muestra un indicador visual (p. ej., un spinner junto al dropdown).",
+        "Una vez completada la actualización, el dropdown muestra el nuevo rol seleccionado.",
+        "En caso de error, se muestra una notificación temporal (toast) y el rol vuelve a su valor original.",
+        "Un administrador no puede cambiar su propio rol a uno inferior."
+      ],
+      "additionalSuggestions": [
+        "Añadir un diálogo de confirmación si el cambio de rol tiene implicaciones importantes (p. ej., degradar a un administrador)."
+      ],
+      "aiEditorTask": "En `AgentListItem.jsx`, reemplaza el texto estático del rol por un componente `<select>`. Su valor `onChange` debe invocar una server action de `agentActions.js` para actualizar el rol del usuario. Implementa un estado local para manejar la carga durante la petición.",
+      "priority": "Media",
+      "estimatedHours": 5
+    },
+    {
+      "title": "Eliminar un agente del equipo",
+      "description": "Como administrador, quiero eliminar a un agente que ya no trabaja en la empresa para revocar su acceso, mantener la seguridad de los datos y asegurar que los leads sean reasignados.",
+      "pageContext": "Gestión de Equipo",
+      "affectedFiles": [
+        "app/(dashboard)/settings/team/components/AgentListItem.jsx",
+        "app/(dashboard)/settings/team/components/ConfirmDeleteDialog.jsx",
+        "app/(dashboard)/settings/team/_actions/agentActions.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "ConfirmDeleteDialog",
+            "from": "./components/ConfirmDeleteDialog"
+          }
+        ]
+      },
+      "logicData": "En `AgentListItem.jsx` habrá un botón de 'Eliminar'. Al hacer clic, se mostrará el modal `ConfirmDeleteDialog`, pasándole el ID y nombre del agente. Si el administrador confirma, el modal llamará a la función `deleteAgent` de `agentActions.js`. Esta acción debe verificar si el agente tiene leads asignados y, de ser así, podría impedir la eliminación o solicitar su reasignación.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "text-red-600 hover:text-red-800",
+        "colorCoding": "El botón de eliminar y la confirmación en el diálogo deben usar el color rojo para indicar una acción destructiva."
+      },
+      "acceptanceCriteria": [
+        "Cada agente en la lista tiene un botón o icono de 'Eliminar', excepto el del propio usuario administrador.",
+        "Al hacer clic en 'Eliminar', se abre el modal de confirmación `ConfirmDeleteDialog`.",
+        "El diálogo de confirmación muestra el nombre del agente a eliminar para evitar errores.",
+        "Al confirmar la eliminación, el agente es borrado de la base de datos.",
+        "El agente eliminado desaparece de la `AgentList` de forma inmediata.",
+        "Si el usuario cancela la acción en el diálogo, no ocurre nada y el modal se cierra."
+      ],
+      "additionalSuggestions": [
+        "Implementar una lógica de 'desactivación' en lugar de eliminación física para mantener el historial de actividad del agente.",
+        "Si un agente tiene leads asignados, el diálogo de confirmación debería advertirlo y quizás ofrecer una opción para reasignarlos antes de la eliminación."
+      ],
+      "aiEditorTask": "Añade un botón de eliminar en `AgentListItem.jsx`. Su `onClick` debe mostrar el `ConfirmDeleteDialog` y pasarle las props necesarias. En `ConfirmDeleteDialog`, el botón de 'Confirmar' debe invocar la server action `deleteAgent` de `agentActions.js` y, en caso de éxito, refrescar la lista de agentes.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Buscar y filtrar la lista de agentes",
+      "description": "Como administrador, quiero un campo de búsqueda por nombre/email y un filtro por rol para poder localizar rápidamente a miembros específicos del equipo, especialmente en organizaciones grandes.",
+      "pageContext": "Gestión de Equipo",
+      "affectedFiles": [
+        "app/(dashboard)/settings/team/page.jsx",
+        "app/(dashboard)/settings/team/components/AgentList.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "TeamFilterBar",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "En `page.jsx`, se manejará el estado de los filtros (texto de búsqueda y rol seleccionado). Estos estados se pasarán como props a `AgentList`. Dentro de `AgentList`, antes de renderizar los `AgentListItem`, se aplicará una lógica de filtrado sobre el array de agentes obtenido de `_lib/data.js`. La búsqueda debe ser insensible a mayúsculas y minúsculas.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex gap-4 mb-6",
+        "colorCoding": "Los campos de entrada y selectores deben seguir el estilo general de los formularios de la aplicación."
+      },
+      "acceptanceCriteria": [
+        "La página muestra una barra de búsqueda de texto y un menú desplegable para filtrar por rol.",
+        "Al escribir en la barra de búsqueda, la lista de agentes se filtra en tiempo real para mostrar solo aquellos cuyo nombre o email contengan el texto.",
+        "Al seleccionar un rol en el desplegable, la lista se filtra para mostrar solo los agentes con ese rol.",
+        "Los filtros de búsqueda y rol pueden usarse de forma combinada.",
+        "Debe haber una forma de limpiar los filtros y volver a ver la lista completa (p. ej., un botón 'Limpiar' o vaciando el campo de búsqueda).",
+        "Si ningún agente coincide con los filtros, se muestra un mensaje como 'No se encontraron agentes'."
+      ],
+      "additionalSuggestions": [
+        "Añadir un debounce al input de búsqueda para no ejecutar el filtro en cada pulsación de tecla y mejorar el rendimiento.",
+        "El filtro por rol podría ser un grupo de botones en lugar de un dropdown si hay pocos roles."
+      ],
+      "aiEditorTask": "Crea un nuevo componente `TeamFilterBar.jsx` que contenga un `<input type='text'>` y un `<select>`. En `page.jsx`, gestiona el estado de los filtros y pásalos a `AgentList.jsx`. En `AgentList.jsx`, utiliza los `props` de filtro para aplicar `.filter()` al array de agentes antes del `.map()`.",
+      "priority": "Media",
+      "estimatedHours": 7
+    },
+    {
+      "title": "Supervisar la cartera de leads de un agente",
+      "description": "Como administrador, quiero ver un resumen de los leads asignados a cada agente para poder monitorizar su carga de trabajo, identificar cuellos de botella y evaluar el rendimiento individual.",
+      "pageContext": "Gestión de Equipo",
+      "affectedFiles": [
+        "app/(dashboard)/settings/team/components/AgentListItem.jsx",
+        "app/(dashboard)/settings/team/_lib/data.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "LeadPortfolioModal",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "La función `getAgents` en `_lib/data.js` debe ser modificada para que incluya un conteo de leads por agente. `AgentListItem.jsx` mostrará este conteo. Al hacer clic en el item, se abrirá un nuevo modal (`LeadPortfolioModal`) que recibirá el ID del agente. Este modal llamará a una nueva función en `_lib/data.js`, `getLeadsByAgentId(agentId)`, para obtener y mostrar la lista detallada de leads.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "cursor-pointer hover:bg-gray-50",
+        "colorCoding": "El conteo de leads puede tener un color distintivo. El modal debe ser grande para mostrar una tabla de leads cómodamente."
+      },
+      "acceptanceCriteria": [
+        "En la lista de agentes, cada `AgentListItem` muestra un conteo de leads asignados (p. ej., 'Leads: 12').",
+        "Al hacer clic en la fila de un agente, se abre un modal con el título 'Leads de [Nombre del Agente]'.",
+        "El modal muestra una lista o tabla con los leads del agente, incluyendo información como nombre del lead, estado y fecha de asignación.",
+        "Si un agente no tiene leads, el modal muestra un mensaje indicándolo.",
+        "El modal se puede cerrar para volver a la lista de agentes."
+      ],
+      "additionalSuggestions": [
+        "El conteo de leads en la lista podría estar codificado por colores según la carga (p. ej., verde para pocos, amarillo para normal, rojo para muchos).",
+        "Añadir un enlace en el modal para ir a la página de detalle de cada lead."
+      ],
+      "aiEditorTask": "Modifica la consulta en `_lib/data.js` para incluir el conteo de leads. Muestra este conteo en `AgentListItem.jsx`. Crea el `LeadPortfolioModal.jsx`. Haz que el `onClick` del `AgentListItem` active el modal, pasándole el `agentId`. Dentro del modal, usa el `agentId` para fetchear y renderizar los leads correspondientes.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Visualizar estado de actividad del agente",
+      "description": "Como administrador, quiero ver el estado de actividad de cada agente (p. ej., 'Activo', 'Invitado', 'Inactivo') para saber si han aceptado la invitación y cuándo fue su último inicio de sesión.",
+      "pageContext": "Gestión de Equipo",
+      "affectedFiles": [
+        "app/(dashboard)/settings/team/components/AgentList.jsx",
+        "app/(dashboard)/settings/team/components/AgentListItem.jsx",
+        "app/(dashboard)/settings/team/_lib/data.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "La consulta de datos en `_lib/data.js` deberá obtener campos adicionales de la tabla de usuarios, como `status` ('active', 'invited') y `lastLoginAt`. `AgentListItem.jsx` renderizará esta información, probablemente usando un componente tipo 'badge' o 'tag' para el estado, con colores diferentes.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "px-2 py-1 text-xs font-medium rounded-full",
+        "colorCoding": "Verde para 'Activo' (bg-green-100 text-green-800), Amarillo para 'Invitado' (bg-yellow-100 text-yellow-800), Gris para 'Inactivo' (bg-gray-100 text-gray-800)."
+      },
+      "acceptanceCriteria": [
+        "La lista de agentes debe incluir una nueva columna llamada 'Estado'.",
+        "El estado se muestra como una etiqueta con color: 'Activo' (verde), 'Invitado' (amarillo).",
+        "Al pasar el cursor sobre la etiqueta de estado, un tooltip muestra información adicional, como la fecha del último inicio de sesión si está 'Activo', o la fecha de envío de la invitación si está 'Invitado'.",
+        "Si un agente es recién añadido, su estado inicial es 'Invitado'.",
+        "El estado cambia a 'Activo' después de que el agente inicia sesión por primera vez."
+      ],
+      "additionalSuggestions": [
+        "Añadir la opción de 'Reenviar invitación' para los agentes que aún están en estado 'Invitado' después de un tiempo prudencial."
+      ],
+      "aiEditorTask": "Actualiza la consulta en `_lib/data.js` para que retorne el estado y la fecha del último login. En `AgentListItem.jsx`, añade una nueva celda para mostrar esta información. Crea un componente 'Badge' reutilizable con props para el color y el texto para mostrar el estado de forma visualmente atractiva.",
+      "priority": "Baja",
+      "estimatedHours": 4
+    }
+  ]
+}
+```

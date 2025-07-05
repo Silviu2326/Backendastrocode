@@ -1,0 +1,123 @@
+```json
+{
+  "softwares": [
+    {
+      "name": "PivotTrain OS",
+      "description": "Una plataforma de gestión 'todo en uno' que centraliza la administración de clientes, la creación de programas de entrenamiento y nutrición, y la facturación. Diseñada para que los entrenadores personales ahorren tiempo administrativo y ofrezcan una experiencia premium a sus clientes.",
+      "targetClient": "Entrenador personal independiente o freelance (25-45 años) que gestiona entre 10 y 50 clientes. Se siente abrumado por el uso de múltiples herramientas (Excel, WhatsApp, PayPal) y busca profesionalizar y escalar su servicio.",
+      "pages": [
+        {
+          "name": "Dashboard",
+          "description": "Vista general de tareas pendientes, próximos check-ins, clientes activos y resumen de ingresos.",
+          "route": "/dashboard"
+        },
+        {
+          "name": "Clientes",
+          "description": "CRM para gestionar el perfil de cada cliente, su progreso (fotos, medidas, pesos), historial de comunicación y documentos.",
+          "route": "/clients"
+        },
+        {
+          "name": "Creador de Programas",
+          "description": "Herramienta visual para crear y asignar rutinas de entrenamiento y planes de nutrición con una biblioteca de ejercicios y alimentos.",
+          "route": "/programs/builder"
+        },
+        {
+          "name": "Calendario y Citas",
+          "description": "Sistema de programación para sesiones 1-a-1 y check-ins, con sincronización con calendarios externos.",
+          "route": "/calendar"
+        },
+        {
+          "name": "Facturación",
+          "description": "Módulo para crear y enviar facturas, gestionar suscripciones de pago recurrentes y ver el historial de pagos.",
+          "route": "/billing"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$60,000 - $120,000 USD",
+        "monthlyRevenuePotential": "$8,000 - $40,000 USD",
+        "breakEvenTime": "18-30 meses",
+        "marketSize": "Cientos de miles de entrenadores personales a nivel global.",
+        "competitionLevel": "Alto"
+      }
+    },
+    {
+      "name": "ScaleFit Academy",
+      "description": "Una plataforma diseñada para que los entrenadores empaqueten su conocimiento en programas de fitness online y los vendan a gran escala. Combina un constructor de cursos, una pasarela de pagos y herramientas de comunidad para crear academias de fitness de marca.",
+      "targetClient": "Entrenador personal con experiencia y una marca establecida que quiere pasar del modelo 1-a-1 a un modelo de ingresos pasivos o semi-pasivos. Necesita una herramienta para crear y vender productos digitales sin complejidad técnica.",
+      "pages": [
+        {
+          "name": "Panel de Programas",
+          "description": "Dashboard para crear, editar y publicar diferentes programas de entrenamiento o retos.",
+          "route": "/programs"
+        },
+        {
+          "name": "Constructor de Contenido",
+          "description": "Interfaz para subir vídeos, PDFs, y crear lecciones y módulos para cada programa.",
+          "route": "/builder"
+        },
+        {
+          "name": "Páginas de Venta",
+          "description": "Editor de landing pages para promocionar y vender los programas, con integración de pagos.",
+          "route": "/sales-pages"
+        },
+        {
+          "name": "Comunidad",
+          "description": "Espacio tipo foro o grupo privado para que los alumnos de un programa interactúen entre sí y con el entrenador.",
+          "route": "/community"
+        },
+        {
+          "name": "Analíticas y Alumnos",
+          "description": "Reportes de ventas, seguimiento del progreso de los alumnos y gestión de usuarios.",
+          "route": "/analytics"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$70,000 - $150,000 USD",
+        "monthlyRevenuePotential": "$10,000 - $60,000 USD",
+        "breakEvenTime": "20-36 meses",
+        "marketSize": "Mercado creciente de 'info-productos' de fitness y bienestar.",
+        "competitionLevel": "Medio"
+      }
+    },
+    {
+      "name": "StudioFlow",
+      "description": "Software de gestión integral para gimnasios boutique y centros de entrenamiento personal. Unifica la gestión de miembros, la programación de clases grupales, la asignación de entrenadores, la reserva de espacios y la facturación de membresías en una sola plataforma.",
+      "targetClient": "Dueño o gerente de un pequeño gimnasio, estudio de yoga/pilates o centro de entrenamiento (con 2-15 empleados). Necesita optimizar operaciones, gestionar personal y mejorar la experiencia de reserva para sus miembros.",
+      "pages": [
+        {
+          "name": "Panel de Control",
+          "description": "Vista general del negocio: ocupación de clases, ingresos del día, nuevos miembros y alertas importantes.",
+          "route": "/overview"
+        },
+        {
+          "name": "Gestión de Miembros",
+          "description": "Base de datos de todos los miembros, sus planes de membresía, historial de asistencia y pagos.",
+          "route": "/members"
+        },
+        {
+          "name": "Horario de Clases",
+          "description": "Calendario interactivo para programar clases grupales, asignar instructores y gestionar la capacidad máxima.",
+          "route": "/schedule"
+        },
+        {
+          "name": "Gestión de Staff",
+          "description": "Perfiles para cada entrenador/empleado, gestión de sus horarios, cálculo de nóminas y permisos.",
+          "route": "/staff"
+        },
+        {
+          "name": "Reportes Financieros",
+          "description": "Informes detallados sobre ingresos, tipos de membresía más populares, retención de clientes y otros KPIs.",
+          "route": "/reports/financial"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$80,000 - $180,000 USD",
+        "monthlyRevenuePotential": "$15,000 - $75,000 USD",
+        "breakEvenTime": "24-40 meses",
+        "marketSize": "Decenas de miles de gimnasios boutique y estudios a nivel mundial.",
+        "competitionLevel": "Medio-Alto"
+      }
+    }
+  ]
+}
+```

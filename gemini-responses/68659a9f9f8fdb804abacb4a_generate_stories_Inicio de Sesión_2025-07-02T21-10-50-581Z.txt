@@ -1,0 +1,239 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Inicio de Sesión Exitoso del Agente",
+      "description": "Como agente, quiero ingresar mi email y contraseña correctos para acceder al panel principal del CRM y gestionar mis propiedades y clientes.",
+      "pageContext": "Inicio de Sesión",
+      "affectedFiles": [
+        "src/pages/Login/Login.jsx",
+        "src/components/LoginForm/LoginForm.jsx",
+        "src/services/authService.js",
+        "src/hooks/useAuth.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "LoginForm",
+            "from": "../../components/LoginForm/LoginForm"
+          },
+          {
+            "name": "useAuth",
+            "from": "../../hooks/useAuth"
+          }
+        ]
+      },
+      "logicData": "El componente 'LoginForm' debe capturar el email y la contraseña. Al enviar, debe llamar a una función 'login' en 'authService.js' con las credenciales. Si la respuesta es exitosa (ej. recibe un token JWT), se debe actualizar el estado de autenticación global usando el hook 'useAuth' y redirigir al usuario a la ruta del dashboard (ej. '/dashboard').",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
+        "colorCoding": "Botón de 'Ingresar' con el color primario de la marca. Campos de entrada con borde neutral."
+      },
+      "acceptanceCriteria": [
+        "Dado que estoy en la página '/login'",
+        "Cuando ingreso un email y contraseña válidos y registrados",
+        "Y hago clic en el botón 'Ingresar'",
+        "Entonces soy redirigido a mi panel de control ('/dashboard')",
+        "Y mi estado de sesión se establece como autenticado."
+      ],
+      "additionalSuggestions": [
+        "Implementar el almacenamiento seguro del token de autenticación (ej. en HttpOnly cookie o Local Storage).",
+        "Considerar el uso de una librería de gestión de formularios como Formik o React Hook Form para simplificar el manejo de estado y validaciones."
+      ],
+      "aiEditorTask": "Implementa la lógica de envío del formulario en 'LoginForm.jsx'. Llama a una función 'handleLogin' que utilice 'authService.js' para la autenticación. En caso de éxito, usa el contexto de 'useAuth' y 'react-router-dom' para la redirección.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Notificación de Credenciales Inválidas",
+      "description": "Como agente, quiero ver un mensaje de error específico si ingreso un email o contraseña incorrectos para poder entender el problema y corregirlo.",
+      "pageContext": "Inicio de Sesión",
+      "affectedFiles": [
+        "src/components/LoginForm/LoginForm.jsx",
+        "src/services/authService.js",
+        "src/pages/Login/Login.module.css"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AlertMessage",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "La función 'login' en 'authService.js' debe manejar las respuestas de error del servidor (ej. 401 Unauthorized). El componente 'LoginForm' debe capturar este error, almacenarlo en un estado local (ej. 'errorState') y mostrar un componente 'AlertMessage' con el texto 'Email o contraseña incorrectos'. Los campos del formulario no deben borrarse tras el error.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative",
+        "colorCoding": "El mensaje de error debe tener un color de fondo rojo claro con texto y borde rojo oscuro para llamar la atención."
+      },
+      "acceptanceCriteria": [
+        "Dado que estoy en la página '/login'",
+        "Cuando ingreso un email válido pero una contraseña incorrecta (o viceversa)",
+        "Y hago clic en 'Ingresar'",
+        "Entonces permanezco en la página '/login'",
+        "Y veo un mensaje de error claramente visible que dice 'Email o contraseña incorrectos'.",
+        "Y los datos que ingresé en los campos permanecen visibles."
+      ],
+      "additionalSuggestions": [
+        "Para mejorar la seguridad, el mensaje de error debe ser genérico y no especificar si fue el email o la contraseña lo que falló.",
+        "Limitar el número de intentos de inicio de sesión fallidos desde una misma IP para prevenir ataques de fuerza bruta."
+      ],
+      "aiEditorTask": "En 'LoginForm.jsx', añade un estado para manejar mensajes de error. Dentro del 'catch' de la llamada de autenticación, actualiza este estado. Renderiza condicionalmente un componente de alerta ('AlertMessage.jsx') encima del botón de envío cuando el estado de error contenga un mensaje.",
+      "priority": "Alta",
+      "estimatedHours": 5
+    },
+    {
+      "title": "Validación de Campos de Formulario Vacíos",
+      "description": "Como agente, quiero ser notificado si intento iniciar sesión sin llenar el email o la contraseña para evitar enviar solicitudes innecesarias y corregir mi entrada.",
+      "pageContext": "Inicio de Sesión",
+      "affectedFiles": [
+        "src/components/LoginForm/LoginForm.jsx",
+        "src/components/UI/Input/Input.jsx",
+        "src/components/LoginForm/LoginForm.module.css"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "Implementar validación en el lado del cliente dentro de 'LoginForm.jsx'. Antes de llamar al servicio de autenticación, verificar si los campos de email y contraseña no están vacíos. Si algún campo está vacío, mostrar un mensaje de error debajo del campo correspondiente y no realizar la llamada a la API. El botón 'Ingresar' podría estar deshabilitado hasta que ambos campos tengan contenido.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "border-red-500 text-red-600 text-xs italic",
+        "colorCoding": "Los campos con errores de validación deben tener un borde rojo. El mensaje de ayuda debe ser pequeño y de color rojo."
+      },
+      "acceptanceCriteria": [
+        "Dado que estoy en la página '/login' y los campos están vacíos",
+        "Cuando hago clic en 'Ingresar'",
+        "Entonces no se realiza ninguna petición de red",
+        "Y aparece un mensaje como 'Este campo es requerido' debajo del campo de email y del de contraseña.",
+        "Los bordes de los campos vacíos cambian a color rojo."
+      ],
+      "additionalSuggestions": [
+        "Añadir validación de formato de email usando una expresión regular para una mejor experiencia de usuario.",
+        "La validación puede activarse 'onChange' después del primer intento de envío fallido."
+      ],
+      "aiEditorTask": "En 'LoginForm.jsx', implementa una función de validación que se ejecute en el 'onSubmit' del formulario. Utiliza un estado para almacenar los errores de validación (ej. `{ email: 'Requerido', password: 'Requerido' }`). Pasa los mensajes de error a los componentes 'Input.jsx' para que los muestren.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Visualización de Contraseña",
+      "description": "Como agente, quiero poder mostrar y ocultar mi contraseña mientras la escribo para asegurarme de que la he introducido correctamente.",
+      "pageContext": "Inicio de Sesión",
+      "affectedFiles": [
+        "src/components/LoginForm/LoginForm.jsx",
+        "src/components/UI/Input/Input.jsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "Añadir un estado booleano 'isPasswordVisible' en 'LoginForm.jsx', inicializado en 'false'. El componente 'Input.jsx' para la contraseña debe tener un ícono (ej. un ojo) a la derecha. Al hacer clic en el ícono, se alterna el estado 'isPasswordVisible'. El tipo del campo input ('type') debe cambiar dinámicamente entre 'password' y 'text' basado en este estado.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-400",
+        "colorCoding": "El ícono del ojo debe ser de un color gris sutil, cambiando ligeramente de color al pasar el cursor sobre él."
+      },
+      "acceptanceCriteria": [
+        "Dado que estoy en la página '/login'",
+        "Cuando escribo en el campo de contraseña, los caracteres aparecen ocultos (como puntos o asteriscos).",
+        "Y hago clic en el ícono del 'ojo' junto al campo de contraseña",
+        "Entonces los caracteres de mi contraseña se vuelven visibles.",
+        "Cuando vuelvo a hacer clic en el ícono, los caracteres se ocultan de nuevo."
+      ],
+      "additionalSuggestions": [
+        "Utilizar un set de íconos SVG (ej. un ojo abierto y un ojo tachado) para una mejor indicación visual del estado.",
+        "Asegurarse de que el input y el ícono estén agrupados en un contenedor con 'position: relative' para un posicionamiento correcto."
+      ],
+      "aiEditorTask": "Modifica el componente 'Input.jsx' para que acepte una prop que renderice un ícono accionable dentro del input. En 'LoginForm.jsx', maneja el estado de visibilidad y pásalo al 'Input.jsx' de la contraseña, junto con la función para cambiar el estado al hacer clic en el ícono.",
+      "priority": "Media",
+      "estimatedHours": 4
+    },
+    {
+      "title": "Navegación a Recuperación de Contraseña",
+      "description": "Como agente que ha olvidado su contraseña, quiero hacer clic en un enlace de 'recuperar contraseña' para ser dirigido a la página donde puedo iniciar el proceso de reseteo.",
+      "pageContext": "Inicio de Sesión",
+      "affectedFiles": [
+        "src/components/LoginForm/LoginForm.jsx",
+        "src/App.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ForgotPassword",
+            "type": "page"
+          }
+        ],
+        "import": [
+          {
+            "name": "Link",
+            "from": "react-router-dom"
+          }
+        ]
+      },
+      "logicData": "En 'LoginForm.jsx', añadir un elemento de enlace (usando el componente 'Link' de 'react-router-dom') con el texto 'He olvidado mi contraseña' o similar. Este enlace debe apuntar a una nueva ruta, por ejemplo, '/recuperar-contrasena'. El archivo principal de rutas ('App.jsx' o similar) debe tener definida esta nueva ruta.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "text-sm text-blue-600 hover:underline",
+        "colorCoding": "El enlace debe tener el color estándar de los hipervínculos de la aplicación, con un efecto de subrayado al pasar el cursor."
+      },
+      "acceptanceCriteria": [
+        "Dado que estoy en la página '/login'",
+        "Cuando veo el enlace 'recuperar contraseña'",
+        "Y hago clic en él",
+        "Entonces soy redirigido a la URL '/recuperar-contrasena'.",
+        "La página de inicio de sesión ya no es visible."
+      ],
+      "additionalSuggestions": [
+        "Colocar el enlace debajo del botón de 'Ingresar' o cerca del campo de contraseña para que sea fácilmente localizable.",
+        "Esta historia solo cubre la navegación. Se requerirá una historia de usuario separada para la funcionalidad de la página de recuperación."
+      ],
+      "aiEditorTask": "En 'LoginForm.jsx', importa 'Link' de 'react-router-dom' y añade un elemento `<Link to='/recuperar-contrasena'>He olvidado mi contraseña</Link>` en una ubicación apropiada dentro del formulario.",
+      "priority": "Alta",
+      "estimatedHours": 2
+    },
+    {
+      "title": "Indicador de Carga Durante el Inicio de Sesión",
+      "description": "Como agente, quiero ver un indicador visual de que el sistema está procesando mi solicitud de inicio de sesión para saber que debo esperar y no volver a hacer clic.",
+      "pageContext": "Inicio de Sesión",
+      "affectedFiles": [
+        "src/components/LoginForm/LoginForm.jsx",
+        "src/components/UI/Button/Button.jsx",
+        "src/services/authService.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "Spinner",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "En 'LoginForm.jsx', crear un estado booleano 'isLoading', inicializado en 'false'. Antes de la llamada asíncrona a 'authService.login', establecer 'isLoading' a 'true'. En el bloque 'finally' de la promesa, establecerlo de nuevo a 'false'. Pasar el estado 'isLoading' como prop al componente 'Button.jsx'. El botón debe deshabilitarse y mostrar un componente 'Spinner' en lugar de su texto cuando 'isLoading' es 'true'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "animate-spin rounded-full h-5 w-5 border-b-2 border-white",
+        "colorCoding": "El spinner debe ser de color blanco o un color de alto contraste con el fondo del botón. El botón debe tener una opacidad reducida cuando está deshabilitado."
+      },
+      "acceptanceCriteria": [
+        "Dado que estoy en la página '/login' con datos válidos en los campos",
+        "Cuando hago clic en 'Ingresar'",
+        "Entonces el botón 'Ingresar' se deshabilita para prevenir clics múltiples",
+        "Y el texto del botón es reemplazado por un ícono de carga (spinner).",
+        "Una vez que la solicitud finaliza (con éxito o error), el botón vuelve a su estado original (habilitado y con su texto)."
+      ],
+      "additionalSuggestions": [
+        "La transición entre el estado normal y el de carga debe ser suave para no desorientar al usuario.",
+        "Asegurarse de que todo el formulario quede deshabilitado durante la carga, no solo el botón, para prevenir cambios en los campos."
+      ],
+      "aiEditorTask": "Modifica el componente 'Button.jsx' para que acepte una prop 'isLoading'. Si es 'true', renderiza un componente 'Spinner' y añade el atributo 'disabled'. En 'LoginForm.jsx', gestiona el estado 'isLoading' durante el ciclo de vida de la petición de login y pásalo al 'Button'.",
+      "priority": "Media",
+      "estimatedHours": 4
+    }
+  ]
+}
+```

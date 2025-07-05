@@ -23,7 +23,8 @@ const {
   generarProyectoConIA,  // Nueva función agregada
   generarpromptinicial,   // Agregar esta nueva función
   saveUserStoriesToPage,   // Añadir esta función
-  generateestudiodemercadowithgemini  // Nueva función para estudio de mercado
+  generateestudiodemercadowithgemini,  // Nueva función para estudio de mercado
+  generateUserStoriesForProjectCompleto  // Nueva función para generar historias completas del proyecto
 } = require('../controllers/projectController');
 
 // Importar la función del backend generator
@@ -205,6 +206,8 @@ router.put('/:projectId/pages/:pageId', pageUpdateValidation, updatePage);
 // POST /api/projects/:projectId/pages/:pageId/generate-user-stories - Generar historias de usuario para página con IA
 router.post('/:projectId/pages/:pageId/generate-user-stories', generateUserStoriesForPage);
 
+// POST /api/projects/:id/generate-user-stories-completo - Generar historias de usuario para todo el proyecto
+router.post('/:projectId/generate-user-stories-completo', generateUserStoriesForProjectCompleto);
 // POST /api/projects/:projectId/pages/:pageId/user-stories - Agregar historia de usuario a página
 router.post('/:projectId/pages/:pageId/user-stories', userStoryValidation, addUserStory);
 
