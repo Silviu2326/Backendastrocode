@@ -1,0 +1,239 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Búsqueda y Validación de Dirección del Cliente",
+      "description": "Como asesor de ventas, quiero introducir la dirección de un cliente y validarla en un mapa para asegurar la ubicación exacta del inmueble y comenzar a generar la propuesta.",
+      "pageContext": "Generador de Propuestas (Nuevo Proyecto)",
+      "affectedFiles": [
+        "src/features/generador-de-propuestas-nuevo-proyecto/GeneradordePropuestas(NuevoProyecto)Page.tsx",
+        "src/features/generador-de-propuestas-nuevo-proyecto/hooks/useGeneradordePropuestas(NuevoProyecto).ts",
+        "src/features/generador-de-propuestas-nuevo-proyecto/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AddressInputStep",
+            "type": "component",
+            "path": "src/features/generador-de-propuestas-nuevo-proyecto/components/AddressInputStep.tsx",
+            "description": "Componente que encapsula el campo de búsqueda de dirección (con autocompletado) y el mapa de visualización."
+          },
+          {
+            "name": "LocationMap",
+            "type": "component",
+            "path": "src/features/generador-de-propuestas-nuevo-proyecto/components/LocationMap.tsx",
+            "description": "Componente para mostrar un mapa interactivo (ej. Leaflet, Google Maps) con un marcador en la dirección seleccionada."
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "Implementar un campo de texto que se conecte a una API de geocodificación (ej. Google Places API) para ofrecer sugerencias de autocompletado. Al seleccionar una dirección, sus coordenadas (latitud, longitud) y datos formateados se guardan en el estado gestionado por el hook `useGeneradordePropuestas`. El componente `LocationMap` se actualiza para centrarse y mostrar un pin en la ubicación seleccionada. El botón para pasar al siguiente paso del flujo debe permanecer deshabilitado hasta que se seleccione una dirección válida.",
+      "styling": {
+        "framework": "No especificado, se sugiere Tailwind CSS",
+        "classes": "flex flex-col gap-4 p-6 border rounded-lg shadow-md",
+        "colorCoding": "Usar colores primarios de la marca para el botón de acción y pines en el mapa. Los campos de entrada deben tener un estilo limpio y moderno con estados de foco claros."
+      },
+      "acceptanceCriteria": [
+        "Al empezar a escribir en el campo 'Dirección', aparece una lista de sugerencias de autocompletado.",
+        "Al seleccionar una dirección de la lista, el campo se rellena y un mapa muestra un marcador en esa ubicación.",
+        "El mapa debe permitir un ajuste manual del marcador para mayor precisión.",
+        "Los datos de la dirección (calle, ciudad, código postal, país, coordenadas) se almacenan en el estado del componente.",
+        "Un botón 'Siguiente' se activa solo después de que una dirección ha sido seleccionada."
+      ],
+      "additionalSuggestions": [
+        "Considerar la integración con la API de Google Maps para obtener imágenes satelitales del techo, que serán útiles en pasos posteriores.",
+        "Mostrar un ícono de carga mientras la API de geocodificación busca sugerencias."
+      ],
+      "aiEditorTask": "Crea el componente `AddressInputStep.tsx` que integre un input de texto para la dirección y el componente `LocationMap.tsx`. Implementa la lógica de autocompletado usando una API de mapas y actualiza el estado en el hook `useGeneradordePropuestas`.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Ingreso de Datos de Consumo Eléctrico",
+      "description": "Como instalador solar, quiero introducir el consumo eléctrico del cliente, ya sea manualmente mes a mes o subiendo una factura, para que la IA pueda dimensionar correctamente el sistema solar.",
+      "pageContext": "Generador de Propuestas (Nuevo Proyecto)",
+      "affectedFiles": [
+        "src/features/generador-de-propuestas-nuevo-proyecto/GeneradordePropuestas(NuevoProyecto)Page.tsx",
+        "src/features/generador-de-propuestas-nuevo-proyecto/hooks/useGeneradordePropuestas(NuevoProyecto).ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ConsumptionInputStep",
+            "type": "component",
+            "path": "src/features/generador-de-propuestas-nuevo-proyecto/components/ConsumptionInputStep.tsx",
+            "description": "Componente principal para este paso, que contiene la lógica para alternar entre ingreso manual y subida de factura."
+          },
+          {
+            "name": "MonthlyConsumptionForm",
+            "type": "component",
+            "path": "src/features/generador-de-propuestas-nuevo-proyecto/components/MonthlyConsumptionForm.tsx",
+            "description": "Formulario con 12 campos de entrada para el consumo (kWh) de cada mes."
+          },
+          {
+            "name": "BillUploader",
+            "type": "component",
+            "path": "src/features/generador-de-propuestas-nuevo-proyecto/components/BillUploader.tsx",
+            "description": "Componente de arrastrar y soltar para subir archivos de facturas (PDF, JPG, PNG)."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Este paso del flujo debe presentar dos opciones: 'Ingreso Manual' y 'Subir Factura'. La opción 'Manual' mostrará 12 campos numéricos para el consumo mensual en kWh. Debe calcular y mostrar el total anual en tiempo real. La opción 'Subir Factura' tendrá un área para arrastrar y soltar archivos, validando la extensión del archivo. Los datos (array de consumos mensuales o el archivo subido) se almacenarán en el estado del hook `useGeneradordePropuestas`.",
+      "styling": {
+        "framework": "No especificado, se sugiere Tailwind CSS",
+        "classes": "mt-6 p-6 border rounded-lg",
+        "colorCoding": "Utilizar pestañas o botones de radio con un estilo claro para seleccionar el método de entrada. El área de subida de archivos debe dar retroalimentación visual al arrastrar un archivo sobre ella."
+      },
+      "acceptanceCriteria": [
+        "El usuario puede seleccionar entre 'Ingreso Manual' o 'Subir Factura'.",
+        "En modo manual, existen 12 campos de entrada, uno para cada mes, que solo aceptan números.",
+        "El consumo anual total se calcula y actualiza automáticamente a medida que se introducen los valores mensuales.",
+        "En modo de subida, el usuario puede arrastrar y soltar un archivo (PDF, JPG, PNG) o seleccionarlo desde su dispositivo.",
+        "Se muestra una confirmación visual (ej. nombre del archivo) después de que el archivo se ha cargado correctamente.",
+        "Los datos de consumo se guardan en el estado global del generador de propuestas."
+      ],
+      "additionalSuggestions": [
+        "Añadir una opción para introducir un único valor de consumo medio mensual, que se extrapolará a todo el año.",
+        "Si se sube una factura, considerar una integración futura con un servicio de OCR para extraer los datos automáticamente."
+      ],
+      "aiEditorTask": "Implementa el componente `ConsumptionInputStep.tsx` con dos sub-componentes: `MonthlyConsumptionForm.tsx` y `BillUploader.tsx`. Conecta los datos de entrada al hook `useGeneradordePropuestas`.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Especificar Preferencias de Equipamiento del Sistema",
+      "description": "Como asesor técnico, quiero poder especificar preferencias sobre los componentes del sistema, como la marca de paneles o la inclusión de una batería, para que la propuesta de la IA se alinee con el stock o las preferencias del cliente.",
+      "pageContext": "Generador de Propuestas (Nuevo Proyecto)",
+      "affectedFiles": [
+        "src/features/generador-de-propuestas-nuevo-proyecto/GeneradordePropuestas(NuevoProyecto)Page.tsx",
+        "src/features/generador-de-propuestas-nuevo-proyecto/hooks/useGeneradordePropuestas(NuevoProyecto).ts",
+        "src/features/configuracin-de-la-cuenta/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "SystemPreferencesStep",
+            "type": "component",
+            "path": "src/features/generador-de-propuestas-nuevo-proyecto/components/SystemPreferencesStep.tsx",
+            "description": "Componente opcional que contiene selectores para configurar las preferencias del equipamiento."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Este paso, presentado como 'Opciones Avanzadas', debe ser opcional. Deberá obtener las listas de equipamiento disponible (paneles, inversores, baterías) que el usuario ha configurado en su cuenta, posiblemente a través de una llamada a `configuracion-de-la-cuenta/api.ts`. Las selecciones del usuario (ej. ID del panel, ID del inversor, `include_battery: true`) se almacenan en el estado del hook y se enviarán a la API de generación de propuestas.",
+      "styling": {
+        "framework": "No especificado, se sugiere Tailwind CSS",
+        "classes": "mt-6 p-6 border rounded-lg bg-gray-50",
+        "colorCoding": "Presentar esta sección dentro de un acordeón colapsable titulado 'Preferencias de Equipamiento (Opcional)' para no abrumar al usuario."
+      },
+      "acceptanceCriteria": [
+        "Existe una sección opcional o expandible para 'Preferencias de Equipamiento'.",
+        "El usuario puede seleccionar una marca/modelo de panel solar desde un menú desplegable.",
+        "El usuario puede seleccionar una marca/modelo de inversor desde un menú desplegable.",
+        "El usuario puede usar un interruptor (toggle) para indicar si se debe incluir un sistema de baterías.",
+        "Si no se selecciona nada, la IA utilizará valores predeterminados o los más óptimos.",
+        "Las preferencias seleccionadas se añaden al objeto de datos del proyecto que se enviará a la IA."
+      ],
+      "additionalSuggestions": [
+        "Mostrar información clave de cada equipo al seleccionarlo, como la potencia del panel o la eficiencia del inversor.",
+        "Permitir al usuario guardar conjuntos de preferencias como plantillas para uso futuro."
+      ],
+      "aiEditorTask": "Desarrolla el componente `SystemPreferencesStep.tsx` que incluya menús desplegables para paneles e inversores y un toggle para la batería. Llama a la API de configuración para poblar las opciones y guarda las selecciones en el estado del hook.",
+      "priority": "Media",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Iniciar Generación de Propuesta y Visualizar Progreso",
+      "description": "Como usuario, una vez que he introducido todos los datos, quiero hacer clic en un botón para iniciar el análisis de la IA y ver un indicador de progreso claro para saber que el sistema está trabajando en mi solicitud.",
+      "pageContext": "Generador de Propuestas (Nuevo Proyecto)",
+      "affectedFiles": [
+        "src/features/generador-de-propuestas-nuevo-proyecto/GeneradordePropuestas(NuevoProyecto)Page.tsx",
+        "src/features/generador-de-propuestas-nuevo-proyecto/hooks/useGeneradordePropuestas(NuevoProyecto).ts",
+        "src/features/generador-de-propuestas-nuevo-proyecto/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "GenerationProgressModal",
+            "type": "component",
+            "path": "src/features/generador-de-propuestas-nuevo-proyecto/components/GenerationProgressModal.tsx",
+            "description": "Un modal que se superpone a la pantalla, mostrando un spinner y mensajes de estado del proceso de generación."
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "Un botón 'Generar Propuesta' estará al final del flujo. Estará deshabilitado hasta que los datos mínimos (dirección y consumo) sean válidos. Al hacer clic, se llama a la función de la API `api.ts` para crear el proyecto. El hook `useGeneradordePropuestas` debe gestionar un estado de carga (`isLoading`) y, opcionalmente, un estado de mensaje de progreso (`progressMessage`). Mientras `isLoading` sea `true`, se mostrará el `GenerationProgressModal`. En caso de éxito, la aplicación redirigirá al usuario a la página de detalle del proyecto. En caso de error, el modal mostrará un mensaje de error.",
+      "styling": {
+        "framework": "No especificado, se sugiere Tailwind CSS",
+        "classes": "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50",
+        "colorCoding": "El modal debe tener un fondo semitransparente para enfocar la atención. Usar animaciones de carga (spinners) y una tipografía clara para los mensajes de estado."
+      },
+      "acceptanceCriteria": [
+        "El botón 'Generar Propuesta' está deshabilitado hasta que se introducen la dirección y los datos de consumo.",
+        "Al hacer clic en el botón, se muestra un modal de carga que bloquea la interacción con el formulario.",
+        "El modal muestra un indicador de carga y mensajes de estado como 'Analizando tejado...', 'Calculando producción...', etc.",
+        "Una vez que la API responde con éxito, el usuario es redirigido a la ruta `/proyectos/:id` del nuevo proyecto.",
+        "Si la API devuelve un error, el modal muestra un mensaje de error descriptivo y un botón para cerrarlo."
+      ],
+      "additionalSuggestions": [
+        "Utilizar WebSockets para recibir actualizaciones de progreso en tiempo real desde el backend y mostrarlas en el modal.",
+        "Añadir una animación divertida o una cita relacionada con la energía solar en el modal de carga para mejorar la experiencia de usuario."
+      ],
+      "aiEditorTask": "Crea el componente `GenerationProgressModal.tsx`. Modifica la página principal del generador para que, al pulsar un botón `Button`, se llame a la API a través del hook y se muestre este modal mientras se espera la respuesta.",
+      "priority": "Alta",
+      "estimatedHours": 7
+    },
+    {
+      "title": "Guardado Automático de Borrador de Proyecto",
+      "description": "Como usuario ocupado, quiero que el progreso de mi formulario se guarde automáticamente como un borrador para no perder mi trabajo si cierro la pestaña o tengo que interrumpir la tarea.",
+      "pageContext": "Generador de Propuestas (Nuevo Proyecto)",
+      "affectedFiles": [
+        "src/features/generador-de-propuestas-nuevo-proyecto/hooks/useGeneradordePropuestas(NuevoProyecto).ts",
+        "src/features/generador-de-propuestas-nuevo-proyecto/GeneradordePropuestas(NuevoProyecto)Page.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AutoSaveIndicator",
+            "type": "component",
+            "path": "src/features/generador-de-propuestas-nuevo-proyecto/components/AutoSaveIndicator.tsx",
+            "description": "Un pequeño componente de UI que muestra el estado del guardado (ej. 'Guardando...', 'Guardado')."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Modificar el hook `useGeneradordePropuestas` para implementar una lógica de guardado automático. Utilizar un `useEffect` que observe los cambios en los datos del formulario. Con una función `debounce` (ej. 2 segundos), guardar el estado actual en el `localStorage` del navegador. Al cargar la página (`/proyectos/nuevo`), el hook debe comprobar si existe un borrador en `localStorage`. Si existe, debe preguntar al usuario si desea restaurarlo o empezar de nuevo. El borrador se debe eliminar del `localStorage` una vez que el proyecto se genere y guarde con éxito.",
+      "styling": {
+        "framework": "No especificado, se sugiere Tailwind CSS",
+        "classes": "text-sm text-gray-500 italic fixed bottom-4 right-4",
+        "colorCoding": "El indicador de guardado debe ser sutil y no intrusivo, colocado en una esquina de la página. Puede cambiar de color o icono para reflejar el estado (guardando, guardado, error)."
+      },
+      "acceptanceCriteria": [
+        "Cualquier cambio en los campos del formulario activa un temporizador de guardado automático.",
+        "Después de 2 segundos de inactividad, el estado del formulario se guarda en `localStorage`.",
+        "Un indicador visual muestra brevemente 'Guardando...' y luego 'Progreso guardado'.",
+        "Si el usuario vuelve a la página `/proyectos/nuevo`, se le notifica que hay un borrador guardado y se le ofrece la opción de cargarlo.",
+        "Al generar la propuesta exitosamente, el borrador guardado en `localStorage` se elimina."
+      ],
+      "additionalSuggestions": [
+        "Considerar guardar el borrador en el backend asociado a la cuenta del usuario, para que pueda continuar desde otro dispositivo.",
+        "Añadir un botón de 'Descartar Borrador' para los usuarios que deseen empezar de cero explícitamente."
+      ],
+      "aiEditorTask": "Modifica el hook `useGeneradordePropuestas.ts` para añadir la lógica de guardado automático con debounce en `localStorage`. En la página, implementa la lógica para comprobar si existe un borrador al montar el componente y muestra un indicador de estado de guardado.",
+      "priority": "Media",
+      "estimatedHours": 5
+    }
+  ]
+}
+```

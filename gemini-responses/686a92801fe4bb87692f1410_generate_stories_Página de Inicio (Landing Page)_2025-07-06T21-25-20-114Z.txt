@@ -1,0 +1,286 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Navegación Principal del Sitio (Header)",
+      "description": "Como visitante del sitio, quiero una barra de navegación fija en la parte superior de la página para poder acceder fácilmente a las secciones clave como 'Precios', 'Login' y el logo para volver al inicio, mejorando mi experiencia de navegación.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/App.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "Header",
+            "path": "src/components/Header.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Header",
+            "from": "@/components/Header"
+          },
+          {
+            "name": "Button",
+            "from": "@/components/Button"
+          }
+        ]
+      },
+      "logicData": "El componente Header debe ser 'sticky' para permanecer visible al hacer scroll. Debe contener el logo de SolarQuote AI (que enlaza a '/'), enlaces a 'Precios' ('/precios'), y dos botones de CTA: 'Iniciar Sesión' ('/inicio-de-sesin') y un botón destacado para 'Registrarse Gratis' ('/registro-de-usuario'). El estado del usuario (autenticado o no) podría ocultar/mostrar los botones de 'Login'/'Registro' y mostrar un enlace al 'Dashboard'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-white/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm flex justify-between items-center p-4",
+        "colorCoding": "Fondo blanco semi-transparente, sombra sutil. Botón de registro con color primario de la marca para destacar."
+      },
+      "acceptanceCriteria": [
+        "El header debe ser visible en la parte superior de la página.",
+        "El header debe permanecer fijo en la parte superior al hacer scroll hacia abajo.",
+        "Debe contener un logo que al hacer clic redirija a la página de inicio ('/').",
+        "Debe incluir un enlace de texto que dirija a la página de precios ('/precios').",
+        "Debe mostrar un botón para 'Iniciar Sesión' que dirija a '/inicio-de-sesin'.",
+        "Debe mostrar un botón principal para 'Registrarse' que dirija a '/registro-de-usuario'."
+      ],
+      "additionalSuggestions": [
+        "Implementar un diseño responsive para que el menú se colapse en un menú de hamburguesa en dispositivos móviles.",
+        "Añadir una transición suave al fondo del header al hacer scroll para mejorar la estética."
+      ],
+      "aiEditorTask": "Crea un nuevo componente reutilizable 'Header.tsx' en 'src/components'. Este componente debe mostrar un logo, un enlace de navegación a 'Precios', un botón para 'Iniciar Sesión' y un botón destacado para 'Registrarse'. Implementa el componente en 'PáginadeInicio(LandingPage)Page.tsx' o en un layout superior en 'App.tsx'.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "CTA Secundario y Formulario para Solicitar una Demo",
+      "description": "Como gerente de una empresa solar grande, quiero poder solicitar una demostración guiada a través de un formulario simple en la página de inicio para evaluar cómo SolarQuote AI se adapta a los flujos de trabajo complejos de mi equipo antes de registrarme.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/features/pgina-de-inicio-landing-page/api.ts",
+        "src/components/Button.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "DemoRequestModal",
+            "path": "src/features/pgina-de-inicio-landing-page/components/DemoRequestModal.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "@/components/Button"
+          },
+          {
+            "name": "DemoRequestModal",
+            "from": "./components/DemoRequestModal"
+          }
+        ]
+      },
+      "logicData": "Se necesita un botón 'Solicitar Demo' en la página. Al hacer clic, se abrirá un componente modal ('DemoRequestModal'). El modal contendrá un formulario con campos para 'Nombre', 'Email', 'Nombre de la Empresa' y 'Teléfono'. Al enviar, se debe realizar una llamada a un nuevo endpoint en 'api.ts' para registrar el lead. Se debe gestionar el estado de apertura/cierre del modal, el estado de carga del envío y mostrar un mensaje de éxito o error.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "modal-overlay fixed inset-0 bg-black/50 flex items-center justify-center; modal-content bg-white p-8 rounded-lg shadow-xl",
+        "colorCoding": "Botón de demo con estilo secundario (ej. contorno). El modal con fondo blanco y superposición oscura para enfocar la atención."
+      },
+      "acceptanceCriteria": [
+        "Debe existir un botón 'Solicitar Demo' visible en la página, probablemente en la sección del héroe y en el header.",
+        "Al hacer clic en el botón, se debe abrir un modal con un formulario.",
+        "El formulario debe solicitar nombre, email, nombre de la empresa y teléfono.",
+        "El formulario debe tener validación básica para el campo de email.",
+        "Al enviar el formulario, se debe mostrar un indicador de carga.",
+        "Tras un envío exitoso, el modal debe cerrarse y mostrarse un mensaje de confirmación.",
+        "Si el envío falla, debe mostrarse un mensaje de error dentro del modal."
+      ],
+      "additionalSuggestions": [
+        "Integrar con un CRM como HubSpot o Salesforce a través de la API.",
+        "Utilizar una librería como 'react-hook-form' para la gestión del formulario."
+      ],
+      "aiEditorTask": "Crea un componente 'DemoRequestModal.tsx' que contenga un formulario. Agrega un botón en 'HeroSection.tsx' que active este modal. Implementa la lógica de envío en 'api.ts' creando una función 'requestDemo(data)' y úsala desde el modal.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Sección de Precios Resumida (Pricing Teaser)",
+      "description": "Como propietario de una pequeña empresa instaladora, quiero ver un resumen de los planes de precios en la página de inicio para evaluar rápidamente si la herramienta se ajusta a mi presupuesto sin tener que navegar a otra página.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/features/pgina-de-precios/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "PricingTeaserSection",
+            "path": "src/features/pgina-de-inicio-landing-page/components/PricingTeaserSection.tsx",
+            "type": "component"
+          },
+          {
+            "name": "PlanCard",
+            "path": "src/features/pgina-de-inicio-landing-page/components/PlanCard.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "@/components/Button"
+          }
+        ]
+      },
+      "logicData": "Esta sección mostrará 2-3 planes de precios clave (ej. 'Básico', 'Pro', 'Empresarial'). Los datos (nombre del plan, precio, una o dos características clave) podrían ser hardcodeados o, idealmente, obtenidos de un endpoint en 'src/features/pgina-de-precios/api.ts' para mantener la consistencia. Cada plan tendrá un botón CTA que llevará a la página de registro ('/registro-de-usuario?plan=pro') o a la página completa de precios ('/precios').",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid md:grid-cols-3 gap-8; card border rounded-lg p-6 flex flex-col",
+        "colorCoding": "Utilizar tarjetas para cada plan. El plan recomendado puede tener un borde o una insignia de color diferente para destacarlo."
+      },
+      "acceptanceCriteria": [
+        "La sección debe mostrar al menos dos planes de precios.",
+        "Cada plan debe mostrar su nombre, precio y un breve listado de características.",
+        "Cada plan debe tener un botón CTA claro.",
+        "Debe haber un enlace o botón general que lleve a la página de precios completa.",
+        "La sección debe ser responsive y verse bien en dispositivos móviles y de escritorio."
+      ],
+      "additionalSuggestions": [
+        "Añadir un interruptor para ver precios mensuales vs. anuales, mostrando el ahorro.",
+        "Resaltar el plan más popular para guiar la decisión del usuario."
+      ],
+      "aiEditorTask": "Crea un componente 'PricingTeaserSection.tsx' que renderice varios componentes 'PlanCard.tsx'. Coloca esta nueva sección en 'PáginadeInicio(LandingPage)Page.tsx', después de la sección de características.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Inclusión de un Video Demostrativo del Producto",
+      "description": "Como un usuario potencial que prefiere el contenido visual, quiero ver un video corto que muestre SolarQuote AI en acción para comprender rápidamente las capacidades y la interfaz del producto sin tener que leer todo el texto.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ProductVideoSection",
+            "path": "src/features/pgina-de-inicio-landing-page/components/ProductVideoSection.tsx",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Este componente renderizará un reproductor de video. Se puede usar un iframe de YouTube o Vimeo para simplificar. El componente podría tener una imagen de portada ('thumbnail') personalizada con un botón de 'play' superpuesto. Al hacer clic, la imagen es reemplazada por el iframe del video con reproducción automática. Se necesita la URL del video y la URL de la imagen de portada.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "relative rounded-lg overflow-hidden shadow-2xl; play-button absolute inset-0 m-auto w-20 h-20",
+        "colorCoding": "Sombra pronunciada en el contenedor del video para darle profundidad. El botón de 'play' podría tener una animación sutil al pasar el cursor por encima."
+      },
+      "acceptanceCriteria": [
+        "Una sección en la página de inicio debe contener un reproductor de video.",
+        "Inicialmente, se debe mostrar una imagen de vista previa con un ícono de 'play'.",
+        "Al hacer clic en el ícono de 'play', el video debe comenzar a reproducirse en el mismo lugar.",
+        "El video debe ser 'embeddable' y no redirigir al usuario fuera del sitio.",
+        "El reproductor de video debe ser responsive."
+      ],
+      "additionalSuggestions": [
+        "Implementar 'lazy loading' para el iframe del video para mejorar el rendimiento inicial de la página.",
+        "Utilizar un servicio como Wistia para obtener mejores analíticas de visualización de video."
+      ],
+      "aiEditorTask": "Crea un nuevo componente 'ProductVideoSection.tsx'. Dentro, implementa un reproductor de video (usando un iframe de YouTube/Vimeo) que se cargue al hacer clic en una imagen de vista previa. Añade esta sección en 'PáginadeInicio(LandingPage)Page.tsx', posiblemente después de la sección 'Cómo funciona'.",
+      "priority": "Media",
+      "estimatedHours": 5
+    },
+    {
+      "title": "Sección de Preguntas Frecuentes (FAQ)",
+      "description": "Como un visitante con dudas específicas, quiero encontrar una sección de Preguntas Frecuentes (FAQ) para resolver rápidamente mis interrogantes sobre seguridad, integraciones o tipos de paneles soportados, y así eliminar barreras para registrarme.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "FaqSection",
+            "path": "src/features/pgina-de-inicio-landing-page/components/FaqSection.tsx",
+            "type": "component"
+          },
+          {
+            "name": "AccordionItem",
+            "path": "src/features/pgina-de-inicio-landing-page/components/AccordionItem.tsx",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El componente 'FaqSection' renderizará una lista de preguntas y respuestas. Cada pregunta será un componente 'AccordionItem' que, al hacer clic, expandirá para mostrar la respuesta. El contenido de las FAQs (pregunta y respuesta) puede ser un array de objetos hardcodeado en el componente por ahora. La lógica principal reside en gestionar el estado de qué 'AccordionItem' está abierto.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "space-y-4; accordion-header flex justify-between items-center p-4 border rounded-lg cursor-pointer; accordion-content p-4 border-t-0",
+        "colorCoding": "Fondos neutros para las preguntas. Usar un ícono (como '+' o una flecha) que rote o cambie para indicar el estado abierto/cerrado."
+      },
+      "acceptanceCriteria": [
+        "La sección debe mostrar una lista de al menos 5 preguntas frecuentes.",
+        "Por defecto, todas las respuestas deben estar ocultas.",
+        "Al hacer clic en una pregunta, su respuesta correspondiente debe mostrarse con una animación suave.",
+        "Al hacer clic en una pregunta abierta, su respuesta debe ocultarse.",
+        "Solo una respuesta puede estar abierta a la vez (opcional, pero recomendado).",
+        "La sección debe tener un título claro, como 'Preguntas Frecuentes'."
+      ],
+      "additionalSuggestions": [
+        "Añadir un microformato (Schema.org) para FAQs para mejorar el SEO y que las preguntas puedan aparecer en los resultados de búsqueda de Google.",
+        "Añadir una barra de búsqueda para filtrar las preguntas."
+      ],
+      "aiEditorTask": "Crea los componentes 'FaqSection.tsx' y 'AccordionItem.tsx'. El primero gestionará la lista de FAQs y el segundo será el elemento interactivo para cada pregunta/respuesta. Usa state para controlar la visibilidad de las respuestas. Añade esta sección hacia el final de 'PáginadeInicio(LandingPage)Page.tsx', antes del footer.",
+      "priority": "Baja",
+      "estimatedHours": 7
+    },
+    {
+      "title": "CTA de Captura de Email en el Pie de Página (Footer)",
+      "description": "Como un visitante que aún no está listo para registrarse pero está interesado, quiero poder suscribirme a un boletín informativo desde el pie de página para recibir actualizaciones y decidir más tarde si el producto es para mí.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/components/Footer.tsx",
+        "src/features/pgina-de-inicio-landing-page/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "NewsletterForm",
+            "path": "src/features/pgina-de-inicio-landing-page/components/NewsletterForm.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "@/components/Button"
+          },
+          {
+            "name": "NewsletterForm",
+            "from": "./NewsletterForm"
+          }
+        ]
+      },
+      "logicData": "Se necesita un pequeño formulario ('NewsletterForm') dentro del componente 'Footer.tsx'. Este formulario consistirá en un campo de entrada para el email y un botón de 'Suscribirse'. Al enviar, se debe llamar a una función en 'api.ts' (ej. 'subscribeToNewsletter(email)') que envíe el correo a un servicio de email marketing. Se debe manejar el estado de carga y los mensajes de éxito/error.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex items-center space-x-2; input border rounded-l-md p-2; button rounded-r-md",
+        "colorCoding": "El formulario debe integrarse visualmente con el diseño del footer. El botón puede usar el color primario de la marca."
+      },
+      "acceptanceCriteria": [
+        "El pie de página ('Footer.tsx') debe contener un campo para introducir un email.",
+        "Debe haber un botón de 'Suscribirse' junto al campo de email.",
+        "El campo de email debe tener validación de formato.",
+        "Al enviar un email válido, se debe mostrar un mensaje de éxito (ej. '¡Gracias por suscribirte!').",
+        "Si ocurre un error (ej. email ya suscrito o error del servidor), se debe mostrar un mensaje apropiado.",
+        "La funcionalidad no debe recargar la página."
+      ],
+      "additionalSuggestions": [
+        "Añadir una casilla de verificación para aceptar la política de privacidad, con un enlace a la misma.",
+        "Considerar la implementación de un 'honeypot' o reCAPTCHA para prevenir bots."
+      ],
+      "aiEditorTask": "Crea un componente 'NewsletterForm.tsx' con un campo de entrada de email y un botón. Importa y utiliza este componente dentro de 'src/features/pgina-de-inicio-landing-page/components/Footer.tsx'. Agrega la lógica de envío en 'src/features/pgina-de-inicio-landing-page/api.ts'.",
+      "priority": "Baja",
+      "estimatedHours": 4
+    }
+  ]
+}
+```

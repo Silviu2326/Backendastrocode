@@ -1,0 +1,233 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Interacción con el Llamado a la Acción Principal (CTA)",
+      "description": "Como un visitante convencido por la propuesta de valor, quiero un botón de llamado a la acción (CTA) prominente y claro en la sección principal para poder iniciar el proceso de registro o solicitar una demo sin tener que buscar la opción.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/components/HeroSection.tsx",
+        "src/components/Button.jsx",
+        "src/App.tsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          },
+          {
+            "name": "Link",
+            "from": "react-router-dom"
+          }
+        ]
+      },
+      "logicData": "El componente `HeroSection.tsx` debe importar el componente `Button` y envolverlo en un `Link` de react-router-dom que apunte a la ruta de registro ('/registro-de-usuario'). Se pueden agregar dos botones: uno primario para 'Registro' y uno secundario para 'Solicitar Demo'. La lógica debe ser puramente de navegación.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-primary-500 hover:bg-primary-600 text-white font-bold py-3 px-6 rounded-lg text-lg shadow-lg transform hover:scale-105 transition-transform duration-200",
+        "colorCoding": "Utilizar el color primario de la marca para el botón principal para maximizar la visibilidad y un estilo 'outline' o secundario para el botón de la demo."
+      },
+      "acceptanceCriteria": [
+        "Un botón principal con el texto 'Regístrate Gratis' o 'Empezar Ahora' debe estar visible dentro de la `HeroSection.tsx`.",
+        "Al hacer clic en el botón principal, el usuario debe ser redirigido a la página de registro ('/registro-de-usuario').",
+        "Opcionalmente, puede haber un botón secundario con el texto 'Ver Demo' que enlace a una sección de la página o a una página de contacto/demo.",
+        "Los botones deben ser completamente responsivos y fácilmente pulsables en dispositivos móviles."
+      ],
+      "additionalSuggestions": [
+        "Implementar un evento de tracking (ej. Google Analytics, Mixpanel) en el clic del botón para medir la tasa de conversión.",
+        "Considerar un micro-feedback visual al hacer clic, como una animación sutil."
+      ],
+      "aiEditorTask": "Dentro de `src/features/pgina-de-inicio-landing-page/components/HeroSection.tsx`, después del subtítulo, agrega un div contenedor con dos componentes `Button` importados de `src/components/Button.jsx`. El primer botón será el primario y debe enlazar a `/registro-de-usuario`. El segundo será secundario y enlazará a `#how-it-works`.",
+      "priority": "Alta",
+      "estimatedHours": 4
+    },
+    {
+      "title": "Navegación Principal Fija (Sticky Header)",
+      "description": "Como visitante, quiero una barra de navegación superior que permanezca visible mientras me desplazo (sticky) para poder acceder fácilmente a secciones clave como 'Precios', 'Login' y el CTA principal en cualquier momento.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/App.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "Header",
+            "path": "src/features/pgina-de-inicio-landing-page/components/Header.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Link",
+            "from": "react-router-dom"
+          },
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El nuevo componente `Header.tsx` contendrá la estructura del encabezado con el logo, enlaces de navegación a '/precios' y '/inicio-de-sesin', y un botón CTA a '/registro-de-usuario'. Se utilizará CSS (`position: sticky`, `top: 0`) para que permanezca fijo. En vistas móviles, se usará un estado de React (`useState`) para controlar la visibilidad del menú hamburguesa.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "sticky top-0 z-50 bg-white/80 backdrop-blur-sm shadow-md",
+        "colorCoding": "Fondo blanco o ligeramente transparente al hacer scroll. Texto oscuro para contraste. El botón CTA debe usar el color primario de la marca."
+      },
+      "acceptanceCriteria": [
+        "La barra de navegación debe mostrar el logo de SolarQuote AI, enlaces a 'Precios', 'Iniciar Sesión' y un botón de 'Registro'.",
+        "La barra debe fijarse en la parte superior de la ventana cuando el usuario se desplaza hacia abajo.",
+        "En dispositivos móviles (ej. < 768px), los enlaces de navegación deben colapsarse en un menú de hamburguesa.",
+        "Los enlaces deben dirigir correctamente a las rutas correspondientes: '/precios', '/inicio-de-sesin', '/registro-de-usuario'."
+      ],
+      "additionalSuggestions": [
+        "Añadir una sombra sutil al header cuando el usuario empieza a hacer scroll para dar una sensación de profundidad.",
+        "El logo debe ser un enlace que lleve a la página de inicio ('/')."
+      ],
+      "aiEditorTask": "Crea el componente `Header.tsx` en `src/features/pgina-de-inicio-landing-page/components/`. Implementa una barra de navegación con un logo, enlaces a 'Precios' e 'Inicio de Sesión', y un botón 'Regístrate'. Haz que sea `sticky`. Luego, importa y renderiza este componente en la parte superior de `PáginadeInicio(LandingPage)Page.tsx`.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Visualización de Resumen de Planes de Precios",
+      "description": "Como un gerente de proyectos evaluando la herramienta, quiero ver una sección de resumen de los planes de precios en la página de inicio para entender rápidamente los costos y el valor, y así decidir si profundizo en la página de precios detallada.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "PricingTeaserSection",
+            "path": "src/features/pgina-de-inicio-landing-page/components/PricingTeaserSection.tsx",
+            "type": "component"
+          },
+          {
+            "name": "PricingCard",
+            "path": "src/features/pgina-de-inicio-landing-page/components/PricingCard.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          },
+          {
+            "name": "Link",
+            "from": "react-router-dom"
+          }
+        ]
+      },
+      "logicData": "La sección `PricingTeaserSection` contendrá 2-3 instancias del componente `PricingCard`. Los datos de los planes (nombre, precio, características principales, si es popular) pueden ser un array estático de objetos por ahora. Cada `PricingCard` recibirá estos datos como props y mostrará un botón que enlace a la página de registro o a la de precios.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid md:grid-cols-3 gap-8",
+        "colorCoding": "Las tarjetas deben tener un borde y una sombra sutil. La tarjeta 'Recomendada' debe tener un borde del color primario de la marca o una cinta/badge en la esquina."
+      },
+      "acceptanceCriteria": [
+        "La sección muestra al menos dos planes de precios, cada uno en su propia tarjeta.",
+        "Cada tarjeta muestra el nombre del plan, el precio, y una lista corta (3-4 items) de características clave.",
+        "Cada tarjeta tiene un botón CTA que redirige a la página de precios ('/precios') o a la de registro.",
+        "Se destaca visualmente un plan como el 'Recomendado' o 'Más Popular'.",
+        "La sección incluye un título claro como 'Planes para cada necesidad'."
+      ],
+      "additionalSuggestions": [
+        "Incluir un toggle para ver precios mensuales vs. anuales, mostrando un descuento para el plan anual.",
+        "Utilizar iconos junto a cada característica en la lista para mejorar la legibilidad."
+      ],
+      "aiEditorTask": "Crea los componentes `PricingTeaserSection.tsx` y `PricingCard.tsx`. En `PricingCard`, diseña una tarjeta que acepte props para título, precio, lista de características y un booleano `isRecommended`. En `PricingTeaserSection`, renderiza 3 `PricingCard` con datos de ejemplo. Finalmente, importa e incluye `PricingTeaserSection` en `PáginadeInicio(LandingPage)Page.tsx` después de la sección 'HowItWorks'.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Consulta de Preguntas Frecuentes (FAQ)",
+      "description": "Como un instalador con dudas específicas, quiero encontrar una sección de Preguntas Frecuentes (FAQ) para resolver rápidamente mis incertidumbres sobre el servicio, la seguridad o la compatibilidad, antes de comprometerme a un registro.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "FaqSection",
+            "path": "src/features/pgina-de-inicio-landing-page/components/FaqSection.tsx",
+            "type": "component"
+          },
+          {
+            "name": "AccordionItem",
+            "path": "src/features/pgina-de-inicio-landing-page/components/AccordionItem.tsx",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El componente `AccordionItem` manejará su propio estado de apertura/cierre con `useState`. Recibirá la pregunta y la respuesta como props. El componente `FaqSection` contendrá un array estático de objetos `{pregunta, respuesta}` y lo mapeará para renderizar una lista de `AccordionItem`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "border-b py-4 cursor-pointer",
+        "colorCoding": "Divisores sutiles entre preguntas. La pregunta activa puede tener un color de texto diferente. Usar íconos de '+' y '-' (o un chevron que rota) para indicar el estado."
+      },
+      "acceptanceCriteria": [
+        "La sección presenta una lista de al menos 5 preguntas frecuentes.",
+        "Por defecto, todas las respuestas están ocultas.",
+        "Al hacer clic en una pregunta, su respuesta correspondiente se expande con una animación suave.",
+        "Al hacer clic de nuevo en la misma pregunta, la respuesta se contrae.",
+        "Solo una respuesta puede estar abierta a la vez (opcional, pero recomendado)."
+      ],
+      "additionalSuggestions": [
+        "Añadir un schema (JSON-LD) para que las FAQ sean reconocidas por los motores de búsqueda y puedan aparecer en los resultados enriquecidos.",
+        "Incluir un enlace de '¿No encuentras tu respuesta? Contáctanos' al final de la sección."
+      ],
+      "aiEditorTask": "Crea los componentes `FaqSection.tsx` y `AccordionItem.tsx`. `AccordionItem` debe ser un acordeón funcional que muestra una respuesta al hacer clic en una pregunta. `FaqSection` debe renderizar una lista de 5-6 `AccordionItem` con contenido de ejemplo. Luego, añade `FaqSection` a `PáginadeInicio(LandingPage)Page.tsx` antes del footer.",
+      "priority": "Media",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Visualización de un Video Demostrativo del Producto",
+      "description": "Como un visitante que prefiere el contenido visual, quiero poder ver un video corto que demuestre SolarQuote AI en acción para comprender su funcionamiento y beneficios de una manera más dinámica que solo leer texto.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "VideoShowcaseSection",
+            "path": "src/features/pgina-de-inicio-landing-page/components/VideoShowcaseSection.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "react-player",
+            "from": "react-player/youtube"
+          }
+        ]
+      },
+      "logicData": "El componente `VideoShowcaseSection` importará un reproductor de video de terceros (ej. `react-player` para embeber fácilmente un video de YouTube/Vimeo). El componente podría tener una imagen de thumbnail personalizada y un botón de play superpuesto. Al hacer clic, se podría reemplazar la imagen con el reproductor de video para evitar cargar el video innecesariamente.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "relative aspect-video max-w-4xl mx-auto rounded-lg overflow-hidden shadow-2xl",
+        "colorCoding": "El botón de play debe ser llamativo y contrastar con la imagen de thumbnail. La sección en general debe tener un fondo que la separe del resto del contenido."
+      },
+      "acceptanceCriteria": [
+        "Se muestra una sección con un título atractivo y un thumbnail de video.",
+        "El video no se reproduce automáticamente al cargar la página para no afectar el rendimiento ni la experiencia del usuario.",
+        "El usuario puede hacer clic en un botón de reproducción sobre el thumbnail para iniciar el video.",
+        "El reproductor de video es responsive y se adapta al ancho del contenedor.",
+        "El video incluye controles estándar (play/pausa, volumen, pantalla completa)."
+      ],
+      "additionalSuggestions": [
+        "Considerar abrir el video en un modal/lightbox para una experiencia más inmersiva sin que el usuario abandone el flujo de la página.",
+        "Optimizar la imagen del thumbnail para que cargue rápidamente."
+      ],
+      "aiEditorTask": "Crea el componente `VideoShowcaseSection.tsx`. Instala la dependencia `react-player`. Dentro del componente, implementa la lógica para mostrar un thumbnail y, al hacerle clic, renderizar el componente `ReactPlayer` con una URL de video de YouTube de ejemplo. Añade esta sección en `PáginadeInicio(LandingPage)Page.tsx`, posiblemente en un lugar destacado como después de la sección de características.",
+      "priority": "Baja",
+      "estimatedHours": 5
+    }
+  ]
+}
+```

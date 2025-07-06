@@ -11,6 +11,7 @@ const {
   addPage,
   updatePage,
   addUserStory,
+  updateUserStory,
   syncProject,
   generatePageDescription,
   generateUserStoriesForPage,
@@ -210,6 +211,13 @@ router.post('/:projectId/pages/:pageId/generate-user-stories', generateUserStori
 router.post('/:projectId/generate-user-stories-completo', generateUserStoriesForProjectCompleto);
 // POST /api/projects/:projectId/pages/:pageId/user-stories - Agregar historia de usuario a página
 router.post('/:projectId/pages/:pageId/user-stories', userStoryValidation, addUserStory);
+
+// PUT /api/projects/:projectId/pages/:pageId/stories/:userStoryId/status - Actualizar estado de historia de usuario
+router.put('/:projectId/pages/:pageId/stories/:userStoryId/status', [
+  body('status')
+    .isIn(['todo', 'in-progress', 'done'])
+    .withMessage('El estado debe ser: todo, in-progress, o done')
+], updateUserStory);
 
 // POST /api/projects/:id/sync - Sincronizar proyecto con repositorio GitHub
 router.post('/:id/sync', syncProject);

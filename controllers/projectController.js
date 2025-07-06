@@ -417,7 +417,7 @@ const generarProyectoConIA = async (req, res) => {
     console.log("🚀 Iniciando generación de proyectos con Gemini");
 
     // ────────────────── 1. Validar parámetros ──────────────────
-    const { nicho, tipo } = req.body;
+    const { nicho, tipo, comentario } = req.body;
 
     if (!nicho || !tipo) {
       return res.status(400).json({
@@ -448,6 +448,8 @@ const generarProyectoConIA = async (req, res) => {
     // ────────────────── 4. Prompt ────────────────────────────
     // (Ya no dependemos de la etiqueta <PENSAMIENTO>; Gemini nos dará
     // el resumen de pensamiento automáticamente cuando se lo pidamos.)
+    const comentarioTexto = comentario ? `\n\nConsideraciones adicionales: ${comentario}` : '';
+    
     const prompt = `
 Eres un experto en desarrollo de software y análisis de mercado.
 
@@ -460,6 +462,10 @@ genera **exactamente** 3-5 ideas de software como JSON válido con este esquema:
       "name": "",
       "description": "",
       "targetClient": "",
+      "problemasQueResuelve": [
+        "Problema específico 1",
+        "Problema específico 2"
+      ],
       "pages": [
         { "name": "", "description": "", "route": "" }
       ],
@@ -472,12 +478,12 @@ genera **exactamente** 3-5 ideas de software como JSON válido con este esquema:
       }
     }
   ]
-}
+}${comentarioTexto}
 
 No añadas explicaciones ni texto fuera del bloque JSON.
     `.trim();
 
-    console.log(`📊 Entrada: Nicho="${nicho}", Tipo="${tipo}"`);
+    console.log(`📊 Entrada: Nicho="${nicho}", Tipo="${tipo}"${comentario ? `, Comentario="${comentario}"` : ''}`);
     console.log("💭 Presupuesto de pensamiento: 2048 tokens (incluyeThoughts)");
 
     // ────────────────── 5. Llamar a Gemini ──────────────────
@@ -551,6 +557,9 @@ No añadas explicaciones ni texto fuera del bloque JSON.
         name: software.name ?? `Software ${idx + 1}`,
         description: software.description ?? "",
         targetClient: software.targetClient ?? "Cliente no especificado",
+        problemasQueResuelve: Array.isArray(software.problemasQueResuelve)
+          ? software.problemasQueResuelve
+          : ["Problemas no especificados"],
         pages: Array.isArray(software.pages)
           ? software.pages.map((page, pageIdx) => ({
               id: uuidv4(),
@@ -585,6 +594,7 @@ No añadas explicaciones ni texto fuera del bloque JSON.
       message: "Proyectos generados exitosamente con Gemini",
       nicho,
       tipo,
+      comentario: comentario || null,
       totalSoftwares: formattedSoftwares.length,
       generatedSoftwares: formattedSoftwares,
       metadata: {
@@ -977,6 +987,73 @@ const addUserStory = async (req, res) => {
     res.status(500).json({
       error: 'Error interno del servidor',
       message: 'Error al agregar historia de usuario'
+    });
+  }
+};
+
+// @desc    Update user story status
+// @route   PUT /api/projects/:projectId/pages/:pageId/stories/:userStoryId/status
+// @access  Private
+const updateUserStory = async (req, res) => {
+  try {
+    const { status } = req.body;
+    const { projectId, pageId, userStoryId } = req.params;
+
+    // Validar que el status sea válido
+    const validStatuses = ['todo', 'in-progress', 'done'];
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({
+        error: 'Estado inválido',
+        message: 'El estado debe ser: todo, in-progress, o done'
+      });
+    }
+
+    const project = await Project.findOne({
+      _id: projectId,
+      userId: req.user.userId,
+      isActive: true
+    });
+
+    if (!project) {
+      return res.status(404).json({
+        error: 'Proyecto no encontrado',
+        message: 'El proyecto no existe o no tienes permisos para modificarlo'
+      });
+    }
+
+    const page = project.pages.find(p => p.id === pageId);
+    if (!page) {
+      return res.status(404).json({
+        error: 'Página no encontrada',
+        message: 'La página no existe en este proyecto'
+      });
+    }
+
+    const userStory = page.userStories.find(us => us.id === userStoryId);
+    if (!userStory) {
+      return res.status(404).json({
+        error: 'Historia de usuario no encontrada',
+        message: 'La historia de usuario no existe en esta página'
+      });
+    }
+
+    // Actualizar el estado
+    userStory.status = status;
+    await project.save();
+
+    res.json({
+      message: 'Estado de historia de usuario actualizado exitosamente',
+      userStory: {
+        id: userStory.id,
+        title: userStory.title,
+        status: userStory.status
+      }
+    });
+  } catch (error) {
+    console.error('Error al actualizar historia de usuario:', error);
+    res.status(500).json({
+      error: 'Error interno del servidor',
+      message: 'Error al actualizar historia de usuario'
     });
   }
 };
@@ -6690,6 +6767,7 @@ module.exports = {
   addPage,
   updatePage,
   addUserStory,
+  updateUserStory,
   syncProject,
   generatePageDescription,
   generateUserStoriesForPage,
