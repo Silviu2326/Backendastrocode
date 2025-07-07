@@ -8,32 +8,27 @@ const userStorySchema = new mongoose.Schema({
   title: {
     type: String,
     required: [true, 'El título de la historia de usuario es requerido'],
-    trim: true,
-    maxlength: [300, 'El título no puede exceder 300 caracteres'] // Aumentado para formato "Implementar US-X: Como usuario..."
+    trim: true
   },
   description: {
     type: String,
     required: [true, 'La descripción es requerida'],
-    trim: true,
-    maxlength: [2000, 'La descripción no puede exceder 2000 caracteres'] // Aumentado para descripción detallada
+    trim: true
   },
   // Nuevos campos para el formato solicitado
   pageContext: {
     type: String,
-    trim: true,
-    maxlength: [200, 'El contexto de página no puede exceder 200 caracteres']
+    trim: true
   },
   affectedFiles: [{
     type: String,
-    trim: true,
-    maxlength: [300, 'La ruta del archivo no puede exceder 300 caracteres']
+    trim: true
   }],
   componentsModules: {
     create: [{
       name: {
         type: String,
-        trim: true,
-        maxlength: [100, 'El nombre del componente no puede exceder 100 caracteres']
+        trim: true
       },
       type: {
         type: String,
@@ -44,20 +39,17 @@ const userStorySchema = new mongoose.Schema({
     import: [{
       name: {
         type: String,
-        trim: true,
-        maxlength: [100, 'El nombre del import no puede exceder 100 caracteres']
+        trim: true
       },
       from: {
         type: String,
-        trim: true,
-        maxlength: [200, 'La fuente del import no puede exceder 200 caracteres']
+        trim: true
       }
     }]
   },
   logicData: {
     type: String,
-    trim: true,
-    maxlength: [1000, 'La lógica/datos no puede exceder 1000 caracteres']
+    trim: true
   },
   styling: {
     framework: {
@@ -66,29 +58,24 @@ const userStorySchema = new mongoose.Schema({
     },
     classes: {
       type: String,
-      trim: true,
-      maxlength: [500, 'Las clases de estilo no pueden exceder 500 caracteres']
+      trim: true
     },
     colorCoding: {
       type: String,
-      trim: true,
-      maxlength: [200, 'La codificación de colores no puede exceder 200 caracteres']
+      trim: true
     }
   },
   acceptanceCriteria: [{
     type: String,
-    trim: true,
-    maxlength: [300, 'Cada criterio de aceptación no puede exceder 300 caracteres']
+    trim: true
   }],
   additionalSuggestions: [{
     type: String,
-    trim: true,
-    maxlength: [200, 'Cada sugerencia adicional no puede exceder 200 caracteres']
+    trim: true
   }],
   aiEditorTask: {
     type: String,
-    trim: true,
-    maxlength: [500, 'La tarea del editor IA no puede exceder 500 caracteres']
+    trim: true
   },
   // Campos originales
   priority: {

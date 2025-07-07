@@ -1,0 +1,254 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Creación de cuenta básica con credenciales",
+      "description": "Como un nuevo entrenador, quiero registrarme usando mi nombre, correo electrónico y contraseña para poder crear mi perfil y acceder a las funcionalidades de FitFlow Pro.",
+      "pageContext": "Registro de Entrenador",
+      "affectedFiles": [
+        "src/features/registro-de-entrenador/RegistrodeEntrenadorPage.tsx",
+        "src/features/registro-de-entrenador/components/SignUpForm.tsx",
+        "src/features/registro-de-entrenador/hooks/useRegistrodeEntrenador.ts",
+        "src/features/registro-de-entrenador/api.ts",
+        "src/App.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "SignUpForm",
+            "type": "component",
+            "path": "src/features/registro-de-entrenador/components/SignUpForm.tsx",
+            "description": "Componente que encapsula el formulario de registro con campos para nombre, email y contraseña."
+          },
+          {
+            "name": "InputField",
+            "type": "component",
+            "path": "src/components/InputField.tsx",
+            "description": "Componente de campo de entrada reutilizable con etiqueta y manejo de errores."
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          },
+          {
+            "name": "useRegistrodeEntrenador",
+            "from": "src/features/registro-de-entrenador/hooks/useRegistrodeEntrenador.ts"
+          }
+        ]
+      },
+      "logicData": "El hook 'useRegistrodeEntrenador' manejará el estado de los campos del formulario (nombre, email, contraseña), la lógica de envío y la comunicación con la API. La función en 'api.ts' realizará una solicitud POST a '/api/auth/signup' con los datos del usuario. En caso de éxito, la aplicación debe redirigir al usuario al '/dashboard'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "max-w-md mx-auto mt-10 p-8 border rounded-lg shadow-lg",
+        "colorCoding": "Utilizar colores primarios de la marca para el botón de acción y bordes de campos en foco. Usar colores de error (rojo) para los mensajes de validación."
+      },
+      "acceptanceCriteria": [
+        "El formulario debe contener campos para 'Nombre completo', 'Correo electrónico' y 'Contraseña'.",
+        "Todos los campos son obligatorios. Se debe mostrar un mensaje de error si un campo se deja vacío al intentar enviar.",
+        "El campo de correo electrónico debe validar que el formato sea válido (ej. usuario@dominio.com).",
+        "Al hacer clic en 'Crear Cuenta', se envía una solicitud a la API con los datos del formulario.",
+        "Si el registro es exitoso, el usuario es redirigido a la página del Dashboard Principal ('/dashboard').",
+        "Si el correo electrónico ya existe, se debe mostrar un mensaje de error específico."
+      ],
+      "additionalSuggestions": [
+        "Considerar añadir un campo opcional '¿Cómo nos conociste?' para fines de marketing.",
+        "El campo de contraseña debería tener un botón para mostrar/ocultar el texto."
+      ],
+      "aiEditorTask": "Crea el componente SignUpForm.tsx dentro de 'src/features/registro-de-entrenador/components/'. Este formulario debe incluir tres campos (nombre, email, contraseña) y un botón de envío. Implementa la lógica de estado y validación básica en el hook useRegistrodeEntrenador.ts.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Validación de fortaleza y confirmación de contraseña",
+      "description": "Como un nuevo entrenador, quiero establecer una contraseña segura y confirmarla para proteger mi cuenta contra accesos no autorizados.",
+      "pageContext": "Registro de Entrenador",
+      "affectedFiles": [
+        "src/features/registro-de-entrenador/components/SignUpForm.tsx",
+        "src/features/registro-de-entrenador/components/PasswordStrengthMeter.tsx",
+        "src/features/registro-de-entrenador/hooks/useRegistrodeEntrenador.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "PasswordStrengthMeter",
+            "type": "component",
+            "path": "src/features/registro-de-entrenador/components/PasswordStrengthMeter.tsx",
+            "description": "Componente visual que muestra la fortaleza de la contraseña en tiempo real (débil, media, fuerte)."
+          }
+        ],
+        "import": [
+          {
+            "name": "SignUpForm",
+            "from": "src/features/registro-de-entrenador/components/SignUpForm.tsx"
+          }
+        ]
+      },
+      "logicData": "El hook 'useRegistrodeEntrenador' debe incluir lógica para: 1. Validar que la contraseña cumpla con los requisitos mínimos (ej. 8 caracteres, 1 mayúscula, 1 número, 1 símbolo). 2. Comparar el valor de los campos 'Contraseña' y 'Confirmar Contraseña'. 3. Calcular la fortaleza de la contraseña para pasarla como prop al componente 'PasswordStrengthMeter'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex space-x-1 mt-2",
+        "colorCoding": "El medidor de fortaleza debe usar colores: rojo para 'débil', amarillo para 'media', y verde para 'fuerte'."
+      },
+      "acceptanceCriteria": [
+        "El formulario de registro debe incluir un campo adicional 'Confirmar Contraseña'.",
+        "El botón 'Crear Cuenta' debe estar deshabilitado si las contraseñas no coinciden.",
+        "Se debe mostrar un mensaje de error en tiempo real si el campo 'Confirmar Contraseña' no coincide con 'Contraseña'.",
+        "Debajo del campo de contraseña, se debe mostrar una lista de requisitos (ej: 'Mínimo 8 caracteres', 'Incluir una mayúscula').",
+        "Un indicador visual (PasswordStrengthMeter) debe actualizarse a medida que el usuario escribe la contraseña."
+      ],
+      "additionalSuggestions": [
+        "Utilizar una librería como 'zxcvbn' para un análisis de fortaleza de contraseña más robusto.",
+        "Mostrar/ocultar los requisitos de la contraseña dinámicamente, marcando los que se van cumpliendo."
+      ],
+      "aiEditorTask": "Añade un campo 'Confirmar Contraseña' al SignUpForm.tsx. Crea el componente PasswordStrengthMeter.tsx que acepte una puntuación y la muestre visualmente. Actualiza el hook useRegistrodeEntrenador.ts para incluir la lógica de validación de coincidencia y fortaleza de la contraseña.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Selección de un plan de suscripción durante el registro",
+      "description": "Como un nuevo entrenador, quiero ver los diferentes planes de suscripción y seleccionar uno durante el proceso de registro para iniciar directamente con un plan de prueba o de pago.",
+      "pageContext": "Registro de Entrenador",
+      "affectedFiles": [
+        "src/features/registro-de-entrenador/RegistrodeEntrenadorPage.tsx",
+        "src/features/registro-de-entrenador/components/PlanSelector.tsx",
+        "src/features/registro-de-entrenador/hooks/useRegistrodeEntrenador.ts",
+        "src/features/registro-de-entrenador/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "PlanSelector",
+            "type": "component",
+            "path": "src/features/registro-de-entrenador/components/PlanSelector.tsx",
+            "description": "Componente que muestra varias tarjetas de planes (PlanCard) y permite al usuario seleccionar una."
+          },
+          {
+            "name": "PlanCard",
+            "type": "component",
+            "path": "src/features/registro-de-entrenador/components/PlanCard.tsx",
+            "description": "Tarjeta individual que detalla un plan: nombre, precio, características y un botón de selección."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Los datos de los planes (nombre, precio, características, ID) podrían ser obtenidos de la API o estar definidos estáticamente en el frontend. El hook 'useRegistrodeEntrenador' debe manejar el estado del plan seleccionado. El ID del plan seleccionado se enviará a la API de registro junto con los demás datos del usuario.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid md:grid-cols-3 gap-4 my-8",
+        "colorCoding": "La tarjeta del plan seleccionado debe tener un borde distintivo o un color de fondo diferente para indicar la selección. Se puede añadir una etiqueta 'Recomendado' a uno de los planes."
+      },
+      "acceptanceCriteria": [
+        "La página de registro debe mostrar una sección con al menos dos opciones de planes.",
+        "Cada plan debe mostrar claramente su nombre, precio (o 'Prueba Gratuita') y una lista de beneficios clave.",
+        "El usuario debe poder hacer clic en un plan para seleccionarlo.",
+        "Debe haber una indicación visual clara de cuál es el plan seleccionado.",
+        "El plan 'Básico' o 'Prueba' debe estar seleccionado por defecto.",
+        "El ID del plan seleccionado se debe enviar a la API al crear la cuenta."
+      ],
+      "additionalSuggestions": [
+        "Incluir un interruptor (toggle) para ver precios mensuales vs. anuales, mostrando el ahorro.",
+        "Si un plan no requiere pago inmediato (prueba gratuita), el flujo debe continuar sin pedir tarjeta de crédito. Si requiere pago, se debe redirigir al flujo de pago después del registro."
+      ],
+      "aiEditorTask": "Crea los componentes PlanSelector.tsx y PlanCard.tsx. PlanSelector debe renderizar múltiples PlanCards. Integra PlanSelector en la página RegistrodeEntrenadorPage.tsx. Actualiza el hook y la llamada a la API para gestionar y enviar el ID del plan seleccionado.",
+      "priority": "Media",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Aceptación de Términos de Servicio y Política de Privacidad",
+      "description": "Como un nuevo entrenador, quiero revisar y aceptar los Términos de Servicio y la Política de Privacidad para entender las condiciones del servicio antes de completar mi registro.",
+      "pageContext": "Registro de Entrenador",
+      "affectedFiles": [
+        "src/features/registro-de-entrenador/components/SignUpForm.tsx",
+        "src/hooks/useToggle.ts",
+        "src/features/registro-de-entrenador/hooks/useRegistrodeEntrenador.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "CheckboxWithLink",
+            "type": "component",
+            "path": "src/components/CheckboxWithLink.tsx",
+            "description": "Componente de checkbox reutilizable que puede contener texto con enlaces."
+          }
+        ],
+        "import": [
+          {
+            "name": "SignUpForm",
+            "from": "src/features/registro-de-entrenador/components/SignUpForm.tsx"
+          }
+        ]
+      },
+      "logicData": "El estado del checkbox (marcado/no marcado) será manejado por el hook 'useRegistrodeEntrenador'. La lógica del formulario deshabilitará el botón de envío si el checkbox no está marcado. Los enlaces deben apuntar a rutas o páginas estáticas donde se alojen los textos legales.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "mt-4 flex items-center",
+        "colorCoding": "El texto de los enlaces ('Términos de Servicio') debe usar el color de acento de la aplicación para indicar que son clickeables."
+      },
+      "acceptanceCriteria": [
+        "Se debe mostrar una casilla de verificación (checkbox) justo encima del botón 'Crear Cuenta'.",
+        "El texto junto a la casilla debe decir algo como 'He leído y acepto los [Términos de Servicio] y la [Política de Privacidad]'.",
+        "'Términos de Servicio' y 'Política de Privacidad' deben ser enlaces que abran los documentos correspondientes en una nueva pestaña.",
+        "El botón 'Crear Cuenta' debe permanecer deshabilitado hasta que el usuario marque esta casilla.",
+        "El estado de aceptación debe ser enviado a la API o registrado en el sistema."
+      ],
+      "additionalSuggestions": [
+        "Considerar mostrar los términos en una ventana modal en lugar de una nueva pestaña para mantener al usuario en el flujo de registro.",
+        "Añadir una segunda casilla opcional para suscribirse al boletín de noticias."
+      ],
+      "aiEditorTask": "Crea un componente genérico CheckboxWithLink.tsx. Incorpóralo en el SignUpForm.tsx. Modifica el hook useRegistrodeEntrenador.ts para gestionar el estado de esta casilla y habilita/deshabilita el botón de envío basándote en su estado.",
+      "priority": "Alta",
+      "estimatedHours": 4
+    },
+    {
+      "title": "Registro simplificado mediante proveedor de identidad (Google)",
+      "description": "Como un nuevo entrenador, quiero registrarme usando mi cuenta de Google para agilizar el proceso, no tener que recordar otra contraseña y rellenar mis datos básicos automáticamente.",
+      "pageContext": "Registro de Entrenador",
+      "affectedFiles": [
+        "src/features/registro-de-entrenador/RegistrodeEntrenadorPage.tsx",
+        "src/features/registro-de-entrenador/components/SocialAuthButtons.tsx",
+        "src/features/registro-de-entrenador/hooks/useRegistrodeEntrenador.ts",
+        "src/features/registro-de-entrenador/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "SocialAuthButtons",
+            "type": "component",
+            "path": "src/features/registro-de-entrenador/components/SocialAuthButtons.tsx",
+            "description": "Contenedor para botones de autenticación social (Google, Facebook, etc.)."
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "Se requiere configurar la autenticación OAuth 2.0 en el lado del cliente y del servidor. Al hacer clic en 'Registrarse con Google', se inicia el flujo de Google. Tras la autenticación exitosa, Google devuelve un token. Este token se envía a nuestra API ('/api/auth/google/signup') que lo verifica, extrae la información del usuario (nombre, email) y crea una nueva cuenta en FitFlow Pro.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex flex-col items-center w-full mt-6",
+        "colorCoding": "El botón de Google debe seguir las guías de branding de Google (logo, color, texto)."
+      },
+      "acceptanceCriteria": [
+        "En la página de registro, debe haber un botón claramente etiquetado como 'Registrarse con Google'.",
+        "Debe mostrarse un separador visual (ej. una línea con 'O' en medio) entre el formulario de registro por email y los botones de registro social.",
+        "Al hacer clic en el botón, se abre la ventana de autenticación de Google.",
+        "Tras una autenticación exitosa con Google, el usuario es redirigido al dashboard.",
+        "Si un usuario intenta registrarse con un email de Google que ya está asociado a una cuenta creada con contraseña, se le debe pedir que inicie sesión normalmente.",
+        "Los campos de nombre y correo electrónico se deben obtener del perfil de Google."
+      ],
+      "additionalSuggestions": [
+        "Implementar también el registro con otros proveedores populares como Facebook o Apple.",
+        "Manejar el caso en que el usuario cancele el pop-up de autenticación de Google sin completar el proceso."
+      ],
+      "aiEditorTask": "Crea el componente SocialAuthButtons.tsx que contenga un botón estilizado para 'Registrarse con Google'. Intégralo en RegistrodeEntrenadorPage.tsx. Añade una función en api.ts y en el hook useRegistrodeEntrenador.ts para manejar el flujo de autenticación de Google, que implicará redirigir al usuario y manejar el callback.",
+      "priority": "Media",
+      "estimatedHours": 12
+    }
+  ]
+}
+```

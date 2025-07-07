@@ -1,0 +1,249 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización de la Propuesta de Valor Principal (Hero Section)",
+      "description": "Como un entrenador personal que visita el sitio por primera vez, quiero ver una sección principal (hero) con un titular impactante, una breve descripción y un llamado a la acción (CTA) claro para entender de inmediato el valor de FitFlow Pro y cómo empezar.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "HeroSection",
+            "type": "component",
+            "path": "src/features/pgina-de-inicio-landing-page/components/HeroSection.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          },
+          {
+            "name": "HeroSection",
+            "from": "./components/HeroSection"
+          }
+        ]
+      },
+      "logicData": "La sección debe ser estática. El CTA principal debe redirigir al usuario a la página de registro ('/registro-de-entrenador'). El contenido del titular y la descripción debe ser fácilmente configurable, posiblemente desde una constante en el componente o el hook `usePáginadeInicio`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex flex-col items-center justify-center text-center p-8 md:p-16 bg-cover bg-center",
+        "colorCoding": "Utilizar colores primarios de la marca para el CTA. El texto debe tener alto contraste con la imagen de fondo para garantizar la legibilidad."
+      },
+      "acceptanceCriteria": [
+        "La página debe mostrar una sección 'hero' a pantalla completa o casi completa al cargarse.",
+        "Debe contener un titular principal (H1) que comunique la propuesta de valor.",
+        "Debe incluir un subtitulo o párrafo que elabore sobre el titular.",
+        "Debe haber un botón de CTA primario con el texto 'Regístrate Gratis' o similar.",
+        "Al hacer clic en el CTA, el usuario es redirigido a la página de registro de entrenador.",
+        "La sección debe ser completamente responsive y verse bien en dispositivos móviles, tablets y escritorio."
+      ],
+      "additionalSuggestions": [
+        "Considerar el uso de una imagen de fondo de alta calidad o un video corto en bucle que muestre a un entrenador usando la app.",
+        "Añadir un segundo CTA secundario, como 'Ver Demo'."
+      ],
+      "aiEditorTask": "Crea el componente `HeroSection.tsx` dentro de `src/features/pgina-de-inicio-landing-page/components/`. Importa y utiliza el componente `Button` para el CTA. Añade props para el titular, subtitulo y texto del botón. Importa y renderiza `HeroSection` en `PáginadeInicio(LandingPage)Page.tsx`.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Exploración de Características Clave",
+      "description": "Como un entrenador interesado, quiero explorar una sección que detalle las características clave de FitFlow Pro (como gestión de clientes, creador de planes, etc.) para comprender cómo la herramienta puede optimizar mi trabajo diario.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/features/pgina-de-inicio-landing-page/hooks/usePáginadeInicio(LandingPage).ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "FeaturesSection",
+            "type": "component",
+            "path": "src/features/pgina-de-inicio-landing-page/components/FeaturesSection.tsx"
+          },
+          {
+            "name": "FeatureCard",
+            "type": "component",
+            "path": "src/features/pgina-de-inicio-landing-page/components/FeatureCard.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "FeaturesSection",
+            "from": "./components/FeaturesSection"
+          }
+        ]
+      },
+      "logicData": "Crear un array de objetos en `usePáginadeInicio(LandingPage).ts` que contenga la información de cada característica (ícono, título, descripción). El componente `FeaturesSection` consumirá este array para renderizar dinámicamente varios componentes `FeatureCard`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-8",
+        "colorCoding": "Cada `FeatureCard` puede tener un fondo sutil y usar el color de acento de la marca para los íconos o títulos."
+      },
+      "acceptanceCriteria": [
+        "La sección debe mostrar un mínimo de 3 características principales.",
+        "Cada característica debe ser presentada en una 'tarjeta' individual (`FeatureCard`).",
+        "Cada tarjeta debe contener un ícono representativo, un título claro y una descripción concisa.",
+        "La disposición de las tarjetas debe ser responsive, apilándose verticalmente en móviles y en una cuadrícula en pantallas más grandes.",
+        "El contenido (títulos, descripciones) debe ser fácil de modificar."
+      ],
+      "additionalSuggestions": [
+        "Añadir animaciones sutiles al hacer hover sobre las tarjetas para mejorar la interactividad.",
+        "Los íconos podrían ser SVGs personalizados para mantener la consistencia de la marca."
+      ],
+      "aiEditorTask": "Crea los componentes `FeaturesSection.tsx` y `FeatureCard.tsx`. En el hook `usePáginadeInicio`, define un array estático con los datos de las características. `FeaturesSection` debe importar y usar el hook para obtener los datos y mapearlos, renderizando un `FeatureCard` por cada elemento. Integra `FeaturesSection` en la página principal.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Visualización de Testimonios (Prueba Social)",
+      "description": "Como un entrenador que evalúa la plataforma, quiero ver testimonios de otros profesionales del fitness para ganar confianza en la efectividad y credibilidad de FitFlow Pro.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/features/pgina-de-inicio-landing-page/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "TestimonialsSection",
+            "type": "component",
+            "path": "src/features/pgina-de-inicio-landing-page/components/TestimonialsSection.tsx"
+          },
+          {
+            "name": "TestimonialCard",
+            "type": "component",
+            "path": "src/features/pgina-de-inicio-landing-page/components/TestimonialCard.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "TestimonialsSection",
+            "from": "./components/TestimonialsSection"
+          }
+        ]
+      },
+      "logicData": "La sección podría mostrar 2-3 testimonios de forma estática inicialmente. Para una versión más avanzada, los testimonios podrían ser cargados desde `api.ts`. Cada testimonio debe tener el texto, el nombre del entrenador, y opcionalmente su foto y especialidad.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-gray-50 p-8 md:p-16 flex flex-col items-center space-y-8",
+        "colorCoding": "Usar un fondo de color neutro para diferenciarla de otras secciones. Las tarjetas de testimonio pueden tener una sombra sutil para darles profundidad."
+      },
+      "acceptanceCriteria": [
+        "Debe mostrarse una sección con un título como 'Lo que dicen nuestros entrenadores'.",
+        "Se deben mostrar al menos dos testimonios.",
+        "Cada testimonio debe incluir una cita, el nombre del autor y su foto (o un avatar por defecto).",
+        "El diseño debe ser profesional y legible.",
+        "La sección debe ser responsive."
+      ],
+      "additionalSuggestions": [
+        "Implementar los testimonios en un carrusel o slider para poder mostrar más sin ocupar mucho espacio vertical.",
+        "Añadir estrellas de calificación a cada testimonio para un impacto visual rápido."
+      ],
+      "aiEditorTask": "Crea los componentes `TestimonialsSection.tsx` y `TestimonialCard.tsx`. Puedes definir los datos de los testimonios como un array estático dentro de `TestimonialsSection` por ahora. `TestimonialCard` debe aceptar props para la foto, cita y nombre. Integra `TestimonialsSection` en la página principal.",
+      "priority": "Media",
+      "estimatedHours": 7
+    },
+    {
+      "title": "Navegación Fluida a través de la Página",
+      "description": "Como un visitante, quiero una barra de navegación fija en la parte superior con enlaces a las secciones clave de la página (Características, Testimonios, Precios) y un botón de registro para poder moverme fácilmente por el contenido y registrarme en cualquier momento.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "LandingHeader",
+            "type": "component",
+            "path": "src/features/pgina-de-inicio-landing-page/components/LandingHeader.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          },
+          {
+            "name": "LandingHeader",
+            "from": "./components/LandingHeader"
+          }
+        ]
+      },
+      "logicData": "El header debe ser 'sticky' o 'fixed' para permanecer visible al hacer scroll. Los enlaces deben ser del tipo 'anchor link' que hagan scroll suave a la sección correspondiente de la página (e.g., `#features`, `#testimonials`). El botón de registro debe enlazar a `/registro-de-entrenador`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "sticky top-0 z-50 bg-white/80 backdrop-blur-sm shadow-md flex justify-between items-center p-4",
+        "colorCoding": "Fondo semi-transparente con efecto blur para un look moderno. El enlace activo (la sección que se está viendo) podría tener un color diferente."
+      },
+      "acceptanceCriteria": [
+        "Una barra de navegación debe estar visible en la parte superior de la página.",
+        "La barra debe permanecer fija en la parte superior cuando el usuario hace scroll.",
+        "Debe contener el logo de FitFlow Pro.",
+        "Debe incluir enlaces que lleven a las secciones de 'Características', 'Testimonios', y 'Precios'.",
+        "Al hacer clic en un enlace de sección, la página debe hacer scroll suavemente hasta esa sección.",
+        "Debe contener un botón de 'Registro' o 'Empezar' que redirija a la página de registro."
+      ],
+      "additionalSuggestions": [
+        "Implementar un menú de hamburguesa para la vista móvil que contenga los mismos enlaces.",
+        "Hacer que el fondo del header cambie de transparente a sólido al hacer scroll para mejorar la visibilidad sobre el contenido."
+      ],
+      "aiEditorTask": "Crea el componente `LandingHeader.tsx`. Añade el logo, los enlaces de anclaje y un `Button` para el registro. Implementa la lógica para que sea fijo ('sticky'). Asegúrate de añadir los IDs correspondientes a las secciones en `PáginadeInicio(LandingPage)Page.tsx` para que los anclajes funcionen.",
+      "priority": "Alta",
+      "estimatedHours": 9
+    },
+    {
+      "title": "Resolución de Dudas Comunes (FAQ)",
+      "description": "Como un visitante con preguntas específicas, quiero acceder a una sección de Preguntas Frecuentes (FAQ) para resolver mis dudas rápidamente sin necesidad de contactar a soporte.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "FaqSection",
+            "type": "component",
+            "path": "src/features/pgina-de-inicio-landing-page/components/FaqSection.tsx"
+          },
+          {
+            "name": "AccordionItem",
+            "type": "component",
+            "path": "src/features/pgina-de-inicio-landing-page/components/AccordionItem.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "FaqSection",
+            "from": "./components/FaqSection"
+          }
+        ]
+      },
+      "logicData": "Crear un componente `AccordionItem` que gestione su propio estado (abierto/cerrado) o que sea controlado por el padre `FaqSection`. `FaqSection` contendrá un array de objetos (pregunta, respuesta) y renderizará una lista de `AccordionItem`s.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "max-w-3xl mx-auto p-8",
+        "colorCoding": "Las preguntas pueden tener un color y las respuestas otro. Un ícono de '+' o una flecha puede indicar si el acordeón está abierto o cerrado."
+      },
+      "acceptanceCriteria": [
+        "La sección debe tener un título claro como 'Preguntas Frecuentes'.",
+        "Debe mostrar una lista de al menos 5 preguntas.",
+        "Por defecto, todas las respuestas deben estar ocultas.",
+        "Al hacer clic en una pregunta, su respuesta correspondiente debe mostrarse con una animación suave (expandir).",
+        "Al volver a hacer clic en la pregunta, la respuesta debe ocultarse (colapsar).",
+        "Solo una pregunta puede estar abierta a la vez (opcional, pero preferido)."
+      ],
+      "additionalSuggestions": [
+        "Añadir un campo de búsqueda para filtrar las preguntas.",
+        "Incluir un enlace de 'Contactar a Soporte' al final de la sección por si la duda del usuario no fue resuelta."
+      ],
+      "aiEditorTask": "Crea el componente `AccordionItem.tsx` que reciba 'pregunta' y 'respuesta' como props y gestione un estado local para mostrar/ocultar la respuesta. Luego, crea `FaqSection.tsx` que renderice múltiples `AccordionItem` con datos estáticos. Finalmente, integra `FaqSection` en la página principal.",
+      "priority": "Media",
+      "estimatedHours": 8
+    }
+  ]
+}
+```
