@@ -1,0 +1,374 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización de la Tarjeta de Encabezado del Cliente",
+      "description": "Como entrenador, quiero ver una tarjeta de encabezado con la información clave del cliente (foto, nombre, email, objetivos) para identificarlo rápidamente y tener a mano su información de contacto y metas principales.",
+      "pageContext": "Perfil del Cliente",
+      "affectedFiles": [
+        "src/features/perfil-del-cliente/PerfildelClientePage.tsx",
+        "src/features/perfil-del-cliente/hooks/usePerfildelCliente.ts",
+        "src/features/perfil-del-cliente/api.ts",
+        "src/features/perfil-del-cliente/components/ClientHeaderCard.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ClientHeaderCard",
+            "type": "component",
+            "description": "Un componente de tarjeta que muestra la foto de perfil del cliente, su nombre completo, email, teléfono y una lista de sus objetivos principales. Debe ser la primera sección visible en la página."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El componente debe recibir los datos del cliente (obtenidos por el hook `usePerfildelCliente` que llama a la API en `api.ts` con el `clientId`). La información a mostrar incluye: `avatarUrl`, `fullName`, `email`, `phone`, y un array de `goals`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md flex items-center space-x-4",
+        "colorCoding": "Utilizar colores primarios del tema para el nombre del cliente y colores neutros para la información de contacto."
+      },
+      "acceptanceCriteria": [
+        "Al cargar la página, se debe mostrar una tarjeta en la parte superior.",
+        "La tarjeta debe contener la foto de perfil, el nombre completo, el email y el teléfono del cliente.",
+        "Debajo de la información de contacto, se debe mostrar una lista de los objetivos principales del cliente.",
+        "La información mostrada debe corresponder al cliente del ID en la URL."
+      ],
+      "additionalSuggestions": [
+        "Añadir un indicador de estado (ej. 'Activo', 'Inactivo') en la tarjeta.",
+        "Hacer que el email y el teléfono sean enlaces 'mailto:' y 'tel:' respectivamente."
+      ],
+      "aiEditorTask": "Crea el componente `ClientHeaderCard.tsx` en `src/features/perfil-del-cliente/components/`. Debe aceptar un objeto `client` como prop y renderizar su avatar, nombre, información de contacto y una lista de objetivos.",
+      "priority": "Alta",
+      "estimatedHours": 6,
+      "strategicImpact": "core",
+      "comments": "Esta es la funcionalidad base para identificar al cliente. Sin esto, el resto de la página carece de contexto."
+    },
+    {
+      "title": "Visualización del Resumen del Plan de Entrenamiento Asignado",
+      "description": "Como entrenador, quiero ver un resumen claro y conciso del plan de entrenamiento actual del cliente para poder revisar rápidamente su rutina semanal sin tener que navegar a otra página.",
+      "pageContext": "Perfil del Cliente",
+      "affectedFiles": [
+        "src/features/perfil-del-cliente/PerfildelClientePage.tsx",
+        "src/features/perfil-del-cliente/components/TrainingPlanSummary.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "TrainingPlanSummary",
+            "type": "component",
+            "description": "Un componente de tipo 'widget' o 'card' que muestra el nombre del plan de entrenamiento asignado, su duración (ej. 'Semana 2 de 8'), y una vista simplificada de los días de entrenamiento de la semana."
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx",
+            "improvements": "Utilizarlo para un enlace 'Ver Plan Completo' que navegue al creador de planes en modo vista."
+          }
+        ]
+      },
+      "logicData": "El componente necesita recibir el plan de entrenamiento activo del cliente. Este dato puede ser parte del objeto principal del cliente o requerir una llamada específica desde `usePerfildelCliente`. Debe mostrar `planName`, `currentWeek`, `totalWeeks` y un objeto o array que represente la semana (`{ monday: 'Pecho y Tríceps', tuesday: 'Descanso', ...}`).",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md",
+        "colorCoding": "Usar un color de acento (ej. azul) para el título del plan y un diseño de mini-calendario para los días."
+      },
+      "acceptanceCriteria": [
+        "Debe mostrarse una sección para el plan de entrenamiento.",
+        "El nombre del plan y su progreso (ej. 'Semana 2/8') deben ser visibles.",
+        "Debe haber una vista semanal que indique qué se entrena cada día o si es descanso.",
+        "Si no hay un plan asignado, debe mostrar un mensaje y un botón para 'Asignar Plan'."
+      ],
+      "additionalSuggestions": [
+        "Mostrar un pequeño indicador de progreso (barra) para la duración total del plan."
+      ],
+      "aiEditorTask": "Crea el componente `TrainingPlanSummary.tsx` en `src/features/perfil-del-cliente/components/`. Debe recibir el `activeTrainingPlan` como prop y mostrar su nombre, duración y un resumen semanal. Incluir un botón 'Ver Plan Completo'.",
+      "priority": "Alta",
+      "estimatedHours": 8,
+      "strategicImpact": "core",
+      "comments": "Fundamental para que el entrenador pueda dar seguimiento al aspecto del entrenamiento."
+    },
+    {
+      "title": "Gráfico Interactivo de Seguimiento de Progreso",
+      "description": "Como entrenador, quiero ver un gráfico de líneas que muestre la evolución de las métricas clave del cliente (peso, grasa corporal) a lo largo del tiempo, para analizar tendencias y motivar al cliente con datos visuales.",
+      "pageContext": "Perfil del Cliente",
+      "affectedFiles": [
+        "src/features/perfil-del-cliente/PerfildelClientePage.tsx",
+        "src/features/perfil-del-cliente/hooks/usePerfildelCliente.ts",
+        "src/features/perfil-del-cliente/api.ts",
+        "src/features/perfil-del-cliente/components/ProgressMetricsChart.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ProgressMetricsChart",
+            "type": "component",
+            "description": "Un componente que renderiza un gráfico de líneas utilizando una librería (ej. Recharts, Chart.js). Debe permitir al usuario seleccionar la métrica a visualizar (ej. peso, % grasa) a través de un dropdown."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El hook `usePerfildelCliente` debe obtener un historial de métricas para el cliente (`[{date, metric, value}]`). El componente `ProgressMetricsChart` tomará estos datos y los formateará para la librería de gráficos. La lógica interna del componente manejará el cambio de la métrica seleccionada para re-renderizar el gráfico.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md",
+        "colorCoding": "Utilizar líneas de colores distintivos para cada métrica, con tooltips informativos al pasar el cursor sobre los puntos de datos."
+      },
+      "acceptanceCriteria": [
+        "Un gráfico de líneas debe renderizarse en la página.",
+        "Por defecto, el gráfico debe mostrar la evolución del 'peso'.",
+        "Debe haber un control (dropdown o botones) para cambiar la métrica visualizada (ej. a '% grasa corporal').",
+        "Al pasar el ratón sobre un punto del gráfico, debe mostrarse un tooltip con la fecha y el valor exacto."
+      ],
+      "additionalSuggestions": [
+        "Añadir un selector de rango de fechas (últimos 30 días, 3 meses, total).",
+        "Superponer una línea de tendencia para visualizar el progreso general."
+      ],
+      "aiEditorTask": "Crea el componente `ProgressMetricsChart.tsx` en `src/features/perfil-del-cliente/components/`. Integra una librería como Recharts. Debe aceptar un array de datos de progreso y un dropdown para seleccionar qué métrica mostrar en el eje Y (con la fecha en el eje X).",
+      "priority": "Alta",
+      "estimatedHours": 10,
+      "strategicImpact": "core",
+      "comments": "La visualización del progreso es un punto de venta clave y una herramienta de retención."
+    },
+    {
+      "title": "Gestión de Notas Privadas del Entrenador",
+      "description": "Como entrenador, quiero tener una sección para añadir y ver notas privadas sobre el cliente, para registrar detalles de seguimiento, feedback de sesiones y recordatorios personales que no son visibles para el cliente.",
+      "pageContext": "Perfil del Cliente",
+      "affectedFiles": [
+        "src/features/perfil-del-cliente/PerfildelClientePage.tsx",
+        "src/features/perfil-del-cliente/hooks/usePerfildelCliente.ts",
+        "src/features/perfil-del-cliente/api.ts",
+        "src/features/perfil-del-cliente/components/PrivateNotesSection.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "PrivateNotesSection",
+            "type": "component",
+            "description": "Componente que contiene un área de texto para escribir nuevas notas, un botón para guardarlas, y una lista cronológica de las notas existentes. Cada nota en la lista debe mostrar su contenido y la fecha de creación."
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx",
+            "improvements": "Usar para la acción de 'Guardar Nota'."
+          }
+        ]
+      },
+      "logicData": "Necesita interactuar con la API para: 1. Obtener (`GET /api/clients/:id/notes`) todas las notas del cliente. 2. Guardar (`POST /api/clients/:id/notes`) una nueva nota. El hook `usePerfildelCliente` deberá gestionar el estado de las notas y las funciones para añadirlas.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md space-y-4",
+        "colorCoding": "Las notas en la lista pueden tener un fondo ligeramente distinto (ej. bg-gray-50) para separarlas visualmente. El área de texto debe tener un borde claro."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un campo de texto para escribir una nota.",
+        "Un botón 'Guardar Nota' debe estar presente y funcional.",
+        "Al guardar, la nueva nota debe aparecer en una lista debajo del campo de texto, sin recargar la página.",
+        "La lista debe mostrar las notas existentes en orden cronológico inverso (la más nueva primero).",
+        "Cada nota en la lista debe mostrar su fecha y hora de creación."
+      ],
+      "additionalSuggestions": [
+        "Añadir la capacidad de editar o eliminar una nota existente.",
+        "Implementar autoguardado del borrador de la nota."
+      ],
+      "aiEditorTask": "Crea el componente `PrivateNotesSection.tsx` en `src/features/perfil-del-cliente/components/`. Debe incluir un `textarea` y un botón de 'Guardar'. Al hacer clic, debe llamar a una función `onSaveNote` pasada por props. También debe renderizar una lista de `notes` (con `content` y `createdAt`) pasadas por props.",
+      "priority": "Alta",
+      "estimatedHours": 8,
+      "strategicImpact": "core",
+      "comments": "Es una función CRM esencial para un seguimiento profesional y personalizado."
+    },
+    {
+      "title": "Visualización del Historial de Pagos del Cliente",
+      "description": "Como entrenador, quiero acceder a una tabla con el historial de pagos del cliente para verificar rápidamente su estado de cuenta, confirmar pagos recientes y gestionar las finanzas de forma transparente.",
+      "pageContext": "Perfil del Cliente",
+      "affectedFiles": [
+        "src/features/perfil-del-cliente/PerfildelClientePage.tsx",
+        "src/features/gestin-de-pagos/api.ts",
+        "src/features/perfil-del-cliente/components/ClientPaymentsHistory.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ClientPaymentsHistory",
+            "type": "component",
+            "description": "Un componente que renderiza una tabla con el historial de pagos. Las columnas deben incluir: ID de Factura, Fecha de Emisión, Fecha de Pago, Monto y Estado (Pagado, Pendiente, Vencido)."
+          }
+        ],
+        "import": [
+          {
+            "name": "Table",
+            "from": "src/components/Table.jsx",
+            "improvements": "El componente genérico `Table` se usará como base, pero `ClientPaymentsHistory` definirá las cabeceras y el renderizado de las celdas específicas para los pagos."
+          }
+        ]
+      },
+      "logicData": "El componente obtendrá el historial de pagos para el `clientId` específico, probablemente a través de una función en `usePerfildelCliente` que llama a un endpoint en `gestin-de-pagos/api.ts`. Los datos serán un array de objetos de pago.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md",
+        "colorCoding": "Usar colores para el estado del pago: verde para 'Pagado', amarillo para 'Pendiente' y rojo para 'Vencido' a través de badges."
+      },
+      "acceptanceCriteria": [
+        "Se debe mostrar una tabla con el historial de pagos del cliente.",
+        "La tabla debe tener columnas para Fecha, Concepto/ID, Monto y Estado.",
+        "El estado del pago debe estar claramente indicado con un código de color o texto.",
+        "Si no hay pagos, la tabla debe mostrar un mensaje indicándolo.",
+        "La lista debe estar ordenada por fecha, de la más reciente a la más antigua."
+      ],
+      "additionalSuggestions": [
+        "Añadir un botón para 'Registrar Nuevo Pago' que abra un modal.",
+        "Añadir un botón para descargar la factura en PDF para cada pago completado."
+      ],
+      "aiEditorTask": "Crea el componente `ClientPaymentsHistory.tsx` en `src/features/perfil-del-cliente/components/`. Debe importar y usar el componente `Table` de `src/components/Table.jsx`. Debe aceptar una prop `payments` (array) y configurar las columnas y el renderizado de celdas, incluyendo badges de colores para el estado del pago.",
+      "priority": "Alta",
+      "estimatedHours": 7,
+      "strategicImpact": "core",
+      "comments": "Crítico para la gestión financiera del negocio y para resolver disputas o dudas de los clientes."
+    },
+    {
+      "title": "Formulario para Registrar Nuevas Mediciones de Progreso",
+      "description": "Como entrenador, quiero un formulario rápido y sencillo para registrar nuevas mediciones de progreso del cliente (ej. peso, medidas corporales) directamente en su perfil, para mantener los datos del gráfico actualizados.",
+      "pageContext": "Perfil del Cliente",
+      "affectedFiles": [
+        "src/features/perfil-del-cliente/PerfildelClientePage.tsx",
+        "src/features/perfil-del-cliente/api.ts",
+        "src/features/perfil-del-cliente/components/LogProgressForm.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "LogProgressForm",
+            "type": "component",
+            "description": "Un pequeño formulario, idealmente ubicado cerca del gráfico de progreso, con campos para seleccionar la fecha, el tipo de métrica (dropdown), el valor y un botón para guardar la medición."
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx",
+            "improvements": "Utilizar para el botón de 'Registrar Medición'."
+          }
+        ]
+      },
+      "logicData": "El componente manejará su propio estado de formulario. Al enviar, llamará a una función (proporcionada por el hook `usePerfildelCliente`) que realiza una petición POST a `/api/clients/:id/metrics` con la nueva medición. Tras el éxito, debería desencadenar una actualización de los datos del gráfico.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-gray-50 dark:bg-gray-700 p-4 rounded-lg flex space-x-2 items-end",
+        "colorCoding": "Diseño compacto y funcional. El botón de envío debe usar el color de acento principal."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un formulario visible para registrar progreso.",
+        "El formulario debe incluir un selector de fecha, un dropdown para el tipo de métrica y un campo para el valor.",
+        "Al hacer clic en 'Registrar', los datos se envían al backend.",
+        "Después de un registro exitoso, el formulario se debe limpiar y el gráfico de progreso debe actualizarse para incluir el nuevo punto de datos.",
+        "Se debe mostrar un mensaje de confirmación o error tras el envío."
+      ],
+      "additionalSuggestions": [
+        "Permitir registrar múltiples métricas a la vez antes de enviar.",
+        "Validar que el valor introducido sea numérico."
+      ],
+      "aiEditorTask": "Crea el componente `LogProgressForm.tsx` en `src/features/perfil-del-cliente/components/`. Debe contener un formulario con un input de fecha, un `select` para el tipo de métrica y un input numérico para el valor. Al enviar, debe invocar la función `onLogProgress` pasada como prop con los datos del formulario.",
+      "priority": "Alta",
+      "estimatedHours": 8,
+      "strategicImpact": "core",
+      "comments": "Sin una forma de introducir datos, el gráfico de seguimiento de progreso es inútil. Esta historia cierra el ciclo de datos."
+    },
+    {
+      "title": "Visualización del Resumen del Plan de Nutrición Asignado",
+      "description": "Como entrenador, quiero ver un resumen del plan de nutrición del cliente, incluyendo sus objetivos calóricos y de macronutrientes, para evaluar su adherencia y hacer recomendaciones rápidas.",
+      "pageContext": "Perfil del Cliente",
+      "affectedFiles": [
+        "src/features/perfil-del-cliente/PerfildelClientePage.tsx",
+        "src/features/perfil-del-cliente/components/NutritionPlanSummary.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "NutritionPlanSummary",
+            "type": "component",
+            "description": "Una tarjeta que muestra los objetivos nutricionales clave del plan actual: calorías totales, y gramos de proteínas, carbohidratos y grasas. Puede usar medidores radiales o barras de progreso para una vista más visual."
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx",
+            "improvements": "Utilizar para un enlace 'Ver Dieta Completa'."
+          }
+        ]
+      },
+      "logicData": "El componente recibirá el `activeNutritionPlan` del cliente. Este objeto contendrá los datos de `targetCalories`, `targetProtein`, `targetCarbs`, y `targetFats`. Si no hay plan, mostrará un estado vacío con una llamada a la acción.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md grid grid-cols-2 gap-4",
+        "colorCoding": "Asignar un color distintivo a cada macronutriente (ej. azul para proteína, naranja para carbohidratos, amarillo para grasas) para las visualizaciones."
+      },
+      "acceptanceCriteria": [
+        "Debe mostrarse una sección dedicada al plan de nutrición.",
+        "Los objetivos de calorías totales, proteínas, carbohidratos y grasas deben ser claramente visibles.",
+        "Debe haber un botón o enlace para ver los detalles completos del plan de nutrición.",
+        "Si no hay un plan de nutrición asignado, se debe mostrar un mensaje apropiado."
+      ],
+      "additionalSuggestions": [
+        "Añadir un botón para 'Asignar/Cambiar Plan' que abra un modal de selección de planes de nutrición.",
+        "Mostrar una comparación rápida entre los objetivos y el consumo real si se integra con una app de seguimiento de alimentos."
+      ],
+      "aiEditorTask": "Crea el componente `NutritionPlanSummary.tsx` en `src/features/perfil-del-cliente/components/`. Debe recibir `activeNutritionPlan` como prop y mostrar los objetivos calóricos y de macros en un formato visualmente atractivo, como tarjetas individuales para cada métrica. Incluir un botón para 'Ver Dieta Completa'.",
+      "priority": "Alta",
+      "estimatedHours": 7,
+      "strategicImpact": "core",
+      "comments": "Complementa el plan de entrenamiento; es una parte integral del servicio de coaching de fitness."
+    },
+    {
+      "title": "Asignación o Cambio de Planes desde el Perfil",
+      "description": "Como entrenador, quiero poder asignar o cambiar rápidamente el plan de entrenamiento o nutrición de un cliente directamente desde su perfil, para que mi flujo de trabajo sea más eficiente y no tenga que cambiar de contexto.",
+      "pageContext": "Perfil del Cliente",
+      "affectedFiles": [
+        "src/features/perfil-del-cliente/PerfildelClientePage.tsx",
+        "src/features/perfil-del-cliente/components/PlanAssignmentModal.tsx",
+        "src/features/biblioteca-de-plantillas/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "PlanAssignmentModal",
+            "type": "component",
+            "description": "Un modal que se abre al hacer clic en 'Asignar Plan'. Contiene una lista con buscador de planes (de entrenamiento o nutrición, según el contexto) extraídos de la biblioteca de plantillas. Al seleccionar y confirmar, asigna el plan al cliente."
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx",
+            "improvements": "Se usará para abrir el modal y para las acciones dentro del modal ('Asignar', 'Cancelar')."
+          }
+        ]
+      },
+      "logicData": "El modal necesita un estado para su visibilidad (`isOpen`). Al abrirse, debe hacer una llamada a la API (`biblioteca-de-plantillas/api.ts`) para obtener la lista de plantillas disponibles. Al confirmar, debe hacer una petición PUT/POST a la API del cliente (`perfil-del-cliente/api.ts`) para actualizar el `activeTrainingPlanId` o `activeNutritionPlanId` del cliente.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center",
+        "colorCoding": "El modal debe seguir la paleta de colores de la aplicación, con un fondo de tarjeta claro/oscuro y un buscador bien definido en la parte superior."
+      },
+      "acceptanceCriteria": [
+        "Un botón 'Asignar Plan' o 'Cambiar Plan' debe estar visible en las secciones de plan de entrenamiento/nutrición.",
+        "Al hacer clic, se debe abrir un modal.",
+        "El modal debe listar los planes disponibles de la biblioteca y permitir la búsqueda.",
+        "Seleccionar un plan y hacer clic en 'Asignar' debe cerrar el modal y actualizar la información del plan en la página del perfil.",
+        "La acción de cancelar debe cerrar el modal sin hacer cambios."
+      ],
+      "additionalSuggestions": [
+        "Permitir previsualizar los detalles de una plantilla antes de asignarla.",
+        "Añadir un campo para definir la fecha de inicio del plan al asignarlo."
+      ],
+      "aiEditorTask": "Crea el componente `PlanAssignmentModal.tsx` en `src/features/perfil-del-cliente/components/`. Debe gestionar su estado de visibilidad. Cuando esté abierto, debe fetchear y mostrar una lista de planes. Debe aceptar una prop `onAssignPlan` para ejecutar la lógica de asignación.",
+      "priority": "Alta",
+      "estimatedHours": 10,
+      "strategicImpact": "core",
+      "comments": "Esta funcionalidad transforma la página de un simple visor de datos a una herramienta de trabajo activa, mejorando drásticamente la eficiencia del entrenador."
+    }
+  ]
+}
+```

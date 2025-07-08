@@ -1,0 +1,62 @@
+```json
+{
+  "pages": [
+    {
+      "name": "Panel de Control",
+      "description": "Página principal tras el inicio de sesión. Muestra un resumen de la actividad reciente, clientes activos, próximos pagos, tareas pendientes y estadísticas clave (ingresos, nuevos clientes, etc.).",
+      "route": "/dashboard",
+      "isEssential": true,
+      "priority": 1
+    },
+    {
+      "name": "Gestión de Clientes",
+      "description": "Listado de todos los clientes del entrenador. Permite añadir nuevos clientes, ver perfiles individuales, buscar, filtrar y acceder rápidamente a sus planes y progreso.",
+      "route": "/clients",
+      "isEssential": true,
+      "priority": 2
+    },
+    {
+      "name": "Perfil del Cliente",
+      "description": "Vista detallada de un cliente específico. Incluye su información personal, historial, planes de entrenamiento y nutrición asignados, seguimiento de progreso (gráficos, fotos) y notas.",
+      "route": "/clients/:id",
+      "isEssential": true,
+      "priority": 3
+    },
+    {
+      "name": "Biblioteca de Planes",
+      "description": "Módulo para crear y gestionar plantillas de planes de entrenamiento y nutrición. El entrenador puede construir rutinas y dietas para asignarlas fácilmente a múltiples clientes.",
+      "route": "/plans",
+      "isEssential": true,
+      "priority": 4
+    },
+    {
+      "name": "Gestión de Pagos",
+      "description": "Sección para configurar y automatizar los pagos recurrentes. Muestra el historial de transacciones, facturas, estado de las suscripciones de los clientes y proyecciones de ingresos.",
+      "route": "/payments",
+      "isEssential": true,
+      "priority": 5
+    },
+    {
+      "name": "Configuración de la Cuenta",
+      "description": "Página donde el entrenador gestiona su perfil, información de facturación, conecta procesadores de pago (ej. Stripe), personaliza la marca y configura notificaciones.",
+      "route": "/settings",
+      "isEssential": true,
+      "priority": 6
+    },
+    {
+      "name": "Calendario",
+      "description": "Agenda integrada para programar sesiones de entrenamiento, revisiones de progreso y otras citas con los clientes. Se sincroniza con las tareas y recordatorios.",
+      "route": "/calendar",
+      "isEssential": false,
+      "priority": 7
+    },
+    {
+      "name": "Mensajería",
+      "description": "Centro de comunicación para enviar y recibir mensajes directos con los clientes, manteniendo toda la interacción centralizada dentro de la plataforma.",
+      "route": "/messages",
+      "isEssential": false,
+      "priority": 8
+    }
+  ]
+}
+```

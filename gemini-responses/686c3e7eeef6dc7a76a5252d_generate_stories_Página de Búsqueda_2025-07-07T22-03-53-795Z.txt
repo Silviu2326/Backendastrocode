@@ -1,0 +1,265 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Búsqueda de Profesionales por Ubicación Manual",
+      "description": "Como un usuario que busca terapia, quiero poder introducir una ciudad o código postal en una barra de búsqueda para encontrar profesionales en esa área específica.",
+      "pageContext": "Página de Búsqueda",
+      "affectedFiles": [
+        "src/features/pgina-de-bsqueda/PáginadeBúsquedaPage.tsx",
+        "src/features/pgina-de-bsqueda/hooks/usePáginadeBúsqueda.ts",
+        "src/features/pgina-de-bsqueda/api.ts",
+        "src/features/pgina-de-bsqueda/components/LocationFilter.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "LocationFilter",
+            "type": "component",
+            "path": "src/features/pgina-de-bsqueda/components/LocationFilter.tsx",
+            "description": "Componente que contiene un input de texto para la ubicación y un botón para iniciar la búsqueda."
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El componente `LocationFilter` debe tener un estado local para el valor del input. Al hacer clic en el botón de búsqueda, se debe invocar una función del hook `usePáginadeBúsqueda` que, a su vez, llamará a la API (`api.ts`) con el parámetro de ubicación. El endpoint esperado sería algo como `GET /api/professionals?location=[ciudad/código_postal]`.",
+      "styling": {
+        "framework": "No especificado",
+        "classes": "flex items-center border rounded-lg p-2",
+        "colorCoding": "Utilizar colores primarios de la marca para el borde del input en estado 'focus' y para el botón de búsqueda. Placeholder de texto en color gris claro."
+      },
+      "acceptanceCriteria": [
+        "Debe existir un campo de texto visible en la página para introducir una ubicación.",
+        "Debe haber un botón con el texto 'Buscar' o un icono de lupa junto al campo de texto.",
+        "Al presionar 'Enter' en el campo de texto o hacer clic en el botón, se debe ejecutar la búsqueda.",
+        "Los resultados (en la vista de lista o mapa) se actualizan para reflejar los profesionales de la ubicación introducida.",
+        "Si no se introdujo texto y se realiza la búsqueda, no debe ocurrir nada o se debe mostrar un mensaje.",
+        "Si la búsqueda no arroja resultados, se debe mostrar un mensaje claro como 'No se encontraron profesionales en la ubicación especificada.'"
+      ],
+      "additionalSuggestions": [
+        "Considerar añadir autocompletado de ciudades/códigos postales usando una API externa como la de Google Places para mejorar la experiencia de usuario.",
+        "Guardar las búsquedas de ubicación recientes en el `localStorage` para un acceso rápido."
+      ],
+      "aiEditorTask": "Crea el componente `LocationFilter.tsx` dentro de `src/features/pgina-de-bsqueda/components/`. Debe contener un `input` de tipo texto y reutilizar el componente `Button` para la acción de búsqueda. La lógica de estado del input y la llamada a la función de búsqueda (que se pasará por props) deben gestionarse dentro de este componente.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Filtrado de Resultados por Categoría de Servicio",
+      "description": "Como un usuario con una necesidad específica, quiero filtrar los resultados de búsqueda por categorías de servicio (ej: Terapia Cognitivo-Conductual, Ansiedad, Terapia de Pareja) para encontrar al especialista más adecuado para mí.",
+      "pageContext": "Página de Búsqueda",
+      "affectedFiles": [
+        "src/features/pgina-de-bsqueda/PáginadeBúsquedaPage.tsx",
+        "src/features/pgina-de-bsqueda/hooks/usePáginadeBúsqueda.ts",
+        "src/features/pgina-de-bsqueda/api.ts",
+        "src/features/pgina-de-bsqueda/components/CategoryFilter.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "CategoryFilter",
+            "type": "component",
+            "path": "src/features/pgina-de-bsqueda/components/CategoryFilter.tsx",
+            "description": "Componente que muestra una lista de categorías de servicio seleccionables, posiblemente como un dropdown con checkboxes."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El componente `CategoryFilter` debe obtener la lista de categorías disponibles desde un endpoint de la API (`GET /api/categories`). El hook `usePáginadeBúsqueda` gestionará un array de IDs de categorías seleccionadas. Cada vez que el usuario modifica la selección, se debe realizar una nueva llamada a la API de búsqueda, incluyendo los filtros seleccionados: `GET /api/professionals?categories=[id1,id2,...]`.",
+      "styling": {
+        "framework": "No especificado",
+        "classes": "w-full p-4 border-b",
+        "colorCoding": "El dropdown debe seguir el estilo general. Los checkboxes o elementos seleccionados deben usar el color de acento de la marca para una clara indicación visual."
+      },
+      "acceptanceCriteria": [
+        "Debe haber una sección de filtros en la página con la opción 'Categoría de servicio'.",
+        "Al hacer clic, se despliega una lista de categorías disponibles (ej: Ansiedad, Depresión, Terapia Familiar).",
+        "El usuario puede seleccionar una o varias categorías simultáneamente.",
+        "La selección/deselección de una categoría debe actualizar la lista de resultados de búsqueda automáticamente.",
+        "Las categorías seleccionadas deben permanecer visibles (ej: como etiquetas/tags) para que el usuario sepa qué filtros están activos."
+      ],
+      "additionalSuggestions": [
+        "Incluir una barra de búsqueda dentro del dropdown de categorías si la lista es muy larga.",
+        "Mostrar el número de profesionales disponibles por categoría entre paréntesis."
+      ],
+      "aiEditorTask": "Implementa el componente `CategoryFilter.tsx` en `src/features/pgina-de-bsqueda/components/`. El componente debe aceptar una lista de categorías y una función `onSelectionChange` como props. Internamente, debe gestionar qué categorías están seleccionadas y mostrarlas. Modifica `PáginadeBúsquedaPage.tsx` para integrar este nuevo componente y conectarlo con el hook `usePáginadeBúsqueda`.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Visualización de Resultados en un Mapa Interactivo",
+      "description": "Como un usuario que valora la ubicación, quiero poder cambiar a una vista de mapa para visualizar geográficamente dónde se encuentran los profesionales y entender mejor su proximidad.",
+      "pageContext": "Página de Búsqueda",
+      "affectedFiles": [
+        "src/features/pgina-de-bsqueda/PáginadeBúsquedaPage.tsx",
+        "src/features/pgina-de-bsqueda/components/ResultsMapView.tsx",
+        "src/features/pgina-de-bsqueda/components/ViewToggle.tsx",
+        "src/features/pgina-de-bsqueda/hooks/usePáginadeBúsqueda.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ResultsMapView",
+            "type": "component",
+            "path": "src/features/pgina-de-bsqueda/components/ResultsMapView.tsx",
+            "description": "Componente que renderiza un mapa (usando una librería como Leaflet o react-map-gl) y muestra los profesionales como marcadores."
+          },
+          {
+            "name": "ViewToggle",
+            "type": "component",
+            "path": "src/features/pgina-de-bsqueda/components/ViewToggle.tsx",
+            "description": "Un interruptor simple para cambiar entre la vista de lista y la de mapa."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El hook `usePáginadeBúsqueda` debe manejar un estado para la vista actual ('list' o 'map'). `PáginadeBúsquedaPage.tsx` renderizará condicionalmente la vista de lista o `ResultsMapView`. El componente `ResultsMapView` recibirá la lista de profesionales (con coordenadas lat/lng) como prop y los renderizará como marcadores. Es necesario instalar una librería de mapas.",
+      "styling": {
+        "framework": "No especificado",
+        "classes": "map-container w-full h-full",
+        "colorCoding": "Marcadores del mapa con el color primario de la marca. Al pasar el cursor sobre un marcador, este puede cambiar de tamaño o color. El popup del marcador debe tener un diseño limpio y legible."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un control (botón/toggle) para cambiar entre la vista de lista y la vista de mapa.",
+        "Al seleccionar la vista de mapa, se muestra un mapa centrado en la ubicación de la búsqueda.",
+        "Cada profesional en los resultados se representa con un marcador en el mapa.",
+        "Al hacer clic en un marcador, se abre un pequeño popup con información clave del profesional (nombre, foto, especialidad) y un enlace a su perfil completo.",
+        "El mapa debe ser interactivo (zoom, arrastre)."
+      ],
+      "additionalSuggestions": [
+        "Considerar agrupar marcadores (clustering) cuando hay muchos en un área pequeña para mejorar el rendimiento y la legibilidad.",
+        "Al pasar el cursor sobre un elemento de la lista, resaltar el marcador correspondiente en el mapa y viceversa."
+      ],
+      "aiEditorTask": "Crea los componentes `ViewToggle.tsx` y `ResultsMapView.tsx`. Para `ResultsMapView`, añade una librería de mapas como `react-leaflet`. El componente debe tomar la lista de profesionales y renderizar los marcadores. Integra ambos componentes en `PáginadeBúsquedaPage.tsx`, controlando la vista a través del estado del hook `usePáginadeBúsqueda`.",
+      "priority": "Alta",
+      "estimatedHours": 16
+    },
+    {
+      "title": "Filtrado por Disponibilidad de Fechas",
+      "description": "Como un usuario con una agenda apretada, quiero filtrar los profesionales por fechas específicas de disponibilidad para asegurarme de que puedo agendar una cita cuando la necesito.",
+      "pageContext": "Página de Búsqueda",
+      "affectedFiles": [
+        "src/features/pgina-de-bsqueda/PáginadeBúsquedaPage.tsx",
+        "src/features/pgina-de-bsqueda/hooks/usePáginadeBúsqueda.ts",
+        "src/features/pgina-de-bsqueda/components/AvailabilityFilter.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AvailabilityFilter",
+            "type": "component",
+            "path": "src/features/pgina-de-bsqueda/components/AvailabilityFilter.tsx",
+            "description": "Un componente que contiene un selector de rango de fechas para filtrar por disponibilidad."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El componente `AvailabilityFilter` utilizará una librería de calendarios para permitir la selección de un rango de fechas. El hook `usePáginadeBúsqueda` almacenará las fechas de inicio y fin seleccionadas. Estos valores se enviarán a la API en cada búsqueda: `GET /api/professionals?availability_start=[fecha_inicio]&availability_end=[fecha_fin]`. La lógica de la API deberá devolver solo a los profesionales con huecos libres en ese rango.",
+      "styling": {
+        "framework": "No especificado",
+        "classes": "flex flex-col gap-2 p-4",
+        "colorCoding": "El calendario debe seguir la paleta de colores de la marca. El rango seleccionado debe estar claramente resaltado con el color de acento."
+      },
+      "acceptanceCriteria": [
+        "Debe existir una opción de filtro llamada 'Disponibilidad' o 'Fechas'.",
+        "Al hacer clic, se muestra un calendario para seleccionar una fecha de inicio y una de fin.",
+        "Una vez seleccionado el rango, los resultados de la búsqueda se actualizan para mostrar solo profesionales disponibles en esas fechas.",
+        "Debe ser posible seleccionar una única fecha (inicio y fin son el mismo día).",
+        "Debe haber un botón para limpiar la selección de fechas y eliminar el filtro."
+      ],
+      "additionalSuggestions": [
+        "Mostrar un atajo rápido para seleccionar 'Hoy', 'Mañana' o 'Esta semana'.",
+        "Deshabilitar fechas pasadas en el calendario para evitar selecciones inválidas."
+      ],
+      "aiEditorTask": "Implementa el componente `AvailabilityFilter.tsx`. Instala y utiliza una librería de calendarios como `react-day-picker`. El componente debe permitir la selección de un rango de fechas y llamar a una función `onDateChange` pasada por props. Conecta este componente a `PáginadeBúsquedaPage.tsx` y al hook `usePáginadeBúsqueda`.",
+      "priority": "Media",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Ordenación de Resultados por Valoración o Precio",
+      "description": "Como un usuario que busca la mejor opción, quiero poder ordenar los resultados de búsqueda por la valoración más alta o por precio para tomar una decisión informada rápidamente.",
+      "pageContext": "Página de Búsqueda",
+      "affectedFiles": [
+        "src/features/pgina-de-bsqueda/PáginadeBúsquedaPage.tsx",
+        "src/features/pgina-de-bsqueda/hooks/usePáginadeBúsqueda.ts",
+        "src/features/pgina-de-bsqueda/components/SortOptions.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "SortOptions",
+            "type": "component",
+            "path": "src/features/pgina-de-bsqueda/components/SortOptions.tsx",
+            "description": "Un componente de tipo dropdown o select que permite al usuario elegir un criterio de ordenación."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El componente `SortOptions` mostrará las opciones de ordenación. La selección del usuario será gestionada por el hook `usePáginadeBúsqueda`. Este valor se pasará a la API en cada petición: `GET /api/professionals?sort_by=rating_desc` o `GET /api/professionals?sort_by=price_asc`. La ordenación debe realizarse preferiblemente en el backend para manejar la paginación correctamente.",
+      "styling": {
+        "framework": "No especificado",
+        "classes": "ml-auto p-2",
+        "colorCoding": "Dropdown con estilo minimalista que encaje con el diseño general de la barra de filtros/búsqueda."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un control, preferiblemente un dropdown, etiquetado como 'Ordenar por:'.",
+        "Las opciones deben incluir como mínimo: 'Relevancia' (por defecto), 'Mejor valorados', 'Precio: de menor a mayor', 'Precio: de mayor a menor'.",
+        "Seleccionar una opción del dropdown debe reordenar la lista de resultados de búsqueda actual sin recargar la página.",
+        "La opción de ordenación seleccionada debe permanecer visible en el control."
+      ],
+      "additionalSuggestions": [
+        "La opción 'Relevancia' puede ser un algoritmo complejo que combine valoración, número de reservas y proximidad.",
+        "Guardar la preferencia de ordenación del usuario para futuras búsquedas en la misma sesión."
+      ],
+      "aiEditorTask": "Crea el componente `SortOptions.tsx` que renderice un elemento `<select>` con las opciones de ordenación. Debe invocar una función `onSortChange` pasada por props cuando el valor cambie. Intégralo en `PáginadeBúsquedaPage.tsx`, ubicándolo cerca de la parte superior de la lista de resultados.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Búsqueda Automática por Geolocalización",
+      "description": "Como un usuario que accede desde mi móvil, quiero usar la geolocalización de mi navegador para encontrar automáticamente profesionales cerca de mí y así ahorrar tiempo.",
+      "pageContext": "Página de Búsqueda",
+      "affectedFiles": [
+        "src/features/pgina-de-bsqueda/PáginadeBúsquedaPage.tsx",
+        "src/features/pgina-de-bsqueda/hooks/usePáginadeBúsqueda.ts",
+        "src/features/pgina-de-bsqueda/components/GeolocateButton.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "GeolocateButton",
+            "type": "component",
+            "path": "src/features/pgina-de-bsqueda/components/GeolocateButton.tsx",
+            "description": "Botón que, al ser pulsado, solicita permisos de geolocalización y ejecuta una búsqueda basada en la ubicación del usuario."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El `GeolocateButton` usará la API del navegador `navigator.geolocation.getCurrentPosition()`. El hook `usePáginadeBúsqueda` debe contener la lógica para manejar la solicitud de permisos y los casos de éxito y error. Si el usuario da permiso, las coordenadas (latitud, longitud) se envían a la API: `GET /api/professionals?lat=[latitud]&lon=[longitud]`. El backend debe poder procesar coordenadas.",
+      "styling": {
+        "framework": "No especificado",
+        "classes": "p-2 rounded-full hover:bg-gray-200",
+        "colorCoding": "Botón con un icono de 'diana' o 'pin de mapa', sin texto para un diseño limpio. Se puede colocar junto a la barra de búsqueda de ubicación."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un botón o icono que permita al usuario buscar usando su ubicación actual.",
+        "Al hacer clic en el botón, el navegador debe solicitar al usuario permiso para acceder a su ubicación.",
+        "Si el usuario concede el permiso, la búsqueda se ejecuta automáticamente con su ubicación y los resultados se actualizan.",
+        "Si el usuario deniega el permiso, se debe mostrar un mensaje discreto informando que la función no se puede utilizar.",
+        "Si se produce un error al obtener la ubicación, se debe manejar y mostrar un mensaje apropiado."
+      ],
+      "additionalSuggestions": [
+        "Una vez obtenida la ubicación, se podría rellenar automáticamente el campo de texto de ubicación con el nombre de la ciudad/área correspondiente mediante geocodificación inversa."
+      ],
+      "aiEditorTask": "Crea el componente `GeolocateButton.tsx`. Dentro del componente, implementa la llamada a `navigator.geolocation`. Pasa una función de callback como prop para ser ejecutada en caso de éxito con las coordenadas. En el hook `usePáginadeBúsqueda`, implementa la lógica para manejar esta llamada y los diferentes estados (solicitando, éxito, error).",
+      "priority": "Media",
+      "estimatedHours": 8
+    }
+  ]
+}
+```

@@ -1,0 +1,286 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualizar y Editar Información de Contacto del Cliente",
+      "description": "Como entrenador, quiero poder ver y editar la información de contacto de un cliente directamente desde su perfil para mantener sus datos actualizados y facilitar la comunicación.",
+      "pageContext": "Perfil del Cliente",
+      "affectedFiles": [
+        "src/features/perfil-del-cliente/PerfildelClientePage.tsx",
+        "src/features/perfil-del-cliente/hooks/usePerfildelCliente.ts",
+        "src/features/perfil-del-cliente/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ClientContactInfoCard",
+            "path": "src/features/perfil-del-cliente/components/ClientContactInfoCard.tsx",
+            "type": "component"
+          },
+          {
+            "name": "EditClientInfoModal",
+            "path": "src/features/perfil-del-cliente/components/EditClientInfoModal.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El hook `usePerfildelCliente` debe obtener los detalles del cliente, incluyendo nombre, email, teléfono y fecha de nacimiento. La lógica para actualizar la información residirá en este hook, que llamará a un endpoint de la API (ej. `PATCH /api/clients/{clientId}`). El componente `ClientContactInfoCard` mostrará los datos y un botón 'Editar'. Este botón abrirá el `EditClientInfoModal` con un formulario para modificar los datos.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-white shadow rounded-lg p-6",
+        "colorCoding": "Utilizar colores primarios de la app para los botones de acción y colores de alerta (rojo) para los mensajes de error en el formulario de edición."
+      },
+      "acceptanceCriteria": [
+        "Al cargar la página, se debe mostrar una tarjeta con la información de contacto actual del cliente (nombre, email, teléfono).",
+        "Debe existir un botón o icono de 'Editar' en la tarjeta de información.",
+        "Al hacer clic en 'Editar', se debe abrir un modal con un formulario pre-rellenado con la información actual.",
+        "El formulario debe permitir modificar los campos de email y teléfono.",
+        "Al guardar los cambios, la información en la tarjeta se actualiza sin necesidad de recargar la página y los datos se persisten en el backend.",
+        "El modal debe poder cerrarse sin guardar los cambios."
+      ],
+      "additionalSuggestions": [
+        "Añadir validación en tiempo real en los campos del formulario (ej. formato de email).",
+        "Mostrar una notificación de éxito (toast) después de guardar los cambios."
+      ],
+      "aiEditorTask": "Genera el componente `ClientContactInfoCard.tsx` para mostrar los datos del cliente y un botón para abrir el modal `EditClientInfoModal.tsx`. Implementa la lógica de estado y el formulario en `EditClientInfoModal.tsx` para actualizar los datos.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Visualizar Historial de Progreso del Cliente",
+      "description": "Como entrenador, quiero visualizar el progreso de mi cliente a lo largo del tiempo (medidas y fotos) en gráficos y galerías para poder evaluar su evolución y tomar decisiones informadas sobre su plan.",
+      "pageContext": "Perfil del Cliente",
+      "affectedFiles": [
+        "src/features/perfil-del-cliente/PerfildelClientePage.tsx",
+        "src/features/perfil-del-cliente/hooks/usePerfildelCliente.ts",
+        "src/features/perfil-del-cliente/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ProgressChart",
+            "path": "src/features/perfil-del-cliente/components/ProgressChart.tsx",
+            "type": "component"
+          },
+          {
+            "name": "PhotoProgressGallery",
+            "path": "src/features/perfil-del-cliente/components/PhotoProgressGallery.tsx",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El hook `usePerfildelCliente` deberá obtener los datos de seguimiento del cliente (ej. `GET /api/clients/{clientId}/progress`). Estos datos incluirán un array de mediciones con fecha (peso, % grasa corporal, etc.) y un array de URLs de fotos con fecha. El componente `ProgressChart` usará una librería de gráficos (como Recharts o Chart.js) para renderizar los datos de mediciones. `PhotoProgressGallery` mostrará las fotos en orden cronológico.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-1 lg:grid-cols-2 gap-6",
+        "colorCoding": "El gráfico debe usar colores contrastantes para las diferentes métricas. La galería de fotos puede tener un fondo oscuro para resaltar las imágenes."
+      },
+      "acceptanceCriteria": [
+        "La página debe contener una sección de 'Progreso'.",
+        "Se debe mostrar al menos un gráfico de líneas que represente la evolución del peso del cliente en el tiempo.",
+        "Debe haber un selector para cambiar la métrica visualizada en el gráfico (ej. Peso, % Grasa).",
+        "Se debe mostrar una galería de fotos de progreso, ordenadas de más antigua a más reciente.",
+        "Al pasar el cursor sobre una foto, se debe mostrar la fecha en que fue tomada.",
+        "Hacer clic en una foto debe abrirla en un visor o modal de mayor tamaño."
+      ],
+      "additionalSuggestions": [
+        "Implementar una funcionalidad de comparación de dos fotos 'antes y después' lado a lado.",
+        "Permitir al entrenador añadir nuevas mediciones manualmente desde esta vista."
+      ],
+      "aiEditorTask": "Crea el componente `ProgressChart.tsx` utilizando una librería de gráficos para visualizar datos de series temporales. Luego, genera `PhotoProgressGallery.tsx` para mostrar una cuadrícula de imágenes con funcionalidad de lightbox.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Gestionar Notas Privadas del Entrenador",
+      "description": "Como entrenador, quiero poder añadir, ver y eliminar notas privadas sobre un cliente para llevar un registro confidencial de conversaciones, lesiones, metas y otros detalles importantes.",
+      "pageContext": "Perfil del Cliente",
+      "affectedFiles": [
+        "src/features/perfil-del-cliente/PerfildelClientePage.tsx",
+        "src/features/perfil-del-cliente/hooks/usePerfildelCliente.ts",
+        "src/features/perfil-del-cliente/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "PrivateNotesSection",
+            "path": "src/features/perfil-del-cliente/components/PrivateNotesSection.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "La API debe proveer endpoints para CRUD de notas asociadas a un cliente (`GET, POST, DELETE /api/clients/{clientId}/notes`). El hook `usePerfildelCliente` gestionará el estado de las notas. El componente `PrivateNotesSection` contendrá un área de texto para añadir nuevas notas y un listado de las notas existentes, cada una con su fecha y un botón para eliminarla.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-gray-50 rounded-lg p-4",
+        "colorCoding": "Las notas pueden tener un fondo amarillo pálido, similar a un post-it. El botón de 'eliminar' debe ser sutil, quizás un icono de papelera rojo al pasar el cursor."
+      },
+      "acceptanceCriteria": [
+        "Debe haber una sección 'Notas Privadas' visible solo para el entrenador.",
+        "Se debe mostrar un listado de notas existentes en orden cronológico inverso (la más nueva primero).",
+        "Cada nota en el listado debe mostrar su contenido y la fecha de creación.",
+        "Debe haber un campo de texto y un botón 'Guardar Nota' para añadir una nueva nota.",
+        "Al guardar una nueva nota, esta debe aparecer inmediatamente en el listado sin recargar la página.",
+        "Cada nota debe tener un botón o icono para ser eliminada, con un diálogo de confirmación previo."
+      ],
+      "additionalSuggestions": [
+        "Añadir soporte para markdown básico en las notas.",
+        "Implementar una función de búsqueda para filtrar las notas por palabra clave."
+      ],
+      "aiEditorTask": "Desarrolla el componente `PrivateNotesSection.tsx`. Debe incluir un formulario para crear notas y una lista para mostrarlas. Conecta las acciones (crear, eliminar) con las funciones correspondientes en el hook `usePerfildelCliente`.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Consultar Planes de Entrenamiento y Nutrición Asignados",
+      "description": "Como entrenador, quiero ver una lista clara de los planes de entrenamiento y nutrición que tiene asignados un cliente para saber rápidamente qué está haciendo actualmente y si necesita un nuevo plan.",
+      "pageContext": "Perfil del Cliente",
+      "affectedFiles": [
+        "src/features/perfil-del-cliente/PerfildelClientePage.tsx",
+        "src/features/perfil-del-cliente/hooks/usePerfildelCliente.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AssignedPlansList",
+            "path": "src/features/perfil-del-cliente/components/AssignedPlansList.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Table",
+            "from": "src/components/Table.jsx"
+          }
+        ]
+      },
+      "logicData": "El hook `usePerfildelCliente` debe obtener la lista de planes asignados al cliente desde la API (`GET /api/clients/{clientId}/plans`). Cada plan debe tener un nombre, tipo (Entrenamiento/Nutrición), estado (Activo/Pasado) y fechas de vigencia. El componente `AssignedPlansList` podría usar el componente genérico `Table` para mostrar esta información de forma organizada.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "mt-6",
+        "colorCoding": "Usar badges de colores para el estado del plan: verde para 'Activo', gris para 'Pasado', azul para 'Próximo'."
+      },
+      "acceptanceCriteria": [
+        "La página debe mostrar una sección para 'Planes Asignados'.",
+        "La sección debe listar tanto planes de entrenamiento como de nutrición.",
+        "Para cada plan, se debe mostrar su nombre, tipo, y fechas de inicio y fin.",
+        "Debe haber un indicador visual claro para el estado de cada plan (ej. 'Activo').",
+        "Debe haber un enlace en cada plan que lleve al detalle del mismo (página del 'Creador de Planes' en modo lectura).",
+        "Si no hay planes asignados, se debe mostrar un mensaje indicándolo y un botón para 'Asignar Plan'."
+      ],
+      "additionalSuggestions": [
+        "Permitir al entrenador desasignar un plan desde esta vista.",
+        "Mostrar una barra de progreso visual para la duración del plan activo."
+      ],
+      "aiEditorTask": "Implementa `AssignedPlansList.tsx`. Usa el componente `Table` importado para mostrar los datos de los planes obtenidos del hook. Asegúrate de configurar las columnas y renderizar los badges de estado con los colores adecuados.",
+      "priority": "Alta",
+      "estimatedHours": 5
+    },
+    {
+      "title": "Ver Historial de Pagos y Estado de la Cuenta",
+      "description": "Como entrenador, quiero poder revisar el historial de pagos de un cliente y ver el estado de su suscripción para gestionar fácilmente la parte administrativa y saber si está al corriente de pago.",
+      "pageContext": "Perfil del Cliente",
+      "affectedFiles": [
+        "src/features/perfil-del-cliente/PerfildelClientePage.tsx",
+        "src/features/perfil-del-cliente/hooks/usePerfildelCliente.ts",
+        "src/features/pagos-y-facturacin/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "PaymentHistory",
+            "path": "src/features/perfil-del-cliente/components/PaymentHistory.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Table",
+            "from": "src/components/Table.jsx"
+          }
+        ]
+      },
+      "logicData": "El hook `usePerfildelCliente` llamará a una función de la API de `pagos-y-facturacion` para obtener el historial de transacciones del cliente (`GET /api/clients/{clientId}/payments`). La data incluirá fecha, concepto, monto y estado (Pagado, Pendiente, Vencido). El componente `PaymentHistory` usará el `Table` para mostrar estos datos.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-4 border rounded-lg",
+        "colorCoding": "Usa verde para 'Pagado', naranja para 'Pendiente' y rojo para 'Vencido' en la columna de estado para una rápida identificación visual."
+      },
+      "acceptanceCriteria": [
+        "Debe existir una pestaña o sección de 'Pagos' en el perfil del cliente.",
+        "La sección debe mostrar una tabla con el historial de pagos.",
+        "La tabla debe incluir columnas para Fecha, Concepto, Importe y Estado.",
+        "El estado del pago debe estar claramente visible y diferenciado por colores.",
+        "Debe haber una opción para descargar la factura de cada pago completado.",
+        "Se debe mostrar un resumen del estado de la suscripción actual (ej. 'Activa hasta DD/MM/AAAA' o 'Pago pendiente')."
+      ],
+      "additionalSuggestions": [
+        "Añadir un botón para registrar un pago manual (ej. si el cliente paga en efectivo).",
+        "Integrar con la pasarela de pago para enviar un recordatorio de pago desde esta pantalla."
+      ],
+      "aiEditorTask": "Crea el componente `PaymentHistory.tsx`. Configura el componente `Table` para que muestre el historial de pagos. La lógica para obtener los datos debe estar en el hook `usePerfildelCliente`, que a su vez podría consumir una función del módulo `pagos-y-facturacion`.",
+      "priority": "Media",
+      "estimatedHours": 7
+    },
+    {
+      "title": "Desactivar un Cliente",
+      "description": "Como entrenador, quiero poder desactivar un cliente que ya no está activo para que no sature mi lista principal, pero conservando su historial por si decide volver en el futuro.",
+      "pageContext": "Perfil del Cliente",
+      "affectedFiles": [
+        "src/features/perfil-del-cliente/PerfildelClientePage.tsx",
+        "src/features/perfil-del-cliente/hooks/usePerfildelCliente.ts",
+        "src/features/perfil-del-cliente/api.ts",
+        "src/features/gestin-de-clientes/GestióndeClientesPage.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "DeactivateClientModal",
+            "path": "src/features/perfil-del-cliente/components/DeactivateClientModal.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "Se añadirá un botón 'Desactivar' en la página. Al pulsarlo, se abrirá el modal de confirmación `DeactivateClientModal`. Al confirmar, el hook `usePerfildelCliente` ejecutará una llamada a la API para cambiar el estado del cliente a 'inactivo' (`PATCH /api/clients/{clientId}`). Tras una respuesta exitosa, el usuario debe ser redirigido a la página de gestión de clientes.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "text-red-600 hover:text-red-800",
+        "colorCoding": "El botón de 'Desactivar' debe ser de un color de 'peligro' (rojo) para indicar que es una acción destructiva/importante. El modal debe tener un tono de advertencia."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un botón o una opción en un menú desplegable para 'Desactivar Cliente'.",
+        "Al hacer clic en la opción, debe aparecer un modal de confirmación que advierta sobre la acción.",
+        "El modal debe tener un botón de 'Confirmar Desactivación' y uno de 'Cancelar'.",
+        "Al confirmar, se debe actualizar el estado del cliente en el backend a 'inactivo'.",
+        "Tras la desactivación, el entrenador es redirigido a la lista de clientes (`/clients`).",
+        "El cliente desactivado ya no debe aparecer en la lista de clientes activos por defecto."
+      ],
+      "additionalSuggestions": [
+        "En la página de 'Gestión de Clientes', añadir un filtro para poder ver también a los clientes inactivos y reactivarlos."
+      ],
+      "aiEditorTask": "Genera el componente `DeactivateClientModal.tsx`. Añade el botón de desactivación en `PerfildelClientePage.tsx` que active este modal. Implementa la función de desactivación en `usePerfildelCliente` y la posterior redirección.",
+      "priority": "Baja",
+      "estimatedHours": 4
+    }
+  ]
+}
+```

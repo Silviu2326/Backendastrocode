@@ -1,0 +1,271 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización de la Propuesta de Valor en la Sección Principal (Hero)",
+      "description": "Como un nuevo visitante, quiero ver una sección principal clara y atractiva en la Home que explique qué es TheraFlow y su beneficio principal, para poder entender rápidamente si la plataforma resuelve mi necesidad de encontrar apoyo en salud mental.",
+      "pageContext": "Home pública",
+      "affectedFiles": [
+        "src/features/home-pblica/HomepúblicaPage.tsx",
+        "src/features/home-pblica/components/HeroSection.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "HeroSection",
+            "path": "src/features/home-pblica/components/HeroSection.tsx",
+            "type": "component",
+            "description": "Componente que encapsula el titular principal, el subtítulo y los botones de llamada a la acción primario y secundario."
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "Este componente es principalmente estático. El contenido (titulares, textos de botones) puede ser hardcodeado o provenir de un archivo de constantes de texto para facilitar la internacionalización futura. No requiere llamadas a API.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex flex-col items-center justify-center text-center p-8 md:p-16 bg-gradient-to-r from-blue-100 to-green-100",
+        "colorCoding": "Usa la paleta de colores primaria del proyecto para los botones CTA, con el primario (ej. 'Buscar profesionales') teniendo más peso visual que el secundario (ej. 'Registrarse')."
+      },
+      "acceptanceCriteria": [
+        "La sección debe ocupar la parte superior de la página y ser lo primero que vea el usuario.",
+        "Debe contener un titular principal (H1) que resuma la propuesta de valor.",
+        "Debe contener un texto secundario que ofrezca más detalles sobre el servicio.",
+        "Debe incluir un botón de CTA primario 'Buscar profesionales' que redirija a la página de búsqueda.",
+        "Debe incluir un botón o enlace de CTA secundario para 'Registrarse' que redirija a la página de registro/login.",
+        "El diseño debe ser profesional y utilizar imágenes o gráficos de alta calidad relacionados con el bienestar y la terapia."
+      ],
+      "additionalSuggestions": [
+        "Considerar añadir una animación sutil al texto o a los botones para captar la atención.",
+        "Realizar pruebas A/B con diferentes titulares para optimizar la conversión."
+      ],
+      "aiEditorTask": "Crea el componente 'HeroSection.tsx' en 'src/features/home-pblica/components/'. Este componente debe mostrar un título principal, un párrafo descriptivo y dos componentes 'Button' importados de 'src/components/Button.jsx'. Un botón será 'Buscar profesionales' y el otro 'Regístrate'. Importa y renderiza 'HeroSection' en 'HomepúblicaPage.tsx'.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Explicación del Funcionamiento de la Plataforma",
+      "description": "Como un visitante interesado, quiero ver una sección que explique 'Cómo Funciona' en pasos sencillos y visuales, para entender claramente el proceso desde la búsqueda hasta la sesión de terapia y sentirme más seguro.",
+      "pageContext": "Home pública",
+      "affectedFiles": [
+        "src/features/home-pblica/HomepúblicaPage.tsx",
+        "src/features/home-pblica/components/HowItWorksSection.tsx",
+        "src/features/home-pblica/components/StepCard.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "HowItWorksSection",
+            "path": "src/features/home-pblica/components/HowItWorksSection.tsx",
+            "type": "component",
+            "description": "Contenedor para los pasos que explican el funcionamiento."
+          },
+          {
+            "name": "StepCard",
+            "path": "src/features/home-pblica/components/StepCard.tsx",
+            "type": "component",
+            "description": "Componente reutilizable para mostrar un paso individual con un icono, título y descripción."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El contenido de los pasos (ej. 1. Busca, 2. Elige, 3. Reserva) es estático y puede ser manejado a través de un array de objetos dentro del componente 'HowItWorksSection'. Cada objeto representará un paso.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-1 md:grid-cols-3 gap-8 p-8",
+        "colorCoding": "Utilizar iconos y colores que guíen visualmente al usuario a través de la secuencia de pasos. Mantener un diseño limpio y minimalista."
+      },
+      "acceptanceCriteria": [
+        "La sección debe tener un título claro como '¿Cómo funciona TheraFlow?'.",
+        "Se deben mostrar entre 3 y 4 pasos clave del proceso.",
+        "Cada paso debe tener un número o un icono distintivo, un título corto y una breve descripción.",
+        "La disposición debe ser fácil de seguir en orden cronológico.",
+        "La sección debe ser completamente responsive, apilando los pasos verticalmente en pantallas pequeñas."
+      ],
+      "additionalSuggestions": [
+        "Usar iconos de una librería reconocida (ej. Heroicons, Font Awesome) para consistencia visual.",
+        "Añadir un CTA al final de la sección para reforzar la acción de 'Buscar profesionales'."
+      ],
+      "aiEditorTask": "Crea los componentes 'HowItWorksSection.tsx' y 'StepCard.tsx' en la carpeta de componentes de 'home-pblica'. 'HowItWorksSection' debe mapear un array de datos de 3 pasos y renderizar un 'StepCard' por cada uno. Cada 'StepCard' aceptará props para un icono, título y descripción. Finalmente, integra 'HowItWorksSection' en 'HomepúblicaPage.tsx'.",
+      "priority": "Media",
+      "estimatedHours": 5
+    },
+    {
+      "title": "Visualización de Testimonios para Generar Confianza",
+      "description": "Como un visitante que evalúa la credibilidad de la plataforma, quiero ver una sección con testimonios reales de otros usuarios, para ganar confianza en la calidad del servicio y los profesionales de TheraFlow.",
+      "pageContext": "Home pública",
+      "affectedFiles": [
+        "src/features/home-pblica/HomepúblicaPage.tsx",
+        "src/features/home-pblica/components/TestimonialsSection.tsx",
+        "src/features/home-pblica/api.ts",
+        "src/features/home-pblica/hooks/useHomepública.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "TestimonialsSection",
+            "path": "src/features/home-pblica/components/TestimonialsSection.tsx",
+            "type": "component",
+            "description": "Componente para mostrar una colección de testimonios, posiblemente en un carrusel."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Los testimonios destacados deben ser obtenidos desde el backend. Se debe crear una función en 'src/features/home-pblica/api.ts' para hacer la llamada GET a un endpoint como '/api/testimonials/featured'. El hook 'useHomepública.ts' gestionará el estado de carga, los datos y los errores de esta petición.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-gray-50 p-8 md:p-12",
+        "colorCoding": "Fondo sutil para diferenciarla de otras secciones. El texto de los testimonios debe ser prominente y legible."
+      },
+      "acceptanceCriteria": [
+        "La sección debe mostrar al menos 3 testimonios.",
+        "Cada testimonio debe incluir el texto de la reseña, el nombre del usuario (o iniciales por privacidad) y opcionalmente una foto de perfil genérica o avatar.",
+        "Los datos de los testimonios deben cargarse de forma asíncrona desde una API.",
+        "Se debe mostrar un estado de carga (spinner/skeleton) mientras se obtienen los datos.",
+        "En caso de error al cargar, se debe mostrar un mensaje amigable."
+      ],
+      "additionalSuggestions": [
+        "Implementar un carrusel para poder mostrar más testimonios sin ocupar mucho espacio vertical, especialmente en móviles.",
+        "Añadir una valoración con estrellas a cada testimonio para un impacto visual rápido."
+      ],
+      "aiEditorTask": "Define una función en 'api.ts' para buscar testimonios. En el hook 'useHomepública.ts', implementa la lógica para llamar a esta API. Crea el componente 'TestimonialsSection.tsx' que use este hook para obtener y mostrar los datos. Maneja los estados de carga y error. Integra el componente en 'HomepúblicaPage.tsx'.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Navegación a la Página de Búsqueda de Profesionales",
+      "description": "Como un visitante listo para actuar, quiero poder hacer clic en el botón principal 'Buscar profesionales' y ser redirigido inmediatamente a la página de búsqueda, para empezar a explorar perfiles sin barreras.",
+      "pageContext": "Home pública",
+      "affectedFiles": [
+        "src/features/home-pblica/HomepúblicaPage.tsx",
+        "src/features/home-pblica/components/HeroSection.tsx",
+        "src/App.tsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "useNavigate",
+            "from": "react-router-dom"
+          },
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "La lógica consiste en un evento 'onClick' en el componente 'Button'. Este evento utilizará el hook 'useNavigate' de 'react-router-dom' para cambiar la ruta a '/busqueda' (o la ruta correspondiente a 'PáginadeBúsquedaPage.tsx' definida en 'App.tsx').",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-primary-500 hover:bg-primary-600 text-white font-bold py-3 px-6 rounded-lg shadow-md",
+        "colorCoding": "El botón debe tener el color primario de la marca para destacar como la acción principal."
+      },
+      "acceptanceCriteria": [
+        "Debe existir un botón prominente con el texto 'Buscar profesionales' o similar.",
+        "Al hacer clic en el botón, el usuario debe ser redirigido a la URL de la página de búsqueda.",
+        "La ruta debe estar correctamente configurada en el enrutador principal ('App.tsx').",
+        "El cursor debe cambiar a 'pointer' al pasar sobre el botón."
+      ],
+      "additionalSuggestions": [
+        "Asegurar que el botón sea accesible, con el debido 'aria-label' si solo contiene un icono.",
+        "Para mejorar el SEO, este CTA podría ser un enlace (`<Link>`) estilizado como un botón."
+      ],
+      "aiEditorTask": "Asegúrate de que 'App.tsx' tenga una ruta definida para 'PáginadeBúsquedaPage'. Dentro del componente que contenga el botón 'Buscar profesionales' (ej. 'HeroSection.tsx'), importa 'useNavigate' de 'react-router-dom' y configura el evento 'onClick' del botón para que navegue a la ruta de búsqueda.",
+      "priority": "Alta",
+      "estimatedHours": 2
+    },
+    {
+      "title": "Acceso a Registro e Inicio de Sesión desde la Cabecera",
+      "description": "Como visitante, quiero ver enlaces claros de 'Iniciar Sesión' y 'Registrarse' en la cabecera de la página, para poder acceder a mi cuenta o crear una nueva de forma rápida y desde cualquier punto de la landing.",
+      "pageContext": "Home pública",
+      "affectedFiles": [
+        "src/components/Header.tsx",
+        "src/App.tsx",
+        "src/features/home-pblica/HomepúblicaPage.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "Header",
+            "path": "src/components/Header.tsx",
+            "type": "component",
+            "description": "Componente de cabecera reutilizable para las páginas públicas, con el logo y los botones de navegación."
+          }
+        ],
+        "import": [
+          {
+            "name": "Link",
+            "from": "react-router-dom"
+          },
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El componente Header contendrá componentes 'Link' de 'react-router-dom' que apuntan a la ruta de 'PáginadeRegistro/LoginPage.tsx'. Se pueden usar parámetros de consulta (ej. `?mode=signup`) para mostrar el formulario de registro por defecto.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex justify-between items-center p-4 shadow-md",
+        "colorCoding": "El botón de 'Registrarse' puede tener un estilo más sólido que el de 'Iniciar Sesión' (que puede ser de tipo outline/ghost) para atraer a nuevos usuarios."
+      },
+      "acceptanceCriteria": [
+        "Una cabecera fija o semi-fija debe ser visible en la parte superior de la página.",
+        "La cabecera debe contener el logo de TheraFlow, que al ser clickeado redirige a la home ('/').",
+        "Debe haber un botón/enlace para 'Iniciar Sesión'.",
+        "Debe haber un botón/enlace para 'Registrarse'.",
+        "Ambos botones deben redirigir a la página correspondiente ('PáginadeRegistro/LoginPage.tsx').",
+        "En vista móvil, estos botones deben estar accesibles dentro de un menú tipo hamburguesa."
+      ],
+      "additionalSuggestions": [
+        "Hacer que la cabecera cambie de estilo (ej. añadir un fondo sólido) al hacer scroll para mejorar la visibilidad.",
+        "Una vez que el usuario inicia sesión, la cabecera debe cambiar para mostrar el nombre del usuario y un enlace al panel."
+      ],
+      "aiEditorTask": "Crea un nuevo componente 'Header.tsx' en 'src/components/'. Debe incluir el logo y dos botones/links ('Iniciar Sesión', 'Registrarse') que usen el componente 'Link' de react-router-dom para navegar a la página de login. Integra este 'Header' en el layout de 'HomepúblicaPage.tsx'.",
+      "priority": "Alta",
+      "estimatedHours": 7
+    },
+    {
+      "title": "Adaptabilidad de la Home Pública a Dispositivos Móviles",
+      "description": "Como un usuario que navega desde mi smartphone, quiero que la Home pública sea completamente responsive, para poder leer la información y acceder a las funcionalidades principales de forma cómoda y sin problemas de visualización.",
+      "pageContext": "Home pública",
+      "affectedFiles": [
+        "src/styles/global.css",
+        "src/features/home-pblica/HomepúblicaPage.tsx",
+        "src/features/home-pblica/components/HeroSection.tsx",
+        "src/features/home-pblica/components/HowItWorksSection.tsx",
+        "src/features/home-pblica/components/TestimonialsSection.tsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "No hay lógica de datos específica. El trabajo se centra en CSS y la estructura HTML/JSX para asegurar que el layout se reajuste correctamente en diferentes anchos de pantalla. Se deben usar media queries o utilidades de breakpoints de Tailwind.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "md:text-lg lg:text-xl, grid-cols-1 md:grid-cols-3, flex-col md:flex-row",
+        "colorCoding": "N/A - Se enfoca en layout."
+      },
+      "acceptanceCriteria": [
+        "El texto debe ser legible y los tamaños de fuente deben ajustarse para pantallas pequeñas.",
+        "Las imágenes deben escalar proporcionalmente sin desbordar sus contenedores.",
+        "Las secciones que son horizontales en escritorio (ej. 'Cómo funciona') deben apilarse verticalmente en móvil.",
+        "Los botones y otros elementos interactivos deben ser lo suficientemente grandes para ser presionados fácilmente con el dedo (mínimo 44x44px de target).",
+        "No debe haber scroll horizontal en ninguna resolución de móvil común (ej. 360px, 375px, 414px de ancho).",
+        "La navegación de la cabecera debe colapsar en un menú de hamburguesa funcional."
+      ],
+      "additionalSuggestions": [
+        "Probar la responsividad en dispositivos reales, no solo en las herramientas de desarrollador del navegador.",
+        "Optimizar el peso de las imágenes para móviles para mejorar los tiempos de carga en conexiones más lentas."
+      ],
+      "aiEditorTask": "Revisa todos los componentes creados para la 'Home pública' ('HeroSection', 'HowItWorksSection', etc.) y aplica las clases de utilidad responsivas de Tailwind (ej. 'md:', 'lg:') para asegurar que el diseño se adapte desde móviles hasta escritorio. Presta especial atención a los flexbox, grids y tamaños de fuente.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    }
+  ]
+}
+```

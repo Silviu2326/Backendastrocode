@@ -11,6 +11,7 @@ const authRoutes = require('./routes/auth');
 const projectRoutes = require('./routes/projects');
 const userRoutes = require('./routes/users');
 const estudiosMercadoRoutes = require('./routes/estudios-mercado');
+const documentosRoutes = require('./routes/documentos');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -37,6 +38,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/estudios-mercado', estudiosMercadoRoutes);
+app.use('/api/documentos', documentosRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -64,7 +66,15 @@ app.use('*', (req, res) => {
       'GET /api/estudios-mercado/proyecto/:projectId',
       'GET /api/estudios-mercado/:id',
       'PUT /api/estudios-mercado/:id',
-      'DELETE /api/estudios-mercado/:id'
+      'DELETE /api/estudios-mercado/:id',
+      'GET /api/projects/:projectId/documentos',
+      'POST /api/projects/:projectId/documentos',
+      'GET /api/documentos/:id',
+      'PUT /api/documentos/:id',
+      'DELETE /api/documentos/:id',
+      'PUT /api/documentos/:id/archive',
+      'GET /api/projects/:projectId/documentos/tipo/:tipo',
+      'GET /api/projects/:projectId/documentos/stats'
     ]
   });
 });

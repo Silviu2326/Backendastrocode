@@ -1,0 +1,253 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualizar Resumen de la Reserva antes de Pagar",
+      "description": "Como cliente, quiero ver un resumen claro y detallado de mi reserva en la página de pago para asegurarme de que todos los datos son correctos antes de proceder con el pago.",
+      "pageContext": "Página de Pago",
+      "affectedFiles": [
+        "src/features/pgina-de-pago/PáginadePagoPage.tsx",
+        "src/features/pgina-de-pago/api.ts",
+        "src/features/pgina-de-pago/hooks/usePáginadePago.ts",
+        "src/features/pgina-de-pago/components/BookingSummaryCard.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "BookingSummaryCard",
+            "type": "component",
+            "path": "src/features/pgina-de-pago/components/BookingSummaryCard.tsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El hook 'usePáginadePago' debe obtener el 'bookingId' de la URL y usarlo para hacer una llamada a la API (definida en 'api.ts') para traer los detalles de la reserva. Los datos a obtener incluyen: nombre del profesional, foto del profesional, tipo de sesión, fecha, hora, duración y precio final. Esta información se pasará como props al componente 'BookingSummaryCard'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200",
+        "colorCoding": "Utilizar colores neutros para el fondo (gris claro) y destacar el precio total con un color de acento del proyecto (ej. azul TheraFlow)."
+      },
+      "acceptanceCriteria": [
+        "Al cargar la página `/payment/:bookingId`, se debe mostrar un resumen de la reserva.",
+        "El resumen debe incluir el nombre del profesional, la fecha y hora de la cita.",
+        "El resumen debe mostrar el desglose del precio y el precio total a pagar de forma clara.",
+        "Si los datos de la reserva no se pueden cargar, se debe mostrar un mensaje de error amigable."
+      ],
+      "additionalSuggestions": [
+        "Incluir un enlace al perfil del profesional en el resumen para una fácil referencia.",
+        "Considerar mostrar un contador de tiempo si la reserva tiene una validez limitada antes de ser pagada."
+      ],
+      "aiEditorTask": "Crea el componente 'BookingSummaryCard.tsx' que reciba como props los detalles de la reserva (profesional, fecha, hora, precio) y los muestre de forma estructurada. En 'PáginadePagoPage.tsx', implementa la lógica en el hook 'usePáginadePago.ts' para obtener el 'bookingId' de los parámetros de la ruta, llamar a la API para buscar los datos de la reserva y renderizar el componente 'BookingSummaryCard' con esa información.",
+      "priority": "Alta",
+      "estimatedHours": 4
+    },
+    {
+      "title": "Realizar Pago con Tarjeta de Crédito/Débito (Stripe)",
+      "description": "Como cliente, quiero poder introducir los datos de mi tarjeta de crédito o débito de forma segura en un formulario integrado para completar el pago de mi reserva sin abandonar la página.",
+      "pageContext": "Página de Pago",
+      "affectedFiles": [
+        "src/features/pgina-de-pago/PáginadePagoPage.tsx",
+        "src/features/pgina-de-pago/api.ts",
+        "src/features/pgina-de-pago/hooks/usePáginadePago.ts",
+        "src/features/pgina-de-pago/components/StripePaymentForm.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "StripePaymentForm",
+            "type": "component",
+            "path": "src/features/pgina-de-pago/components/StripePaymentForm.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "Integración con Stripe Elements para crear un formulario de pago seguro (PCI compliant). El flujo es: 1. El frontend solicita un 'paymentIntent' al backend (definido en `api.ts`) enviando el 'bookingId' y el monto. 2. El backend crea el 'paymentIntent' en Stripe y devuelve el 'clientSecret' al frontend. 3. El componente 'StripePaymentForm' usa el 'clientSecret' para montar el formulario y procesar el pago. El hook `usePáginadePago.ts` manejará el estado de carga, éxito y error del pago.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "mt-8 p-6 border rounded-lg",
+        "colorCoding": "El formulario debe tener campos claros y un botón de 'Pagar' con el color primario de la marca. Los mensajes de error deben ser de color rojo."
+      },
+      "acceptanceCriteria": [
+        "El formulario de pago debe solicitar número de tarjeta, fecha de vencimiento y CVC.",
+        "La entrada de datos debe ser validada en tiempo real (ej. formato de fecha).",
+        "Mientras se procesa el pago, el botón 'Pagar' debe deshabilitarse y mostrar un indicador de carga.",
+        "El pago debe ser procesado de forma segura a través de la API de Stripe.",
+        "No se deben almacenar los datos de la tarjeta en el servidor de la aplicación."
+      ],
+      "additionalSuggestions": [
+        "Ofrecer la opción de 'Guardar tarjeta para futuros pagos' si el usuario está logueado.",
+        "Asegurarse de que el formulario es responsive y fácil de usar en dispositivos móviles."
+      ],
+      "aiEditorTask": "Implementa el componente 'StripePaymentForm.tsx' usando 'react-stripe-js' y Stripe Elements. Este componente debe manejar la lógica para confirmar el pago. En 'usePáginadePago.ts', añade la función para crear el 'paymentIntent' en el backend y manejar los estados (loading, success, error) del proceso de pago.",
+      "priority": "Alta",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Mostrar Confirmación de Pago Exitoso",
+      "description": "Como cliente, quiero ver una confirmación visual clara e inmediata en la página después de que mi pago se haya procesado correctamente para saber que mi reserva está confirmada.",
+      "pageContext": "Página de Pago",
+      "affectedFiles": [
+        "src/features/pgina-de-pago/PáginadePagoPage.tsx",
+        "src/features/pgina-de-pago/hooks/usePáginadePago.ts",
+        "src/features/pgina-de-pago/components/PaymentSuccess.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "PaymentSuccess",
+            "type": "component",
+            "path": "src/features/pgina-de-pago/components/PaymentSuccess.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El hook `usePáginadePago.ts` debe tener un estado para rastrear el éxito del pago. Cuando la API de pago devuelve una respuesta exitosa, este estado cambia. `PáginadePagoPage.tsx` renderizará condicionalmente el componente 'PaymentSuccess' en lugar del formulario de pago. La página también debe actualizar el estado de la reserva a 'confirmada' a través de una llamada a la API.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex flex-col items-center justify-center text-center p-8",
+        "colorCoding": "Usar un ícono de check grande en color verde (#4CAF50) y texto claro y positivo. El botón de acción debe usar el color primario de la marca."
+      },
+      "acceptanceCriteria": [
+        "Tras un pago exitoso, el formulario de pago debe desaparecer.",
+        "Se debe mostrar un componente de éxito con un mensaje claro como '¡Pago Realizado con Éxito!'.",
+        "La confirmación debe volver a mostrar los detalles clave de la reserva (profesional, fecha, hora).",
+        "Debe haber un botón o enlace visible que redirija al usuario a su 'Panel de Usuario' o 'Mis Reservas'."
+      ],
+      "additionalSuggestions": [
+        "Añadir un ID de transacción o número de confirmación para referencia del usuario.",
+        "Sugerir al usuario que revise su correo electrónico para ver el recibo."
+      ],
+      "aiEditorTask": "Crea el componente 'PaymentSuccess.tsx' que muestre un mensaje de éxito, los detalles de la reserva y un botón para ir al panel de usuario. En `PáginadePagoPage.tsx`, modifica la lógica para que, tras un pago exitoso (manejado en `usePáginadePago.ts`), se oculte el formulario de pago y se muestre el componente 'PaymentSuccess'.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Manejar Errores de Pago",
+      "description": "Como cliente, si mi pago es rechazado, quiero recibir un mensaje de error específico y útil para que pueda entender el problema y corregirlo.",
+      "pageContext": "Página de Pago",
+      "affectedFiles": [
+        "src/features/pgina-de-pago/PáginadePagoPage.tsx",
+        "src/features/pgina-de-pago/hooks/usePáginadePago.ts",
+        "src/features/pgina-de-pago/components/StripePaymentForm.tsx",
+        "src/features/pgina-de-pago/components/AlertMessage.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AlertMessage",
+            "type": "component",
+            "path": "src/features/pgina-de-pago/components/AlertMessage.tsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El hook `usePáginadePago.ts` debe manejar el estado de error proveniente de la API de Stripe (o cualquier otra pasarela). La respuesta de error de Stripe incluye un código y un mensaje (ej. 'card_declined', 'insufficient_funds'). Este mensaje debe ser capturado y almacenado en el estado del hook para mostrarlo al usuario a través del componente 'AlertMessage'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative",
+        "colorCoding": "Usar un fondo rojo claro con borde y texto rojo oscuro para comunicar claramente que es un error."
+      },
+      "acceptanceCriteria": [
+        "Si el pago falla, se debe mostrar un mensaje de error visible cerca del formulario de pago.",
+        "El mensaje debe ser específico si la API lo permite (ej. 'Tu tarjeta fue rechazada', 'Fondos insuficientes').",
+        "El botón de 'Pagar' debe volver a estar habilitado para que el usuario pueda intentar de nuevo.",
+        "Los datos del formulario (excepto el CVC) no deben borrarse para facilitar la corrección."
+      ],
+      "additionalSuggestions": [
+        "Añadir un enlace a la página de 'Soporte / Ayuda' en caso de errores persistentes.",
+        "Implementar un número limitado de reintentos para prevenir fraudes."
+      ],
+      "aiEditorTask": "Crea un componente reutilizable 'AlertMessage.tsx' que acepte un `type` ('error', 'success', 'warning') y un `message`. Modifica el hook `usePáginadePago.ts` para capturar errores de la API de pago, almacenar el mensaje de error en su estado y pasarlo al componente `StripePaymentForm` o `PáginadePagoPage.tsx` para que lo muestre usando `AlertMessage`.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Seleccionar entre Múltiples Métodos de Pago",
+      "description": "Como cliente, quiero poder elegir entre diferentes métodos de pago, como Tarjeta de Crédito y PayPal, para usar el que me resulte más conveniente o seguro.",
+      "pageContext": "Página de Pago",
+      "affectedFiles": [
+        "src/features/pgina-de-pago/PáginadePagoPage.tsx",
+        "src/features/pgina-de-pago/components/PaymentMethodSelector.tsx",
+        "src/features/pgina-de-pago/components/StripePaymentForm.tsx",
+        "src/features/pgina-de-pago/components/PayPalButtonWrapper.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "PaymentMethodSelector",
+            "type": "component",
+            "path": "src/features/pgina-de-pago/components/PaymentMethodSelector.tsx"
+          },
+          {
+            "name": "PayPalButtonWrapper",
+            "type": "component",
+            "path": "src/features/pgina-de-pago/components/PayPalButtonWrapper.tsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El componente `PaymentMethodSelector` mostrará las opciones disponibles. `PáginadePagoPage.tsx` tendrá un estado para el método de pago seleccionado. Basado en esta selección, renderizará condicionalmente el componente `StripePaymentForm` o `PayPalButtonWrapper`. Cada uno de estos componentes encapsulará la lógica de su respectiva pasarela de pago.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex space-x-4 mb-6",
+        "colorCoding": "Cada método de pago puede ser un botón con su logo. El botón seleccionado debe tener un borde resaltado o un color de fondo diferente para indicar que está activo."
+      },
+      "acceptanceCriteria": [
+        "La página debe mostrar opciones de pago claras, como 'Tarjeta de Crédito' y 'PayPal'.",
+        "Por defecto, un método de pago debe estar preseleccionado (ej. Tarjeta de Crédito).",
+        "Al hacer clic en una opción de pago, el formulario o botón correspondiente debe mostrarse debajo.",
+        "Solo el formulario del método de pago seleccionado debe ser visible en un momento dado."
+      ],
+      "additionalSuggestions": [
+        "A futuro se podrían añadir otros métodos de pago como Google Pay o Apple Pay.",
+        "Mostrar logos oficiales de las pasarelas de pago para generar confianza."
+      ],
+      "aiEditorTask": "Crea el componente 'PaymentMethodSelector.tsx' que renderiza botones para cada método de pago y utiliza una función de callback para notificar la selección. En 'PáginadePagoPage.tsx', usa el estado para almacenar el método seleccionado y renderiza condicionalmente el componente de formulario de pago apropiado ('StripePaymentForm' o un nuevo 'PayPalButtonWrapper').",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Recibir Recibo de Pago por Correo Electrónico",
+      "description": "Como cliente, quiero recibir automáticamente un recibo detallado en mi correo electrónico después de un pago exitoso para tener un registro formal de mi transacción.",
+      "pageContext": "Página de Pago",
+      "affectedFiles": [
+        "src/features/pgina-de-pago/api.ts",
+        "src/features/pgina-de-pago/hooks/usePáginadePago.ts"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "Esta funcionalidad es principalmente de backend, pero es iniciada por el frontend. Después de que el hook `usePáginadePago.ts` confirme un pago exitoso desde la pasarela, debe realizar una llamada final a nuestra propia API (endpoint en `api.ts`). Esta llamada podría ser `api.confirmBookingAndSendReceipt(bookingId, transactionId)`. El backend se encargará de generar el PDF o el contenido del correo y enviarlo al email del usuario registrado.",
+      "styling": {
+        "framework": "N/A",
+        "classes": "N/A",
+        "colorCoding": "El correo electrónico debe seguir la guía de estilo y branding de TheraFlow."
+      },
+      "acceptanceCriteria": [
+        "Inmediatamente después de un pago exitoso, se debe activar el envío de un correo electrónico.",
+        "El correo debe ser enviado a la dirección asociada a la cuenta del cliente.",
+        "El correo debe contener un resumen de la reserva (profesional, fecha, hora).",
+        "El correo debe incluir detalles del pago (monto, fecha, ID de transacción) y actuar como un recibo."
+      ],
+      "additionalSuggestions": [
+        "Adjuntar una versión en PDF del recibo al correo electrónico.",
+        "Incluir en el correo enlaces útiles, como 'Gestionar mi reserva' o 'Contactar a soporte'."
+      ],
+      "aiEditorTask": "En el hook `usePáginadePago.ts`, dentro del bloque de lógica que se ejecuta tras un pago exitoso (donde se actualiza el estado a 'success'), añade una llamada a una nueva función en `api.ts`. Esta función, por ejemplo `sendReceiptRequest(bookingId, paymentData)`, hará una petición POST al endpoint del backend responsable de enviar el correo electrónico.",
+      "priority": "Media",
+      "estimatedHours": 5
+    }
+  ]
+}
+```

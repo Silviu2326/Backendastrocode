@@ -1,0 +1,250 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización del Listado de Clientes",
+      "description": "Como entrenador, quiero ver un listado completo de todos mis clientes en una tabla para poder tener una visión general rápida de mi base de clientes.",
+      "pageContext": "Gestión de Clientes",
+      "affectedFiles": [
+        "src/features/gestin-de-clientes/GestióndeClientesPage.tsx",
+        "src/features/gestin-de-clientes/hooks/useGestióndeClientes.ts",
+        "src/features/gestin-de-clientes/api.ts",
+        "src/features/gestin-de-clientes/components/ClientListTable.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ClientListTable",
+            "path": "src/features/gestin-de-clientes/components/ClientListTable.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Table",
+            "from": "src/components/Table.jsx"
+          },
+          {
+            "name": "useGestióndeClientes",
+            "from": "src/features/gestin-de-clientes/hooks/useGestióndeClientes.ts"
+          }
+        ]
+      },
+      "logicData": "El hook `useGestióndeClientes` debe realizar una llamada a la API (definida en `api.ts`) para obtener la lista de clientes del entrenador. La respuesta debe incluir, como mínimo, id, nombre, apellido, email y estado. El hook debe gestionar los estados de carga, error y éxito, y proveer los datos al componente `ClientListTable`. Si la lista está vacía, se debe mostrar un estado de 'no hay datos'.",
+      "styling": {
+        "framework": "No especificado, sugerencia: Tailwind CSS",
+        "classes": "w-full text-left border-collapse",
+        "colorCoding": "Usar colores sutiles para el estado del cliente (ej. un punto verde para 'Activo', gris para 'Inactivo'). Las filas de la tabla deben tener un efecto hover para indicar interactividad."
+      },
+      "acceptanceCriteria": [
+        "Al cargar la página `/clients`, se debe mostrar una tabla con los clientes.",
+        "La tabla debe tener las columnas: 'Nombre Completo', 'Email', 'Estado' y 'Fecha de Ingreso'.",
+        "Mientras se obtienen los datos, se debe mostrar un indicador de carga (skeleton o spinner).",
+        "Si el entrenador no tiene clientes, la tabla debe mostrar un mensaje claro como 'Aún no tienes clientes. ¡Añade el primero!'."
+      ],
+      "additionalSuggestions": [
+        "Considerar la paginación para cuando la lista de clientes sea muy larga.",
+        "El 'Nombre Completo' puede ser un enlace directo al perfil del cliente."
+      ],
+      "aiEditorTask": "Implementa un componente `ClientListTable` que utilice el componente `Table` genérico. El hook `useGestióndeClientes` debe fetchear los datos desde `api.ts` y el componente debe renderizar la lista de clientes, manejando los estados de carga y vacío.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Búsqueda de Clientes por Nombre",
+      "description": "Como entrenador, quiero un campo de búsqueda para encontrar rápidamente a un cliente por su nombre o apellido, para no tener que desplazarme por toda la lista.",
+      "pageContext": "Gestión de Clientes",
+      "affectedFiles": [
+        "src/features/gestin-de-clientes/GestióndeClientesPage.tsx",
+        "src/features/gestin-de-clientes/hooks/useGestióndeClientes.ts",
+        "src/features/gestin-de-clientes/components/ClientSearch.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ClientSearch",
+            "path": "src/features/gestin-de-clientes/components/ClientSearch.tsx",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El componente `ClientSearch` contendrá un input de texto. Su valor será gestionado por el hook `useGestióndeClientes`. Al cambiar el valor, el hook debe filtrar la lista de clientes (ya sea en el cliente con debounce, o realizando una nueva llamada a la API con un parámetro de búsqueda, ej. `/api/clients?search=texto`).",
+      "styling": {
+        "framework": "No especificado, sugerencia: Tailwind CSS",
+        "classes": "mb-4 w-full md:w-1/3 p-2 border rounded-md",
+        "colorCoding": "El campo de búsqueda debe tener un icono de lupa. El foco en el input debe estar resaltado con el color primario de la aplicación."
+      },
+      "acceptanceCriteria": [
+        "Debe existir un campo de búsqueda de texto sobre la lista de clientes.",
+        "Al escribir en el campo, la lista de clientes se debe actualizar para mostrar solo aquellos cuyo nombre o apellido coincidan con el texto introducido.",
+        "La búsqueda no debe distinguir entre mayúsculas y minúsculas.",
+        "Si la búsqueda no encuentra resultados, se debe mostrar un mensaje 'No se encontraron resultados para tu búsqueda'."
+      ],
+      "additionalSuggestions": [
+        "Implementar un 'debounce' de 300ms en el input para evitar llamadas excesivas a la API o re-renders mientras el usuario escribe.",
+        "Añadir un botón para limpiar el campo de búsqueda rápidamente."
+      ],
+      "aiEditorTask": "Crea el componente `ClientSearch` con un input de texto. Modifica el hook `useGestióndeClientes` para que acepte un término de búsqueda, lo gestione y devuelva la lista de clientes filtrada.",
+      "priority": "Alta",
+      "estimatedHours": 5
+    },
+    {
+      "title": "Añadir un Nuevo Cliente",
+      "description": "Como entrenador, quiero poder añadir un nuevo cliente a través de un formulario simple para mantener mi base de datos centralizada y actualizada.",
+      "pageContext": "Gestión de Clientes",
+      "affectedFiles": [
+        "src/features/gestin-de-clientes/GestióndeClientesPage.tsx",
+        "src/features/gestin-de-clientes/components/AddClientModal.tsx",
+        "src/features/gestin-de-clientes/api.ts",
+        "src/features/gestin-de-clientes/hooks/useGestióndeClientes.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AddClientModal",
+            "path": "src/features/gestin-de-clientes/components/AddClientModal.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "Un botón 'Añadir Cliente' en `GestióndeClientesPage` abrirá el `AddClientModal`. El modal contendrá un formulario con campos para nombre, apellido y email. La lógica de envío estará en el hook `useGestióndeClientes`, que llamará al método POST en `api.ts`. Tras un envío exitoso, la lista de clientes debe refrescarse automáticamente para mostrar al nuevo miembro.",
+      "styling": {
+        "framework": "No especificado, sugerencia: Tailwind CSS",
+        "classes": "fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center",
+        "colorCoding": "El botón principal de acción debe usar el color primario. Los mensajes de error de validación deben ser de color rojo."
+      },
+      "acceptanceCriteria": [
+        "La página debe contener un botón 'Añadir Cliente' claramente visible.",
+        "Al hacer clic en el botón, se abre un modal con un formulario.",
+        "El formulario debe solicitar al menos: Nombre, Apellido y Email.",
+        "El campo de email debe tener una validación de formato válida.",
+        "Al enviar el formulario con éxito, el modal se cierra, se muestra una notificación de éxito, y el nuevo cliente aparece en la lista sin recargar la página."
+      ],
+      "additionalSuggestions": [
+        "Añadir un campo opcional de 'teléfono'.",
+        "Gestionar el estado de 'enviando' en el botón de guardar para prevenir envíos duplicados."
+      ],
+      "aiEditorTask": "Crea un componente `AddClientModal` que contenga un formulario para los datos del cliente. Modifica `useGestióndeClientes` para incluir una función que maneje la apertura/cierre del modal y la lógica para enviar los datos a la API y refrescar la lista.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Filtrar Clientes por Estado",
+      "description": "Como entrenador, quiero poder filtrar mi lista de clientes por su estado (Activo, Inactivo) para poder enfocar mis acciones en un grupo específico.",
+      "pageContext": "Gestión de Clientes",
+      "affectedFiles": [
+        "src/features/gestin-de-clientes/GestióndeClientesPage.tsx",
+        "src/features/gestin-de-clientes/hooks/useGestióndeClientes.ts",
+        "src/features/gestin-de-clientes/components/ClientStatusFilter.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ClientStatusFilter",
+            "path": "src/features/gestin-de-clientes/components/ClientStatusFilter.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El componente `ClientStatusFilter` mostrará opciones (ej. 'Todos', 'Activos', 'Inactivos'). Al seleccionar una, el estado del filtro en `useGestióndeClientes` se actualizará. Esto debería desencadenar una nueva llamada a la API con el filtro correspondiente (`/api/clients?status=activo`) o filtrar la lista existente en el lado del cliente.",
+      "styling": {
+        "framework": "No especificado, sugerencia: Tailwind CSS",
+        "classes": "flex space-x-2 mb-4",
+        "colorCoding": "El botón del filtro activo debe tener un estilo visualmente diferente (ej. color de fondo sólido) al de los inactivos (ej. solo borde)."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un control visible (ej. grupo de botones o un dropdown) para filtrar por estado.",
+        "Las opciones de filtro deben ser 'Todos', 'Activos' y 'Inactivos'.",
+        "Por defecto, se mostrarán 'Todos' los clientes.",
+        "Al seleccionar un estado, la tabla se actualiza inmediatamente para mostrar solo los clientes que coinciden con ese estado."
+      ],
+      "additionalSuggestions": [
+        "Mostrar el número de clientes en cada categoría de filtro junto al nombre (ej. 'Activos (15)')."
+      ],
+      "aiEditorTask": "Crea el componente `ClientStatusFilter` como un grupo de botones. Actualiza el hook `useGestióndeClientes` para manejar el estado del filtro y aplicarlo a los datos que se devuelven a la página.",
+      "priority": "Media",
+      "estimatedHours": 5
+    },
+    {
+      "title": "Navegación al Perfil del Cliente",
+      "description": "Como entrenador, quiero poder hacer clic en cualquier cliente de la lista para ir a su página de perfil detallado y así consultar sus planes, progreso y datos personales.",
+      "pageContext": "Gestión de Clientes",
+      "affectedFiles": [
+        "src/features/gestin-de-clientes/components/ClientListTable.tsx",
+        "src/App.tsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "useNavigate",
+            "from": "react-router-dom"
+          }
+        ]
+      },
+      "logicData": "En el componente `ClientListTable`, cada fila (`<tr>`) debe tener un evento `onClick`. Este evento utilizará el hook `useNavigate` de `react-router-dom` para redirigir al usuario a la ruta `/clients/{clientId}`, pasando el ID del cliente correspondiente. La ruta debe estar definida en `App.tsx` para que apunte a `PerfildelClientePage.tsx`.",
+      "styling": {
+        "framework": "No especificado, sugerencia: Tailwind CSS",
+        "classes": "cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800",
+        "colorCoding": "La fila debe cambiar de color de fondo al pasar el ratón por encima para indicar que es un elemento interactivo."
+      },
+      "acceptanceCriteria": [
+        "Cada fila de la tabla de clientes debe ser un elemento interactivo.",
+        "Al hacer clic en la fila de un cliente, la aplicación debe navegar a la ruta `/clients/:id` (donde `:id` es el ID del cliente).",
+        "La navegación debe ser una transición de SPA, sin recargar la página completa.",
+        "El cursor debe cambiar a 'puntero' al pasar sobre una fila de la tabla."
+      ],
+      "additionalSuggestions": [
+        "Añadir una transición suave durante el cambio de página."
+      ],
+      "aiEditorTask": "Modifica el componente `ClientListTable`. Haz que cada fila de la tabla sea clickable y que, al hacer clic, navegue a la ruta de perfil del cliente usando `useNavigate` y el ID del cliente de esa fila.",
+      "priority": "Alta",
+      "estimatedHours": 3
+    },
+    {
+      "title": "Ordenar la Lista de Clientes",
+      "description": "Como entrenador, quiero poder ordenar la lista de clientes por columnas como 'Nombre' o 'Fecha de Ingreso' para organizar la vista según mis necesidades.",
+      "pageContext": "Gestión de Clientes",
+      "affectedFiles": [
+        "src/features/gestin-de-clientes/components/ClientListTable.tsx",
+        "src/features/gestin-de-clientes/hooks/useGestióndeClientes.ts"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "Los encabezados de las columnas (`<th>`) en `ClientListTable` que sean ordenables deben tener un evento `onClick`. Este evento llamará a una función en `useGestióndeClientes` para actualizar el estado de ordenación (clave de ordenación y dirección 'asc'/'desc'). El hook se encargará de reordenar la lista de clientes y devolverla actualizada.",
+      "styling": {
+        "framework": "No especificado, sugerencia: Tailwind CSS",
+        "classes": "select-none cursor-pointer",
+        "colorCoding": "El encabezado de la columna por la que se está ordenando debe estar visualmente destacado. Un icono de flecha (arriba/abajo) debe indicar la dirección de la ordenación."
+      },
+      "acceptanceCriteria": [
+        "Los encabezados de las columnas 'Nombre Completo' y 'Fecha de Ingreso' deben ser clickables.",
+        "Al hacer clic por primera vez en un encabezado, la tabla se ordena de forma ascendente por esa columna.",
+        "Al hacer clic por segunda vez en el mismo encabezado, la tabla se ordena de forma descendente.",
+        "Un icono junto al texto del encabezado debe indicar la columna y la dirección de la ordenación actual."
+      ],
+      "additionalSuggestions": [
+        "La ordenación puede realizarse en el lado del cliente si el número de clientes es manejable, o mediante parámetros en la llamada a la API para mayor escalabilidad."
+      ],
+      "aiEditorTask": "Modifica `ClientListTable` para que los encabezados de columna sean clickables. Actualiza `useGestióndeClientes` para manejar el estado de la ordenación (columna y dirección) y aplicar la lógica de ordenación a la lista de clientes.",
+      "priority": "Media",
+      "estimatedHours": 5
+    }
+  ]
+}
+```

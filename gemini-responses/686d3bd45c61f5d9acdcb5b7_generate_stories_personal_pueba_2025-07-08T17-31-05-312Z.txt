@@ -1,0 +1,51 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Implementación de Formulario de Interacción Principal",
+      "description": "Como usuario, quiero poder rellenar y enviar un formulario de prueba en la página para verificar la funcionalidad principal de recolección de datos del sistema.",
+      "pageContext": "pueba",
+      "affectedFiles": [
+        "src/app/pueba/page.jsx",
+        "src/components/InteractionForm.jsx",
+        "src/hooks/useForm.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "InteractionForm",
+            "type": "component",
+            "description": "Un componente de formulario completamente nuevo y autocontenido. Gestionará los campos de entrada, la validación en tiempo real y el estado de envío (inactivo, cargando, éxito, error) para la página 'pueba'."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El formulario requerirá un estado para manejar los valores de los campos (ej. nombre, email, mensaje). Se implementará una lógica de validación que verifique que los campos no estén vacíos y que el email tenga un formato correcto. Al enviar, se realizará una llamada asíncrona a un endpoint simulado o real (ej. POST /api/test) para enviar los datos. La respuesta de la API actualizará el estado del formulario para mostrar un mensaje de éxito o error.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "container mx-auto p-8; form: flex flex-col gap-4; input: border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500; button: bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 disabled:bg-gray-400",
+        "colorCoding": "Primario: Azul (#3b82f6) para botones y elementos activos. Error: Rojo (#ef4444) para textos de validación. Éxito: Verde (#22c55e) para mensajes de confirmación."
+      },
+      "acceptanceCriteria": [
+        "Al visitar la ruta '/pueba', se debe mostrar un formulario con al menos tres campos: 'Nombre', 'Email' y 'Mensaje'.",
+        "Todos los campos del formulario deben ser obligatorios.",
+        "Se debe mostrar un mensaje de error específico debajo de cada campo si se intenta enviar el formulario y el campo está vacío.",
+        "El campo 'Email' debe validar que la entrada tenga un formato de correo electrónico válido.",
+        "El botón de 'Enviar' debe estar deshabilitado mientras la solicitud de envío está en progreso.",
+        "Tras un envío exitoso, los campos del formulario deben limpiarse y debe aparecer un mensaje de confirmación visible.",
+        "Si el envío falla por un error del servidor, se debe mostrar un mensaje de error general al usuario."
+      ],
+      "additionalSuggestions": [
+        "Crear un hook personalizado `useForm` para encapsular la lógica de estado y validación del formulario, haciéndolo más reutilizable.",
+        "Añadir un indicador visual de carga (spinner) en el botón de 'Enviar' durante la sumisión.",
+        "Implementar un sistema de notificaciones 'toast' para los mensajes de éxito y error para una mejor experiencia de usuario."
+      ],
+      "aiEditorTask": "Genera el componente `InteractionForm.jsx` en la carpeta `src/components/`. Este debe incluir tres campos controlados (nombre, email, mensaje) y un botón de envío. Implementa la lógica de validación y manejo de estados de envío. Luego, importa y renderiza este nuevo componente en la página principal `src/app/pueba/page.jsx`.",
+      "priority": "Alta",
+      "estimatedHours": 8,
+      "strategicImpact": "core",
+      "comments": ""
+    }
+  ]
+}
+```

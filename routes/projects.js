@@ -21,11 +21,13 @@ const {
   generatePagesWithGemini,
   generateAdditionalPagesWithGemini,
   addMultiplePages,
+  addServicePlatformPages,  // Nueva función para agregar páginas de plataforma de servicios
   generarProyectoConIA,  // Nueva función agregada
   generarpromptinicial,   // Agregar esta nueva función
   saveUserStoriesToPage,   // Añadir esta función
   generateestudiodemercadowithgemini,  // Nueva función para estudio de mercado
-  generateUserStoriesForProjectCompleto  // Nueva función para generar historias completas del proyecto
+  generateUserStoriesForProjectCompleto,  // Nueva función para generar historias completas del proyecto
+  generarUSparapaginapersonal  // Añadir esta función
 } = require('../controllers/projectController');
 
 // Importar la función del backend generator
@@ -200,6 +202,9 @@ router.post('/:id/pages', pageValidation, addPage);
 
 // POST /api/projects/:id/multiple-pages - Agregar múltiples páginas a proyecto
 router.post('/:id/multiple-pages', addMultiplePages);
+
+// POST /api/projects/:id/add-service-platform-pages - Agregar páginas predefinidas de plataforma de servicios
+router.post('/:id/add-service-platform-pages', addServicePlatformPages);
 
 // PUT /api/projects/:projectId/pages/:pageId - Actualizar página específica
 router.put('/:projectId/pages/:pageId', pageUpdateValidation, updatePage);
@@ -895,3 +900,18 @@ router.post('/:id/generate-market-study', generateestudiodemercadowithgemini);
 router.get('/:id/generar-prompt-inicial', generarpromptinicial);
 
 module.exports = router;
+
+// POST /api/projects/:projectId/pages/:pageId/generate-user-stories-personal - Generar historias de usuario personalizadas para página
+router.post('/:projectId/pages/:pageId/generate-user-stories-personal', [
+  body('storyCount')
+    .isInt({ min: 1, max: 50 })
+    .withMessage('El número de historias debe ser entre 1 y 50'),
+  body('strategicImpact')
+    .isIn(['core', 'high-impact', 'nice-to-have', 'competitive-risk'])
+    .withMessage('El impacto estratégico debe ser: core, high-impact, nice-to-have, o competitive-risk'),
+  body('comments')
+    .optional()
+    .trim()
+    .isLength({ max: 500 })
+    .withMessage('Los comentarios no pueden exceder 500 caracteres')
+], generarUSparapaginapersonal);

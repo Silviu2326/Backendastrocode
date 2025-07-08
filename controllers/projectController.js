@@ -5,6 +5,8 @@ const simpleGit = require('simple-git');
 const { GoogleGenAI } = require('@google/genai');
 const fs = require('fs-extra');
 const path = require('path');
+const FeedHelper = require('../utils/feedHelper');
+const LogHelper = require('../utils/logHelper');
 
 // Helper function to write Gemini responses to files
 const writeGeminiResponseToFile = async (responseText, fileName, projectId) => {
@@ -102,6 +104,13 @@ const updateGithubUrl = async (req, res) => {
     // Update GitHub URL
     project.githubUrl = githubUrl || '';
     const updatedProject = await project.save();
+
+    // Crear entrada en el feed
+    await FeedHelper.logGithubUrlUpdated(
+      updatedProject._id,
+      req.user.userId,
+      githubUrl
+    );
 
     res.json({
       message: 'URL de GitHub actualizada exitosamente',
@@ -260,6 +269,21 @@ const createProject = async (req, res) => {
 
     console.log('createProject - Proyecto guardado:', savedProject);
 
+    // Crear entrada en el feed
+    await FeedHelper.logProjectCreated(
+      savedProject._id,
+      req.user.userId,
+      savedProject.name
+    );
+
+    // Log de información
+    await LogHelper.info(
+      savedProject._id,
+      'project',
+      `Project created: ${savedProject.name}`,
+      { projectId: savedProject._id, userId: req.user.userId }
+    );
+
     res.status(201).json({
       message: 'Proyecto creado exitosamente',
       project: {
@@ -388,6 +412,13 @@ Responde **solo** con el JSON.
     }));
 
     // ────────────────── 8. Responder ────────────────────────
+    await FeedHelper.logPagesGenerated(
+      project._id,
+      req.user.userId,
+      formattedPages.length,
+      'gemini-2.5-pro-preview-06-05'
+    );
+
     res.json({
       message      : 'Páginas generadas exitosamente con Gemini',
       project      : { id: project._id, name: project.name },
@@ -2176,6 +2207,349 @@ Responde **solo** con el JSON.
   }
 };
 
+const generarUSparapaginapersonal = async (req, res) => {
+  try {
+    console.log('🚀 Iniciando generación de historias de usuario personalizadas con Gemini');
+
+    // ────────────────── 1. Extraer parámetros ──────────────────
+    const { projectId, pageId } = req.params;
+    const { storyCount = 6, strategicImpact = 'high-impact', comments = '' } = req.body;
+    
+    console.log('🔍 generarUSparapaginapersonal - Parámetros recibidos:', { projectId, pageId, storyCount, strategicImpact, comments });
+    console.log('👤 Usuario autenticado:', req.user?.userId);
+
+    // ────────────────── 2. Cargar proyecto ──────────────────
+    const project = await Project.findOne({
+      _id: projectId,
+      userId: req.user.userId,
+      isActive: true
+    });
+    if (!project) {
+      return res.status(404).json({
+        error: 'Proyecto no encontrado',
+        message: 'El proyecto no existe o no tienes permisos para modificarlo'
+      });
+    }
+
+    console.log('✅ Proyecto encontrado:', project.name);
+    
+    const page = project.pages.find(p => p.id === pageId);
+    if (!page) {
+      console.log('❌ Página no encontrada con ID:', pageId);
+      return res.status(404).json({
+        error: 'Página no encontrada',
+        message: 'La página no existe en este proyecto'
+      });
+    }
+
+    console.log('✅ Página encontrada:', page.name);
+
+    // ────────────────── 3. Validar API-KEY ──────────────────
+    if (!process.env.GEMINI_API_KEY) {
+      return res.status(500).json({
+        error: 'Configuración faltante',
+        message: 'La API key de Google Gemini no está configurada'
+      });
+    }
+
+    // ────────────────── 4. Instanciar cliente ───────────────
+    const client = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
+    // ────────────────── 5. Construir información de estructura de archivos ─────────────────
+    const fileStructureInfo = project.fileStructure ? `
+**Estructura de Archivos del Proyecto**
+${project.fileStructure.folders && project.fileStructure.folders.length > 0 
+  ? `\nCarpetas:\n${project.fileStructure.folders.map(folder => 
+      `- ${folder.path || folder.name} (${folder.type})`
+    ).join('\n')}`
+  : ''
+}
+${project.fileStructure.files && project.fileStructure.files.length > 0 
+  ? `\nArchivos:\n${project.fileStructure.files.map(file => 
+      `- ${file.path || file.name} (${file.type})${file.description ? ': ' + file.description : ''}`
+    ).join('\n')}`
+  : ''
+}
+${project.fileStructure.generatedAt ? `\nEstructura generada: ${project.fileStructure.generatedAt}` : ''}
+` : '';
+
+    // ────────────────── 6. Mapear impacto estratégico ─────────────────
+    const strategicImpactMap = {
+      'core': 'Core - crítico para que el sistema funcione',
+      'high-impact': 'High Impact - aumenta retención, ingresos o satisfacción',
+      'nice-to-have': 'Nice to Have - mejora la experiencia, pero no es esencial',
+      'competitive-risk': 'Riesgo competitivo - necesario para no quedarse atrás'
+    };
+
+    const impactDescription = strategicImpactMap[strategicImpact] || 'Impacto medio';
+
+    // ────────────────── 6.1. Definir reglas específicas por impacto ─────────────────
+    const getImpactRules = (impact) => {
+      switch(impact) {
+        case 'core':
+          return {
+            componentRule: 'OBLIGATORIO: Cada historia DEBE crear al menos un componente completamente nuevo',
+            focusArea: 'funcionalidades fundamentales que requieren nuevos componentes',
+            componentStrategy: 'crear componentes nuevos y únicos'
+          };
+        case 'nice-to-have':
+          return {
+            componentRule: 'OBLIGATORIO: Cada historia DEBE mejorar componentes existentes',
+            focusArea: 'mejoras y optimizaciones de componentes ya existentes',
+            componentStrategy: 'mejorar y extender componentes existentes'
+          };
+        default:
+          return {
+            componentRule: 'Puede crear nuevos componentes o mejorar existentes según sea necesario',
+            focusArea: 'funcionalidades balanceadas entre creación y mejora',
+            componentStrategy: 'estrategia mixta de componentes'
+          };
+      }
+    };
+
+    const impactRules = getImpactRules(strategicImpact);
+
+    // ────────────────── 7. Construir prompt personalizado ─────────────────
+    const prompt = `
+Eres un experto en desarrollo web y análisis de requerimientos. Basándote en la siguiente información de la página y la estructura del proyecto, genera historias de usuario detalladas con enfoque personalizado.
+
+**Información de la Página**
+- Nombre: ${page.name}
+- Descripción: ${page.description || 'No especificada'}
+- Ruta: ${page.route || 'No especificada'}
+- Proyecto: ${project.name}
+- Stack Tecnológico: ${project.techStack?.join(', ') || 'No especificado'}
+${fileStructureInfo}
+**Parámetros de Generación Personalizada**
+- Número de historias solicitadas: ${storyCount}
+- Impacto estratégico: ${impactDescription}
+- Comentarios adicionales: ${comments || 'Ninguno'}
+
+**REGLAS ESPECÍFICAS PARA IMPACTO ESTRATÉGICO:**
+${impactRules.componentRule}
+- Enfoque: ${impactRules.focusArea}
+- Estrategia de componentes: ${impactRules.componentStrategy}
+
+**Historias de Usuario Existentes (NO duplicar):**
+${page.userStories && page.userStories.length > 0 
+  ? page.userStories.map((story, index) => `${index + 1}. ${story.title}: ${story.description}`).join('\n')
+  : 'Ninguna historia existente'
+}
+
+**Instrucciones Personalizadas**
+1. Genera exactamente ${storyCount} historias de usuario NUEVAS y DIFERENTES a las existentes.
+2. Cada historia debe seguir el formato: "Como [tipo de usuario], quiero [funcionalidad] para [beneficio]".
+3. Prioriza funcionalidades con impacto estratégico: ${impactDescription}.
+4. ${impactRules.componentRule}
+5. ${strategicImpact === 'core' ? 'Para historias CORE: Cada historia debe especificar al menos un componente completamente nuevo en la sección "create"' : ''}
+6. ${strategicImpact === 'nice-to-have' ? 'Para historias NICE-TO-HAVE: Cada historia debe especificar componentes existentes a mejorar en la sección "import" y describir las mejoras específicas' : ''}
+7. Incluye criterios de aceptación específicos y realistas.
+8. Asigna prioridad basada en el impacto estratégico seleccionado.
+9. Considera los comentarios adicionales: ${comments || 'Sin comentarios específicos'}.
+10. Enfócate en funcionalidades que un usuario final puede realizar en esta página.
+11. Utiliza la estructura de archivos del proyecto para sugerir archivos afectados y componentes relevantes.
+
+**Formato de respuesta (JSON válido)**
+{
+  "userStories": [
+    {
+      "title": "Título descriptivo de la historia",
+      "description": "Como [usuario], quiero [funcionalidad] para [beneficio]",
+      "pageContext": "${page.name}",
+      "affectedFiles": ["archivo1.jsx", "archivo2.js"],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ComponenteNuevo",
+            "type": "component",
+            "description": "Descripción del nuevo componente a crear"
+          }
+        ],
+        "import": [
+          {
+            "name": "ComponenteExistente",
+            "from": "./components/ComponenteExistente",
+            "improvements": "Descripción específica de las mejoras a implementar"
+          }
+        ]
+      },
+      "logicData": "Descripción de la lógica y datos necesarios",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "clase1 clase2 clase3",
+        "colorCoding": "Esquema de colores sugerido"
+      },
+      "acceptanceCriteria": ["Criterio 1", "Criterio 2", "Criterio 3"],
+      "additionalSuggestions": ["Sugerencia 1", "Sugerencia 2"],
+      "aiEditorTask": "Instrucción específica para el editor IA",
+      "priority": "Alta|Media|Baja",
+      "estimatedHours": 8,
+      "strategicImpact": "${strategicImpact}",
+      "comments": "${comments}"
+    }
+  ]
+}
+
+Responde **solo** con el JSON.
+    `.trim();
+
+    // ────────────────── 8. Llamar a Gemini ──────────────────
+    const result = await client.models.generateContent({
+      model: 'gemini-2.5-pro-preview-06-05',
+      contents: prompt
+    });
+    const responseText = result.text;
+    await writeGeminiResponseToFile(responseText, `generate_stories_personal_${page.name}`, projectId);
+
+    // ────────────────── 9. Parsear respuesta ────────────────
+    let generatedUserStories;
+    try {
+      const jsonString = (responseText.match(/\{[\s\S]*\}/) || [])[0] || responseText;
+      generatedUserStories = JSON.parse(jsonString);
+
+      if (!Array.isArray(generatedUserStories.userStories)) {
+        throw new Error('Formato de respuesta inválido');
+      }
+    } catch (err) {
+      console.error('❌ Error al parsear JSON de Gemini:', err);
+      return res.status(500).json({
+        error: 'Error al procesar respuesta',
+        message: 'La respuesta de Gemini no tiene el formato JSON esperado'
+      });
+    }
+
+    // ────────────────── 10. Formatear historias personalizadas ──────────────
+    const priorityMap = {
+      'alta': 'high',
+      'media': 'medium', 
+      'baja': 'low'
+    };
+
+    const formattedUserStories = generatedUserStories.userStories.map((story, idx) => {
+      // Validar reglas de impacto estratégico
+      const validateImpactRules = (story, impact) => {
+        if (impact === 'core') {
+          // Core debe tener al menos un componente en "create"
+          if (!story.componentsModules?.create || story.componentsModules.create.length === 0) {
+            console.warn(`⚠️ Historia CORE "${story.title}" no tiene componentes nuevos. Agregando componente por defecto.`);
+            return {
+              ...story,
+              componentsModules: {
+                ...story.componentsModules,
+                create: [{
+                  name: `New${page.name.replace(/\s+/g, '')}Component`,
+                  type: 'component',
+                  description: 'Componente principal para funcionalidad core'
+                }]
+              }
+            };
+          }
+        } else if (impact === 'nice-to-have') {
+          // Nice-to-have debe tener al menos un componente en "import"
+          if (!story.componentsModules?.import || story.componentsModules.import.length === 0) {
+            console.warn(`⚠️ Historia NICE-TO-HAVE "${story.title}" no mejora componentes existentes. Agregando mejora por defecto.`);
+            return {
+              ...story,
+              componentsModules: {
+                ...story.componentsModules,
+                import: [{
+                  name: 'ExistingComponent',
+                  from: './components/ExistingComponent',
+                  improvements: 'Mejoras en UX y funcionalidad'
+                }]
+              }
+            };
+          }
+        }
+        return story;
+      };
+
+      const validatedStory = validateImpactRules(story, strategicImpact);
+
+      return {
+        id: uuidv4(),
+        title: validatedStory.title ?? `Historia Personalizada ${idx + 1}`,
+        description: validatedStory.description ?? '',
+        pageContext: validatedStory.pageContext ?? page.name,
+        affectedFiles: Array.isArray(validatedStory.affectedFiles) ? validatedStory.affectedFiles : [],
+        componentsModules: {
+          create: Array.isArray(validatedStory.componentsModules?.create) 
+            ? validatedStory.componentsModules.create.map(comp => ({
+                name: comp.name || comp,
+                type: comp.type || 'component',
+                description: comp.description || 'Componente generado automáticamente'
+              }))
+            : [],
+          import: Array.isArray(validatedStory.componentsModules?.import) 
+            ? validatedStory.componentsModules.import.map(imp => ({
+                name: imp.name || imp,
+                from: imp.from || '',
+                improvements: imp.improvements || 'Mejoras no especificadas'
+              }))
+            : []
+        },
+        logicData: validatedStory.logicData ?? '',
+        styling: {
+          framework: validatedStory.styling?.framework ?? 'tailwind',
+          classes: typeof validatedStory.styling?.classes === 'string' 
+            ? validatedStory.styling.classes 
+            : Array.isArray(validatedStory.styling?.classes) 
+              ? validatedStory.styling.classes.join(' ') 
+              : '',
+          colorCoding: validatedStory.styling?.colorCoding ?? ''
+        },
+        acceptanceCriteria: Array.isArray(validatedStory.acceptanceCriteria) ? validatedStory.acceptanceCriteria : [],
+        additionalSuggestions: Array.isArray(validatedStory.additionalSuggestions) ? validatedStory.additionalSuggestions : [],
+        aiEditorTask: validatedStory.aiEditorTask ?? '',
+        priority: priorityMap[(validatedStory.priority || '').toLowerCase()] || 'medium',
+        status: 'pending',
+        estimatedHours: Math.min(40, Math.max(1, Number(validatedStory.estimatedHours) || 5)),
+        strategicImpact: strategicImpact,
+        comments: comments,
+        impactValidation: {
+          rulesApplied: impactRules.componentRule,
+          strategy: impactRules.componentStrategy
+        }
+      };
+    });
+
+    console.log('✅ User stories personalizadas generadas exitosamente (sin guardar)');
+
+    // ────────────────── 11. Responder sin guardar ───────────────────────
+    res.json({
+      message: 'Historias de usuario personalizadas generadas exitosamente con Gemini',
+      page: { id: page.id, name: page.name },
+      pageId: page.id, // Agregado pageId directamente en la respuesta
+      generatedUserStories: formattedUserStories,
+      totalUserStories: formattedUserStories.length,
+      metadata: {
+        generatedAt: new Date(),
+        aiModel: 'gemini-2.5-pro-preview-06-05',
+        basedOn: {
+          pageName: page.name,
+          pageDescription: page.description,
+          projectName: project.name,
+          storyCount,
+          strategicImpact: impactDescription,
+          comments
+        },
+        personalizedGeneration: true,
+        impactRulesApplied: {
+          componentRule: impactRules.componentRule,
+          focusArea: impactRules.focusArea,
+          strategy: impactRules.componentStrategy
+        }
+      }
+    });
+  } catch (error) {
+    console.error('❌ Error general en generarUSparapaginapersonal:', error);
+    res.status(500).json({
+      error: 'Error interno del servidor',
+      message: 'Error al generar historias de usuario personalizadas con Gemini'
+    });
+  }
+};
+
 // Función auxiliar para encontrar el directorio de API
 const findAPIDirectory = async (repoDir) => {
   const possiblePaths = [
@@ -3303,6 +3677,170 @@ Responde ÚNICAMENTE con el JSON válido, sin texto adicional.`;
   console.log('🏁 [BACKEND] Finalizando función actualizarPagina');
 };
 
+
+// @desc    Add specific pages for service platform project
+// @route   POST /api/projects/:id/add-service-platform-pages
+// @access  Private
+const addServicePlatformPages = async (req, res) => {
+  try {
+    const project = await Project.findOne({
+      _id: req.params.id,
+      userId: req.user.userId,
+      isActive: true
+    });
+
+    if (!project) {
+      return res.status(404).json({
+        error: 'Proyecto no encontrado',
+        message: 'El proyecto no existe o no tienes permisos para modificarlo'
+      });
+    }
+
+    // Páginas predefinidas para plataforma de servicios
+    const servicePlatformPages = [
+      {
+        id: uuidv4(),
+        name: 'Página de Registro/Login',
+        description: 'Permite a los usuarios y profesionales crear una cuenta o acceder a la plataforma. Incluye registro con email y contraseña, elección de tipo de perfil (Cliente o Profesional), verificación por correo electrónico, recuperación de contraseña y login con redes sociales (opcional).',
+        route: '/auth',
+        isEssential: true,
+        priority: 1,
+        userStories: [],
+        createdAt: new Date(),
+        generatedByAI: false
+      },
+      {
+        id: uuidv4(),
+        name: 'Home pública',
+        description: 'Landing accesible a no registrados, que explica cómo funciona la plataforma, con CTA para registrarse o buscar servicios. Incluye breve explicación de la plataforma, testimonios o reseñas destacadas, botón de "Buscar profesionales" y CTA para registro/login.',
+        route: '/',
+        isEssential: true,
+        priority: 2,
+        userStories: [],
+        createdAt: new Date(),
+        generatedByAI: false
+      },
+      {
+        id: uuidv4(),
+        name: 'Página de Búsqueda',
+        description: 'Interfaz principal donde los usuarios buscan profesionales con filtros. Incluye filtro por ubicación (geolocalización, ciudad, código postal), filtro por categoría de servicios, filtro por disponibilidad (fechas), filtro por precio o valoración, y resultados en listado o mapa.',
+        route: '/search',
+        isEssential: true,
+        priority: 3,
+        userStories: [],
+        createdAt: new Date(),
+        generatedByAI: false
+      },
+      {
+        id: uuidv4(),
+        name: 'Ficha de Profesional',
+        description: 'Vista pública del perfil profesional, similar a Airbnb o Doctoralia. Incluye foto y descripción, servicios ofrecidos, localización en mapa, valoraciones, botón para contactar o reservar, y enlace a sesión online si está confirmado.',
+        route: '/professional/:id',
+        isEssential: true,
+        priority: 4,
+        userStories: [],
+        createdAt: new Date(),
+        generatedByAI: false
+      },
+      {
+        id: uuidv4(),
+        name: 'Página de Reserva',
+        description: 'Formulario de reserva que permite seleccionar fecha, modalidad (online/presencial), y confirmación. Incluye calendario con disponibilidad, modalidad online o presencial, envío de email de confirmación, botón para cancelar o modificar, visualización del enlace externo si es online, e integración con Stripe o PayPal (si aplica).',
+        route: '/booking/:professionalId',
+        isEssential: true,
+        priority: 5,
+        userStories: [],
+        createdAt: new Date(),
+        generatedByAI: false
+      },
+      {
+        id: uuidv4(),
+        name: 'Página de Pago',
+        description: 'Pasarela de pago segura para completar reservas (si el plan lo permite). Incluye cálculo automático de precio, integración con Stripe, PayPal u otros, confirmación de pago, y factura/envío de recibo (opcional).',
+        route: '/payment/:bookingId',
+        isEssential: true,
+        priority: 6,
+        userStories: [],
+        createdAt: new Date(),
+        generatedByAI: false
+      }
+    ];
+
+    const addedPages = [];
+    const errors = [];
+
+    // Verificar y agregar cada página
+    for (let i = 0; i < servicePlatformPages.length; i++) {
+      const pageData = servicePlatformPages[i];
+      
+      try {
+        // Verificar que la ruta no exista ya en el proyecto
+        const existingPage = project.pages.find(p => p.route === pageData.route);
+        if (existingPage) {
+          errors.push({
+            index: i,
+            error: `La ruta '${pageData.route}' ya existe en el proyecto`,
+            pageName: pageData.name
+          });
+          continue;
+        }
+
+        project.pages.push(pageData);
+        addedPages.push(pageData);
+
+      } catch (pageError) {
+        console.error(`Error procesando página ${i}:`, pageError);
+        errors.push({
+          index: i,
+          error: `Error interno al procesar página: ${pageError.message}`,
+          pageName: pageData.name
+        });
+      }
+    }
+
+    // Guardar el proyecto
+    if (addedPages.length > 0) {
+      await project.save();
+    }
+
+    // Preparar respuesta
+    const response = {
+      message: `Proceso completado: ${addedPages.length} páginas de plataforma de servicios agregadas exitosamente`,
+      totalRequested: servicePlatformPages.length,
+      totalAdded: addedPages.length,
+      totalErrors: errors.length,
+      addedPages: addedPages.map(page => ({
+        id: page.id,
+        name: page.name,
+        route: page.route,
+        description: page.description.substring(0, 100) + '...'
+      })),
+      project: {
+        id: project._id,
+        name: project.name,
+        totalPages: project.pages.length
+      }
+    };
+
+    if (errors.length > 0) {
+      response.errors = errors;
+      response.message += `, ${errors.length} páginas tuvieron errores`;
+    }
+
+    const statusCode = addedPages.length > 0 ? 
+      (errors.length > 0 ? 207 : 201) :
+      400;
+
+    res.status(statusCode).json(response);
+
+  } catch (error) {
+    console.error('Error al agregar páginas de plataforma de servicios:', error);
+    res.status(500).json({
+      error: 'Error interno del servidor',
+      message: 'Error al agregar páginas de plataforma de servicios'
+    });
+  }
+};
 
 // @desc    Add multiple pages to a project
 // @route   POST /api/projects/:id/pages/bulk
@@ -6778,8 +7316,10 @@ module.exports = {
   generatePagesWithGemini,
   generateAdditionalPagesWithGemini,
   addMultiplePages,
+  addServicePlatformPages,
   generarProyectoConIA,
   generarpromptinicial,
+  generarUSparapaginapersonal,
   generateestudiodemercadowithgemini,
   generateUserStoriesForProjectCompleto
 };

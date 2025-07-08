@@ -1,0 +1,49 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización de Lista de Entidades de Prueba",
+      "description": "Como usuario, quiero visualizar una lista de entidades de prueba en la página para poder verificar que la integración de datos del backend funciona y que la información se presenta de forma clara y estructurada.",
+      "pageContext": "pueba",
+      "affectedFiles": [
+        "pages/pueba/index.jsx",
+        "components/EntityCard/EntityCard.jsx",
+        "components/EntityCard/EntityCard.module.css"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "EntityCard",
+            "type": "component",
+            "description": "Un componente de tarjeta reutilizable diseñado para mostrar la información clave de una entidad de prueba. Debe aceptar propiedades como título, descripción y un estado, y presentarlas de manera visualmente atractiva."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "La página '/pueba' debe realizar una solicitud a un endpoint (ej. /api/test-entities) para obtener un array de objetos. Cada objeto representará una entidad de prueba y contendrá al menos un 'id', 'title', 'description' y 'status'. La página manejará estados de carga, éxito y error. En caso de éxito, iterará sobre el array de datos y renderizará un componente 'EntityCard' por cada elemento, pasándole los datos correspondientes como props.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4",
+        "colorCoding": "Las tarjetas ('EntityCard') tendrán un fondo blanco/gris claro (bg-white dark:bg-gray-800), borde sutil (border border-gray-200 dark:border-gray-700) y una sombra suave (shadow-md). El estado podría usar colores: verde para 'Activo', amarillo para 'Pendiente', rojo para 'Error'."
+      },
+      "acceptanceCriteria": [
+        "Al visitar la ruta '/pueba', se debe mostrar un indicador de carga mientras se obtienen los datos.",
+        "Una vez que los datos se han cargado correctamente, se debe renderizar una lista de componentes 'EntityCard'.",
+        "Cada 'EntityCard' debe mostrar correctamente el título, la descripción y el estado de la entidad que representa.",
+        "Si la llamada a la API devuelve una lista vacía, se debe mostrar un mensaje claro en pantalla, como 'No hay entidades para mostrar'.",
+        "Si ocurre un error durante la obtención de los datos, se debe mostrar un mensaje de error descriptivo al usuario.",
+        "El diseño de la lista de tarjetas debe ser responsivo, ajustándose al número de columnas según el tamaño de la pantalla (móvil, tablet, escritorio)."
+      ],
+      "additionalSuggestions": [
+        "Implementar un componente 'Skeleton Loader' que imite la estructura de las 'EntityCard' para una mejor experiencia de usuario durante la carga.",
+        "Añadir un campo de búsqueda para filtrar las entidades por su título."
+      ],
+      "aiEditorTask": "Crea el nuevo componente 'EntityCard' en React. Debe aceptar `title`, `description` y `status` como props. Utiliza Tailwind CSS para el estilo. El `title` debe ser un h3, la `description` un párrafo, y el `status` debe ser una píldora (badge) con color condicional (verde para 'Activo', rojo para 'Inactivo'). Asegúrate de que el componente esté contenido en una tarjeta con borde y sombra.",
+      "priority": "Alta",
+      "estimatedHours": 8,
+      "strategicImpact": "core",
+      "comments": "Esta funcionalidad es la base para cualquier página que necesite mostrar colecciones de datos, validando el flujo completo desde la obtención de datos hasta su presentación en la UI."
+    }
+  ]
+}
+```

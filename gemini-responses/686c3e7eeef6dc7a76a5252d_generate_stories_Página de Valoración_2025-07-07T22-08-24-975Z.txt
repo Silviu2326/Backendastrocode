@@ -1,0 +1,253 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Enviar valoración con estrellas y texto",
+      "description": "Como cliente, quiero poder calificar a un profesional con un sistema de 1 a 5 estrellas y escribir una reseña en texto después de una sesión completada, para compartir mi experiencia y ayudar a otros usuarios a tomar decisiones informadas.",
+      "pageContext": "Página de Valoración",
+      "affectedFiles": [
+        "src/features/pgina-de-valoracin/PáginadeValoraciónPage.tsx",
+        "src/features/pgina-de-valoracin/hooks/usePáginadeValoración.ts",
+        "src/features/pgina-de-valoracin/api.ts",
+        "src/features/pgina-de-valoracin/components/StarRating.jsx",
+        "src/features/pgina-de-valoracin/components/ReviewForm.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "StarRating",
+            "type": "component"
+          },
+          {
+            "name": "ReviewForm",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "La página debe recibir el ID de la reserva completada como parámetro en la URL. El hook `usePáginadeValoración` gestionará el estado del formulario (valor de las estrellas y contenido del texto). La función de envío en el hook llamará a `api.ts` para enviar una petición POST a un endpoint (ej: `/api/reviews`) con el `reservationId`, `rating`, y `comment`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex flex-col items-center gap-4 p-8",
+        "colorCoding": "Las estrellas deben ser interactivas, cambiando de color (ej. amarillo) al pasar el cursor y al hacer clic. El botón de envío debe ser de color primario."
+      },
+      "acceptanceCriteria": [
+        "El usuario debe poder seleccionar una calificación de 1 a 5 estrellas.",
+        "El botón de 'Enviar Valoración' debe estar deshabilitado hasta que se seleccione al menos una estrella.",
+        "El campo de texto para la reseña es opcional, pero debe tener un límite de caracteres (ej. 1000).",
+        "Al enviar, los datos (calificación, texto, ID de sesión) se envían correctamente al backend."
+      ],
+      "additionalSuggestions": [
+        "Mostrar el nombre del profesional y la fecha de la sesión que se está valorando para dar contexto al usuario.",
+        "Considerar añadir etiquetas predefinidas (ej. 'Puntual', 'Buen oyente') que el usuario pueda seleccionar además de la reseña de texto."
+      ],
+      "aiEditorTask": "Crea los componentes `StarRating.jsx` y `ReviewForm.jsx` dentro de `src/features/pgina-de-valoracin/components/`. Implementa la lógica en `PáginadeValoraciónPage.tsx` para integrar estos componentes y gestionar el estado del formulario con el hook `usePáginadeValoración.ts`.",
+      "priority": "Alta",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Verificar acceso a la valoración",
+      "description": "Como sistema, quiero verificar que un usuario solo pueda acceder a la página de valoración si la reserva asociada está 'completada' y pertenece a dicho usuario, para prevenir valoraciones fraudulentas o prematuras.",
+      "pageContext": "Página de Valoración",
+      "affectedFiles": [
+        "src/features/pgina-de-valoracin/PáginadeValoraciónPage.tsx",
+        "src/features/pgina-de-valoracin/hooks/usePáginadeValoración.ts",
+        "src/features/pgina-de-valoracin/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AccessDeniedMessage",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Al cargar la página, el hook `usePáginadeValoración` debe hacer una llamada a la API con el ID de la sesión para validar su estado y propietario. Si la validación falla (no completada, no pertenece al usuario, ya valorada), el hook debe actualizar el estado para mostrar un mensaje de error en lugar del formulario.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "text-center text-red-500 bg-red-100 p-4 rounded-lg",
+        "colorCoding": "Usar colores de error (rojo) para el mensaje de acceso denegado."
+      },
+      "acceptanceCriteria": [
+        "Si un usuario intenta acceder a la URL de valoración de una sesión no completada, debe ver un mensaje de error.",
+        "Si un usuario intenta valorar una sesión que no le pertenece, debe ver un mensaje de error.",
+        "Si una sesión ya ha sido valorada, el formulario no debe mostrarse, y en su lugar aparecer un mensaje indicándolo.",
+        "Si la validación es exitosa, el formulario de valoración debe mostrarse normalmente."
+      ],
+      "additionalSuggestions": [
+        "El mensaje de error podría incluir un botón que redirija al usuario a su panel de control."
+      ],
+      "aiEditorTask": "En `usePáginadeValoración.ts`, implementa una función de efecto (useEffect) que se ejecute al montar el componente para realizar la llamada de validación de acceso. Crea un componente `AccessDeniedMessage.jsx` para mostrar los errores y úsalo en `PáginadeValoraciónPage.tsx` con renderizado condicional.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Moderación de reseñas por el administrador",
+      "description": "Como administrador, quiero tener una sección en el backoffice para revisar todas las nuevas valoraciones antes de que se publiquen, para asegurar que cumplen con las normas de la comunidad y filtrar contenido inapropiado.",
+      "pageContext": "Backoffice de Administración",
+      "affectedFiles": [
+        "src/features/backoffice-de-administracin/BackofficedeAdministraciónPage.tsx",
+        "src/features/backoffice-de-administracin/components/ReviewModerationQueue.jsx",
+        "src/features/backoffice-de-administracin/api.ts",
+        "src/components/Table.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ReviewModerationQueue",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Table",
+            "from": "src/components/Table.jsx"
+          },
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El componente `ReviewModerationQueue` obtendrá a través de la API (`backoffice-de-administracin/api.ts`) una lista de reseñas con estado 'pendiente'. La API debe permitir actualizar el estado de una reseña a 'aprobada' o 'rechazada'. Los datos a mostrar por reseña incluyen: texto, estrellas, nombre del cliente (o anónimo), nombre del profesional.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "w-full text-left border-collapse",
+        "colorCoding": "Usar botones verdes para 'Aprobar' y rojos para 'Rechazar' para una rápida identificación visual de las acciones."
+      },
+      "acceptanceCriteria": [
+        "El administrador puede ver una lista de todas las reseñas pendientes de moderación en una tabla.",
+        "Cada fila de la tabla muestra la información relevante de la reseña.",
+        "El administrador tiene botones para 'Aprobar' y 'Rechazar' cada reseña.",
+        "Al aprobar una reseña, su estado cambia y se hace visible en el perfil del profesional correspondiente.",
+        "Al rechazar una reseña, su estado cambia y no se hace pública.",
+        "La reseña desaparece de la cola de moderación después de ser gestionada."
+      ],
+      "additionalSuggestions": [
+        "Añadir un campo de 'motivo de rechazo' que el administrador pueda rellenar opcionalmente.",
+        "Permitir filtrar las reseñas pendientes por profesional."
+      ],
+      "aiEditorTask": "Crea el componente `ReviewModerationQueue.jsx` que utilice el componente genérico `Table.jsx` para mostrar los datos. Implementa las llamadas a la API en `backoffice-de-administracin/api.ts` para obtener y actualizar reseñas. Integra el nuevo componente en `BackofficedeAdministraciónPage.tsx`.",
+      "priority": "Media",
+      "estimatedHours": 16
+    },
+    {
+      "title": "Recibir confirmación de envío de valoración",
+      "description": "Como cliente, después de enviar mi valoración, quiero ver un mensaje de confirmación que me informe que se ha recibido correctamente y que está pendiente de moderación, para tener certeza de que el proceso ha finalizado.",
+      "pageContext": "Página de Valoración",
+      "affectedFiles": [
+        "src/features/pgina-de-valoracin/PáginadeValoraciónPage.tsx",
+        "src/features/pgina-de-valoracin/components/SubmissionSuccessMessage.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "SubmissionSuccessMessage",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "En `PáginadeValoraciónPage.tsx`, después de que la llamada a la API de envío de la reseña sea exitosa, se debe actualizar un estado local (ej. `isSubmitted`). Este estado se usará para renderizar condicionalmente el componente `SubmissionSuccessMessage` en lugar del formulario.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex flex-col items-center justify-center text-center p-8 bg-green-100 rounded-lg",
+        "colorCoding": "Usar un fondo verde claro y un icono de check para transmitir éxito."
+      },
+      "acceptanceCriteria": [
+        "Tras un envío exitoso, el formulario de valoración se oculta.",
+        "Se muestra un mensaje de confirmación claro y visible.",
+        "El mensaje debe indicar explícitamente: 'Gracias por tu valoración. Será publicada tras ser revisada'.",
+        "El mensaje de confirmación debe incluir un botón o enlace para volver al 'Panel de Usuario' o a la 'Página Principal'."
+      ],
+      "additionalSuggestions": [
+        "La redirección al panel de usuario podría ser automática después de unos segundos."
+      ],
+      "aiEditorTask": "Crea el componente `SubmissionSuccessMessage.jsx` con el texto de confirmación y un botón de navegación. Modifica `PáginadeValoraciónPage.tsx` y su hook asociado para gestionar el estado de 'envío completado' y mostrar este componente condicionalmente.",
+      "priority": "Media",
+      "estimatedHours": 4
+    },
+    {
+      "title": "Enviar valoración de forma anónima",
+      "description": "Como cliente, quiero tener la opción de enviar mi reseña de forma anónima, para sentirme más cómodo compartiendo feedback honesto sin que mi nombre sea público.",
+      "pageContext": "Página de Valoración",
+      "affectedFiles": [
+        "src/features/pgina-de-valoracin/PáginadeValoraciónPage.tsx",
+        "src/features/pgina-de-valoracin/hooks/usePáginadeValoración.ts",
+        "src/features/pgina-de-valoracin/api.ts"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "Añadir un campo booleano (`isAnonymous`) al estado del formulario en `usePáginadeValoración.ts`. Este estado se controlará mediante un checkbox en el `ReviewForm`. Al enviar la reseña, este valor booleano se incluirá en la petición a la API. El backend debe almacenar esta preferencia.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex items-center gap-2 mt-4 text-sm text-gray-600",
+        "colorCoding": "Estilo estándar para un checkbox y su etiqueta."
+      },
+      "acceptanceCriteria": [
+        "El formulario de valoración debe incluir un checkbox con la etiqueta 'Publicar como anónimo'.",
+        "Por defecto, el checkbox debe estar desmarcado.",
+        "Si se marca, el payload enviado a la API debe incluir una bandera indicando que la reseña es anónima.",
+        "El backend debe registrar esta preferencia y el frontend (en la ficha del profesional) debe mostrar 'Cliente Anónimo' en lugar del nombre del usuario para dicha reseña."
+      ],
+      "additionalSuggestions": [
+        "Añadir un pequeño icono de ayuda (?) junto al checkbox que, al pasar el cursor, explique que el administrador aún podrá ver la identidad del autor por motivos de seguridad."
+      ],
+      "aiEditorTask": "Añade un elemento de checkbox al formulario en `PáginadeValoraciónPage.tsx`. Actualiza el hook `usePáginadeValoración.ts` para manejar el estado de este checkbox. Asegúrate de que el valor se pasa correctamente en la llamada a la API definida en `api.ts`.",
+      "priority": "Media",
+      "estimatedHours": 5
+    },
+    {
+      "title": "Acceder a la valoración desde el panel de usuario",
+      "description": "Como cliente, quiero ver un enlace o botón para 'Valorar sesión' junto a cada una de mis reservas completadas en mi panel de usuario, para poder encontrar y acceder fácilmente al formulario de valoración correcto.",
+      "pageContext": "Panel del Usuario (Cliente)",
+      "affectedFiles": [
+        "src/features/panel-del-usuario-cliente/PaneldelUsuario(Cliente)Page.tsx",
+        "src/features/panel-del-usuario-cliente/components/CompletedReservations.jsx",
+        "src/features/panel-del-usuario-cliente/api.ts",
+        "src/App.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "CompletedReservations",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "En el panel de usuario, la API debe devolver una lista de reservas pasadas, incluyendo su estado y si ya han sido valoradas. El componente `CompletedReservations` iterará sobre esta lista. Para cada reserva 'completada' que no tenga valoración, mostrará un botón que enlace a `/valoracion/{reservationId}`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
+        "colorCoding": "Usar un botón de acción secundaria o un enlace con estilo para la opción de 'Valorar'."
+      },
+      "acceptanceCriteria": [
+        "En mi panel de usuario, en la sección de 'historial de reservas', puedo ver mis sesiones pasadas.",
+        "Solo las sesiones con estado 'Completada' muestran la opción para valorar.",
+        "Si una sesión ya fue valorada, el botón de 'Valorar' no debe aparecer (o debe cambiar a 'Ver mi valoración').",
+        "Al hacer clic en el botón 'Valorar', soy redirigido a la página `/valoracion` con el ID de la sesión correcta."
+      ],
+      "additionalSuggestions": [
+        "Enviar una notificación por correo electrónico o dentro de la app al usuario 24 horas después de la sesión, recordándole que puede dejar una valoración."
+      ],
+      "aiEditorTask": "Crea el componente `CompletedReservations.jsx` en la feature del panel de cliente. Implementa la lógica para mostrar condicionalmente el botón de valoración. Asegúrate de que la ruta `/valoracion/:id` está correctamente configurada en `App.tsx`.",
+      "priority": "Alta",
+      "estimatedHours": 9
+    }
+  ]
+}
+```

@@ -1,0 +1,281 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización de Resumen de Clientes Activos",
+      "description": "Como entrenador, quiero ver un resumen visual del total de mis clientes activos en el dashboard para tener una visión general rápida del tamaño de mi negocio.",
+      "pageContext": "Panel de Control (Dashboard)",
+      "affectedFiles": [
+        "src/features/panel-de-control-dashboard/PaneldeControl(Dashboard)Page.tsx",
+        "src/features/panel-de-control-dashboard/api.ts",
+        "src/features/panel-de-control-dashboard/components/ActiveClientsSummaryCard.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ActiveClientsSummaryCard",
+            "type": "component",
+            "description": "Una tarjeta de resumen que muestra el número total de clientes activos. Debe incluir un ícono representativo y el número en grande. Al hacer clic, debería navegar a la página de Gestión de Clientes (CRM)."
+          }
+        ],
+        "import": [
+          {
+            "name": "usePaneldeControl(Dashboard)",
+            "from": "src/features/panel-de-control-dashboard/hooks/usePaneldeControl(Dashboard).ts",
+            "improvements": "Ampliar el hook para que incluya una función que obtenga el conteo de clientes activos desde la API."
+          }
+        ]
+      },
+      "logicData": "El componente debe utilizar el hook 'usePaneldeControl(Dashboard)' para llamar a un nuevo endpoint en 'api.ts' que consulta la API de 'gestin-de-clientes-crm' y devuelve el número total de clientes con estado 'activo'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-white shadow-lg rounded-lg p-6 flex items-center justify-between transition hover:shadow-xl cursor-pointer",
+        "colorCoding": "Usar el color primario del tema para el número y un gris oscuro para el texto descriptivo."
+      },
+      "acceptanceCriteria": [
+        "La tarjeta debe mostrarse en el dashboard.",
+        "El número mostrado debe corresponder al total de clientes con estado 'activo'.",
+        "La tarjeta debe mostrar un estado de carga mientras se obtienen los datos.",
+        "En caso de error al obtener los datos, debe mostrar un mensaje de error.",
+        "Hacer clic en la tarjeta completa debe redirigir al usuario a la ruta '/clientes' (página de Gestión de Clientes)."
+      ],
+      "additionalSuggestions": [
+        "Considerar añadir un pequeño gráfico de tendencia (ej. +5% vs mes anterior) si los datos están disponibles.",
+        "Añadir un tooltip que explique qué se considera un 'cliente activo'."
+      ],
+      "aiEditorTask": "Crea el componente 'ActiveClientsSummaryCard.tsx' dentro de 'src/features/panel-de-control-dashboard/components/'. Implementa la lógica de obtención de datos usando un hook y la navegación. Importa y renderiza este componente en 'PaneldeControl(Dashboard)Page.tsx'.",
+      "priority": "Alta",
+      "estimatedHours": 6,
+      "strategicImpact": "core",
+      "comments": "Esta es una métrica fundamental para que el entrenador evalúe su negocio de un vistazo."
+    },
+    {
+      "title": "Visualización de Resumen de Pagos Próximos y Vencidos",
+      "description": "Como entrenador, quiero ver un resumen de los pagos próximos a vencer y los ya vencidos en el dashboard para poder gestionar mis finanzas y hacer seguimiento a los clientes deudores de forma proactiva.",
+      "pageContext": "Panel de Control (Dashboard)",
+      "affectedFiles": [
+        "src/features/panel-de-control-dashboard/PaneldeControl(Dashboard)Page.tsx",
+        "src/features/panel-de-control-dashboard/api.ts",
+        "src/features/panel-de-control-dashboard/components/PaymentsStatusWidget.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "PaymentsStatusWidget",
+            "type": "component",
+            "description": "Un widget que muestra dos métricas clave: el monto total de pagos que vencen en los próximos 7 días y el monto total de pagos vencidos. Cada métrica debe ser un enlace a la sección de pagos filtrada correspondientemente."
+          }
+        ],
+        "import": [
+          {
+            "name": "useGestióndePagos",
+            "from": "src/features/gestin-de-pagos/hooks/useGestióndePagos.ts",
+            "improvements": "Podría ser necesario extenderlo o crear una versión para el dashboard que obtenga los datos agregados."
+          }
+        ]
+      },
+      "logicData": "El componente necesita obtener datos agregados desde la API de 'gestin-de-pagos'. La API debe proveer dos endpoints: uno para la suma de pagos con fecha de vencimiento en los próximos 7 días y otro para la suma de pagos con fecha de vencimiento pasada y estado 'pendiente'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-white shadow-lg rounded-lg p-6 space-y-4",
+        "colorCoding": "Usar verde o azul para 'próximos pagos' y rojo o naranja para 'pagos vencidos' para una rápida identificación visual."
+      },
+      "acceptanceCriteria": [
+        "El widget debe mostrarse correctamente en el dashboard.",
+        "Debe mostrar el monto total de pagos que vencen en los próximos 7 días.",
+        "Debe mostrar el monto total de pagos ya vencidos.",
+        "Hacer clic en 'Próximos Pagos' debe llevar a la página de pagos, pre-filtrada para mostrar esos pagos.",
+        "Hacer clic en 'Pagos Vencidos' debe llevar a la página de pagos, pre-filtrada para mostrar los pagos vencidos."
+      ],
+      "additionalSuggestions": [
+        "Mostrar el número de clientes asociados a cada categoría (ej. '5 clientes con pagos vencidos').",
+        "Añadir un botón de 'Enviar Recordatorio a Todos' para los pagos vencidos."
+      ],
+      "aiEditorTask": "Crea el componente 'PaymentsStatusWidget.tsx' en la carpeta de componentes del dashboard. Implementa la lógica para obtener y mostrar los montos agregados. Asegúrate de que los enlaces naveguen a la página de gestión de pagos con los parámetros de filtro adecuados. Intégralo en la página principal del dashboard.",
+      "priority": "Alta",
+      "estimatedHours": 8,
+      "strategicImpact": "core",
+      "comments": "La salud financiera es crítica para el negocio del entrenador. Este widget proporciona visibilidad inmediata."
+    },
+    {
+      "title": "Lista Interactiva de Tareas Pendientes",
+      "description": "Como entrenador, quiero tener una lista de tareas pendientes en mi dashboard para organizar mi día y asegurarme de no olvidar ninguna acción importante, como revisar un check-in o actualizar un plan.",
+      "pageContext": "Panel de Control (Dashboard)",
+      "affectedFiles": [
+        "src/features/panel-de-control-dashboard/PaneldeControl(Dashboard)Page.tsx",
+        "src/features/panel-de-control-dashboard/api.ts",
+        "src/features/panel-de-control-dashboard/components/TodoTasksList.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "TodoTasksList",
+            "type": "component",
+            "description": "Un componente de lista de tareas que muestra tareas generadas automáticamente (ej. 'Revisar check-in de Cliente X') y permite al entrenador añadir tareas manuales. Las tareas deben poder marcarse como completadas."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Necesita una API para gestionar las tareas (CRUD). Las tareas pueden tener un tipo ('auto', 'manual'), una descripción, un cliente asociado (opcional) y un estado ('pendiente', 'completado'). La lista debe obtener las tareas pendientes del usuario logueado. Marcar una tarea como completada debe actualizar su estado en la base de datos.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-white shadow-lg rounded-lg p-6 h-full",
+        "colorCoding": "Usar un checkbox interactivo. Las tareas completadas podrían aparecer tachadas y con un color más tenue."
+      },
+      "acceptanceCriteria": [
+        "La lista de tareas debe mostrar las 5 tareas más próximas o importantes.",
+        "Debe haber un campo de entrada y un botón para añadir una nueva tarea manual.",
+        "Cada tarea en la lista debe tener un checkbox para marcarla como completada.",
+        "Al marcar una tarea, esta debe actualizar su estado visualmente (ej. tacharse) y persistir el cambio en el backend.",
+        "Si una tarea está asociada a un cliente, el nombre del cliente debe ser un enlace a su perfil."
+      ],
+      "additionalSuggestions": [
+        "Añadir la capacidad de filtrar tareas por tipo (automáticas, manuales).",
+        "Implementar drag-and-drop para reordenar las tareas manualmente."
+      ],
+      "aiEditorTask": "Crea el componente 'TodoTasksList.tsx' y la lógica de estado local para manejar la lista. Define la estructura de la API en 'api.ts' para las operaciones CRUD de tareas. Integra el componente en el dashboard, asegurando que sea funcional e interactivo.",
+      "priority": "Alta",
+      "estimatedHours": 10,
+      "strategicImpact": "core",
+      "comments": "Organiza el flujo de trabajo diario del entrenador, convirtiendo el dashboard en un centro de acción."
+    },
+    {
+      "title": "Gráfico General de Progreso de Clientes",
+      "description": "Como entrenador, quiero ver un gráfico que resuma el progreso general de mis clientes (ej. adherencia promedio, total de peso perdido) para evaluar rápidamente la efectividad de mis métodos y la salud de mi comunidad.",
+      "pageContext": "Panel de Control (Dashboard)",
+      "affectedFiles": [
+        "src/features/panel-de-control-dashboard/PaneldeControl(Dashboard)Page.tsx",
+        "src/features/panel-de-control-dashboard/api.ts",
+        "src/features/panel-de-control-dashboard/components/ClientProgressChart.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ClientProgressChart",
+            "type": "component",
+            "description": "Un componente de gráfico (ej. barras o línea) que visualiza estadísticas agregadas del progreso de todos los clientes en un período de tiempo seleccionable (ej. última semana, último mes)."
+          }
+        ],
+        "import": [
+          {
+            "name": "usePaneldeControl(Dashboard)",
+            "from": "src/features/panel-de-control-dashboard/hooks/usePaneldeControl(Dashboard).ts",
+            "improvements": "Añadir lógica para obtener y procesar los datos agregados para el gráfico."
+          }
+        ]
+      },
+      "logicData": "Requiere un endpoint de API complejo que agregue datos de progreso de todos los clientes del entrenador. Por ejemplo, calcular el porcentaje de adherencia promedio a los entrenamientos o la suma total de peso perdido. El componente deberá integrar una librería de gráficos como Chart.js o Recharts.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-white shadow-lg rounded-lg p-6",
+        "colorCoding": "Usar colores vibrantes y claros para las barras o líneas del gráfico, con ejes y leyendas legibles."
+      },
+      "acceptanceCriteria": [
+        "El gráfico debe renderizarse en el dashboard con datos del último mes por defecto.",
+        "Debe haber un selector para cambiar el período de tiempo (últimos 7 días, último mes, últimos 3 meses).",
+        "El gráfico debe mostrar al menos dos métricas (ej. 'Adherencia Promedio' y 'Nuevos Registros de Progreso').",
+        "Al pasar el ratón sobre los puntos de datos, un tooltip debe mostrar el valor exacto.",
+        "Debe mostrar un estado de carga mientras los datos se calculan y obtienen."
+      ],
+      "additionalSuggestions": [
+        "Permitir al entrenador personalizar qué métricas desea ver en el gráfico.",
+        "Comparar el período actual con el período anterior (ej. una línea de 'mes anterior' en gris)."
+      ],
+      "aiEditorTask": "Crea el componente 'ClientProgressChart.tsx'. Instala y configura una librería de gráficos (ej. 'recharts'). Define el endpoint en 'api.ts' que proporcionará los datos agregados. Implementa el componente en el dashboard, incluyendo el selector de período de tiempo y los tooltips.",
+      "priority": "Alta",
+      "estimatedHours": 12,
+      "strategicImpact": "core",
+      "comments": "Ofrece una visión macro del rendimiento, fundamental para la estrategia y motivación del entrenador."
+    },
+    {
+      "title": "Panel de Alertas de Clientes en Riesgo",
+      "description": "Como entrenador, quiero un panel que me alerte sobre clientes que necesitan atención inmediata para poder intervenir a tiempo y prevenir que abandonen el programa.",
+      "pageContext": "Panel de Control (Dashboard)",
+      "affectedFiles": [
+        "src/features/panel-de-control-dashboard/PaneldeControl(Dashboard)Page.tsx",
+        "src/features/panel-de-control-dashboard/api.ts",
+        "src/features/panel-de-control-dashboard/components/ClientAlertsPanel.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ClientAlertsPanel",
+            "type": "component",
+            "description": "Un panel que lista a los clientes que cumplen ciertos criterios de 'riesgo', como no haber registrado un entrenamiento en X días, haber faltado a un check-in, o no haber actualizado su peso en una semana. Cada alerta debe ser un enlace al perfil del cliente."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "La lógica es la parte más compleja. La API necesita un endpoint que ejecute reglas de negocio para identificar clientes en riesgo. Estas reglas podrían ser: (last_login > 7 días), (last_workout_completed > 4 días), (missed_checkin = true). El endpoint devolverá una lista de clientes y el motivo de la alerta.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-white shadow-lg rounded-lg p-6",
+        "colorCoding": "Usar íconos y colores para diferenciar el tipo de alerta (ej. un ícono de calendario para check-in perdido, un ícono de pesa para falta de registro de progreso). Las alertas críticas podrían tener un fondo rojo pálido."
+      },
+      "acceptanceCriteria": [
+        "El panel de alertas debe mostrarse en el dashboard.",
+        "Debe listar hasta 5 clientes que requieren atención, ordenados por la criticidad de la alerta.",
+        "Cada elemento de la lista debe mostrar el nombre del cliente, una foto de perfil y la razón de la alerta (ej. 'Check-in semanal no completado').",
+        "Hacer clic en una alerta debe redirigir al perfil del cliente correspondiente.",
+        "Si no hay alertas, el panel debe mostrar un mensaje positivo (ej. '¡Todo en orden! Ningún cliente requiere atención especial.')."
+      ],
+      "additionalSuggestions": [
+        "Permitir al entrenador descartar una alerta una vez que la ha gestionado.",
+        "Hacer configurables los umbrales de las alertas en la configuración de la cuenta."
+      ],
+      "aiEditorTask": "Crea el componente 'ClientAlertsPanel.tsx'. Define un endpoint complejo en 'api.ts' para obtener la lista de clientes con alertas. Implementa la UI para mostrar cada alerta de forma clara y procesable. Integra el panel en el layout del dashboard.",
+      "priority": "Alta",
+      "estimatedHours": 14,
+      "strategicImpact": "core",
+      "comments": "Esta funcionalidad proactiva es un diferenciador clave, ayudando a mejorar la retención de clientes."
+    },
+    {
+      "title": "Barra de Acciones Rápidas",
+      "description": "Como entrenador, quiero una barra de herramientas con botones para las acciones más comunes, como 'Añadir Cliente' o 'Crear Plan', para agilizar mi flujo de trabajo sin tener que navegar por los menús.",
+      "pageContext": "Panel de Control (Dashboard)",
+      "affectedFiles": [
+        "src/features/panel-de-control-dashboard/PaneldeControl(Dashboard)Page.tsx",
+        "src/features/panel-de-control-dashboard/components/QuickActionsToolbar.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "QuickActionsToolbar",
+            "type": "component",
+            "description": "Una barra horizontal o un grupo de botones prominentes en la parte superior del dashboard que sirven como atajos a las funcionalidades más utilizadas en la aplicación."
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx",
+            "improvements": "Utilizar el componente Button genérico para cada acción en la barra de herramientas."
+          }
+        ]
+      },
+      "logicData": "Este componente es principalmente de UI y navegación. No requiere una llamada a API propia, pero los botones que contiene deben activar la navegación a otras rutas (ej. '/clientes/nuevo', '/creador-planes') o abrir modales para acciones rápidas.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex space-x-4 mb-6",
+        "colorCoding": "Los botones deben usar el color primario para destacar. Cada botón podría tener un ícono relevante además del texto."
+      },
+      "acceptanceCriteria": [
+        "La barra de acciones debe estar visible en la parte superior del contenido del dashboard.",
+        "Debe contener al menos tres botones: 'Añadir Nuevo Cliente', 'Crear Plan de Entrenamiento', 'Enviar Mensaje Global'.",
+        "El botón 'Añadir Nuevo Cliente' debe redirigir al formulario de creación de cliente.",
+        "El botón 'Crear Plan de Entrenamiento' debe redirigir al creador de planes.",
+        "El botón 'Enviar Mensaje Global' podría abrir un modal para redactar y enviar un anuncio a todos los clientes activos."
+      ],
+      "additionalSuggestions": [
+        "Hacer que la barra de acciones sea personalizable por el entrenador en la configuración de su cuenta.",
+        "El botón 'Añadir Nuevo Cliente' podría abrir un modal para una creación rápida en lugar de una redirección completa."
+      ],
+      "aiEditorTask": "Crea el componente 'QuickActionsToolbar.tsx' en la carpeta de componentes del dashboard. Utiliza el componente 'Button' reutilizable para construir la barra. Implementa la navegación o la lógica para abrir modales para cada acción. Añade el componente en la parte superior de 'PaneldeControl(Dashboard)Page.tsx'.",
+      "priority": "Alta",
+      "estimatedHours": 5,
+      "strategicImpact": "core",
+      "comments": "Mejora drásticamente la eficiencia del usuario al reducir el número de clics para tareas frecuentes."
+    }
+  ]
+}
+```

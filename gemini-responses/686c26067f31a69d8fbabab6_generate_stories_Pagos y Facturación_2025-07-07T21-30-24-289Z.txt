@@ -1,0 +1,274 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Conectar cuenta de Stripe para procesar pagos",
+      "description": "Como entrenador, quiero conectar mi cuenta de Stripe a la plataforma para poder recibir pagos de mis clientes de forma segura y automatizada.",
+      "pageContext": "Pagos y Facturación",
+      "affectedFiles": [
+        "src/features/pagos-y-facturacin/PagosyFacturaciónPage.tsx",
+        "src/features/pagos-y-facturacin/hooks/usePagosyFacturación.ts",
+        "src/features/pagos-y-facturacin/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "StripeConnect",
+            "type": "component",
+            "path": "src/features/pagos-y-facturacin/components/StripeConnect.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El hook 'usePagosyFacturación.ts' debe gestionar el estado de la conexión con Stripe (conectado/no conectado, email de la cuenta). La función en 'api.ts' iniciará el proceso de OAuth con Stripe en el backend, que redirigirá al usuario. Otra función recuperará el estado actual de la conexión del backend.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-6 bg-white rounded-lg shadow-md flex justify-between items-center",
+        "colorCoding": "Usar el azul de marca de Stripe para el botón de conexión. Mostrar un indicador visual verde cuando la cuenta esté conectada."
+      },
+      "acceptanceCriteria": [
+        "Si el entrenador no ha conectado su cuenta, debe ver un botón claro que diga 'Conectar con Stripe'.",
+        "Al hacer clic en el botón, el entrenador es redirigido al flujo de autorización de Stripe.",
+        "Tras una conexión exitosa, la página debe mostrar un estado de 'Conectado', mostrando parte del email de la cuenta de Stripe.",
+        "Una vez conectado, debe aparecer un botón para 'Desconectar' la cuenta.",
+        "Si la conexión falla, se debe mostrar un mensaje de error claro al usuario."
+      ],
+      "additionalSuggestions": [
+        "Incluir un pequeño texto explicando los beneficios de conectar con Stripe.",
+        "Añadir un enlace a la documentación de FitFlow Pro sobre cómo configurar los pagos."
+      ],
+      "aiEditorTask": "Crea el componente 'StripeConnect.tsx' en 'src/features/pagos-y-facturacin/components/'. Este componente debe mostrar un botón para iniciar la conexión a Stripe si no existe una, o mostrar el estado de la conexión y un botón para desconectar si ya está conectada. La lógica para obtener el estado y manejar las acciones debe estar en el hook 'usePagosyFacturación'.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Visualizar resumen de ingresos",
+      "description": "Como entrenador, quiero ver un resumen de mis ingresos (total, mensual, anual) para tener una visión rápida y clara de la salud financiera de mi negocio.",
+      "pageContext": "Pagos y Facturación",
+      "affectedFiles": [
+        "src/features/pagos-y-facturacin/PagosyFacturaciónPage.tsx",
+        "src/features/pagos-y-facturacin/hooks/usePagosyFacturación.ts",
+        "src/features/pagos-y-facturacin/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "IncomeSummary",
+            "type": "component",
+            "path": "src/features/pagos-y-facturacin/components/IncomeSummary.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "KPICard",
+            "from": "src/features/dashboard-principal/components/KPICard.tsx"
+          },
+          {
+            "name": "RevenueChart",
+            "from": "src/features/dashboard-principal/components/RevenueChart.tsx"
+          }
+        ]
+      },
+      "logicData": "El hook 'usePagosyFacturación.ts' obtendrá los datos agregados de ingresos desde 'api.ts'. Los datos deben incluir ingresos brutos, comisiones de la plataforma y ingresos netos. El API debe permitir filtrar estos datos por periodos de tiempo (últimos 30 días, mes actual, año actual).",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-1 md:grid-cols-3 gap-4 mb-8",
+        "colorCoding": "Usar colores positivos (verdes) para los ingresos y métricas de crecimiento. Los gráficos deben seguir la paleta de colores principal de la aplicación."
+      },
+      "acceptanceCriteria": [
+        "La página debe mostrar al menos tres KPIs en tarjetas separadas: 'Ingresos Netos (Últimos 30 días)', 'Ingresos Brutos (Mes Actual)', y 'Clientes Activos con Suscripción'.",
+        "Debe haber un gráfico (similar a RevenueChart) que muestre la evolución de los ingresos netos durante los últimos 6 o 12 meses.",
+        "Las cifras de ingresos deben estar claramente formateadas con el símbolo de la moneda correspondiente.",
+        "Debe haber un estado de carga visible mientras se obtienen los datos."
+      ],
+      "additionalSuggestions": [
+        "Añadir un selector de rango de fechas para que el entrenador pueda consultar periodos personalizados.",
+        "Mostrar un porcentaje de cambio comparado con el periodo anterior para cada KPI."
+      ],
+      "aiEditorTask": "Implementa el componente 'IncomeSummary.tsx' que utilice el componente reutilizable 'KPICard.tsx' para mostrar las métricas clave. También, importa y configura 'RevenueChart.tsx' para visualizar el histórico de ingresos. Toda la data debe ser proveída a través del hook 'usePagosyFacturación'.",
+      "priority": "Alta",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Ver y filtrar historial de transacciones",
+      "description": "Como entrenador, quiero ver una lista detallada de todas las transacciones para poder hacer seguimiento y conciliación de mis ingresos.",
+      "pageContext": "Pagos y Facturación",
+      "affectedFiles": [
+        "src/features/pagos-y-facturacin/PagosyFacturaciónPage.tsx",
+        "src/features/pagos-y-facturacin/hooks/usePagosyFacturación.ts",
+        "src/features/pagos-y-facturacin/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "TransactionsTable",
+            "type": "component",
+            "path": "src/features/pagos-y-facturacin/components/TransactionsTable.tsx"
+          },
+          {
+            "name": "TransactionFilters",
+            "type": "component",
+            "path": "src/features/pagos-y-facturacin/components/TransactionFilters.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Table",
+            "from": "src/components/Table.jsx"
+          },
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El hook 'usePagosyFacturación.ts' manejará el estado de la lista de transacciones, incluyendo la paginación y los filtros aplicados. 'api.ts' tendrá un endpoint para obtener las transacciones, que acepte parámetros de paginación y filtrado (por fecha, por cliente, por estado).",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "mt-8 bg-white p-4 rounded-lg shadow-md",
+        "colorCoding": "Usar etiquetas de colores para el estado de la transacción: verde para 'Completado', rojo para 'Fallido', amarillo para 'Pendiente', gris para 'Reembolsado'."
+      },
+      "acceptanceCriteria": [
+        "Debe mostrarse una tabla con todas las transacciones.",
+        "Las columnas de la tabla deben incluir: Fecha, ID de Transacción, Cliente, Monto, y Estado.",
+        "El nombre del cliente debe ser un enlace que lleve a su perfil ('/perfil-del-cliente/:id').",
+        "Se deben poder filtrar las transacciones por un rango de fechas.",
+        "Se debe poder filtrar por estado de la transacción (Completado, Fallido, Reembolsado).",
+        "La tabla debe tener paginación si hay más de 20 transacciones."
+      ],
+      "additionalSuggestions": [
+        "Añadir un campo de búsqueda para encontrar transacciones por nombre de cliente o ID.",
+        "Incluir un botón para exportar la vista actual de transacciones a un archivo CSV."
+      ],
+      "aiEditorTask": "Crea el componente 'TransactionsTable.tsx' que utilice el componente genérico 'Table' para renderizar la data. Crea también 'TransactionFilters.tsx' con los controles de filtrado. El hook 'usePagosyFacturación' debe contener la lógica para fetchear, filtrar y paginar los datos de transacciones desde la API.",
+      "priority": "Alta",
+      "estimatedHours": 16
+    },
+    {
+      "title": "Gestionar suscripciones de clientes",
+      "description": "Como entrenador, quiero ver y gestionar las suscripciones de mis clientes para saber quién tiene un plan activo y poder realizar acciones como cancelar su plan.",
+      "pageContext": "Pagos y Facturación",
+      "affectedFiles": [
+        "src/features/pagos-y-facturacin/PagosyFacturaciónPage.tsx",
+        "src/features/pagos-y-facturacin/hooks/usePagosyFacturación.ts",
+        "src/features/pagos-y-facturacin/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "SubscriptionsManager",
+            "type": "component",
+            "path": "src/features/pagos-y-facturacin/components/SubscriptionsManager.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Table",
+            "from": "src/components/Table.jsx"
+          },
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El hook 'usePagosyFacturación' obtendrá la lista de suscripciones de 'api.ts'. Cada suscripción debe incluir datos del cliente, nombre del plan, estado (activo, cancelado, vencido), monto y próxima fecha de facturación. La API debe proveer un endpoint para cancelar una suscripción.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "mt-8 bg-white p-4 rounded-lg shadow-md",
+        "colorCoding": "Usar etiquetas de colores para el estado de la suscripción: verde para 'Activa', rojo para 'Cancelada', gris para 'Vencida'."
+      },
+      "acceptanceCriteria": [
+        "Se debe mostrar una tabla con todas las suscripciones de los clientes.",
+        "Las columnas deben ser: Cliente, Plan, Estado, Próxima Facturación y Acciones.",
+        "Cada fila debe tener un botón de 'Cancelar Suscripción' si la suscripción está activa.",
+        "Al hacer clic en 'Cancelar Suscripción', se debe mostrar un modal de confirmación.",
+        "Tras confirmar la cancelación, el estado de la suscripción en la tabla debe actualizarse a 'Cancelada'."
+      ],
+      "additionalSuggestions": [
+        "Añadir la opción de 'reactivar' una suscripción cancelada si la pasarela de pago lo permite.",
+        "Mostrar la fecha de inicio de la suscripción para saber la antigüedad del cliente."
+      ],
+      "aiEditorTask": "Implementa 'SubscriptionsManager.tsx' usando el componente 'Table'. Añade una columna de 'Acciones' con un botón que dispare una función del hook 'usePagosyFacturación' para cancelar la suscripción, la cual llamará al endpoint correspondiente en 'api.ts'. Incluye un modal de confirmación.",
+      "priority": "Media",
+      "estimatedHours": 14
+    },
+    {
+      "title": "Descargar facturas de transacciones",
+      "description": "Como entrenador, quiero poder descargar una factura o recibo para una transacción específica para poder llevar mi contabilidad o enviársela a un cliente si me la solicita.",
+      "pageContext": "Pagos y Facturación",
+      "affectedFiles": [
+        "src/features/pagos-y-facturacin/components/TransactionsTable.tsx",
+        "src/features/pagos-y-facturacin/hooks/usePagosyFacturación.ts",
+        "src/features/pagos-y-facturacin/api.ts"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "El endpoint de la API que devuelve una transacción individual o el que genera la factura debe ser llamado. El backend será responsable de generar el PDF de la factura. El frontend simplemente necesita un botón que llame a este endpoint y gestione la descarga del archivo.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "ml-2 p-2 rounded hover:bg-gray-200",
+        "colorCoding": "El icono de descarga puede ser de un color neutro como el gris oscuro."
+      },
+      "acceptanceCriteria": [
+        "En la tabla de historial de transacciones, cada fila de una transacción completada debe tener un botón o icono de 'Descargar Factura'.",
+        "Al hacer clic en el botón, se debe iniciar la descarga de un archivo PDF.",
+        "El nombre del archivo PDF debe ser descriptivo, por ejemplo, 'factura-fitflow-pro-ID12345.pdf'.",
+        "El botón de descarga no debe estar visible para transacciones fallidas o pendientes."
+      ],
+      "additionalSuggestions": [
+        "Implementar la generación de facturas en el lado del cliente si no es posible en el backend, aunque es menos recomendable.",
+        "Permitir la descarga masiva de facturas de un periodo seleccionado."
+      ],
+      "aiEditorTask": "Modifica el componente 'TransactionsTable.tsx'. Añade una nueva columna de 'Acciones' o un icono en una columna existente. Al hacer clic, se llamará a una nueva función en 'usePagosyFacturación' que a su vez llama a un endpoint en 'api.ts' para descargar la factura en formato PDF.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Ver detalle de un pago específico",
+      "description": "Como entrenador, quiero hacer clic en una transacción de la lista para ver todos sus detalles, como las comisiones y el desglose de impuestos, para entender completamente cada cobro.",
+      "pageContext": "Pagos y Facturación",
+      "affectedFiles": [
+        "src/features/pagos-y-facturacin/PagosyFacturaciónPage.tsx",
+        "src/features/pagos-y-facturacin/components/TransactionsTable.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "TransactionDetailModal",
+            "type": "component",
+            "path": "src/features/pagos-y-facturacin/components/TransactionDetailModal.tsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Se necesita un endpoint en 'api.ts' que devuelva los detalles de una transacción por su ID. El hook 'usePagosyFacturación' gestionará el estado del modal (abierto/cerrado) y los datos de la transacción seleccionada. La lógica para abrir el modal se activará al hacer clic en una fila de la tabla de transacciones.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center",
+        "colorCoding": "El modal debe seguir el estilo general de la aplicación, con texto claro y una jerarquía visual para los datos financieros."
+      },
+      "acceptanceCriteria": [
+        "Al hacer clic en una fila de la tabla de transacciones, se abre un modal.",
+        "El modal muestra información detallada: ID de transacción, fecha y hora, nombre del cliente, método de pago (ej. 'Visa **** 4242').",
+        "El modal debe desglosar el monto: Ingreso bruto, comisión de FitFlow Pro, comisión de la pasarela de pago, impuestos (si aplica) e ingreso neto.",
+        "El modal debe tener un botón para cerrarlo."
+      ],
+      "additionalSuggestions": [
+        "Añadir un enlace directo al recibo de la transacción en el panel de Stripe.",
+        "Incluir la opción de emitir un reembolso directamente desde este modal de detalle."
+      ],
+      "aiEditorTask": "Crea un nuevo componente 'TransactionDetailModal.tsx'. Modifica 'TransactionsTable.tsx' para que cada fila sea clickeable. Al hacer click, utiliza una función del hook 'usePagosyFacturación' para obtener los detalles de la transacción y mostrar el modal con esa información.",
+      "priority": "Baja",
+      "estimatedHours": 10
+    }
+  ]
+}
+```

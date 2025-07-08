@@ -1,0 +1,69 @@
+```json
+{
+  "pages": [
+    {
+      "name": "Panel de Control (Dashboard)",
+      "description": "Vista principal para el entrenador después de iniciar sesión. Muestra un resumen de clientes activos, próximos pagos, tareas pendientes y estadísticas clave del progreso de los clientes.",
+      "route": "/dashboard",
+      "isEssential": true,
+      "priority": 1
+    },
+    {
+      "name": "Página de Inicio (Marketing)",
+      "description": "Página de aterrizaje pública para atraer a nuevos entrenadores. Muestra las características, beneficios, precios y un llamado a la acción para registrarse.",
+      "route": "/",
+      "isEssential": true,
+      "priority": 2
+    },
+    {
+      "name": "Gestión de Clientes (CRM)",
+      "description": "Listado de todos los clientes del entrenador. Permite buscar, filtrar, y añadir nuevos clientes. Muestra información básica como nombre, estado (activo/inactivo) y progreso general.",
+      "route": "/clients",
+      "isEssential": true,
+      "priority": 3
+    },
+    {
+      "name": "Perfil del Cliente",
+      "description": "Página de detalle para un cliente específico. Centraliza su información, plan de entrenamiento, plan de nutrición, seguimiento de progreso (gráficos), historial de pagos y notas.",
+      "route": "/clients/:id",
+      "isEssential": true,
+      "priority": 4
+    },
+    {
+      "name": "Creador de Planes de Entrenamiento",
+      "description": "Herramienta interactiva para crear y personalizar planes de entrenamiento. Incluye una biblioteca de ejercicios y permite organizar rutinas por días, series y repeticiones.",
+      "route": "/workouts/builder",
+      "isEssential": true,
+      "priority": 5
+    },
+    {
+      "name": "Creador de Planes de Nutrición",
+      "description": "Herramienta para diseñar planes de alimentación personalizados. Permite añadir comidas, buscar en una base de datos de alimentos y calcular macronutrientes.",
+      "route": "/nutrition/builder",
+      "isEssential": true,
+      "priority": 6
+    },
+    {
+      "name": "Gestión de Pagos",
+      "description": "Sección para que el entrenador gestione la facturación. Muestra el historial de pagos, facturas, estado de las suscripciones y configura los planes de pago recurrentes.",
+      "route": "/billing",
+      "isEssential": true,
+      "priority": 7
+    },
+    {
+      "name": "Biblioteca de Plantillas",
+      "description": "Repositorio personal para guardar planes de entrenamiento y nutrición como plantillas reutilizables, agilizando la asignación a nuevos clientes.",
+      "route": "/library",
+      "isEssential": false,
+      "priority": 8
+    },
+    {
+      "name": "Configuración de Cuenta",
+      "description": "Página donde el entrenador puede gestionar su perfil público, cambiar contraseña, configurar notificaciones y conectar integraciones de pago.",
+      "route": "/settings",
+      "isEssential": true,
+      "priority": 9
+    }
+  ]
+}
+```

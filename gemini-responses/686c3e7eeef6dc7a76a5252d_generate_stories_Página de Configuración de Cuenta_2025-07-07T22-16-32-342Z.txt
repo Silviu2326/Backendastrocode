@@ -1,0 +1,287 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Edición de Información Personal Básica",
+      "description": "Como usuario registrado, quiero poder editar mi nombre y apellido para que mi perfil esté siempre actualizado con mi información correcta.",
+      "pageContext": "Página de Configuración de Cuenta",
+      "affectedFiles": [
+        "src/features/pgina-de-configuracin-de-cuenta/PáginadeConfiguracióndeCuentaPage.tsx",
+        "src/features/pgina-de-configuracin-de-cuenta/hooks/usePáginadeConfiguracióndeCuenta.ts",
+        "src/features/pgina-de-configuracin-de-cuenta/api.ts",
+        "src/features/pgina-de-configuracin-de-cuenta/components/ProfileInfoForm.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ProfileInfoForm",
+            "type": "component",
+            "path": "src/features/pgina-de-configuracin-de-cuenta/components/ProfileInfoForm.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El hook `usePáginadeConfiguracióndeCuenta` gestionará el estado del formulario (nombre, apellido) y la lógica de envío. Al guardar, se llamará a una función en `api.ts` (ej. `updateUserData`) que enviará una petición PATCH/PUT al endpoint del usuario. Se deben manejar los estados de carga y error.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex flex-col gap-4 p-6 border rounded-lg",
+        "colorCoding": "Fondos blancos o gris claro (bg-white, bg-slate-50), bordes grises (border-slate-200), texto oscuro (text-slate-800) y acentos en el color primario del proyecto para los botones (bg-blue-600)."
+      },
+      "acceptanceCriteria": [
+        "Dado que estoy en la página de configuración, debo ver un formulario con mis datos actuales (nombre y apellido) pre-rellenados.",
+        "Cuando modifico los campos y hago clic en 'Guardar Cambios', los datos se envían al servidor.",
+        "Tras un guardado exitoso, debo ver un mensaje de confirmación (ej. 'Tus datos se han actualizado correctamente').",
+        "Si ocurre un error durante el guardado, debo ver un mensaje de error claro.",
+        "El botón 'Guardar Cambios' debe estar deshabilitado si no se ha realizado ninguna modificación en los campos."
+      ],
+      "additionalSuggestions": [
+        "Implementar validación en el lado del cliente para evitar nombres vacíos.",
+        "Mostrar un 'spinner' o indicador de carga en el botón 'Guardar' mientras se procesa la solicitud."
+      ],
+      "aiEditorTask": "Crea el componente `ProfileInfoForm.tsx`. Debe contener un formulario con dos campos de entrada controlados para el nombre y el apellido. Utiliza el hook `usePáginadeConfiguracióndeCuenta` para obtener los datos iniciales y la función para actualizarlos. Importa y utiliza el componente `Button` para la acción de guardar.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Cambio de Contraseña de Usuario",
+      "description": "Como usuario registrado, quiero poder cambiar mi contraseña para mantener la seguridad de mi cuenta.",
+      "pageContext": "Página de Configuración de Cuenta",
+      "affectedFiles": [
+        "src/features/pgina-de-configuracin-de-cuenta/PáginadeConfiguracióndeCuentaPage.tsx",
+        "src/features/pgina-de-configuracin-de-cuenta/hooks/usePáginadeConfiguracióndeCuenta.ts",
+        "src/features/pgina-de-configuracin-de-cuenta/api.ts",
+        "src/features/pgina-de-configuracin-de-cuenta/components/ChangePasswordForm.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ChangePasswordForm",
+            "type": "component",
+            "path": "src/features/pgina-de-configuracin-de-cuenta/components/ChangePasswordForm.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El componente `ChangePasswordForm` tendrá tres campos: 'Contraseña actual', 'Nueva contraseña' y 'Confirmar nueva contraseña'. El hook `usePáginadeConfiguracióndeCuenta` gestionará el estado y la lógica de validación (ej. que la nueva contraseña y su confirmación coincidan, y que cumpla con los requisitos de seguridad). La `api.ts` tendrá una función `changePassword` que envíe la contraseña actual y la nueva al servidor.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "mt-8 p-6 border rounded-lg bg-white",
+        "colorCoding": "Utilizar colores de borde rojos (border-red-500) para los campos con errores de validación."
+      },
+      "acceptanceCriteria": [
+        "Debo proporcionar mi contraseña actual para poder establecer una nueva.",
+        "El campo 'Nueva contraseña' debe tener requisitos de seguridad (ej. mínimo 8 caracteres, una mayúscula, un número).",
+        "Los campos 'Nueva contraseña' y 'Confirmar nueva contraseña' deben coincidir.",
+        "Al hacer clic en 'Cambiar Contraseña', se valida la información y se envía la solicitud.",
+        "Tras un cambio exitoso, se muestra un mensaje de éxito y se limpian los campos del formulario.",
+        "Si la contraseña actual es incorrecta, se muestra un error específico."
+      ],
+      "additionalSuggestions": [
+        "Añadir un botón de 'mostrar/ocultar' contraseña en los campos de tipo password para mejorar la usabilidad.",
+        "Desconectar al usuario de otras sesiones activas después de un cambio de contraseña exitoso."
+      ],
+      "aiEditorTask": "Implementa el componente `ChangePasswordForm.tsx`. Crea un formulario con tres campos de tipo 'password' (actual, nueva, confirmar). Añade validación en tiempo real para los requisitos de longitud y para asegurar que la nueva contraseña y su confirmación coincidan. Al enviar, invoca la función correspondiente del hook `usePáginadeConfiguracióndeCuenta`.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Gestión de Preferencias de Notificaciones",
+      "description": "Como usuario, quiero poder activar o desactivar las notificaciones por correo electrónico para tener control sobre las comunicaciones que recibo de TheraFlow.",
+      "pageContext": "Página de Configuración de Cuenta",
+      "affectedFiles": [
+        "src/features/pgina-de-configuracin-de-cuenta/PáginadeConfiguracióndeCuentaPage.tsx",
+        "src/features/pgina-de-configuracin-de-cuenta/hooks/usePáginadeConfiguracióndeCuenta.ts",
+        "src/features/pgina-de-configuracin-de-cuenta/api.ts",
+        "src/features/pgina-de-configuracin-de-cuenta/components/NotificationSettings.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "NotificationSettings",
+            "type": "component",
+            "path": "src/features/pgina-de-configuracin-de-cuenta/components/NotificationSettings.tsx"
+          },
+          {
+            "name": "ToggleSwitch",
+            "type": "component",
+            "path": "src/components/ToggleSwitch.tsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El hook `usePáginadeConfiguracióndeCuenta` obtendrá las preferencias de notificación actuales del usuario desde la API. El componente `NotificationSettings` mostrará una lista de tipos de notificaciones (ej. 'Recordatorios de citas', 'Novedades de TheraFlow', 'Mensajes de profesionales') con un interruptor (toggle) para cada una. Cada cambio en un interruptor llamará a la API para actualizar la preferencia de forma individual.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex justify-between items-center p-4 border-b",
+        "colorCoding": "El interruptor debe tener un color distintivo (ej. verde o el color primario de la marca) cuando está activo."
+      },
+      "acceptanceCriteria": [
+        "Dado que estoy en la página de configuración, debo ver una sección de 'Notificaciones'.",
+        "Para cada tipo de notificación, debe haber una descripción clara y un interruptor para activarla/desactivarla.",
+        "El estado de los interruptores debe reflejar mi configuración actual guardada.",
+        "Cuando cambio el estado de un interruptor, el cambio se guarda automáticamente sin necesidad de un botón 'Guardar' general.",
+        "Debe mostrarse una confirmación sutil (ej. un pequeño 'Guardado' que aparece y se desvanece) después de cada cambio."
+      ],
+      "additionalSuggestions": [
+        "Considerar la posibilidad de añadir canales de notificación (Email, Push, SMS) si el proyecto los soporta.",
+        "Agrupar las notificaciones por categorías (Citas, Comunidad, Marketing)."
+      ],
+      "aiEditorTask": "Crea el componente `NotificationSettings.tsx` que renderice una lista de opciones de notificación. Para cada opción, utiliza un componente `ToggleSwitch` reutilizable que crearás en `src/components/`. La lógica para obtener y actualizar las preferencias debe estar en el hook `usePáginadeConfiguracióndeCuenta`.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Eliminación de Cuenta de Usuario",
+      "description": "Como usuario, quiero poder eliminar mi cuenta y todos mis datos asociados de forma permanente para ejercer mi derecho al olvido.",
+      "pageContext": "Página de Configuración de Cuenta",
+      "affectedFiles": [
+        "src/features/pgina-de-configuracin-de-cuenta/PáginadeConfiguracióndeCuentaPage.tsx",
+        "src/features/pgina-de-configuracin-de-cuenta/hooks/usePáginadeConfiguracióndeCuenta.ts",
+        "src/features/pgina-de-configuracin-de-cuenta/api.ts",
+        "src/features/pgina-de-configuracin-de-cuenta/components/DeleteAccountSection.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "DeleteAccountSection",
+            "type": "component",
+            "path": "src/features/pgina-de-configuracin-de-cuenta/components/DeleteAccountSection.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "Esta sección mostrará un botón de 'Eliminar cuenta'. Al hacer clic, se abrirá un modal de confirmación. Para confirmar, el usuario deberá escribir una frase específica (ej. 'ELIMINAR MI CUENTA') y/o su contraseña actual. El hook `usePáginadeConfiguracióndeCuenta` manejará la visibilidad del modal y la lógica de validación. La `api.ts` tendrá una función `deleteAccount` que enviará una petición DELETE al servidor.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "mt-8 p-6 border border-red-500 rounded-lg bg-red-50",
+        "colorCoding": "Usar prominentemente el color rojo para indicar una acción destructiva y peligrosa."
+      },
+      "acceptanceCriteria": [
+        "Debo ver una sección de 'Zona de Peligro' o 'Eliminar Cuenta' claramente diferenciada del resto.",
+        "Al hacer clic en 'Eliminar mi cuenta', se debe abrir un modal de confirmación.",
+        "El modal debe explicar claramente las consecuencias de la eliminación (pérdida de datos irreversible).",
+        "Para confirmar la eliminación, debo escribir mi contraseña actual en un campo de texto.",
+        "El botón de confirmación final en el modal (ej. 'Sí, eliminar permanentemente') estará deshabilitado hasta que se ingrese la contraseña correcta.",
+        "Tras la eliminación exitosa, debo ser deslogueado y redirigido a la página de inicio pública."
+      ],
+      "additionalSuggestions": [
+        "Enviar un correo electrónico de confirmación al usuario una vez que la cuenta ha sido eliminada.",
+        "Para profesionales, la eliminación podría requerir pasos adicionales, como transferir la propiedad de los datos de sus clientes o contactar a soporte."
+      ],
+      "aiEditorTask": "Implementa el componente `DeleteAccountSection.tsx`. Debe incluir un botón que abra un modal de confirmación. El modal debe contener un campo de texto para la contraseña y un botón de confirmación. La lógica para mostrar el modal y manejar la eliminación debe estar en el hook `usePáginadeConfiguracióndeCuenta`.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Cambio de Dirección de Correo Electrónico",
+      "description": "Como usuario registrado, quiero poder cambiar la dirección de correo electrónico asociada a mi cuenta para poder recibir las comunicaciones en mi nuevo email.",
+      "pageContext": "Página de Configuración de Cuenta",
+      "affectedFiles": [
+        "src/features/pgina-de-configuracin-de-cuenta/PáginadeConfiguracióndeCuentaPage.tsx",
+        "src/features/pgina-de-configuracin-de-cuenta/hooks/usePáginadeConfiguracióndeCuenta.ts",
+        "src/features/pgina-de-configuracin-de-cuenta/api.ts",
+        "src/features/pgina-de-configuracin-de-cuenta/components/ChangeEmailForm.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ChangeEmailForm",
+            "type": "component",
+            "path": "src/features/pgina-de-configuracin-de-cuenta/components/ChangeEmailForm.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El formulario pedirá el nuevo email y la contraseña actual del usuario para confirmar la identidad. Al enviar, el backend enviará un email de verificación a la nueva dirección. El email del usuario no se cambiará en la base de datos hasta que haga clic en el enlace de verificación. La UI debe informar al usuario que revise su nueva bandeja de entrada.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex flex-col gap-4 p-6 border rounded-lg",
+        "colorCoding": "Texto informativo en color azul o gris oscuro (text-blue-600, text-slate-600) para explicar el proceso de verificación."
+      },
+      "acceptanceCriteria": [
+        "Dado que estoy en la página de configuración, veo mi email actual en modo de solo lectura.",
+        "Debo tener un botón o enlace para 'Cambiar email'.",
+        "Al hacer clic, aparece un formulario para introducir el nuevo email y mi contraseña actual.",
+        "Después de enviar el formulario, el sistema me informa que se ha enviado un enlace de verificación a mi nueva dirección.",
+        "Mi email en el perfil no cambia hasta que el nuevo email sea verificado.",
+        "Si introduzco una contraseña incorrecta, se muestra un mensaje de error."
+      ],
+      "additionalSuggestions": [
+        "El enlace de verificación debe tener una caducidad (ej. 24 horas).",
+        "Crear una página de aterrizaje específica para confirmar el cambio de email, que informe al usuario del éxito de la operación."
+      ],
+      "aiEditorTask": "Crea el componente `ChangeEmailForm.tsx`. Debe mostrar el email actual y un formulario (inicialmente oculto o en un modal) para ingresar el nuevo email y la contraseña. Conecta la lógica de envío al hook `usePáginadeConfiguracióndeCuenta` que llamará a la API para iniciar el proceso de verificación.",
+      "priority": "Media",
+      "estimatedHours": 9
+    },
+    {
+      "title": "Subir y Actualizar Foto de Perfil",
+      "description": "Como usuario, quiero poder subir y cambiar mi foto de perfil para personalizar mi cuenta y que otros usuarios (profesionales o clientes) puedan reconocerme.",
+      "pageContext": "Página de Configuración de Cuenta",
+      "affectedFiles": [
+        "src/features/pgina-de-configuracin-de-cuenta/PáginadeConfiguracióndeCuentaPage.tsx",
+        "src/features/pgina-de-configuracin-de-cuenta/hooks/usePáginadeConfiguracióndeCuenta.ts",
+        "src/features/pgina-de-configuracin-de-cuenta/api.ts",
+        "src/features/pgina-de-configuracin-de-cuenta/components/ProfilePictureUploader.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ProfilePictureUploader",
+            "type": "component",
+            "path": "src/features/pgina-de-configuracin-de-cuenta/components/ProfilePictureUploader.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El componente mostrará la imagen de perfil actual (o un placeholder). Habrá un botón para abrir el selector de archivos del sistema. Una vez seleccionada una imagen, se mostrará una vista previa. El hook gestionará el estado del archivo seleccionado y la llamada a la API para subir la imagen (probablemente como `multipart/form-data`).",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex flex-col items-center gap-4",
+        "colorCoding": "La imagen de perfil debe ser redonda (rounded-full) y tener un borde sutil (border border-slate-200)."
+      },
+      "acceptanceCriteria": [
+        "Debo ver mi foto de perfil actual o un avatar por defecto.",
+        "Al hacer clic en la imagen o en un botón 'Cambiar foto', se abre el selector de archivos de mi sistema operativo.",
+        "Solo puedo seleccionar archivos de imagen (ej. JPG, PNG).",
+        "Después de seleccionar una imagen, debo ver una vista previa de la nueva foto.",
+        "Al confirmar, la nueva imagen se sube y reemplaza la anterior en mi perfil.",
+        "Si la subida falla, debo recibir un mensaje de error claro (ej. 'El archivo es demasiado grande')."
+      ],
+      "additionalSuggestions": [
+        "Implementar una funcionalidad de recorte (crop) de imagen antes de subirla para que el usuario pueda ajustarla.",
+        "Mostrar una barra de progreso durante la subida de la imagen.",
+        "Tener una opción para eliminar la foto de perfil y volver al avatar por defecto."
+      ],
+      "aiEditorTask": "Implementa el componente `ProfilePictureUploader.tsx`. Debe incluir un elemento `<img>` para la vista previa y un `<input type=\"file\" accept=\"image/*\">` oculto que se activa con un botón. Usa el hook `usePáginadeConfiguracióndeCuenta` para manejar la lógica de subida del archivo a través de la función correspondiente en `api.ts`.",
+      "priority": "Media",
+      "estimatedHours": 7
+    }
+  ]
+}
+```

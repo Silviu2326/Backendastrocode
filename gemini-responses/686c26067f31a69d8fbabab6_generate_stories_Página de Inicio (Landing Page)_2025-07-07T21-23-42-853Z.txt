@@ -1,0 +1,255 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización de Planes y Precios",
+      "description": "Como un entrenador considerando la suscripción, quiero ver una sección clara con los diferentes planes de precios, sus características y un CTA destacado en cada plan para poder elegir la opción que mejor se adapte a mis necesidades y presupuesto.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/features/pgina-de-inicio-landing-page/api.ts",
+        "src/styles/main.css"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "PricingSection",
+            "path": "src/features/pgina-de-inicio-landing-page/components/PricingSection.tsx",
+            "type": "component"
+          },
+          {
+            "name": "PlanCard",
+            "path": "src/features/pgina-de-inicio-landing-page/components/PlanCard.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "La sección obtendrá los datos de los planes (nombre, precio, lista de características, si es recomendado) desde un endpoint en 'api.ts' o un archivo de configuración estático. Cada 'PlanCard' recibirá estos datos como props y contendrá un botón de 'Registrarse' que redirigirá a '/registro-de-entrenador'.",
+      "styling": {
+        "framework": "Tailwind CSS (sugerido)",
+        "classes": "grid md:grid-cols-3 gap-8 p-8",
+        "colorCoding": "Un plan 'recomendado' debe tener un borde de color primario o un fondo ligeramente diferente para destacarse. Los botones CTA deben usar el color de acento principal."
+      },
+      "acceptanceCriteria": [
+        "La página de inicio muestra una sección de precios con al menos dos planes.",
+        "Cada plan muestra claramente su precio, una lista de características clave (ej: 'Hasta 20 clientes', 'Soporte por email'), y un botón de CTA.",
+        "Un plan puede ser destacado visualmente como 'Más Popular' o 'Recomendado'.",
+        "Los botones de CTA en los planes de precios enlazan correctamente a la página de registro ('/registro-de-entrenador').",
+        "La sección de precios es completamente responsive y se visualiza correctamente en dispositivos móviles."
+      ],
+      "additionalSuggestions": [
+        "Considerar añadir un selector para ver precios mensuales vs. anuales (con un descuento).",
+        "Usar iconos junto a cada característica en la lista para mejorar la legibilidad."
+      ],
+      "aiEditorTask": "Crea el componente 'PricingSection.tsx' que renderice dinámicamente varios componentes 'PlanCard.tsx' utilizando datos de ejemplo. Un plan debe tener una prop 'isRecommended' que altere su estilo.",
+      "priority": "Alta",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Demostración Visual del Producto en Acción",
+      "description": "Como un entrenador que quiere entender rápidamente cómo funciona la plataforma, quiero ver una breve demostración visual (video o GIF animado) que muestre el flujo de trabajo principal para visualizar el beneficio y la facilidad de uso de FitFlow Pro.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ProductDemo",
+            "path": "src/features/pgina-de-inicio-landing-page/components/ProductDemo.tsx",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El componente 'ProductDemo' embeberá un recurso visual. La URL del video (ej. YouTube, Vimeo) o del GIF animado será pasada como prop. El componente no requiere lógica compleja más allá de renderizar el reproductor o la imagen.",
+      "styling": {
+        "framework": "Tailwind CSS (sugerido)",
+        "classes": "w-full max-w-4xl mx-auto my-12",
+        "colorCoding": "El contenedor del video puede tener una sombra sutil para darle profundidad. Un botón de reproducción superpuesto podría usar el color primario de la marca."
+      },
+      "acceptanceCriteria": [
+        "Una sección dedicada a la demostración es visible en la página de inicio.",
+        "La sección contiene un video embebido o un GIF animado de alta calidad.",
+        "El activo visual se carga y se reproduce correctamente al interactuar con él.",
+        "La sección incluye un titular persuasivo como 'Descubre FitFlow Pro en 60 segundos'."
+      ],
+      "additionalSuggestions": [
+        "Usar una imagen de portada (thumbnail) personalizada y atractiva para el video.",
+        "Asegurarse de que el video cargue de forma diferida (lazy loading) para no impactar el tiempo de carga inicial de la página."
+      ],
+      "aiEditorTask": "Genera el componente 'ProductDemo.tsx' que acepte una URL de video y la renderice en un iframe responsive, envuelto en un contenedor con un título.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Footer Completo con Información de Confianza",
+      "description": "Como visitante, quiero encontrar un footer completo al final de la página con enlaces a 'Términos y Condiciones', 'Política de Privacidad', redes sociales y contacto para sentir seguridad sobre la legitimidad de la empresa.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/App.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "Footer",
+            "path": "src/features/pgina-de-inicio-landing-page/components/Footer.tsx",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El footer contendrá enlaces estáticos. Los datos de los enlaces (texto, URL) pueden estar definidos en un objeto de configuración dentro del componente para facilitar su mantenimiento. El año del copyright debe generarse dinámicamente.",
+      "styling": {
+        "framework": "Tailwind CSS (sugerido)",
+        "classes": "bg-gray-800 text-white p-8",
+        "colorCoding": "Fondo oscuro con texto claro para un contraste adecuado. Los enlaces pueden tener un color sutil al pasar el cursor por encima."
+      },
+      "acceptanceCriteria": [
+        "Un footer es visible en la parte inferior de la página.",
+        "Contiene enlaces funcionales a páginas de 'Términos y Condiciones' y 'Política de Privacidad'.",
+        "Incluye iconos con enlaces a perfiles de redes sociales (ej. LinkedIn, Instagram, Twitter).",
+        "Muestra información de copyright con el año actual actualizado dinámicamente.",
+        "Proporciona una forma de contacto, como un email (mailto:)."
+      ],
+      "additionalSuggestions": [
+        "Organizar los enlaces en columnas: 'Producto', 'Compañía', 'Legal'.",
+        "Incluir el logo de la empresa en el footer."
+      ],
+      "aiEditorTask": "Crea el componente 'Footer.tsx' con una estructura de columnas para enlaces. Incluye placeholders para los enlaces legales, sociales y de contacto, y muestra dinámicamente el año actual en el copyright.",
+      "priority": "Alta",
+      "estimatedHours": 5
+    },
+    {
+      "title": "Captura de Leads a través de Suscripción a Newsletter",
+      "description": "Como un entrenador interesado pero no listo para registrarme, quiero poder suscribirme a un boletín para recibir actualizaciones y ofertas, permitiendo que FitFlow Pro mantenga el contacto conmigo.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/features/pgina-de-inicio-landing-page/api.ts",
+        "src/features/pgina-de-inicio-landing-page/hooks/usePáginadeInicio(LandingPage).ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "NewsletterForm",
+            "path": "src/features/pgina-de-inicio-landing-page/components/NewsletterForm.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El componente 'NewsletterForm' gestionará el estado de un campo de entrada de email. Al enviar, llamará a una función (posiblemente desde el hook 'usePáginadeInicio') que a su vez ejecutará una llamada a 'api.ts' para registrar el email. Se manejarán estados de carga, éxito y error para dar feedback al usuario.",
+      "styling": {
+        "framework": "Tailwind CSS (sugerido)",
+        "classes": "flex items-center space-x-2",
+        "colorCoding": "El campo de entrada debe tener un borde claro y un estado de 'focus' con el color primario. El botón de suscripción debe ser prominente."
+      },
+      "acceptanceCriteria": [
+        "La página contiene un formulario de suscripción con un campo para email y un botón de 'Suscribirse'.",
+        "El campo de email tiene validación de formato en el lado del cliente.",
+        "Al enviar el formulario, se muestra un estado de carga.",
+        "Tras una suscripción exitosa, se muestra un mensaje de confirmación (ej. '¡Gracias por suscribirte!').",
+        "Si la API devuelve un error (ej. email duplicado), se muestra un mensaje de error claro al usuario."
+      ],
+      "additionalSuggestions": [
+        "Este formulario podría colocarse en el footer para que esté disponible en toda la página.",
+        "Asegurar la conformidad con GDPR/leyes de protección de datos, incluyendo un checkbox de consentimiento si es necesario."
+      ],
+      "aiEditorTask": "Crea el componente 'NewsletterForm.tsx' con un campo de email controlado y un botón. Implementa la lógica de envío en el hook 'usePáginadeInicio' para manejar los estados de 'loading', 'success' y 'error', y define una función de API simulada en 'api.ts'.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Comparativa de Ventajas vs. Métodos Tradicionales",
+      "description": "Como un entrenador que usa hojas de cálculo y WhatsApp, quiero ver una tabla comparativa que muestre las ventajas de usar FitFlow Pro frente a estos métodos para justificar el cambio y entender el retorno de inversión.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ComparisonSection",
+            "path": "src/features/pgina-de-inicio-landing-page/components/ComparisonSection.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Table",
+            "from": "src/components/Table.jsx"
+          }
+        ]
+      },
+      "logicData": "Se necesitará una estructura de datos estática (array de objetos) que defina las características a comparar (ej. 'Gestión de clientes', 'Creación de rutinas', 'Pagos online') y el estado de cada una para 'FitFlow Pro' y 'Métodos Tradicionales' (ej. booleano, texto, o icono a usar).",
+      "styling": {
+        "framework": "Tailwind CSS (sugerido)",
+        "classes": "bg-gray-50 p-8",
+        "colorCoding": "Usar iconos de check (verde) para FitFlow Pro y de cruz (rojo/gris) para los métodos tradicionales para una rápida comprensión visual. La columna de FitFlow Pro puede tener un fondo sutilmente resaltado."
+      },
+      "acceptanceCriteria": [
+        "La página de inicio incluye una sección de tabla comparativa.",
+        "La tabla compara 'FitFlow Pro' contra 'Métodos Tradicionales' (o similar).",
+        "Las filas representan características clave como 'Planificación Centralizada', 'Comunicación con Clientes', etc.",
+        "Se utilizan iconos visuales (ej. check/cruz) para indicar la disponibilidad o eficiencia de cada característica.",
+        "La tabla es legible y se adapta correctamente en dispositivos móviles."
+      ],
+      "additionalSuggestions": [
+        "En lugar de un 'no', se puede usar un texto corto que explique la limitación del método tradicional, ej. 'Manual y propenso a errores'.",
+        "Añadir un CTA al final de la sección para animar al registro."
+      ],
+      "aiEditorTask": "Crea el componente 'ComparisonSection.tsx'. Dentro, utiliza el componente 'Table.jsx' o una estructura de divs para renderizar una tabla comparativa basada en un array de datos estático que definas.",
+      "priority": "Media",
+      "estimatedHours": 9
+    },
+    {
+      "title": "Experiencia de Usuario Optimizada en Móvil",
+      "description": "Como un entrenador que descubre FitFlow Pro en mi teléfono, quiero que todo el contenido sea fácil de leer y los botones fáciles de pulsar sin hacer zoom, para poder evaluar la oferta y registrarme desde cualquier lugar.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/styles/main.css",
+        "src/features/pgina-de-inicio-landing-page/components/*.tsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "Esta historia de usuario no implica lógica de datos, sino la aplicación de principios de diseño responsive. Afecta principalmente a los estilos CSS de todos los componentes de la página de inicio.",
+      "styling": {
+        "framework": "Tailwind CSS (sugerido)",
+        "classes": "Uso intensivo de prefijos responsivos como 'md:', 'lg:'. Tamaños de fuente fluidos (clamp) o específicos para cada breakpoint. El menú de navegación se colapsa en un 'hamburger' en pantallas pequeñas.",
+        "colorCoding": "No aplica específicamente, pero los contrastes de color deben ser suficientes para la legibilidad en pantallas pequeñas y con posible luz solar directa."
+      },
+      "acceptanceCriteria": [
+        "En una pantalla de 375px de ancho, no aparece ninguna barra de desplazamiento horizontal.",
+        "El tamaño de la fuente es legible (mínimo 16px para el cuerpo de texto) en móvil.",
+        "Todos los botones y enlaces tienen un área de pulsación suficiente (mínimo 44x44px).",
+        "Las imágenes se escalan correctamente y no distorsionan el layout.",
+        "La navegación principal se colapsa en un menú tipo hamburguesa que es funcional.",
+        "Los videos o elementos interactivos no se desbordan de la pantalla."
+      ],
+      "additionalSuggestions": [
+        "Probar la página en dispositivos reales, no solo en emuladores de navegador.",
+        "Analizar el rendimiento en redes 3G para asegurar tiempos de carga aceptables en móvil."
+      ],
+      "aiEditorTask": "Revisa todos los componentes existentes en 'src/features/pgina-de-inicio-landing-page/components' y añade clases de Tailwind CSS para asegurar que sean completamente responsivos, siguiendo las directrices de los criterios de aceptación (layout de una columna, fuentes legibles, etc.).",
+      "priority": "Alta",
+      "estimatedHours": 16
+    }
+  ]
+}
+```
