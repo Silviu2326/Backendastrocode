@@ -1,0 +1,227 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Detección de dispositivo y guía de instalación para iOS",
+      "description": "Como usuario de un iPhone/iPad, quiero ver instrucciones claras y específicas para Safari sobre cómo añadir la aplicación a mi pantalla de inicio, para poder instalar la PWA fácilmente a pesar de la falta de un prompt automático.",
+      "pageContext": "Página de Instalación como PWA",
+      "affectedFiles": [
+        "src/features/pgina-de-instalacin-como-pwa/PáginadeInstalacióncomoPWAPage.tsx",
+        "src/features/pgina-de-instalacin-como-pwa/hooks/usePáginadeInstalacióncomoPWA.ts",
+        "src/features/pgina-de-instalacin-como-pwa/components/IosInstallGuide.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "IosInstallGuide",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El hook `usePáginadeInstalacióncomoPWA` debe incluir una función para detectar el sistema operativo del usuario (User Agent). Si se detecta iOS, debe establecer un estado booleano (`isIos`). La página principal (`PáginadeInstalacióncomoPWAPage`) usará este estado para renderizar condicionalmente el componente `IosInstallGuide`, que mostrará los pasos de manera estática.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex flex-col items-center p-4 bg-gray-100 rounded-lg shadow-md",
+        "colorCoding": "Utilizar iconos estándar de iOS (botón de compartir, 'Añadir a pantalla de inicio') para facilitar el reconocimiento. El texto debe ser claro y conciso."
+      },
+      "acceptanceCriteria": [
+        "Al visitar /instalar-pwa desde un dispositivo iOS, la página debe mostrar una sección con instrucciones.",
+        "Las instrucciones deben incluir texto y iconos que guíen al usuario: 1. Pulsar el botón 'Compartir' en Safari. 2. Seleccionar la opción 'Añadir a pantalla de inicio'.",
+        "La sección de instrucciones para iOS no debe ser visible en dispositivos Android o de escritorio.",
+        "El botón de instalación genérico (si existe) debe estar oculto en iOS."
+      ],
+      "additionalSuggestions": [
+        "Considerar incluir una breve animación o GIF que demuestre el proceso en un iPhone.",
+        "El texto podría cambiar ligeramente si se detecta un iPad para ser más específico."
+      ],
+      "aiEditorTask": "Crea el componente `IosInstallGuide` que muestre una lista ordenada con los pasos para instalar la PWA en iOS. Utiliza iconos de una librería como `react-icons` para representar el botón de compartir y el de añadir. Implementa la lógica de detección de User-Agent en el hook `usePáginadeInstalacióncomoPWA.ts` para exportar un booleano `isIos`.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Activación del prompt de instalación en navegadores compatibles",
+      "description": "Como usuario de Android o de un navegador de escritorio compatible (Chrome, Edge), quiero que se muestre un botón claro de 'Instalar App' que active el prompt nativo del navegador, para poder instalar la PWA con un solo clic.",
+      "pageContext": "Página de Instalación como PWA",
+      "affectedFiles": [
+        "src/features/pgina-de-instalacin-como-pwa/PáginadeInstalacióncomoPWAPage.tsx",
+        "src/features/pgina-de-instalacin-como-pwa/hooks/usePáginadeInstalacióncomoPWA.ts",
+        "src/components/Button.jsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El hook `usePáginadeInstalacióncomoPWA` debe registrar un event listener para el evento `beforeinstallprompt`. Al capturarlo, debe prevenir el comportamiento por defecto y almacenar el evento en un estado. Expondrá una función para llamar a `prompt()` sobre el evento almacenado y un booleano para indicar si el prompt está disponible. La página usará este booleano para mostrar el botón de instalación.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-primary-500 hover:bg-primary-600 text-white font-bold py-3 px-6 rounded-full shadow-lg",
+        "colorCoding": "Usar el color primario del proyecto (TheraFlow) para que el botón de instalación sea prominente y atractivo."
+      },
+      "acceptanceCriteria": [
+        "En un navegador compatible, el botón 'Instalar App' debe estar visible en la página.",
+        "Al hacer clic en el botón, debe aparecer el diálogo de instalación nativo del navegador.",
+        "El botón no debe ser visible si la aplicación ya está instalada (usando `window.matchMedia('(display-mode: standalone)')`).",
+        "El botón no debe ser visible en navegadores no compatibles (como Safari en iOS o Firefox en escritorio)."
+      ],
+      "additionalSuggestions": [
+        "Una vez que el usuario interactúa con el prompt (acepta o rechaza), el botón debería ocultarse para la sesión actual para evitar molestar.",
+        "Añadir un ícono de descarga o instalación al lado del texto del botón."
+      ],
+      "aiEditorTask": "En el hook `usePáginadeInstalacióncomoPWA.ts`, implementa la lógica para capturar y manejar el evento `beforeinstallprompt`. Crea un estado `installPrompt` para guardar el evento y una función `handleInstall` que lo dispare. En el componente `PáginadeInstalacióncomoPWAPage.tsx`, importa el componente `Button` y muéstralo solo si `installPrompt` no es nulo, asociando su `onClick` a `handleInstall`.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Visualización de beneficios de la PWA",
+      "description": "Como usuario indeciso, quiero ver una sección que resalte las ventajas de instalar la aplicación (ej. acceso offline, más rápido, notificaciones), para entender el valor que me aporta y motivarme a completar la instalación.",
+      "pageContext": "Página de Instalación como PWA",
+      "affectedFiles": [
+        "src/features/pgina-de-instalacin-como-pwa/PáginadeInstalacióncomoPWAPage.tsx",
+        "src/features/pgina-de-instalacin-como-pwa/components/PwaBenefits.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "PwaBenefits",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El componente `PwaBenefits` contendrá un array de objetos, donde cada objeto representa un beneficio y tiene propiedades como `icon`, `title` y `description`. El componente mapeará este array para renderizar una lista o una cuadrícula de tarjetas de beneficios. No requiere lógica de estado compleja.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-1 md:grid-cols-3 gap-6 mt-8",
+        "colorCoding": "Usar un esquema de colores secundarios y neutros para no competir con el botón de instalación principal. Cada beneficio debe tener un ícono representativo y fácil de entender."
+      },
+      "acceptanceCriteria": [
+        "La página debe mostrar una sección con al menos tres beneficios claros.",
+        "Cada beneficio debe tener un ícono, un título y una descripción corta.",
+        "La sección debe ser visualmente atractiva y fácil de leer tanto en móvil como en escritorio.",
+        "Los beneficios deben ser relevantes para la app TheraFlow (ej: 'Accede a tus sesiones desde tu pantalla de inicio', 'Recibe recordatorios de tus citas')."
+      ],
+      "additionalSuggestions": [
+        "Usar animaciones sutiles de entrada para que las tarjetas de beneficios aparezcan al hacer scroll.",
+        "Realizar tests A/B con diferentes beneficios para ver cuáles convierten mejor."
+      ],
+      "aiEditorTask": "Crea el componente `PwaBenefits.tsx`. Define un array local con 3-4 objetos de beneficios (ícono, título, texto). Renderiza estos beneficios en un layout de rejilla (grid) usando Tailwind CSS. Cada item de la rejilla debe ser una tarjeta con el ícono, el título en negrita y el texto descriptivo.",
+      "priority": "Media",
+      "estimatedHours": 4
+    },
+    {
+      "title": "Manejo de navegadores y dispositivos no compatibles",
+      "description": "Como usuario que accede desde un navegador que no soporta PWA (ej. Firefox en escritorio), quiero ver un mensaje informativo que me explique por qué no puedo instalar la app y me sugiera alternativas, para no sentirme frustrado o pensar que la página está rota.",
+      "pageContext": "Página de Instalación como PWA",
+      "affectedFiles": [
+        "src/features/pgina-de-instalacin-como-pwa/PáginadeInstalacióncomoPWAPage.tsx",
+        "src/features/pgina-de-instalacin-como-pwa/hooks/usePáginadeInstalacióncomoPWA.ts",
+        "src/features/pgina-de-instalacin-como-pwa/components/CompatibilityNotice.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "CompatibilityNotice",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "La lógica de detección en el hook `usePáginadeInstalacióncomoPWA` debe ampliarse para identificar explícitamente navegadores no compatibles (ej. `!window.beforeinstallprompt && !isIos`). Debe exportar un booleano `isUnsupported`. La página principal usará este estado para mostrar el componente `CompatibilityNotice` en lugar de las opciones de instalación.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4",
+        "colorCoding": "Usar colores de advertencia (amarillos, naranjas) para comunicar que es un mensaje informativo, no un error crítico."
+      },
+      "acceptanceCriteria": [
+        "Al acceder desde un navegador de escritorio como Firefox, se debe mostrar un mensaje de incompatibilidad.",
+        "El mensaje debe explicar que la función de instalación no está disponible en su navegador actual.",
+        "El mensaje debe sugerir el uso de navegadores compatibles como Chrome o Edge.",
+        "Las guías de instalación para iOS y el botón para Android/Desktop no deben ser visibles."
+      ],
+      "additionalSuggestions": [
+        "El mensaje puede incluir un enlace a la página principal para que el usuario pueda seguir usando la aplicación web normalmente.",
+        "Detectar si es un navegador móvil no compatible (ej. Firefox en Android) y dar un mensaje ligeramente diferente."
+      ],
+      "aiEditorTask": "Amplía el hook `usePáginadeInstalacióncomoPWA.ts` para que devuelva un booleano `isUnsupportedBrowser`. Crea el componente `CompatibilityNotice.tsx` que renderice un cuadro de alerta con el texto informativo y sugerencias de navegadores. En la página principal, renderiza condicionalmente este componente si `isUnsupportedBrowser` es true.",
+      "priority": "Baja",
+      "estimatedHours": 5
+    },
+    {
+      "title": "Confirmación visual tras iniciar la instalación",
+      "description": "Como usuario, después de hacer clic en 'Instalar' en el prompt nativo, quiero recibir una confirmación visual en la página, para saber que mi acción tuvo éxito y que el proceso ha comenzado.",
+      "pageContext": "Página de Instalación como PWA",
+      "affectedFiles": [
+        "src/features/pgina-de-instalacin-como-pwa/PáginadeInstalacióncomoPWAPage.tsx",
+        "src/features/pgina-de-instalacin-como-pwa/hooks/usePáginadeInstalacióncomoPWA.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "InstallConfirmationToast",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "En el hook, la función que llama a `installPrompt.prompt()` debe procesar la promesa `userChoice`. Si `result.outcome === 'accepted'`, se debe actualizar un estado (ej. `setInstallationState('success')`). La página principal observará este estado y, cuando sea 'success', mostrará un mensaje de confirmación (ej. un 'toast' o notificación) que se oculte automáticamente después de unos segundos.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "fixed bottom-5 right-5 bg-green-500 text-white p-4 rounded-lg shadow-xl animate-fade-in-out",
+        "colorCoding": "Utilizar color verde de éxito para el mensaje de confirmación, transmitiendo una respuesta positiva."
+      },
+      "acceptanceCriteria": [
+        "Después de que el usuario acepte la instalación desde el prompt, el botón de 'Instalar App' debe desaparecer.",
+        "Un mensaje de confirmación como '¡Éxito! TheraFlow se está instalando en tu dispositivo' debe aparecer en pantalla.",
+        "El mensaje de confirmación debe desaparecer automáticamente después de 5-7 segundos.",
+        "Si el usuario rechaza la instalación, no se debe mostrar ningún mensaje de confirmación."
+      ],
+      "additionalSuggestions": [
+        "El mensaje podría incluir una pequeña guía como 'Búscanos en tu lista de aplicaciones' para orientar al usuario.",
+        "Podríamos guardar en `localStorage` que el usuario ya instaló la app para no volver a mostrar la página `/instalar-pwa` en futuras visitas."
+      ],
+      "aiEditorTask": "Modifica la función `handleInstall` en el hook para que maneje la promesa `userChoice`. Introduce un nuevo estado, por ejemplo `installationStatus`, que pueda ser 'idle', 'success' o 'dismissed'. En la página, renderiza un componente de 'toast' o notificación cuando `installationStatus` sea 'success'.",
+      "priority": "Media",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Acceso directo a la página de instalación desde otras partes de la web",
+      "description": "Como usuario recurrente que aún no ha instalado la app, quiero ver un recordatorio o un enlace discreto en el pie de página o en el menú para acceder a la página de instalación, para poder hacerlo cuando me sea conveniente sin tener que recordar la URL.",
+      "pageContext": "Página de Instalación como PWA",
+      "affectedFiles": [
+        "src/components/Sidebar.jsx",
+        "src/features/home-pblica/HomepúblicaPage.tsx",
+        "src/features/panel-del-usuario-cliente/PaneldelUsuario(Cliente)Page.tsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "Esta historia no afecta directamente a la página `/instalar-pwa`, sino a cómo se llega a ella. Se necesita un hook global o un contexto que verifique si la PWA puede ser instalada (`beforeinstallprompt` fue disparado) y si aún no está en modo standalone. Este estado global sería consumido por componentes comunes como el `Sidebar` o un futuro `Footer` para mostrar condicionalmente un enlace a `/instalar-pwa`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "text-sm text-gray-500 hover:text-primary-500 flex items-center gap-2",
+        "colorCoding": "El enlace debe ser discreto, usando colores secundarios o de texto, para no ser intrusivo."
+      },
+      "acceptanceCriteria": [
+        "Un enlace a '/instalar-pwa' debe ser visible en el `Sidebar` o en un `Footer` global.",
+        "El enlace solo debe ser visible si el navegador es compatible con la instalación y la app no está ya instalada.",
+        "El enlace debe tener un texto claro como 'Instalar aplicación' o un ícono de descarga.",
+        "Hacer clic en el enlace debe navegar correctamente a la página `/instalar-pwa`."
+      ],
+      "additionalSuggestions": [
+        "Se podría implementar un componente `Banner` que aparezca en la parte superior de la página de forma no intrusiva la primera vez que un usuario compatible visita el sitio.",
+        "El enlace podría desaparecer una vez que el usuario ha instalado la aplicación."
+      ],
+      "aiEditorTask": "Modifica el componente `src/components/Sidebar.jsx` para incluir un nuevo item de navegación. Este item debe usar un `NavLink` o `Link` de `react-router-dom` que apunte a `/instalar-pwa`. La lógica para mostrar/ocultar este enlace debe provenir de un futuro hook de contexto que gestione el estado de la PWA.",
+      "priority": "Media",
+      "estimatedHours": 7
+    }
+  ]
+}
+```

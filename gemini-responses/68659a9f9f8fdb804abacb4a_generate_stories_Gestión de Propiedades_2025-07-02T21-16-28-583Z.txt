@@ -1,0 +1,254 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Creación de Nueva Propiedad",
+      "description": "Como agente inmobiliario, quiero añadir una nueva propiedad al sistema para expandir mi cartera y hacerla disponible para los leads.",
+      "pageContext": "Gestión de Propiedades",
+      "affectedFiles": [
+        "app/(dashboard)/properties/page.jsx",
+        "app/(dashboard)/properties/components/PropertyForm.jsx",
+        "hooks/useProperties.js",
+        "lib/api.js",
+        "components/ui/Modal.jsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "PropertyForm",
+            "from": "./components/PropertyForm"
+          },
+          {
+            "name": "Modal",
+            "from": "@/components/ui/Modal"
+          },
+          {
+            "name": "useProperties",
+            "from": "@/hooks/useProperties"
+          }
+        ]
+      },
+      "logicData": "El botón 'Añadir Propiedad' en 'page.jsx' debe abrir un 'Modal' que contenga el 'PropertyForm.jsx'. El formulario debe gestionar su propio estado para los campos (título, descripción, precio, etc.). Al enviar, se llamará a una función del hook 'useProperties' que a su vez ejecutará una petición POST a través de 'lib/api.js'. Tras el éxito, el modal se cerrará y la lista de propiedades se actualizará.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50",
+        "colorCoding": "Utilizar el color primario del CRM para el botón de 'Guardar' y un color neutro/secundario para 'Cancelar'."
+      },
+      "acceptanceCriteria": [
+        "Debe existir un botón 'Añadir Propiedad' en la página principal de propiedades.",
+        "Al hacer clic en el botón, se debe abrir un modal con un formulario vacío.",
+        "El formulario debe incluir campos para: Título, Descripción, Dirección, Precio, Número de habitaciones, Número de baños y Estado inicial ('Disponible').",
+        "El formulario debe tener validación para campos obligatorios como Título y Precio.",
+        "Al guardar, la nueva propiedad debe aparecer en el listado sin necesidad de recargar la página.",
+        "Debe ser posible cerrar el modal sin guardar los cambios."
+      ],
+      "additionalSuggestions": [
+        "Considerar añadir un estado de 'Cargando' en el botón 'Guardar' para evitar envíos duplicados.",
+        "Implementar notificaciones 'toast' para confirmar la creación exitosa o mostrar errores."
+      ],
+      "aiEditorTask": "Implementa la lógica en 'page.jsx' para mostrar el componente 'Modal' al hacer clic en un botón 'Añadir Propiedad'. El 'Modal' debe renderizar el componente 'PropertyForm.jsx'. Crea la función de creación en el hook 'useProperties' que interactúe con 'lib/api.js'.",
+      "priority": "Alta",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Filtrado de Propiedades por Estado",
+      "description": "Como agente inmobiliario, quiero filtrar la lista de propiedades por su estado (disponible, reservado, vendido) para enfocarme en los inmuebles relevantes para mis tareas actuales.",
+      "pageContext": "Gestión de Propiedades",
+      "affectedFiles": [
+        "app/(dashboard)/properties/components/PropertyFilter.jsx",
+        "app/(dashboard)/properties/page.jsx",
+        "hooks/useProperties.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "PropertyFilter",
+            "from": "./components/PropertyFilter"
+          }
+        ]
+      },
+      "logicData": "El componente 'PropertyFilter.jsx' contendrá los controles de filtro (ej. botones o un dropdown). Al cambiar el filtro, se actualizará un estado en 'page.jsx'. Este cambio de estado provocará que el hook 'useProperties' vuelva a solicitar los datos a la API con el parámetro de filtro correspondiente, o que filtre los datos ya cargados en el cliente.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex gap-2 mb-4",
+        "colorCoding": "El botón del filtro activo debe tener un estilo visualmente distinto (ej. color primario sólido) al de los inactivos (ej. contorno o color más claro)."
+      },
+      "acceptanceCriteria": [
+        "La página debe mostrar una sección de filtros con opciones para 'Todos', 'Disponible', 'Reservado' y 'Vendido'.",
+        "Por defecto, se mostrarán todas las propiedades ('Todos').",
+        "Al seleccionar un estado, la lista de propiedades se debe actualizar automáticamente para mostrar solo los inmuebles con ese estado.",
+        "El filtro seleccionado debe permanecer activo visualmente.",
+        "La funcionalidad de filtrado debe combinarse con otras (búsqueda, paginación)."
+      ],
+      "additionalSuggestions": [
+        "Mostrar un contador del número de propiedades para cada estado junto a la opción de filtro.",
+        "Guardar el estado del filtro en los parámetros de la URL para que se pueda compartir el enlace con el filtro aplicado."
+      ],
+      "aiEditorTask": "Desarrolla el componente 'PropertyFilter.jsx' con los botones de filtro por estado. Conéctalo al componente 'page.jsx' para que al hacer clic, se actualice la lista de propiedades mostrada, pasando el filtro al hook 'useProperties'.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Edición de Datos de una Propiedad Existente",
+      "description": "Como gestor inmobiliario, quiero editar los detalles de una propiedad existente para corregir errores o actualizar información como el precio o la descripción.",
+      "pageContext": "Gestión de Propiedades",
+      "affectedFiles": [
+        "app/(dashboard)/properties/components/PropertyCard.jsx",
+        "app/(dashboard)/properties/components/PropertyForm.jsx",
+        "components/ui/Modal.jsx",
+        "hooks/useProperties.js",
+        "lib/api.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "PropertyForm",
+            "from": "./components/PropertyForm"
+          }
+        ]
+      },
+      "logicData": "Cada 'PropertyCard.jsx' tendrá un botón o menú de 'Editar'. Al hacer clic, se abrirá el 'Modal' con el 'PropertyForm.jsx', pero esta vez precargado con los datos de la propiedad seleccionada. El envío del formulario llamará a una función de actualización en 'useProperties' que ejecutará una petición PUT/PATCH en 'lib/api.js'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-4 bg-white rounded-lg shadow-md",
+        "colorCoding": "El icono o botón de 'Editar' puede ser sutil, apareciendo al pasar el cursor sobre la tarjeta para no sobrecargar la interfaz."
+      },
+      "acceptanceCriteria": [
+        "Cada tarjeta de propiedad debe tener una opción para 'Editar'.",
+        "Al seleccionar 'Editar', se debe abrir un modal con el formulario 'PropertyForm' poblado con los datos actuales de esa propiedad.",
+        "Se deben poder modificar todos los campos editables de la propiedad.",
+        "Al guardar los cambios, la información en la tarjeta de la propiedad se debe actualizar en la lista sin recargar la página.",
+        "Si se cierra el modal sin guardar, los cambios no se deben aplicar."
+      ],
+      "additionalSuggestions": [
+        "Deshabilitar el botón 'Guardar' si no se ha realizado ningún cambio en el formulario.",
+        "Añadir una confirmación de '¿Estás seguro de que quieres descartar los cambios?' si el usuario intenta cerrar el modal después de haber modificado algo."
+      ],
+      "aiEditorTask": "Reutiliza el componente 'PropertyForm.jsx' para la edición. En 'PropertyCard.jsx', añade un botón de editar que abra el modal y pase los datos de la propiedad al formulario. Implementa la lógica de actualización (PUT/PATCH) en 'useProperties.js'.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Visualización Rápida de Estado con Insignias de Color",
+      "description": "Como agente inmobiliario, quiero ver una insignia de color distintiva en cada propiedad para identificar su estado (disponible, reservado, vendido) de un vistazo.",
+      "pageContext": "Gestión de Propiedades",
+      "affectedFiles": [
+        "app/(dashboard)/properties/components/PropertyCard.jsx",
+        "app/(dashboard)/properties/components/StatusBadge.jsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "StatusBadge",
+            "from": "./StatusBadge"
+          }
+        ]
+      },
+      "logicData": "El componente 'PropertyCard.jsx' recibirá el estado de la propiedad como prop. Basado en este estado, renderizará el componente 'StatusBadge.jsx', pasándole el estado para que este determine el color y el texto a mostrar. La lógica de mapeo de estado a color estará encapsulada dentro de 'StatusBadge.jsx'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "px-2 py-1 text-xs font-semibold rounded-full",
+        "colorCoding": "Verde para 'Disponible' (bg-green-100 text-green-800), Amarillo para 'Reservado' (bg-yellow-100 text-yellow-800), Rojo/Gris para 'Vendido' (bg-red-100 text-red-800)."
+      },
+      "acceptanceCriteria": [
+        "Cada 'PropertyCard.jsx' en la lista debe mostrar una insignia de estado.",
+        "La insignia para 'Disponible' debe ser de color verde.",
+        "La insignia para 'Reservado' debe ser de color amarillo/naranja.",
+        "La insignia para 'Vendido' debe ser de color rojo o gris.",
+        "El texto dentro de la insignia debe corresponder al estado actual de la propiedad."
+      ],
+      "additionalSuggestions": [
+        "Añadir un tooltip a la insignia que explique qué significa cada estado al pasar el cursor sobre ella.",
+        "Asegurarse de que los colores elegidos cumplan con los estándares de accesibilidad (contraste)."
+      ],
+      "aiEditorTask": "Crea el componente 'StatusBadge.jsx' que acepte una prop 'status' y devuelva un `span` o `div` con el color de fondo y texto apropiados. Importa y utiliza este componente dentro de 'PropertyCard.jsx' para mostrar el estado de la propiedad.",
+      "priority": "Media",
+      "estimatedHours": 3
+    },
+    {
+      "title": "Archivar Propiedades Inactivas",
+      "description": "Como gestor inmobiliario, quiero archivar una propiedad que ha sido vendida o retirada del mercado para limpiar mi lista de propiedades activas sin eliminar permanentemente el registro.",
+      "pageContext": "Gestión de Propiedades",
+      "affectedFiles": [
+        "app/(dashboard)/properties/components/PropertyCard.jsx",
+        "hooks/useProperties.js",
+        "lib/api.js",
+        "components/ui/Modal.jsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "Modal",
+            "from": "@/components/ui/Modal"
+          }
+        ]
+      },
+      "logicData": "En el menú de opciones de 'PropertyCard.jsx', habrá una opción 'Archivar'. Al hacer clic, se mostrará un modal de confirmación ('¿Está seguro?'). Si se confirma, se llamará a una función en 'useProperties' que envía una petición a la API para cambiar el estado de la propiedad a 'archivado'. La propiedad archivada desaparecerá de la vista principal.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "text-red-600 hover:bg-red-50",
+        "colorCoding": "Usar un color de advertencia o peligro (rojo) para la opción de archivar para indicar una acción destructiva/importante."
+      },
+      "acceptanceCriteria": [
+        "Cada tarjeta de propiedad activa debe tener una opción para 'Archivar'.",
+        "Al hacer clic en 'Archivar', debe aparecer un modal de confirmación.",
+        "Si el usuario confirma, la propiedad debe ser marcada como archivada y eliminada de la lista principal.",
+        "Si el usuario cancela, no debe ocurrir ninguna acción.",
+        "Debe existir una vista o filtro separado (posiblemente en otra historia) para ver las propiedades archivadas."
+      ],
+      "additionalSuggestions": [
+        "Implementar la capacidad de desarchivar una propiedad desde la vista de archivados.",
+        "La API no debe eliminar el registro, sino cambiar un booleano o estado 'isArchived: true'."
+      ],
+      "aiEditorTask": "Añade la opción 'Archivar' al menú de 'PropertyCard.jsx'. Implementa el modal de confirmación. Crea la función en el hook 'useProperties' para manejar la lógica de la llamada a la API que actualiza el estado de la propiedad a 'archivado'.",
+      "priority": "Media",
+      "estimatedHours": 7
+    },
+    {
+      "title": "Búsqueda de Propiedades por Texto Libre",
+      "description": "Como agente inmobiliario, quiero un campo de búsqueda para encontrar una propiedad por su nombre, dirección o ID de referencia para acceder rápidamente a su información.",
+      "pageContext": "Gestión de Propiedades",
+      "affectedFiles": [
+        "app/(dashboard)/properties/components/PropertyFilter.jsx",
+        "app/(dashboard)/properties/page.jsx",
+        "hooks/useProperties.js",
+        "components/ui/Input.jsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "Input",
+            "from": "@/components/ui/Input"
+          }
+        ]
+      },
+      "logicData": "El componente 'PropertyFilter.jsx' incluirá un componente 'Input'. A medida que el usuario escribe, el valor se almacena en un estado en 'page.jsx'. Para optimizar el rendimiento, se debe usar 'debouncing' para que la llamada a la API (a través de 'useProperties') solo se realice después de que el usuario deje de escribir por un breve período (e.g., 300ms).",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "w-full md:w-1/3 p-2 border rounded-md focus:ring-2 focus:ring-blue-500",
+        "colorCoding": "Estilo estándar de campo de entrada, con un resaltado en el borde cuando está enfocado para mejorar la UX."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un campo de búsqueda de texto visible en la página.",
+        "Al escribir en el campo de búsqueda, la lista de propiedades debe filtrarse para mostrar solo las que coinciden con el término de búsqueda.",
+        "La búsqueda debe aplicarse a campos como el título, la dirección y/o un código de referencia.",
+        "La búsqueda no debe ejecutarse con cada pulsación de tecla, sino tras una breve pausa (debouncing).",
+        "Debe ser posible borrar el campo de búsqueda para volver a ver todas las propiedades (respetando otros filtros activos)."
+      ],
+      "additionalSuggestions": [
+        "Añadir un icono de lupa dentro del campo de búsqueda.",
+        "Incluir un botón 'x' para borrar el contenido del campo de búsqueda rápidamente."
+      ],
+      "aiEditorTask": "Integra un componente 'Input' de la UI en 'PropertyFilter.jsx'. Implementa la lógica de 'debouncing' en 'page.jsx' o en un hook personalizado para gestionar la entrada del usuario. Pasa el término de búsqueda al hook 'useProperties' para que se incluya en la solicitud a la API.",
+      "priority": "Alta",
+      "estimatedHours": 5
+    }
+  ]
+}
+```

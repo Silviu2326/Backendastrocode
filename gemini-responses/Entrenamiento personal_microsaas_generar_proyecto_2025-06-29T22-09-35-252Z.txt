@@ -1,0 +1,123 @@
+```json
+{
+  "softwares": [
+    {
+      "name": "CoachStart",
+      "description": "Una plataforma para automatizar el proceso de onboarding de clientes. Los entrenadores crean formularios de admisión personalizados (historial médico, metas, estilo de vida) y los envían a nuevos clientes, recibiendo la información organizada en un perfil unificado.",
+      "targetClient": "Entrenadores personales independientes o pequeños estudios (5-50 clientes) que buscan profesionalizar su proceso de captación y ahorrar tiempo administrativo sin la complejidad de un CRM completo.",
+      "pages": [
+        {
+          "name": "Dashboard",
+          "description": "Vista general de los últimos clientes registrados, formularios pendientes y actividad reciente.",
+          "route": "/dashboard"
+        },
+        {
+          "name": "Constructor de Formularios",
+          "description": "Interfaz para crear y personalizar plantillas de formularios de admisión con diferentes tipos de preguntas.",
+          "route": "/forms/builder"
+        },
+        {
+          "name": "Perfiles de Clientes",
+          "description": "Listado de todos los clientes con acceso a sus perfiles individuales y respuestas del formulario.",
+          "route": "/clients"
+        },
+        {
+          "name": "Biblioteca de Plantillas",
+          "description": "Colección de plantillas de formularios pre-hechas (PAR-Q, evaluación de metas, etc.) para uso rápido.",
+          "route": "/templates"
+        },
+        {
+          "name": "Configuración de Cuenta",
+          "description": "Gestión de la suscripción, marca personal (logo, colores) e integraciones.",
+          "route": "/settings"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$4,000 - $8,000 USD",
+        "monthlyRevenuePotential": "$1,500 - $4,500 USD",
+        "breakEvenTime": "8-14 meses",
+        "marketSize": "Miles de entrenadores independientes y pequeños gimnasios a nivel global.",
+        "competitionLevel": "Medio"
+      }
+    },
+    {
+      "name": "ProgressLens",
+      "description": "Herramienta visual para el seguimiento del progreso del cliente. Permite a los clientes subir fotos y medidas, generando comparativas lado a lado, gráficos de evolución y reportes profesionales que el entrenador puede compartir para aumentar la motivación y retención.",
+      "targetClient": "Entrenadores online que dependen de la evidencia visual para demostrar resultados. Necesitan una forma sencilla y profesional de recopilar, organizar y presentar el progreso de sus clientes.",
+      "pages": [
+        {
+          "name": "Panel de Clientes",
+          "description": "Vista general de todos los clientes del entrenador y su último registro de progreso.",
+          "route": "/clients"
+        },
+        {
+          "name": "Galería de Progreso",
+          "description": "Herramienta para comparar fotos en diferentes fechas, con opciones de alineación y zoom.",
+          "route": "/clients/:id/gallery"
+        },
+        {
+          "name": "Gráficos de Métricas",
+          "description": "Visualización del historial de peso, medidas corporales y otros datos clave en gráficos.",
+          "route": "/clients/:id/metrics"
+        },
+        {
+          "name": "Generador de Reportes",
+          "description": "Crea un informe en PDF o una imagen compartible que resume el progreso visual y numérico de un período.",
+          "route": "/reports/new"
+        },
+        {
+          "name": "Portal del Cliente",
+          "description": "Interfaz simple para que el cliente suba sus fotos y actualice sus medidas.",
+          "route": "/client-portal"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$6,000 - $12,000 USD",
+        "monthlyRevenuePotential": "$2,000 - $6,000 USD",
+        "breakEvenTime": "9-16 meses",
+        "marketSize": "Creciente mercado de coaching online y entrenadores enfocados en transformaciones físicas.",
+        "competitionLevel": "Medio"
+      }
+    },
+    {
+      "name": "SessionArchitect",
+      "description": "Un constructor de programas de entrenamiento minimalista y rápido. Los entrenadores pueden crear, guardar como plantillas y asignar rutinas a sus clientes, utilizando una librería de ejercicios con GIFs y exportando los planes a PDF con su propia marca.",
+      "targetClient": "Entrenadores con experiencia que ya tienen un sistema de entrenamiento definido y están cansados de usar hojas de cálculo o documentos de texto. Valoran la eficiencia y la presentación profesional de sus programas.",
+      "pages": [
+        {
+          "name": "Constructor de Sesiones",
+          "description": "Interfaz principal de arrastrar y soltar para crear o editar un programa de entrenamiento.",
+          "route": "/builder"
+        },
+        {
+          "name": "Librería de Ejercicios",
+          "description": "Base de datos de ejercicios (con opción de añadir propios) con filtros por grupo muscular o equipo.",
+          "route": "/exercises"
+        },
+        {
+          "name": "Mis Plantillas",
+          "description": "Colección de programas de entrenamiento guardados por el entrenador para reutilizarlos rápidamente.",
+          "route": "/templates"
+        },
+        {
+          "name": "Gestión de Clientes/Asignaciones",
+          "description": "Panel para asignar programas específicos a clientes y llevar un registro de lo enviado.",
+          "route": "/assignments"
+        },
+        {
+          "name": "Exportar y Marca",
+          "description": "Configuración para personalizar el logo y los colores en los PDFs exportados.",
+          "route": "/settings/branding"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$8,000 - $15,000 USD",
+        "monthlyRevenuePotential": "$2,500 - $7,000 USD",
+        "breakEvenTime": "10-18 meses",
+        "marketSize": "Prácticamente todos los entrenadores personales que crean sus propias rutinas.",
+        "competitionLevel": "Alto"
+      }
+    }
+  ]
+}
+```

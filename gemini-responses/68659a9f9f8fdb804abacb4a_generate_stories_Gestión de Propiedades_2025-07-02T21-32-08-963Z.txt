@@ -1,0 +1,273 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización del Listado de Propiedades",
+      "description": "Como agente inmobiliario, quiero ver un listado paginado de todas mis propiedades para tener una visión general de mi cartera y acceder rápidamente a los detalles de cada una.",
+      "pageContext": "Gestión de Propiedades",
+      "affectedFiles": [
+        "app/(dashboard)/properties/page.jsx",
+        "app/(dashboard)/properties/components/PropertyList.jsx",
+        "app/(dashboard)/properties/components/PropertyCard.jsx",
+        "lib/api.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "PaginationControls",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "PropertyList",
+            "from": "./components/PropertyList"
+          },
+          {
+            "name": "getProperties",
+            "from": "@/lib/api"
+          }
+        ]
+      },
+      "logicData": "La página principal (`page.jsx`) debe realizar una llamada a la API (`getProperties`) para obtener el primer lote de propiedades. Los datos se pasarán al componente `PropertyList.jsx`, que renderizará una lista de `PropertyCard.jsx`. La paginación debe gestionar el estado de la página actual y solicitar los datos correspondientes.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6",
+        "colorCoding": "Utilizar colores neutros para el fondo y colores de acento para los botones de acción y el estado de la propiedad."
+      },
+      "acceptanceCriteria": [
+        "Al cargar la página, se debe mostrar una lista de propiedades.",
+        "Cada propiedad en la lista debe mostrar una foto principal, el título, el precio y su estado (Disponible, Reservado, Vendido).",
+        "La lista debe estar paginada, mostrando un máximo de 12 propiedades por página.",
+        "Deben existir controles de navegación (Siguiente, Anterior) para moverse entre las páginas.",
+        "Si no hay propiedades, se debe mostrar un mensaje claro y un botón para 'Añadir Propiedad'."
+      ],
+      "additionalSuggestions": [
+        "Implementar 'infinite scroll' como una alternativa a la paginación tradicional.",
+        "Añadir un esqueleto de carga (loading skeleton) mientras se obtienen los datos."
+      ],
+      "aiEditorTask": "Desarrolla el componente `app/(dashboard)/properties/page.jsx` para que obtenga los datos de las propiedades desde una función simulada en `lib/api.js` y los pase al componente `PropertyList`. Implementa la estructura básica de los componentes `PropertyList` y `PropertyCard`.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Añadir una Nueva Propiedad",
+      "description": "Como agente inmobiliario, quiero poder añadir una nueva propiedad a través de un formulario detallado para expandir mi cartera y asociarla a futuros leads.",
+      "pageContext": "Gestión de Propiedades",
+      "affectedFiles": [
+        "app/(dashboard)/properties/add/page.jsx",
+        "app/(dashboard)/properties/components/PropertyForm.jsx",
+        "lib/api.js",
+        "components/ui/Input.jsx",
+        "components/ui/Button.jsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "PropertyForm",
+            "from": "../components/PropertyForm"
+          },
+          {
+            "name": "createProperty",
+            "from": "@/lib/api"
+          }
+        ]
+      },
+      "logicData": "La página `add/page.jsx` renderizará el componente `PropertyForm.jsx`. Este formulario manejará su propio estado para los campos (título, descripción, precio, dirección, etc.). Al enviar, llamará a la función `createProperty` de la API con los datos del formulario. Tras el éxito, debería redirigir al usuario al listado de propiedades.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "space-y-4 max-w-4xl mx-auto p-8 bg-white rounded-lg shadow",
+        "colorCoding": "Usar etiquetas claras y campos de entrada bien definidos. El botón de 'Guardar' debe ser prominente."
+      },
+      "acceptanceCriteria": [
+        "Debe existir un botón 'Añadir Propiedad' en la página de listado que lleve a `/properties/add`.",
+        "El formulario debe incluir campos para: título, descripción, tipo de propiedad, precio, dirección, número de habitaciones, número de baños y estado.",
+        "El formulario debe tener validación de campos (ej. el precio debe ser un número, el título no puede estar vacío).",
+        "Al guardar exitosamente, el usuario es redirigido a la página `/properties` y se muestra una notificación de éxito.",
+        "Si ocurre un error al guardar, se debe mostrar un mensaje de error al usuario sin que pierda los datos introducidos."
+      ],
+      "additionalSuggestions": [
+        "Implementar guardado automático como borrador.",
+        "Usar un selector de mapa interactivo para la dirección."
+      ],
+      "aiEditorTask": "Crea el componente reutilizable `PropertyForm.jsx` con todos los campos especificados (sin lógica de envío). Luego, implementa la página `add/page.jsx` que utiliza este formulario y simula una llamada a la API al enviarlo.",
+      "priority": "Alta",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Editar Información de una Propiedad Existente",
+      "description": "Como agente inmobiliario, quiero modificar los detalles de una propiedad existente para mantener la información precisa y actualizada para los clientes.",
+      "pageContext": "Gestión de Propiedades",
+      "affectedFiles": [
+        "app/(dashboard)/properties/edit/[id]/page.jsx",
+        "app/(dashboard)/properties/components/PropertyForm.jsx",
+        "lib/api.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "PropertyForm",
+            "from": "../../components/PropertyForm"
+          },
+          {
+            "name": "getPropertyById",
+            "from": "@/lib/api"
+          },
+          {
+            "name": "updateProperty",
+            "from": "@/lib/api"
+          }
+        ]
+      },
+      "logicData": "La página `edit/[id]/page.jsx` obtendrá el `id` de la propiedad de la URL. Usará este `id` para llamar a `getPropertyById` y obtener los datos actuales. Estos datos se pasarán como valores iniciales al `PropertyForm.jsx`. Al enviar, se llamará a `updateProperty`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "max-w-4xl mx-auto p-8",
+        "colorCoding": "El diseño debe ser idéntico al formulario de añadir, pero los campos deben estar pre-rellenados con la información existente."
+      },
+      "acceptanceCriteria": [
+        "Cada `PropertyCard` en el listado debe tener un botón o enlace 'Editar' que lleve a `/properties/edit/[id]`.",
+        "Al cargar la página de edición, el formulario debe mostrar la información actual de la propiedad.",
+        "El usuario puede modificar cualquiera de los campos del formulario.",
+        "Al guardar los cambios, se llama a la API para actualizar la propiedad y se redirige al usuario a `/properties`.",
+        "Se debe mostrar una notificación de 'Propiedad actualizada correctamente'."
+      ],
+      "additionalSuggestions": [
+        "Mostrar un historial de cambios básicos (ej. 'Precio cambiado de X a Y el día Z').",
+        "Deshabilitar el botón de 'Guardar' si no se ha realizado ningún cambio en el formulario."
+      ],
+      "aiEditorTask": "Implementa la página dinámica `edit/[id]/page.jsx`. Debe obtener el `id` de los parámetros, simular una llamada a `getPropertyById` para obtener datos de muestra, y pasar estos datos al `PropertyForm.jsx` existente.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Filtrar Propiedades por Estado",
+      "description": "Como agente inmobiliario, quiero filtrar la lista de propiedades por su estado (Disponible, Reservado, Vendido) para enfocarme rápidamente en los inmuebles relevantes para mis tareas actuales.",
+      "pageContext": "Gestión de Propiedades",
+      "affectedFiles": [
+        "app/(dashboard)/properties/page.jsx",
+        "app/(dashboard)/properties/components/PropertyList.jsx",
+        "lib/api.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "PropertyFilter",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "StatusBadge",
+            "from": "./components/StatusBadge"
+          }
+        ]
+      },
+      "logicData": "En `properties/page.jsx`, se añadirá un componente de filtro (ej. botones o un dropdown). Al seleccionar un filtro, el estado de la página se actualizará y se volverá a llamar a la función `getProperties` con el parámetro de filtro de estado. La URL podría actualizarse con query params (ej. `/properties?status=available`) para mantener el estado del filtro.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex space-x-2 mb-4",
+        "colorCoding": "Usar un esquema de colores para los filtros que coincida con el `StatusBadge`: Verde para Disponible, Naranja para Reservado, Rojo/Gris para Vendido."
+      },
+      "acceptanceCriteria": [
+        "En la parte superior de la lista de propiedades, debe haber controles para filtrar por estado: 'Todos', 'Disponible', 'Reservado', 'Vendido'.",
+        "Por defecto, se muestran 'Todos' o 'Disponibles'.",
+        "Al hacer clic en un filtro de estado, la lista de propiedades se actualiza para mostrar solo las que coinciden con ese estado.",
+        "El filtro seleccionado debe tener una indicación visual de que está activo.",
+        "El filtro debe funcionar correctamente con la paginación."
+      ],
+      "additionalSuggestions": [
+        "Añadir un campo de búsqueda de texto libre para filtrar por título o dirección.",
+        "Permitir combinar múltiples filtros (ej. por estado y por precio)."
+      ],
+      "aiEditorTask": "Crea un nuevo componente `PropertyFilter.jsx` con botones para cada estado. Integra este componente en `properties/page.jsx` y añade lógica de estado para manejar el filtro activo. Modifica la llamada a la API simulada para que acepte un parámetro de estado.",
+      "priority": "Media",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Archivar una Propiedad",
+      "description": "Como agente inmobiliario, quiero poder archivar una propiedad que ya no está en el mercado para limpiar mi vista principal sin perder los datos históricos asociados a ella.",
+      "pageContext": "Gestión de Propiedades",
+      "affectedFiles": [
+        "app/(dashboard)/properties/components/PropertyCard.jsx",
+        "lib/api.js",
+        "components/ui/Modal.jsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "Modal",
+            "from": "@/components/ui/Modal"
+          },
+          {
+            "name": "archiveProperty",
+            "from": "@/lib/api"
+          }
+        ]
+      },
+      "logicData": "En el `PropertyCard.jsx`, se añadirá un botón 'Archivar'. Al hacer clic, se abrirá un `Modal` de confirmación. Si el usuario confirma, se llamará a la función `archiveProperty(id)` de la API. Tras el éxito, la propiedad debe desaparecer de la lista principal (el componente padre `PropertyList` debe actualizar su estado).",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-red-500 hover:bg-red-600 text-white",
+        "colorCoding": "El botón de archivar debe ser discreto pero identificable, quizás dentro de un menú de 'más opciones' (kebab menu)."
+      },
+      "acceptanceCriteria": [
+        "Cada propiedad activa en la lista debe tener una opción para 'Archivar'.",
+        "Al hacer clic en 'Archivar', se debe mostrar un modal de confirmación preguntando '¿Estás seguro de que deseas archivar esta propiedad?'.",
+        "Si el usuario confirma, la propiedad se marca como archivada en la base de datos.",
+        "La propiedad archivada ya no debe aparecer en la lista de propiedades por defecto.",
+        "Debe haber una forma de ver las propiedades archivadas (por ejemplo, a través de un filtro)."
+      ],
+      "additionalSuggestions": [
+        "Implementar una función para 'desarchivar' una propiedad desde la vista de archivados.",
+        "Las propiedades archivadas no deben poder asociarse a nuevos leads."
+      ],
+      "aiEditorTask": "Añade un botón 'Archivar' al `PropertyCard.jsx`. Al hacer clic, debe mostrar el `Modal.jsx` de la UI. Implementa la lógica para que al confirmar en el modal, se llame a una función `handleArchive` que simule la llamada a la API y actualice el estado de la lista.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Gestionar Fotos de la Propiedad",
+      "description": "Como agente inmobiliario, quiero subir múltiples fotos para una propiedad y seleccionar una como la principal para mostrarla de la forma más atractiva posible a los leads.",
+      "pageContext": "Gestión de Propiedades",
+      "affectedFiles": [
+        "app/(dashboard)/properties/components/PropertyForm.jsx",
+        "lib/api.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ImageUploader",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Dentro del `PropertyForm.jsx`, se integrará un nuevo componente `ImageUploader.jsx`. Este componente permitirá seleccionar múltiples archivos de imagen, mostrar vistas previas, permitir reordenarlas (drag-and-drop) y eliminar imágenes individuales. La primera imagen de la lista se considerará la principal. La lógica de subida se conectará a un endpoint de la API.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-4 border-dashed border-2 rounded-lg text-center",
+        "colorCoding": "El área de carga debe ser claramente visible. Las vistas previas de las imágenes deben incluir un icono para eliminar y una insignia para la 'Foto Principal'."
+      },
+      "acceptanceCriteria": [
+        "En el formulario de añadir/editar propiedad, debe haber una sección para la carga de imágenes.",
+        "El usuario puede seleccionar múltiples archivos de imagen a la vez.",
+        "Se deben mostrar miniaturas de las imágenes cargadas.",
+        "El usuario puede eliminar cualquiera de las imágenes subidas antes de guardar.",
+        "El usuario puede designar una de las imágenes como la 'foto principal'.",
+        "Al guardar el formulario, las imágenes se suben al servidor y se asocian con la propiedad."
+      ],
+      "additionalSuggestions": [
+        "Implementar compresión de imágenes en el lado del cliente antes de subirlas para ahorrar ancho de banda.",
+        "Permitir reordenar las imágenes mediante arrastrar y soltar (drag and drop)."
+      ],
+      "aiEditorTask": "Diseña y crea el componente `ImageUploader.jsx`. Debe incluir un área para soltar archivos, un botón de selección de archivos y un área para mostrar las vistas previas de las imágenes seleccionadas con un botón para eliminarlas. Intégralo en el `PropertyForm.jsx`.",
+      "priority": "Alta",
+      "estimatedHours": 16
+    }
+  ]
+}
+```

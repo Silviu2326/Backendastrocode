@@ -1,0 +1,303 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Validación de Perfiles de Profesionales",
+      "description": "Como Administrador, quiero revisar y aprobar o rechazar los perfiles de nuevos profesionales para asegurar que solo personal cualificado y verificado forme parte de la plataforma.",
+      "pageContext": "Backoffice de Administración",
+      "affectedFiles": [
+        "src/features/backoffice-de-administracin/BackofficedeAdministraciónPage.tsx",
+        "src/features/backoffice-de-administracin/hooks/useBackofficedeAdministración.ts",
+        "src/features/backoffice-de-administracin/api.ts",
+        "src/features/backoffice-de-administracin/components/ProfessionalVerificationQueue.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ProfessionalVerificationQueue",
+            "type": "component"
+          },
+          {
+            "name": "VerificationCard",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Table",
+            "from": "src/components/Table.jsx"
+          },
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El hook `useBackofficedeAdministración` debe incluir una función para obtener una lista de profesionales con el estado 'pending_validation' desde el endpoint de la API (`/api/admin/professionals/pending`). La lógica debe manejar los estados de aprobación y rechazo, enviando las peticiones correspondientes a la API. Se necesitará un modal de confirmación para la acción de rechazo, que podría incluir un campo para especificar el motivo.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-4 bg-gray-50 rounded-lg shadow",
+        "colorCoding": "Utilizar verde para botones de 'Aprobar' (bg-green-500), rojo para 'Rechazar' (bg-red-500) y amarillo/ámbar para destacar el estado 'Pendiente' (bg-yellow-100 text-yellow-800)."
+      },
+      "acceptanceCriteria": [
+        "El administrador puede ver una lista o tabla de profesionales pendientes de validación.",
+        "Cada elemento de la lista muestra nombre, especialidad y un enlace para ver la documentación adjunta.",
+        "Existen botones de 'Aprobar' y 'Rechazar' para cada perfil.",
+        "Al pulsar 'Aprobar', el estado del profesional cambia a 'activo' y desaparece de la cola de pendientes.",
+        "Al pulsar 'Rechazar', se abre un modal para introducir un motivo (opcional) y tras confirmar, el estado del profesional cambia a 'rechazado'.",
+        "La lista se actualiza automáticamente después de cada acción."
+      ],
+      "additionalSuggestions": [
+        "Añadir un sistema de notificaciones por email al profesional cuando su perfil es aprobado o rechazado.",
+        "Permitir la visualización de documentos (PDF, JPG) directamente en un modal sin necesidad de descargarlos."
+      ],
+      "aiEditorTask": "Crea un nuevo componente `ProfessionalVerificationQueue.jsx` dentro de `src/features/backoffice-de-administracin/components`. Este componente debe usar el componente reutilizable `Table` para mostrar la lista de profesionales pendientes. Implementa la lógica para llamar a las funciones de aprobación/rechazo desde `useBackofficedeAdministración` al hacer clic en los botones correspondientes de cada fila.",
+      "priority": "Alta",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Gestión y Desactivación de Cuentas de Usuario",
+      "description": "Como Administrador, quiero buscar cualquier usuario (cliente o profesional) y poder activar o desactivar su cuenta para gestionar el acceso a la plataforma según las políticas de uso o a petición del propio usuario.",
+      "pageContext": "Backoffice de Administración",
+      "affectedFiles": [
+        "src/features/backoffice-de-administracin/BackofficedeAdministraciónPage.tsx",
+        "src/features/backoffice-de-administracin/hooks/useBackofficedeAdministración.ts",
+        "src/features/backoffice-de-administracin/api.ts",
+        "src/features/backoffice-de-administracin/components/UserManagement.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "UserManagement",
+            "type": "component"
+          },
+          {
+            "name": "UserSearchInput",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Table",
+            "from": "src/components/Table.jsx"
+          },
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "Se necesita un endpoint en `api.ts` para buscar usuarios por nombre, email o ID (`/api/admin/users/search?q=...`). Otro endpoint permitirá actualizar el estado de un usuario (`PATCH /api/admin/users/:id`). El hook `useBackofficedeAdministración` gestionará el estado de la búsqueda, los resultados y la lógica para cambiar el estado de la cuenta, incluyendo un diálogo de confirmación.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex flex-col gap-4",
+        "colorCoding": "Las cuentas activas pueden tener una pastilla verde (bg-green-100 text-green-800) y las inactivas una roja (bg-red-100 text-red-800) para indicar su estado en la tabla."
+      },
+      "acceptanceCriteria": [
+        "Debe existir un campo de búsqueda para encontrar usuarios por nombre o email.",
+        "Los resultados de la búsqueda se muestran en una tabla paginada con Nombre, Email, Rol (Cliente/Profesional) y Estado (Activo/Inactivo).",
+        "Cada fila de la tabla tiene un botón o interruptor para cambiar el estado de la cuenta.",
+        "Al intentar desactivar una cuenta, aparece un modal de confirmación.",
+        "Tras la confirmación, el estado del usuario se actualiza en la base de datos y se refleja en la UI."
+      ],
+      "additionalSuggestions": [
+        "Añadir filtros para ver solo clientes, solo profesionales, o por estado de cuenta.",
+        "Registrar un log de auditoría de qué administrador desactivó o activó una cuenta y cuándo."
+      ],
+      "aiEditorTask": "Implementa un nuevo componente `UserManagement.jsx` que contenga una barra de búsqueda y una tabla de resultados. Conecta la búsqueda al endpoint de la API a través del hook `useBackofficedeAdministración`. Añade un interruptor (toggle switch) en cada fila de la tabla para cambiar el estado del usuario, protegiendo la acción con un diálogo de confirmación.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Moderación de Valoraciones y Reseñas",
+      "description": "Como Administrador, quiero ver una cola de valoraciones reportadas o nuevas para poder aprobarlas o eliminarlas, manteniendo así la calidad y el respeto en las interacciones dentro de la comunidad.",
+      "pageContext": "Backoffice de Administración",
+      "affectedFiles": [
+        "src/features/backoffice-de-administracin/BackofficedeAdministraciónPage.tsx",
+        "src/features/backoffice-de-administracin/hooks/useBackofficedeAdministración.ts",
+        "src/features/backoffice-de-administracin/api.ts",
+        "src/features/backoffice-de-administracin/components/ReviewModeration.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ReviewModeration",
+            "type": "component"
+          },
+          {
+            "name": "ReviewCard",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "La API debe proveer un endpoint para obtener valoraciones pendientes de moderación (`/api/admin/reviews/pending`). Se necesitarán endpoints para aprobar (`POST /api/admin/reviews/:id/approve`) y eliminar (`DELETE /api/admin/reviews/:id`). El hook gestionará el estado de la lista de valoraciones y las acciones de moderación.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-4 border rounded-md my-2 flex justify-between items-start",
+        "colorCoding": "Fondo neutro para la tarjeta de valoración (bg-white). Botón 'Aprobar' en verde (bg-green-500) y 'Eliminar' en rojo (bg-red-500)."
+      },
+      "acceptanceCriteria": [
+        "Se muestra una lista de valoraciones pendientes en una sección dedicada del backoffice.",
+        "Cada valoración muestra el texto, la puntuación, el autor y el profesional valorado.",
+        "Hay botones para 'Aprobar' y 'Eliminar' en cada valoración.",
+        "Al aprobar, la valoración se hace pública en el perfil del profesional.",
+        "Al eliminar, la valoración se borra permanentemente.",
+        "La lista de pendientes se actualiza tras cada acción."
+      ],
+      "additionalSuggestions": [
+        "Implementar un filtro para ver valoraciones ya aprobadas o un historial de las eliminadas.",
+        "Añadir la capacidad de editar una valoración por errores tipográficos menores en lugar de solo aprobar/eliminar."
+      ],
+      "aiEditorTask": "Desarrolla el componente `ReviewModeration.jsx`. Dentro, mapea los datos de las valoraciones pendientes para renderizar componentes `ReviewCard.jsx`. Cada `ReviewCard` debe mostrar la información de la valoración y los botones de acción que disparen las funciones correspondientes en el hook `useBackofficedeAdministración`.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Dashboard de Estadísticas Generales",
+      "description": "Como Administrador, quiero tener un panel principal (dashboard) con visualizaciones de las métricas clave para poder monitorizar la salud y el rendimiento de la plataforma de un vistazo.",
+      "pageContext": "Backoffice de Administración",
+      "affectedFiles": [
+        "src/features/backoffice-de-administracin/BackofficedeAdministraciónPage.tsx",
+        "src/features/backoffice-de-administracin/hooks/useBackofficedeAdministración.ts",
+        "src/features/backoffice-de-administracin/api.ts",
+        "src/features/backoffice-de-administracin/components/Dashboard.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "Dashboard",
+            "type": "component"
+          },
+          {
+            "name": "StatCard",
+            "type": "component"
+          },
+          {
+            "name": "ChartComponent",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El hook `useBackofficedeAdministración` llamará a un endpoint de la API (`/api/admin/stats`) que devolverá un objeto con las métricas principales: número total de usuarios, nuevos usuarios del último mes, número de citas completadas, ingresos generados, etc. Estos datos se pasarán al componente `Dashboard` para su visualización.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4",
+        "colorCoding": "Utilizar colores primarios de la marca para las tarjetas de estadísticas, con iconos representativos para cada métrica."
+      },
+      "acceptanceCriteria": [
+        "Al entrar al backoffice, se muestra un dashboard como página principal.",
+        "El dashboard contiene al menos 4 métricas clave: Total de Usuarios, Total de Profesionales, Citas del Mes, Nuevos Registros.",
+        "Cada métrica se muestra en una 'tarjeta' separada con un título claro y el valor numérico.",
+        "Al menos una de las métricas se representa con un gráfico simple (ej. un gráfico de barras para nuevos usuarios por semana).",
+        "Los datos del dashboard se cargan al montar el componente."
+      ],
+      "additionalSuggestions": [
+        "Añadir un selector de rango de fechas para que el administrador pueda ver las estadísticas de periodos personalizados.",
+        "Hacer que las tarjetas de estadísticas sean clicables para llevar a una vista más detallada del dato."
+      ],
+      "aiEditorTask": "Crea el componente `Dashboard.jsx`. Dentro, implementa varios componentes `StatCard.jsx` para mostrar las métricas clave. Utiliza una librería de gráficos como Chart.js o Recharts para crear un `ChartComponent` que visualice el crecimiento de usuarios. Obtén todos los datos a través del hook `useBackofficedeAdministración`.",
+      "priority": "Media",
+      "estimatedHours": 16
+    },
+    {
+      "title": "Gestión de Tickets de Soporte",
+      "description": "Como Administrador, quiero un sistema para ver, asignar y responder los tickets de soporte enviados por los usuarios para poder resolver sus problemas de manera organizada y eficiente.",
+      "pageContext": "Backoffice de Administración",
+      "affectedFiles": [
+        "src/features/backoffice-de-administracin/BackofficedeAdministraciónPage.tsx",
+        "src/features/backoffice-de-administracin/hooks/useBackofficedeAdministración.ts",
+        "src/features/backoffice-de-administracin/api.ts",
+        "src/features/backoffice-de-administracin/components/SupportTickets.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "SupportTickets",
+            "type": "component"
+          },
+          {
+            "name": "TicketDetailsModal",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Table",
+            "from": "src/components/Table.jsx"
+          },
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "La API necesita endpoints para `/api/admin/tickets` (GET para listar, POST para responder) y `/api/admin/tickets/:id` (PUT para cambiar estado). El hook debe gestionar la obtención de la lista de tickets, el estado del ticket seleccionado, y las funciones para actualizar estado y enviar respuestas.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-4 rounded-lg bg-gray-50",
+        "colorCoding": "Usar insignias de colores para el estado del ticket: azul para 'Abierto' (bg-blue-100), naranja para 'En Progreso' (bg-orange-100), gris para 'Cerrado' (bg-gray-200)."
+      },
+      "acceptanceCriteria": [
+        "El administrador puede ver una tabla con todos los tickets de soporte.",
+        "La tabla muestra ID del ticket, usuario, asunto, fecha y estado (Abierto, En Progreso, Cerrado).",
+        "Es posible filtrar los tickets por estado.",
+        "Al hacer clic en un ticket, se abre una vista detallada o modal con el mensaje completo del usuario y un historial de respuestas.",
+        "El administrador puede escribir una respuesta y cambiar el estado del ticket desde la vista detallada."
+      ],
+      "additionalSuggestions": [
+        "Implementar la asignación de tickets a diferentes miembros del equipo de administración.",
+        "Crear plantillas de respuesta para las preguntas más frecuentes."
+      ],
+      "aiEditorTask": "Desarrolla el componente `SupportTickets.jsx`, que utilizará `Table.jsx` para listar los tickets. Al hacer clic en una fila, debe abrirse un `TicketDetailsModal.jsx`. Este modal mostrará los detalles y permitirá al administrador responder y cambiar el estado del ticket. Toda la lógica de datos será manejada por el hook `useBackofficedeAdministración`.",
+      "priority": "Alta",
+      "estimatedHours": 14
+    },
+    {
+      "title": "Navegación del Backoffice mediante Sidebar",
+      "description": "Como Administrador, quiero un menú de navegación lateral (sidebar) persistente para poder moverme fácilmente entre las diferentes secciones del backoffice, como la gestión de usuarios, la validación de perfiles y las estadísticas.",
+      "pageContext": "Backoffice de Administración",
+      "affectedFiles": [
+        "src/features/backoffice-de-administracin/BackofficedeAdministraciónPage.tsx",
+        "src/components/Sidebar.jsx",
+        "src/App.tsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "Sidebar",
+            "from": "src/components/Sidebar.jsx"
+          }
+        ]
+      },
+      "logicData": "La lógica principal residirá en la configuración de rutas en `App.tsx` para el layout del administrador. El componente `BackofficedeAdministraciónPage.tsx` actuará como un layout que renderiza el `Sidebar` y un área de contenido donde se mostrarán las sub-páginas (Dashboard, Usuarios, Validaciones, etc.) según la ruta activa. El estado del enlace activo en el sidebar se gestionará con `react-router-dom`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "h-screen bg-gray-800 text-white w-64 flex flex-col",
+        "colorCoding": "Fondo oscuro para el sidebar (bg-gray-800), texto blanco (text-white), y un color de acento (ej. bg-blue-500) para el enlace activo."
+      },
+      "acceptanceCriteria": [
+        "Un menú lateral es visible en todas las páginas dentro de la ruta `/admin`.",
+        "El menú contiene enlaces a las principales funcionalidades: Dashboard, Validación de Profesionales, Gestión de Usuarios, Moderación, Soporte.",
+        "El enlace correspondiente a la sección actualmente visible está resaltado visualmente (estado activo).",
+        "Hacer clic en un enlace del menú navega a la sección correspondiente sin recargar la página completa.",
+        "El sidebar puede ser colapsable en pantallas pequeñas para ahorrar espacio."
+      ],
+      "additionalSuggestions": [
+        "Añadir iconos a cada elemento del menú para una mejor identificación visual.",
+        "Incluir un enlace de 'Cerrar Sesión' en la parte inferior del sidebar."
+      ],
+      "aiEditorTask": "Modifica el componente `src/components/Sidebar.jsx` para que acepte un array de objetos de navegación como props. En `BackofficedeAdministraciónPage.tsx`, importa y renderiza este `Sidebar` pasándole los enlaces específicos para el admin. Utiliza `react-router-dom` (NavLink) para manejar el estado activo de los enlaces. Asegúrate de que el layout general se componga del Sidebar y un área de contenido para las sub-rutas.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    }
+  ]
+}
+```

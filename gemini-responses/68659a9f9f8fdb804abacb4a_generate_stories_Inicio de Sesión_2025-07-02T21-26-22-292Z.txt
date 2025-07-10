@@ -1,0 +1,251 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Inicio de sesión exitoso del agente",
+      "description": "Como un agente, quiero ingresar mi correo electrónico y contraseña correctos para acceder al panel principal de InmoFlow CRM y gestionar mis propiedades y clientes.",
+      "pageContext": "Inicio de Sesión",
+      "affectedFiles": [
+        "src/pages/LoginPage.jsx",
+        "src/components/forms/LoginForm.jsx",
+        "src/services/authService.js",
+        "src/store/slices/authSlice.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "LoginForm",
+            "from": "@/components/forms/LoginForm"
+          }
+        ]
+      },
+      "logicData": "El componente 'LoginForm' debe manejar el estado de los campos de email y contraseña. Al enviar, llamará a una función en 'authService.js' que realiza una petición POST a la API de autenticación. Si la respuesta es exitosa (200 OK), se debe guardar el token de autenticación (JWT) en el estado global (usando 'authSlice.js') y en el almacenamiento local/sesión, para luego redirigir al usuario a la ruta '/dashboard'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-gray-100 flex items-center justify-center min-h-screen",
+        "colorCoding": "Utilizar el color primario del CRM para el botón de 'Ingresar' y los estados de 'focus' de los inputs."
+      },
+      "acceptanceCriteria": [
+        "Dado que estoy en la página '/login'",
+        "Cuando ingreso un email y contraseña válidos y registrados",
+        "Y hago clic en el botón 'Ingresar'",
+        "Entonces soy redirigido a la página principal del dashboard ('/').",
+        "Y un token de autenticación se almacena de forma segura en el cliente.",
+        "Y mi nombre de usuario o avatar aparece en la barra de navegación principal."
+      ],
+      "additionalSuggestions": [
+        "Implementar un estado de 'cargando' en el botón 'Ingresar' para evitar envíos múltiples mientras la petición está en curso.",
+        "Considerar el uso de variables de entorno para la URL de la API de autenticación."
+      ],
+      "aiEditorTask": "Implementa la lógica de envío del formulario en `LoginForm.jsx` utilizando un hook personalizado `useAuth`. Este hook debe interactuar con `authService.js` para realizar la llamada a la API y despachar acciones al slice de Redux `authSlice` en caso de éxito o error.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Notificación de credenciales incorrectas",
+      "description": "Como un agente, quiero ver un mensaje de error claro y específico cuando ingreso un correo electrónico o contraseña incorrectos para poder corregir mi error e intentar de nuevo.",
+      "pageContext": "Inicio de Sesión",
+      "affectedFiles": [
+        "src/pages/LoginPage.jsx",
+        "src/components/forms/LoginForm.jsx",
+        "src/components/ui/Alert.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "Alert",
+            "type": "component",
+            "path": "src/components/ui/Alert.jsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Alert",
+            "from": "@/components/ui/Alert"
+          }
+        ]
+      },
+      "logicData": "Cuando 'authService.js' recibe una respuesta de error del servidor (ej. 401 Unauthorized), debe propagar este error. El componente 'LoginForm' debe capturar este error, actualizar su estado para reflejar el fallo y mostrar un componente 'Alert' con un mensaje de error genérico como 'Correo electrónico o contraseña incorrectos'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative",
+        "colorCoding": "El componente de alerta debe usar colores rojos para indicar un error, siguiendo las convenciones de UI."
+      },
+      "acceptanceCriteria": [
+        "Dado que estoy en la página '/login'",
+        "Cuando ingreso un email correcto pero una contraseña incorrecta (o viceversa)",
+        "Y hago clic en 'Ingresar'",
+        "Entonces permanezco en la página '/login'.",
+        "Y se muestra un mensaje de error claro y visible que dice 'Correo electrónico o contraseña incorrectos'.",
+        "Y los campos del formulario no se borran, excepto el de la contraseña por seguridad."
+      ],
+      "additionalSuggestions": [
+        "Implementar un límite de intentos de inicio de sesión para prevenir ataques de fuerza bruta, mostrando un captcha o bloqueando temporalmente la cuenta/IP.",
+        "El mensaje de error no debe especificar si fue el email o la contraseña lo que falló, por razones de seguridad."
+      ],
+      "aiEditorTask": "Crea el componente `Alert.jsx` que acepte props como `variant` ('error', 'success', 'warning') y `message`. Intégralo en `LoginForm.jsx` para que se muestre condicionalmente cuando el estado de autenticación tenga un error.",
+      "priority": "Alta",
+      "estimatedHours": 4
+    },
+    {
+      "title": "Acceso a la recuperación de contraseña",
+      "description": "Como un agente que olvidó su contraseña, quiero hacer clic en un enlace de '¿Olvidaste tu contraseña?' para ser redirigido a la página de restablecimiento y poder recuperar el acceso a mi cuenta.",
+      "pageContext": "Inicio de Sesión",
+      "affectedFiles": [
+        "src/components/forms/LoginForm.jsx",
+        "src/App.jsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "Link",
+            "from": "react-router-dom"
+          }
+        ]
+      },
+      "logicData": "En el componente 'LoginForm.jsx', se debe agregar un elemento de navegación (preferiblemente el componente 'Link' de 'react-router-dom') que apunte a la ruta '/forgot-password'. Esta nueva ruta debe ser definida en el enrutador principal del proyecto, ubicado en 'App.jsx'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "text-sm text-blue-600 hover:underline",
+        "colorCoding": "El enlace debe tener un color que lo haga identificable como un elemento clickeable, con un efecto 'hover' para mejorar la UX."
+      },
+      "acceptanceCriteria": [
+        "Dado que estoy en la página '/login'",
+        "Debo ver un enlace con el texto '¿Olvidaste tu contraseña?' o similar, claramente visible cerca del botón de 'Ingresar'.",
+        "Cuando hago clic en este enlace",
+        "Entonces soy redirigido a la ruta '/forgot-password'.",
+        "La URL del navegador se actualiza a `[dominio]/forgot-password`."
+      ],
+      "additionalSuggestions": [
+        "Asegurarse de que la nueva página '/forgot-password' exista, aunque sea un placeholder inicial, para evitar errores 404.",
+        "El enlace debe tener el foco manejable a través del teclado (tabulación) por accesibilidad."
+      ],
+      "aiEditorTask": "En `LoginForm.jsx`, añade un componente `Link` de `react-router-dom` debajo del botón de submit. El enlace debe tener el texto '¿Olvidaste tu contraseña?' y redirigir al usuario a la ruta `/forgot-password`.",
+      "priority": "Media",
+      "estimatedHours": 2
+    },
+    {
+      "title": "Validación de campos en tiempo real",
+      "description": "Como un agente, quiero recibir retroalimentación instantánea si dejo un campo en blanco o el formato del correo es inválido, para poder corregir los datos antes de enviar el formulario.",
+      "pageContext": "Inicio de Sesión",
+      "affectedFiles": [
+        "src/components/forms/LoginForm.jsx",
+        "src/components/ui/InputField.jsx",
+        "src/hooks/useForm.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "useForm",
+            "type": "hook",
+            "path": "src/hooks/useForm.js"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Crear un hook personalizado 'useForm.js' que maneje el estado, los cambios y la validación del formulario. El componente 'InputField.jsx' deberá ser modificado para aceptar y mostrar mensajes de error. 'LoginForm.jsx' usará 'useForm' para validar que el campo de email no esté vacío y que su contenido sea un email válido (usando una expresión regular simple), y que el campo de contraseña no esté vacío.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "border-red-500 text-red-600 text-xs mt-1",
+        "colorCoding": "Los bordes de los campos inválidos deben ser de color rojo. El texto de error debe ser pequeño y también de color rojo."
+      },
+      "acceptanceCriteria": [
+        "Dado que estoy en el formulario de login",
+        "Si muevo el foco fuera del campo de email y está vacío, debe aparecer un mensaje 'Este campo es requerido'.",
+        "Si escribo un texto que no es un email válido (ej: 'test'), debe aparecer 'Por favor, introduce un correo válido'.",
+        "Si muevo el foco fuera del campo de contraseña y está vacío, debe aparecer 'Este campo es requerido'.",
+        "El botón 'Ingresar' debe estar deshabilitado si alguno de los campos no es válido."
+      ],
+      "additionalSuggestions": [
+        "La validación debe activarse 'onChange' o 'onBlur' para una mejor experiencia de usuario.",
+        "Utilizar una librería como 'yup' o 'zod' junto con 'react-hook-form' para manejar validaciones complejas de forma más robusta."
+      ],
+      "aiEditorTask": "Refactoriza `LoginForm.jsx` para utilizar `react-hook-form`. Define un esquema de validación (con Zod o Yup) para los campos de email y contraseña. Conecta los campos al hook y muestra los mensajes de error correspondientes debajo de cada `InputField`.",
+      "priority": "Media",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Visualización de la contraseña ingresada",
+      "description": "Como un agente, quiero poder hacer clic en un ícono para mostrar u ocultar la contraseña que estoy escribiendo para asegurarme de que la he ingresado correctamente sin errores tipográficos.",
+      "pageContext": "Inicio de Sesión",
+      "affectedFiles": [
+        "src/components/ui/InputField.jsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "EyeIcon, EyeSlashIcon",
+            "from": "@heroicons/react/24/solid"
+          }
+        ]
+      },
+      "logicData": "Modificar el componente 'InputField.jsx' para que, si su 'type' es 'password', muestre un ícono de ojo al final del campo. Se necesita un estado local para controlar la visibilidad de la contraseña. Al hacer clic en el ícono, este estado cambia, y el 'type' del input HTML se alterna entre 'password' y 'text'. El ícono también debe cambiar para reflejar el estado actual (ojo abierto / ojo tachado).",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-400",
+        "colorCoding": "El ícono debe ser de un color gris sutil para no distraer, pero que cambie de color al hacer hover para indicar interactividad."
+      },
+      "acceptanceCriteria": [
+        "Dado que estoy en el campo de contraseña del formulario de login",
+        "Debo ver un ícono (ej: un ojo) dentro del campo, a la derecha.",
+        "Cuando hago clic en el ícono, los caracteres de la contraseña se vuelven visibles.",
+        "Y el ícono cambia a uno que represente la contraseña oculta (ej: un ojo tachado).",
+        "Cuando vuelvo a hacer clic en el ícono, los caracteres de la contraseña se ocultan de nuevo.",
+        "Y el ícono vuelve a su estado original."
+      ],
+      "additionalSuggestions": [
+        "Asegurarse de que el área clickeable del ícono sea lo suficientemente grande para ser fácil de usar en dispositivos móviles.",
+        "Utilizar una librería de íconos como Heroicons o Feather Icons para una apariencia profesional y consistente."
+      ],
+      "aiEditorTask": "Modifica el componente `InputField.jsx` para que acepte una prop booleana `isPassword`. Si es `true`, debe renderizar un botón con un ícono de ojo al final del input. Implementa un estado interno para alternar el tipo de input entre 'text' y 'password' al hacer clic en el botón.",
+      "priority": "Media",
+      "estimatedHours": 3
+    },
+    {
+      "title": "Mantener la sesión iniciada ('Recordarme')",
+      "description": "Como un agente que usa frecuentemente la plataforma, quiero marcar una casilla 'Recordarme' para que mi sesión se mantenga activa en este dispositivo y no tener que iniciar sesión cada vez que abro el navegador.",
+      "pageContext": "Inicio de Sesión",
+      "affectedFiles": [
+        "src/components/forms/LoginForm.jsx",
+        "src/services/authService.js",
+        "src/store/slices/authSlice.js",
+        "src/components/ui/Checkbox.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "Checkbox",
+            "type": "component",
+            "path": "src/components/ui/Checkbox.jsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Agregar un nuevo componente 'Checkbox.jsx' y usarlo en 'LoginForm.jsx'. El estado de este checkbox debe ser enviado junto con las credenciales en la llamada a 'authService.js'. Basado en este valor, al recibir un token de autenticación exitoso, 'authService.js' guardará el token en 'localStorage' (si 'Recordarme' está marcado) o en 'sessionStorage' (si no lo está). Una lógica en el arranque de la aplicación (posiblemente en 'App.jsx' o un layout principal) debe verificar la existencia del token en 'localStorage' para autenticar automáticamente al usuario.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex items-center space-x-2",
+        "colorCoding": "El checkbox debe usar el color primario del CRM cuando está marcado."
+      },
+      "acceptanceCriteria": [
+        "Dado que estoy en la página de login",
+        "Debo ver una casilla de verificación con la etiqueta 'Recordarme'.",
+        "Cuando ingreso mis credenciales, marco la casilla 'Recordarme' y hago clic en 'Ingresar'.",
+        "Y luego cierro el navegador y lo vuelvo a abrir",
+        "Entonces, al navegar a la aplicación, debo estar ya autenticado y ser redirigido al dashboard.",
+        "Si realizo el mismo proceso pero sin marcar la casilla, al cerrar y abrir el navegador debo ser redirigido a la página de login."
+      ],
+      "additionalSuggestions": [
+        "Por seguridad, el token almacenado en 'localStorage' debería tener una fecha de expiración más corta que un token de refresco, si se implementa ese patrón.",
+        "Asegurarse de que la funcionalidad de 'Cerrar Sesión' elimine el token de ambos, 'localStorage' y 'sessionStorage'."
+      ],
+      "aiEditorTask": "Crea un componente `Checkbox.jsx`. Incorpóralo en `LoginForm.jsx`. Modifica la lógica de `authService.js` para que la función de login acepte un booleano `rememberMe`. Si es `true`, guarda el token en `localStorage`; si es `false`, guárdalo en `sessionStorage`.",
+      "priority": "Baja",
+      "estimatedHours": 5
+    }
+  ]
+}
+```

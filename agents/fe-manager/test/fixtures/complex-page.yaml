@@ -1,0 +1,207 @@
+name: "Complex Page with Dependencies"
+description: "Test complex page generation with multiple interdependent components"
+input:
+  stories:
+    - id: "story-101"
+      title: "Create User Dashboard Header"
+      description: "As a user, I want a dashboard header with navigation and user profile"
+      priority: 90
+      complexity: 5
+      tags: ["header", "navigation", "profile"]
+      metadata:
+        pageId: "dashboard"
+        componentType: "header"
+        dependencies: []
+    - id: "story-102"
+      title: "Create Navigation Menu"
+      description: "As a user, I want a navigation menu with active states"
+      priority: 85
+      complexity: 4
+      tags: ["navigation", "menu", "routing"]
+      metadata:
+        pageId: "dashboard"
+        componentType: "navigation"
+        dependencies: ["story-101"]
+    - id: "story-103"
+      title: "Create User Profile Widget"
+      description: "As a user, I want to see my profile information in the header"
+      priority: 80
+      complexity: 3
+      tags: ["profile", "user", "widget"]
+      metadata:
+        pageId: "dashboard"
+        componentType: "widget"
+        dependencies: ["story-101"]
+    - id: "story-104"
+      title: "Create Dashboard Content Area"
+      description: "As a user, I want a main content area for dashboard widgets"
+      priority: 75
+      complexity: 6
+      tags: ["layout", "content", "widgets"]
+      metadata:
+        pageId: "dashboard"
+        componentType: "layout"
+        dependencies: ["story-101", "story-102"]
+  projectConfig:
+    framework: "react"
+    typescript: true
+    styling: "styled-components"
+    stateManagement: "zustand"
+  userContext:
+    theme: "corporate"
+    accessibility: true
+    responsive: true
+    i18n: true
+expected:
+  queues:
+    - name: "fe-draft"
+      jobCount: 4
+      jobs:
+        - name: "generate-component"
+          priority: 90
+          data:
+            storyId: "story-101"
+            componentType: "header"
+        - name: "generate-component"
+          priority: 85
+          data:
+            storyId: "story-102"
+            componentType: "navigation"
+        - name: "generate-component"
+          priority: 80
+          data:
+            storyId: "story-103"
+            componentType: "widget"
+        - name: "generate-component"
+          priority: 75
+          data:
+            storyId: "story-104"
+            componentType: "layout"
+    - name: "fe-logic"
+      jobCount: 4
+      jobs:
+        - name: "add-state-management"
+          priority: 85
+          delay: 500
+        - name: "add-routing-logic"
+          priority: 80
+          delay: 750
+        - name: "add-user-logic"
+          priority: 75
+          delay: 1000
+        - name: "add-layout-logic"
+          priority: 70
+          delay: 1250
+    - name: "fe-style"
+      jobCount: 4
+      jobs:
+        - name: "apply-theme"
+          priority: 80
+          delay: 1500
+        - name: "add-responsive-styles"
+          priority: 75
+          delay: 1750
+        - name: "style-components"
+          priority: 70
+          delay: 2000
+        - name: "add-animations"
+          priority: 65
+          delay: 2250
+    - name: "fe-a11y"
+      jobCount: 4
+      jobs:
+        - name: "add-aria-labels"
+          priority: 75
+          delay: 2500
+        - name: "add-keyboard-navigation"
+          priority: 70
+          delay: 2750
+        - name: "add-screen-reader-support"
+          priority: 65
+          delay: 3000
+        - name: "validate-contrast"
+          priority: 60
+          delay: 3250
+    - name: "fe-test"
+      jobCount: 4
+      jobs:
+        - name: "generate-unit-tests"
+          priority: 70
+          delay: 3500
+        - name: "generate-integration-tests"
+          priority: 65
+          delay: 3750
+        - name: "generate-e2e-tests"
+          priority: 60
+          delay: 4000
+        - name: "generate-accessibility-tests"
+          priority: 55
+          delay: 4250
+    - name: "fe-i18n"
+      jobCount: 2
+      jobs:
+        - name: "extract-text-keys"
+          priority: 50
+          delay: 4500
+        - name: "setup-translations"
+          priority: 45
+          delay: 4750
+  processing:
+    totalJobs: 22
+    estimatedDuration: 8000
+    dependencies:
+      - from: "story-101"
+        to: "story-102"
+        type: "blocks"
+      - from: "story-101"
+        to: "story-103"
+        type: "blocks"
+      - from: "story-101"
+        to: "story-104"
+        type: "blocks"
+      - from: "story-102"
+        to: "story-104"
+        type: "blocks"
+      - from: "fe-draft"
+        to: "fe-logic"
+        type: "blocks"
+      - from: "fe-logic"
+        to: "fe-style"
+        type: "enhances"
+      - from: "fe-style"
+        to: "fe-a11y"
+        type: "enhances"
+      - from: "fe-a11y"
+        to: "fe-test"
+        type: "requires"
+      - from: "fe-test"
+        to: "fe-i18n"
+        type: "enhances"
+  output:
+    components: [
+      "DashboardHeader",
+      "NavigationMenu", 
+      "UserProfileWidget",
+      "DashboardLayout"
+    ]
+    files: [
+      "components/DashboardHeader.tsx",
+      "components/NavigationMenu.tsx",
+      "components/UserProfileWidget.tsx",
+      "components/DashboardLayout.tsx",
+      "pages/Dashboard.tsx",
+      "__tests__/Dashboard.test.tsx",
+      "__tests__/DashboardHeader.test.tsx",
+      "__tests__/NavigationMenu.test.tsx",
+      "__tests__/UserProfileWidget.test.tsx",
+      "locales/en/dashboard.json",
+      "locales/es/dashboard.json"
+    ]
+    metrics:
+      tokensUsed: 8500
+      processingTime: 7800
+      componentsGenerated: 4
+      testsGenerated: 12
+      translationKeys: 25
+timeout: 15000
+tags: ["complex", "dashboard", "dependencies", "i18n", "responsive"]

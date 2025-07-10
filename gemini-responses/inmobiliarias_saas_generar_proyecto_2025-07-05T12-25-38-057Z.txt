@@ -1,0 +1,162 @@
+```json
+{
+  "softwares": [
+    {
+      "name": "VirtualStager Pro",
+      "description": "Una plataforma SaaS intuitiva que permite a los agentes inmobiliarios crear tours virtuales 3D inmersivos y amueblar digitalmente propiedades vacías en minutos. Elimina la necesidad de costosos servicios de staging físico y fotografía profesional, haciendo accesible la presentación de propiedades de alta gama.",
+      "targetClient": "Agentes inmobiliarios independientes y agencias de tamaño pequeño-mediano que buscan mejorar sus listados online, atraer a más compradores potenciales y diferenciarse de la competencia sin una gran inversión inicial.",
+      "pages": [
+        {
+          "name": "Dashboard",
+          "description": "Vista general de proyectos, estadísticas de visualización y acciones rápidas.",
+          "route": "/dashboard"
+        },
+        {
+          "name": "Proyectos",
+          "description": "Gestión de todos los tours y stagings. Crear, editar, compartir y eliminar proyectos.",
+          "route": "/projects"
+        },
+        {
+          "name": "Editor 3D",
+          "description": "Herramienta principal para subir fotos 360°, conectar espacios y añadir muebles de una librería virtual.",
+          "route": "/editor/{projectId}"
+        },
+        {
+          "name": "Librería de Activos",
+          "description": "Explorar y seleccionar muebles, decoración y texturas para el staging virtual.",
+          "route": "/library"
+        },
+        {
+          "name": "Facturación y Perfil",
+          "description": "Administrar el plan de suscripción, métodos de pago y datos del usuario.",
+          "route": "/settings/billing"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$25,000 - $45,000 USD",
+        "monthlyRevenuePotential": "$6,000 - $18,000 USD",
+        "breakEvenTime": "18-24 meses",
+        "marketSize": "Nicho en crecimiento dentro del mercado PropTech global.",
+        "competitionLevel": "Medio"
+      }
+    },
+    {
+      "name": "PropDocs Secure",
+      "description": "Software especializado en la gestión segura del ciclo de vida de documentos inmobiliarios. Automatiza la creación de contratos, facilita la firma electrónica (e-signature) y monitoriza fechas límite de cumplimiento para un proceso de cierre transparente y a prueba de auditorías.",
+      "targetClient": "Brokerages inmobiliarios y coordinadores de transacciones que gestionan un alto volumen de operaciones y necesitan minimizar riesgos legales, reducir el papeleo y optimizar la colaboración entre agentes, clientes y abogados.",
+      "pages": [
+        {
+          "name": "Panel de Transacciones",
+          "description": "Vista centralizada del estado de todos los documentos y plazos por cada operación.",
+          "route": "/dashboard"
+        },
+        {
+          "name": "Gestor de Operaciones",
+          "description": "Crear y administrar carpetas para cada propiedad, con sus documentos, participantes y checklist.",
+          "route": "/transactions"
+        },
+        {
+          "name": "Editor de Documentos",
+          "description": "Preparar documentos, añadir campos de firma y enviarlos a las partes interesadas.",
+          "route": "/docs/edit/{docId}"
+        },
+        {
+          "name": "Plantillas",
+          "description": "Crear y gestionar plantillas de contratos de venta, alquiler, exclusividad, etc.",
+          "route": "/templates"
+        },
+        {
+          "name": "Centro de Cumplimiento",
+          "description": "Checklists dinámicos para asegurar que todos los documentos y pasos legales se completen a tiempo.",
+          "route": "/compliance"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$20,000 - $35,000 USD",
+        "monthlyRevenuePotential": "$10,000 - $30,000 USD",
+        "breakEvenTime": "12-20 meses",
+        "marketSize": "Grande, ya que cada transacción inmobiliaria requiere gestión documental.",
+        "competitionLevel": "Alto"
+      }
+    },
+    {
+      "name": "RealtyOS",
+      "description": "Un sistema operativo todo-en-uno para equipos inmobiliarios que combina un CRM especializado, un gestor de pipeline de ventas (estilo Kanban), seguimiento de comisiones y automatización de marketing. Centraliza la operación para mejorar la eficiencia y la conversión de leads.",
+      "targetClient": "Equipos inmobiliarios en crecimiento y brokerages medianos que buscan estandarizar sus procesos, mejorar la visibilidad del rendimiento del equipo y automatizar tareas repetitivas de seguimiento y marketing.",
+      "pages": [
+        {
+          "name": "Dashboard Personal",
+          "description": "Resumen de leads, tareas del día, citas y KPIs de rendimiento del agente.",
+          "route": "/dashboard"
+        },
+        {
+          "name": "Contactos (CRM)",
+          "description": "Base de datos central de clientes, leads y colaboradores con historial de interacciones.",
+          "route": "/contacts"
+        },
+        {
+          "name": "Pipeline de Ventas",
+          "description": "Tablero visual para arrastrar y soltar operaciones a través de las fases de venta.",
+          "route": "/pipeline"
+        },
+        {
+          "name": "Automatización",
+          "description": "Configurar campañas de email automáticas para nuevos leads o clientes pasados.",
+          "route": "/marketing/automation"
+        },
+        {
+          "name": "Reportes y Comisiones",
+          "description": "Informes de rendimiento, pronóstico de comisiones y efectividad de fuentes de leads.",
+          "route": "/reports"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$30,000 - $55,000 USD",
+        "monthlyRevenuePotential": "$12,000 - $50,000 USD",
+        "breakEvenTime": "15-24 meses",
+        "marketSize": "Muy grande, pero con una competencia muy establecida.",
+        "competitionLevel": "Alto"
+      }
+    },
+    {
+      "name": "LeadFlow AI",
+      "description": "Plataforma inteligente que se conecta a todas las fuentes de leads (portales, web, redes sociales), los califica usando IA para predecir su potencial de conversión y los nutre con un chatbot conversacional. Agenda visitas y califica prospectos automáticamente, 24/7.",
+      "targetClient": "Agentes y equipos con alto volumen de leads que pierden oportunidades por falta de tiempo para el seguimiento inmediato. Buscan enfocar sus esfuerzos únicamente en los prospectos más calificados y listos para actuar.",
+      "pages": [
+        {
+          "name": "Bandeja de Leads",
+          "description": "Inbox unificado con todos los leads, su puntuación (score) y el historial de conversación del AI.",
+          "route": "/leads"
+        },
+        {
+          "name": "Configurador de IA",
+          "description": "Interfaz visual para personalizar los guiones del chatbot y los criterios de calificación.",
+          "route": "/ai-config"
+        },
+        {
+          "name": "Integraciones",
+          "description": "Conectar con Zillow, Idealista, Facebook Lead Ads, formularios web y otras fuentes de leads.",
+          "route": "/integrations"
+        },
+        {
+          "name": "Calendario",
+          "description": "Vista del calendario con todas las citas y visitas agendadas automáticamente por la IA.",
+          "route": "/calendar"
+        },
+        {
+          "name": "Analíticas",
+          "description": "Reportes sobre la calidad de leads por fuente, tasas de conversión y rendimiento del chatbot.",
+          "route": "/analytics"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$28,000 - $50,000 USD",
+        "monthlyRevenuePotential": "$8,000 - $25,000 USD",
+        "breakEvenTime": "16-28 meses",
+        "marketSize": "Medio-grande, con alto potencial de crecimiento.",
+        "competitionLevel": "Medio"
+      }
+    }
+  ]
+}
+```

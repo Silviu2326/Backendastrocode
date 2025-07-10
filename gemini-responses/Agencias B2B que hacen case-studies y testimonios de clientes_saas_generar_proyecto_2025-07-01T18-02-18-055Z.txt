@@ -1,0 +1,113 @@
+```json
+{
+  "softwares": [
+    {
+      "name": "CaseFlow HQ",
+      "description": "Plataforma todo-en-uno que gestiona el ciclo de vida completo de los case studies y testimonios. Centraliza la comunicación, programación, transcripción con IA, flujo de aprobación y la biblioteca de activos finales.",
+      "targetClient": "Agencias B2B medianas (5-50 empleados) que gestionan múltiples proyectos de case studies simultáneamente. Su principal problema es la desorganización de procesos al usar múltiples herramientas (email, Drive, Calendly, Otter.ai) y la falta de visibilidad del estado de cada proyecto.",
+      "pages": [
+        {
+          "name": "Dashboard",
+          "description": "Vista general de todos los proyectos, tareas pendientes, y estados de aprobación.",
+          "route": "/dashboard"
+        },
+        {
+          "name": "Proyectos",
+          "description": "Listado y detalle de cada proyecto de case study, con su timeline, participantes y archivos asociados.",
+          "route": "/projects"
+        },
+        {
+          "name": "Estudio de Contenido",
+          "description": "Editor colaborativo con transcripción automática de entrevistas, resaltado de citas clave por IA y control de versiones.",
+          "route": "/projects/{id}/studio"
+        },
+        {
+          "name": "Portal de Cliente",
+          "description": "Página de marca blanca para que los clientes finales revisen y aprueben los borradores con comentarios.",
+          "route": "/review/{token}"
+        },
+        {
+          "name": "Biblioteca de Activos",
+          "description": "Repositorio centralizado y etiquetable de todos los case studies y testimonios finales, fácilmente compartible.",
+          "route": "/library"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$70,000 - $130,000 USD",
+        "monthlyRevenuePotential": "$15,000 - $60,000 USD",
+        "breakEvenTime": "18-24 meses",
+        "marketSize": "Nicho específico con alto valor. Miles de agencias de marketing de contenidos y especializadas en B2B.",
+        "competitionLevel": "Medio"
+      }
+    },
+    {
+      "name": "Vocalize",
+      "description": "SaaS enfocado en la recolección de testimonios en video de alta calidad de forma asíncrona. La agencia envía un enlace brandeado con preguntas guía, y el cliente graba su testimonio desde cualquier dispositivo.",
+      "targetClient": "Freelancers y agencias B2B pequeñas (1-10 empleados) que necesitan una solución rápida y económica para obtener videos profesionales sin la logística de una grabación en vivo. Valoran la simplicidad y la rapidez.",
+      "pages": [
+        {
+          "name": "Campañas",
+          "description": "Crear y gestionar campañas de recolección de testimonios, personalizando la página de grabación.",
+          "route": "/campaigns"
+        },
+        {
+          "name": "Editor de Campaña",
+          "description": "Personalizar logo, colores, preguntas y mensajes para la página pública de grabación.",
+          "route": "/campaigns/{id}/edit"
+        },
+        {
+          "name": "Videoteca",
+          "description": "Ver, recortar, añadir subtítulos automáticos y descargar los videos recolectados.",
+          "route": "/videos"
+        },
+        {
+          "name": "Página de Grabación Pública",
+          "description": "La interfaz que ve el cliente final para leer las preguntas y grabar su testimonio.",
+          "route": "/c/{campaign_slug}"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$25,000 - $50,000 USD",
+        "monthlyRevenuePotential": "$8,000 - $30,000 USD",
+        "breakEvenTime": "10-16 meses",
+        "marketSize": "Medio. Atrae a agencias y directamente a equipos de marketing de empresas SaaS y B2B.",
+        "competitionLevel": "Alto"
+      }
+    },
+    {
+      "name": "NarrativeAI",
+      "description": "Herramienta de IA que analiza transcripciones de entrevistas para extraer automáticamente métricas clave, citas impactantes y arcos narrativos. Genera un primer borrador estructurado del case study para reducir el tiempo de redacción.",
+      "targetClient": "Redactores y estrategas de contenido dentro de agencias B2B. Su mayor cuello de botella es el análisis manual de horas de grabación para encontrar los 'golden nuggets'. Buscan optimizar su flujo de trabajo creativo.",
+      "pages": [
+        {
+          "name": "Panel de Análisis",
+          "description": "Dashboard con todos los proyectos de análisis, mostrando el estado de cada uno.",
+          "route": "/dashboard"
+        },
+        {
+          "name": "Carga de Entrevista",
+          "description": "Interfaz para subir archivos de audio o video y comenzar el proceso de transcripción y análisis.",
+          "route": "/upload"
+        },
+        {
+          "name": "Informe de Insights",
+          "description": "Visualización interactiva de la transcripción, con temas, métricas, citas y sentimiento detectados por la IA.",
+          "route": "/report/{id}"
+        },
+        {
+          "name": "Constructor de Historias",
+          "description": "Editor tipo 'drag-and-drop' para ensamblar el borrador del case study usando los fragmentos sugeridos por la IA.",
+          "route": "/report/{id}/builder"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$45,000 - $80,000 USD",
+        "monthlyRevenuePotential": "$10,000 - $40,000 USD",
+        "breakEvenTime": "14-20 meses",
+        "marketSize": "Nicho altamente especializado, con potencial de expansión a otros tipos de redacción de contenido.",
+        "competitionLevel": "Bajo"
+      }
+    }
+  ]
+}
+```

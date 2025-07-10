@@ -1,0 +1,286 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Edición del Perfil Profesional",
+      "description": "Como profesional, quiero editar la información de mi perfil público para mantener mis datos actualizados y atraer a más clientes mostrando mi especialidad, experiencia y tarifas correctas.",
+      "pageContext": "Panel del Profesional",
+      "affectedFiles": [
+        "src/features/panel-del-profesional/PaneldelProfesionalPage.tsx",
+        "src/features/panel-del-profesional/hooks/usePaneldelProfesional.ts",
+        "src/features/panel-del-profesional/api.ts",
+        "src/features/panel-del-profesional/components/ProfileForm.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ProfileForm",
+            "type": "component",
+            "path": "src/features/panel-del-profesional/components/ProfileForm.jsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El hook `usePaneldelProfesional` debe incluir un estado para manejar los datos del formulario del perfil. Al cargar la página, se debe realizar una llamada a la API (GET /api/professionals/me) para obtener los datos actuales del profesional y rellenar el formulario. Al enviar el formulario, se debe realizar una llamada a la API (PUT /api/professionals/me) con los datos actualizados. Se necesita manejar el estado de carga y los mensajes de éxito/error.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-6 bg-white rounded-lg shadow-md space-y-4",
+        "colorCoding": "Utilizar colores primarios de la marca para botones de acción (guardar) y colores neutros para los campos del formulario."
+      },
+      "acceptanceCriteria": [
+        "Al entrar en la sección de 'Mi Perfil', veo un formulario con mis datos actuales (nombre, foto de perfil, biografía, especialidades, tarifas, etc.).",
+        "Puedo modificar cualquiera de los campos editables del formulario.",
+        "Puedo subir una nueva foto de perfil.",
+        "Al hacer clic en 'Guardar Cambios', los nuevos datos se persisten en el sistema.",
+        "Recibo una notificación visual (toast/snackbar) de que los cambios se han guardado correctamente.",
+        "Si hay un error al guardar, se muestra un mensaje de error claro."
+      ],
+      "additionalSuggestions": [
+        "Añadir validación en tiempo real para campos como el correo electrónico o el número de teléfono.",
+        "Implementar un sistema de 'previsualización' para ver cómo quedaría el perfil público antes de guardar los cambios."
+      ],
+      "aiEditorTask": "Crea el componente `ProfileForm.jsx` dentro de `src/features/panel-del-profesional/components/`. Debe contener campos para biografía (textarea), especialidades (input con tags), y tarifas (input numérico). Integra la lógica para obtener y enviar datos desde el hook `usePaneldelProfesional`.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Gestión de Disponibilidad en el Calendario",
+      "description": "Como profesional, quiero configurar mis horarios de disponibilidad en un calendario visual para controlar exactamente cuándo los clientes pueden reservar citas conmigo y así gestionar mi tiempo de forma eficiente.",
+      "pageContext": "Panel del Profesional",
+      "affectedFiles": [
+        "src/features/panel-del-profesional/PaneldelProfesionalPage.tsx",
+        "src/features/panel-del-profesional/hooks/usePaneldelProfesional.ts",
+        "src/features/panel-del-profesional/api.ts",
+        "src/features/panel-del-profesional/components/AvailabilityCalendar.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AvailabilityCalendar",
+            "type": "component",
+            "path": "src/features/panel-del-profesional/components/AvailabilityCalendar.jsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El componente `AvailabilityCalendar` debe interactuar con una librería de calendarios (ej. `react-big-calendar` o `fullcalendar`). El hook `usePaneldelProfesional` debe obtener los huecos de disponibilidad y las citas ya reservadas (GET /api/professionals/me/availability). Al hacer clic en un hueco, se cambia su estado (disponible/no disponible) y se envía la actualización a la API (POST /api/professionals/me/availability).",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-4",
+        "colorCoding": "Huecos disponibles en verde claro, huecos no disponibles en gris, citas ya reservadas en el color primario de la app."
+      },
+      "acceptanceCriteria": [
+        "Veo un calendario (semanal o mensual) en mi panel.",
+        "Puedo hacer clic en franjas horarias para marcarlas como 'Disponibles'.",
+        "Puedo hacer clic en franjas ya marcadas para quitarlas de mi disponibilidad.",
+        "Las citas ya confirmadas por clientes aparecen en el calendario como bloques no editables.",
+        "Hay un botón de 'Guardar Disponibilidad' que persiste mi configuración.",
+        "El sistema debe prevenir marcar como disponibles horarios pasados."
+      ],
+      "additionalSuggestions": [
+        "Permitir configurar horarios recurrentes (ej. 'todos los lunes de 9 a 12').",
+        "Añadir una opción para definir 'bloqueos' o vacaciones, deshabilitando la disponibilidad para días completos."
+      ],
+      "aiEditorTask": "Implementa el componente `AvailabilityCalendar.jsx`. Usa una librería de calendario e integra la lógica del hook `usePaneldelProfesional` para mostrar, añadir y eliminar huecos de disponibilidad. Las interacciones deben llamar a los métodos correspondientes de la API.",
+      "priority": "Alta",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Visualización y Gestión de Reservas",
+      "description": "Como profesional, quiero ver una lista de mis reservas próximas y pasadas para tener un control claro de mi agenda, prepararme para las sesiones y llevar un registro de mi historial de citas.",
+      "pageContext": "Panel del Profesional",
+      "affectedFiles": [
+        "src/features/panel-del-profesional/PaneldelProfesionalPage.tsx",
+        "src/features/panel-del-profesional/hooks/usePaneldelProfesional.ts",
+        "src/features/panel-del-profesional/api.ts",
+        "src/features/panel-del-profesional/components/ReservationsTable.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ReservationsTable",
+            "type": "component",
+            "path": "src/features/panel-del-profesional/components/ReservationsTable.jsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Table",
+            "from": "src/components/Table.jsx"
+          }
+        ]
+      },
+      "logicData": "El hook `usePaneldelProfesional` obtendrá la lista de reservas (GET /api/professionals/me/reservations?filter=upcoming). Se necesitan filtros para cambiar entre 'Próximas', 'Pasadas' y 'Canceladas'. La tabla mostrará datos clave: nombre del cliente, fecha, hora, estado y un menú de acciones.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "w-full text-left border-collapse",
+        "colorCoding": "Usar etiquetas de colores para el estado de la reserva (ej. azul para 'Confirmada', verde para 'Completada', rojo para 'Cancelada')."
+      },
+      "acceptanceCriteria": [
+        "Veo una tabla con mis próximas reservas por defecto.",
+        "La tabla muestra el nombre del cliente, fecha/hora y el estado de la reserva.",
+        "Puedo usar pestañas o un selector para filtrar las reservas por 'Próximas', 'Pasadas' y 'Canceladas'.",
+        "Cada fila de una reserva próxima tiene una acción para 'Añadir enlace de videollamada'.",
+        "Las reservas pasadas muestran si el cliente ha dejado una valoración."
+      ],
+      "additionalSuggestions": [
+        "Implementar paginación para la lista de reservas pasadas.",
+        "Añadir una función de búsqueda para encontrar una reserva por nombre de cliente."
+      ],
+      "aiEditorTask": "Crea el componente `ReservationsTable.jsx` que utilice el componente genérico `Table.jsx`. Implementa la lógica de fetching y filtrado en `usePaneldelProfesional` y pásala como props. Añade botones de acción en la última columna de la tabla.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Añadir Enlace de Videollamada a una Reserva",
+      "description": "Como profesional, quiero añadir un enlace de videollamada a una reserva confirmada para que el cliente pueda acceder fácilmente a nuestra sesión online en el momento de la cita.",
+      "pageContext": "Panel del Profesional",
+      "affectedFiles": [
+        "src/features/panel-del-profesional/components/ReservationsTable.jsx",
+        "src/features/panel-del-profesional/components/AddVideoLinkModal.jsx",
+        "src/features/panel-del-profesional/hooks/usePaneldelProfesional.ts",
+        "src/features/panel-del-profesional/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AddVideoLinkModal",
+            "type": "component",
+            "path": "src/features/panel-del-profesional/components/AddVideoLinkModal.jsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "Desde la `ReservationsTable`, un botón abrirá el `AddVideoLinkModal`, pasándole el ID de la reserva. El modal contendrá un campo de texto para el enlace. Al guardar, se enviará una petición a la API (PATCH /api/reservations/{id}) con el enlace. El hook `usePaneldelProfesional` gestionará la visibilidad del modal y la lógica de la petición.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center",
+        "colorCoding": "Modal con fondo blanco, overlay oscuro y botón de acción principal con el color de la marca."
+      },
+      "acceptanceCriteria": [
+        "En la lista de reservas próximas, cada una tiene un botón o icono para 'Añadir Enlace'.",
+        "Al hacer clic, se abre un modal con un campo para pegar la URL.",
+        "El campo de texto debe validar que lo introducido es una URL válida.",
+        "Al guardar, el modal se cierra y el enlace se asocia a la reserva.",
+        "Una vez añadido, el enlace es visible en los detalles de la reserva y el botón cambia a 'Editar Enlace'.",
+        "El cliente debe recibir una notificación (email o en la app) con el enlace de la sesión."
+      ],
+      "additionalSuggestions": [
+        "Integrar con servicios como Google Meet o Zoom para generar el enlace automáticamente.",
+        "Añadir un botón para copiar el enlace al portapapeles."
+      ],
+      "aiEditorTask": "Crea el componente `AddVideoLinkModal.jsx`. Conéctalo para que se abra desde el componente `ReservationsTable.jsx`. Implementa la lógica en `usePaneldelProfesional` para gestionar el estado del modal y la llamada a la API para actualizar la reserva con el nuevo enlace.",
+      "priority": "Media",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Consulta de Estadísticas de Actividad",
+      "description": "Como profesional, quiero acceder a un panel con estadísticas clave sobre mi actividad para entender el rendimiento de mi consulta, como ingresos, número de sesiones y valoraciones, y así tomar decisiones informadas.",
+      "pageContext": "Panel del Profesional",
+      "affectedFiles": [
+        "src/features/panel-del-profesional/PaneldelProfesionalPage.tsx",
+        "src/features/panel-del-profesional/components/StatsDashboard.jsx",
+        "src/features/panel-del-profesional/hooks/usePaneldelProfesional.ts",
+        "src/features/panel-del-profesional/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "StatsDashboard",
+            "type": "component",
+            "path": "src/features/panel-del-profesional/components/StatsDashboard.jsx"
+          },
+          {
+            "name": "StatCard",
+            "type": "component",
+            "path": "src/features/panel-del-profesional/components/StatCard.jsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Se debe crear un nuevo endpoint en la API (ej. GET /api/professionals/me/stats) que devuelva datos agregados. El hook `usePaneldelProfesional` llamará a este endpoint. El componente `StatsDashboard` mostrará estos datos en componentes `StatCard` individuales para métricas como 'Ingresos del mes', 'Sesiones completadas', 'Valoración media' y 'Nuevos clientes'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-1 md:grid-cols-3 gap-4",
+        "colorCoding": "Cada StatCard puede tener un icono y un color de acento diferente para distinguir visualmente las métricas."
+      },
+      "acceptanceCriteria": [
+        "En mi panel, hay una sección de 'Estadísticas'.",
+        "Puedo ver una tarjeta con mis ingresos totales del mes en curso.",
+        "Puedo ver una tarjeta con el número total de sesiones completadas este mes.",
+        "Puedo ver una tarjeta con mi puntuación de valoración media de todos los tiempos.",
+        "Hay un selector de rango de fechas (ej. 'Últimos 30 días', 'Este mes', 'Este año') que actualiza las estadísticas mostradas."
+      ],
+      "additionalSuggestions": [
+        "Añadir gráficos simples para mostrar la evolución de ingresos o sesiones a lo largo del tiempo.",
+        "Incluir una métrica sobre la tasa de conversión (visitas al perfil vs. reservas)."
+      ],
+      "aiEditorTask": "Define un nuevo endpoint en `api.ts` para las estadísticas. Implementa la lógica de fetching en `usePaneldelProfesional`. Crea los componentes `StatsDashboard.jsx` y `StatCard.jsx` para visualizar los datos de forma clara y atractiva.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Gestión del Plan de Suscripción",
+      "description": "Como profesional, quiero ver mi plan de suscripción actual y tener un acceso fácil para gestionarlo, para asegurarme de que mi cuenta está activa y poder cambiar de plan si mis necesidades cambian.",
+      "pageContext": "Panel del Profesional",
+      "affectedFiles": [
+        "src/features/panel-del-profesional/PaneldelProfesionalPage.tsx",
+        "src/features/panel-del-profesional/components/SubscriptionCard.jsx",
+        "src/features/panel-del-profesional/hooks/usePaneldelProfesional.ts",
+        "src/features/panel-del-profesional/api.ts",
+        "src/features/pgina-de-planes-y-suscripciones/PáginadePlanesySuscripcionesPage.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "SubscriptionCard",
+            "type": "component",
+            "path": "src/features/panel-del-profesional/components/SubscriptionCard.jsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El hook `usePaneldelProfesional` obtendrá el estado de la suscripción actual del profesional (GET /api/professionals/me/subscription). El componente `SubscriptionCard` mostrará esta información: nombre del plan, estado (Activo, Cancelado, etc.) y fecha de próxima facturación. Incluirá un botón/enlace que redirija al usuario a la ruta `/pagina-de-planes-y-suscripciones` para realizar cambios.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-4 bg-gray-50 rounded-lg border",
+        "colorCoding": "Usar colores sutiles. El estado de la suscripción puede destacarse con un color (verde para 'Activo', amarillo para 'Próximo a vencer')."
+      },
+      "acceptanceCriteria": [
+        "En una sección de mi panel, veo un resumen de mi suscripción.",
+        "El resumen muestra claramente el nombre de mi plan actual (ej. 'Plan Básico', 'Plan Pro').",
+        "Se muestra la fecha del próximo pago o de expiración.",
+        "El estado de la suscripción (ej. 'Activa') es visible.",
+        "Hay un botón de 'Gestionar Suscripción' que me lleva a la página de planes y suscripciones."
+      ],
+      "additionalSuggestions": [
+        "Mostrar un resumen de las características clave del plan actual (ej. 'Hasta 20 clientes', 'Soporte prioritario').",
+        "Si la suscripción está vencida o hay un problema de pago, mostrar un aviso prominente."
+      ],
+      "aiEditorTask": "Crea el componente `SubscriptionCard.jsx`. Usa el hook `usePaneldelProfesional` para obtener los datos de la suscripción del usuario. Muestra la información clave y añade un `Link` o botón que navegue a la página de gestión de planes (`PáginadePlanesySuscripcionesPage`).",
+      "priority": "Baja",
+      "estimatedHours": 4
+    }
+  ]
+}
+```

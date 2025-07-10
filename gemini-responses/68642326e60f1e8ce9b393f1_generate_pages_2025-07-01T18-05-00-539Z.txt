@@ -1,0 +1,76 @@
+```json
+{
+  "pages": [
+    {
+      "name": "Panel de Control Principal",
+      "description": "Vista centralizada para el preparador/academia tras iniciar sesión. Muestra un resumen de la actividad reciente: últimos opositores inscritos, progreso general de los grupos, próximos simulacros y notificaciones importantes.",
+      "route": "/dashboard",
+      "isEssential": true,
+      "priority": 1
+    },
+    {
+      "name": "Inicio de Sesión y Registro",
+      "description": "Formulario para que los usuarios (preparadores, administradores, opositores) inicien sesión. También permite que nuevas academias se registren e inicien su suscripción.",
+      "route": "/login",
+      "isEssential": true,
+      "priority": 1
+    },
+    {
+      "name": "Gestión de Temarios",
+      "description": "Área para crear, subir y organizar el material de estudio. Incluye funcionalidades clave para el control de versiones de los temas, permitiendo a los preparadores actualizar el contenido de forma centralizada.",
+      "route": "/temarios",
+      "isEssential": true,
+      "priority": 2
+    },
+    {
+      "name": "Gestión de Opositores",
+      "description": "Listado completo de todos los opositores gestionados. Permite buscar, filtrar y ordenar. Desde aquí se puede acceder al perfil detallado de cada opositor para ver su progreso.",
+      "route": "/opositores",
+      "isEssential": true,
+      "priority": 2
+    },
+    {
+      "name": "Creador de Simulacros",
+      "description": "Herramienta para crear, configurar y programar simulacros de examen. Permite definir preguntas, tiempos, puntuaciones y asignarlos a opositores o grupos específicos. También muestra los resultados históricos.",
+      "route": "/simulacros",
+      "isEssential": true,
+      "priority": 3
+    },
+    {
+      "name": "Página de Aterrizaje (Landing)",
+      "description": "Página pública principal. Presenta OpoGestor 360, sus características, beneficios para academias y preparadores, y llamadas a la acción para registrarse o solicitar una demo.",
+      "route": "/",
+      "isEssential": true,
+      "priority": 4
+    },
+    {
+      "name": "Detalle y Progreso del Opositor",
+      "description": "Vista individual y detallada de un opositor. Muestra estadísticas de progreso por tema, resultados de simulacros, actividad y un canal de comunicación directo o de notas internas.",
+      "route": "/opositores/{id}",
+      "isEssential": true,
+      "priority": 5
+    },
+    {
+      "name": "Planes y Precios",
+      "description": "Página pública que detalla los diferentes niveles de suscripción, las características incluidas en cada plan y los precios. Facilita la elección y el proceso de alta para nuevas academias.",
+      "route": "/precios",
+      "isEssential": true,
+      "priority": 6
+    },
+    {
+      "name": "Centro de Comunicación",
+      "description": "Plataforma de mensajería o tablón de anuncios para enviar comunicaciones masivas a todos los opositores, a grupos específicos o mensajes directos.",
+      "route": "/comunicacion",
+      "isEssential": false,
+      "priority": 7
+    },
+    {
+      "name": "Configuración de la Cuenta/Academia",
+      "description": "Panel para que el administrador de la academia gestione su perfil, datos de facturación, suscripción, y administre los usuarios (otros preparadores) con acceso a la plataforma.",
+      "route": "/configuracion",
+      "isEssential": true,
+      "priority": 8
+    }
+  ]
+}
+```

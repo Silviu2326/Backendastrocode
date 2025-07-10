@@ -1,0 +1,280 @@
+# Frontend Logic Implementation
+
+You are an expert React developer tasked with implementing the business logic for a React component based on a user story and existing component draft.
+
+## Context
+
+### User Story
+**ID:** <%= userStory.id %>
+**Title:** <%= userStory.title %>
+**Description:** <%= userStory.description %>
+
+**Acceptance Criteria:**
+<% userStory.acceptanceCriteria.forEach(criteria => { %>
+- <%= criteria %>
+<% }); %>
+
+**Priority:** <%= userStory.priority %> | **Complexity:** <%= userStory.complexity %>
+**Tags:** <%= userStory.tags.join(', ') %>
+
+<% if (userStory.epic) { %>
+### Epic Context
+**Epic:** <%= userStory.epic.title %>
+**Description:** <%= userStory.epic.description %>
+<% } %>
+
+### Component Information
+**Name:** <%= component.name %>
+**Type:** <%= component.type %>
+**Path:** <%= component.path %>
+
+<% if (component.props && Object.keys(component.props).length > 0) { %>
+**Props Interface:**
+<% Object.entries(component.props).forEach(([prop, type]) => { %>
+- `<%= prop %>`: <%= type %>
+<% }); %>
+<% } %>
+
+### Project Configuration
+**Framework:** <%= project.framework %>
+**TypeScript:** <%= project.typescript ? 'Yes' : 'No' %>
+**Styling:** <%= project.styling %>
+<% if (project.stateManagement) { %>
+**State Management:** <%= project.stateManagement %>
+<% } %>
+<% if (project.routing) { %>
+**Routing:** <%= project.routing %>
+<% } %>
+
+<% if (context && context.apiEndpoints && context.apiEndpoints.length > 0) { %>
+### Available API Endpoints
+<% context.apiEndpoints.forEach(endpoint => { %>
+- <%= endpoint %>
+<% }); %>
+<% } %>
+
+<% if (context && context.existingComponents && context.existingComponents.length > 0) { %>
+### Available Components
+<% context.existingComponents.forEach(comp => { %>
+- <%= comp %>
+<% }); %>
+<% } %>
+
+<% if (context && context.relatedStories && context.relatedStories.length > 0) { %>
+### Related Stories
+<% context.relatedStories.forEach(story => { %>
+- **<%= story.title %>** (ID: <%= story.id %>)
+<% }); %>
+<% } %>
+
+## Instructions
+
+Implement the complete business logic for the React component. Focus on:
+
+### 1. State Management
+<% if (project.stateManagement === 'redux') { %>
+- Implement Redux Toolkit slices and actions
+- Create proper selectors for data access
+- Handle async operations with createAsyncThunk
+- Implement proper error and loading states
+<% } else if (project.stateManagement === 'zustand') { %>
+- Create Zustand stores for component state
+- Implement actions and state updates
+- Handle async operations properly
+- Manage loading and error states
+<% } else if (project.stateManagement === 'context') { %>
+- Implement React Context providers and consumers
+- Create custom hooks for context access
+- Handle state updates and side effects
+- Manage complex state with useReducer if needed
+<% } else { %>
+- Use useState for local component state
+- Implement useReducer for complex state logic
+- Handle state updates and side effects
+- Manage loading and error states
+<% } %>
+
+### 2. Data Fetching and API Integration
+- Implement data fetching with proper error handling
+- Use appropriate hooks (useEffect, useQuery, etc.)
+- Handle loading states and user feedback
+- Implement caching strategies where appropriate
+- Handle API errors gracefully
+- Implement retry mechanisms for failed requests
+
+### 3. Event Handling
+- Implement all user interaction handlers
+- Handle form submissions and validations
+- Implement proper event delegation
+- Handle keyboard and mouse events
+- Implement debouncing/throttling where needed
+
+### 4. Business Logic Implementation
+- Implement all business rules from acceptance criteria
+- Handle data transformations and calculations
+- Implement validation logic
+- Handle edge cases and error scenarios
+- Implement proper data flow between components
+
+### 5. Side Effects Management
+- Use useEffect for side effects properly
+- Implement cleanup functions to prevent memory leaks
+- Handle component lifecycle events
+- Implement proper dependency arrays
+- Handle async operations and race conditions
+
+### 6. Performance Optimization
+- Implement memoization with useMemo and useCallback
+- Use React.memo for component optimization
+- Implement proper dependency management
+- Avoid unnecessary re-renders
+- Implement virtualization for large lists if needed
+
+### 7. Error Handling
+- Implement comprehensive error boundaries
+- Handle async operation errors
+- Provide meaningful error messages to users
+- Implement fallback UI for error states
+- Log errors appropriately for debugging
+
+### 8. Form Handling (if applicable)
+- Implement form state management
+- Add field validation and error display
+- Handle form submission and reset
+- Implement proper form accessibility
+- Handle file uploads if needed
+
+### 9. Navigation and Routing (if applicable)
+<% if (project.routing === 'react-router') { %>
+- Implement React Router navigation
+- Handle route parameters and query strings
+- Implement protected routes if needed
+- Handle navigation guards and redirects
+<% } else if (project.routing === 'next-router') { %>
+- Implement Next.js router navigation
+- Handle dynamic routes and parameters
+- Implement client-side navigation
+- Handle route prefetching
+<% } else if (project.routing === 'vue-router') { %>
+- Implement Vue Router navigation
+- Handle route parameters and guards
+- Implement nested routing if needed
+<% } %>
+
+### 10. Real-time Features (if applicable)
+- Implement WebSocket connections
+- Handle real-time data updates
+- Implement proper connection management
+- Handle reconnection logic
+
+## Code Quality Requirements
+
+### TypeScript Implementation
+- Define comprehensive type interfaces
+- Use proper generic types where applicable
+- Implement type guards for runtime validation
+- Use discriminated unions for complex state
+- Avoid `any` types - use proper typing
+
+### Hook Implementation
+- Create custom hooks for reusable logic
+- Implement proper hook dependencies
+- Handle hook cleanup and memory management
+- Follow hooks rules and best practices
+
+### Testing Considerations
+- Structure code for easy unit testing
+- Implement testable functions and logic
+- Add proper data attributes for testing
+- Consider mocking strategies for external dependencies
+
+## Output Format
+
+Provide the complete implementation with the following structure:
+
+### Main Component Logic
+```typescript
+// Main component implementation with business logic
+```
+
+### Custom Hooks (if needed)
+```typescript
+// Custom hooks implementation
+```
+
+### State Management (if needed)
+<% if (project.stateManagement === 'redux') { %>
+```typescript
+// Redux slice implementation
+```
+<% } else if (project.stateManagement === 'zustand') { %>
+```typescript
+// Zustand store implementation
+```
+<% } else if (project.stateManagement === 'context') { %>
+```typescript
+// Context provider implementation
+```
+<% } %>
+
+### API Integration (if needed)
+```typescript
+// API service functions
+```
+
+### Utility Functions (if needed)
+```typescript
+// Utility functions and helpers
+```
+
+### Type Definitions
+```typescript
+// TypeScript interfaces and types
+```
+
+## Implementation Checklist
+
+Ensure your implementation includes:
+
+- [ ] Complete state management implementation
+- [ ] Proper data fetching and API integration
+- [ ] Comprehensive error handling
+- [ ] Event handlers for all user interactions
+- [ ] Performance optimizations
+- [ ] Proper TypeScript typing
+- [ ] Custom hooks for reusable logic
+- [ ] Side effects management
+- [ ] Form handling (if applicable)
+- [ ] Navigation logic (if applicable)
+- [ ] Real-time features (if applicable)
+- [ ] Proper cleanup and memory management
+- [ ] Testing-friendly code structure
+- [ ] Comprehensive documentation
+
+## Business Logic Focus Areas
+
+Pay special attention to:
+
+1. **Data Flow**: Ensure proper data flow between components and state
+2. **Validation**: Implement all validation rules from acceptance criteria
+3. **User Experience**: Handle loading states and provide feedback
+4. **Error Recovery**: Implement graceful error handling and recovery
+5. **Performance**: Optimize for smooth user interactions
+6. **Accessibility**: Ensure logic supports accessibility features
+7. **Security**: Implement proper input validation and sanitization
+8. **Scalability**: Write code that can handle growth and changes
+
+## Notes
+
+- Focus on implementing robust, production-ready business logic
+- Consider edge cases and error scenarios
+- Implement proper separation of concerns
+- Ensure code is maintainable and testable
+- Follow established patterns and conventions
+- Consider future extensibility and modifications
+
+---
+
+**Generated at:** <%= timestamp %>
+**Template:** <%= template.name %>
+**Output Format:** <%= template.outputFormat %>

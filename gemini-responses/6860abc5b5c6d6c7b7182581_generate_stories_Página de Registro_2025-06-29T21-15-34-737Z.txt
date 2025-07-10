@@ -1,0 +1,225 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Registro de cuenta con correo electrónico y contraseña",
+      "description": "Como un nuevo visitante, quiero registrarme en CogniTutor AI usando mi nombre, correo electrónico y una contraseña, para poder crear mi cuenta y acceder a las funcionalidades de la plataforma.",
+      "pageContext": "Página de Registro",
+      "affectedFiles": [
+        "src/features/pgina-de-registro/PáginadeRegistroPage.tsx",
+        "src/features/pgina-de-registro/hooks/usePáginadeRegistro.ts",
+        "src/features/pgina-de-registro/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "RegistrationForm",
+            "type": "component",
+            "path": "src/features/pgina-de-registro/components/RegistrationForm.tsx"
+          },
+          {
+            "name": "InputField",
+            "type": "component",
+            "path": "src/features/pgina-de-registro/components/InputField.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          },
+          {
+            "name": "usePáginadeRegistro",
+            "from": "../hooks/usePáginadeRegistro"
+          }
+        ]
+      },
+      "logicData": "El hook `usePáginadeRegistro.ts` gestionará el estado de los campos del formulario (nombre, email, contraseña). Al enviar el formulario, se invocará una función asíncrona que llamará al endpoint de registro en `api.ts` (ej: `POST /api/auth/register`). Si el registro es exitoso, se deberá gestionar la sesión del usuario y redirigirlo al panel de control (`/panel-de-control-del-estudiante-dashboard`).",
+      "styling": {
+        "framework": "No especificado, se asumirá Tailwind CSS por convención",
+        "classes": "flex flex-col gap-4 max-w-md mx-auto p-8",
+        "colorCoding": "Utilizar los colores primarios del proyecto para el botón de acción principal. Campos de texto con borde gris claro y foco azul."
+      },
+      "acceptanceCriteria": [
+        "El formulario debe contener campos para 'Nombre Completo', 'Correo Electrónico' y 'Contraseña'.",
+        "Todos los campos deben ser obligatorios y el botón de envío debe estar deshabilitado hasta que se llenen.",
+        "El campo de correo electrónico debe validar que la entrada sea una dirección de correo válida.",
+        "El campo de contraseña debe ocultar los caracteres escritos.",
+        "Al enviar el formulario con datos válidos, se realiza una llamada a la API de registro.",
+        "Tras un registro exitoso, el usuario es redirigido al 'Panel de Control del Estudiante (Dashboard)'."
+      ],
+      "additionalSuggestions": [
+        "Añadir un campo de 'Confirmar Contraseña' para evitar errores de tipeo.",
+        "Incluir un enlace a la página de 'Inicio de Sesión' para usuarios que ya tienen una cuenta."
+      ],
+      "aiEditorTask": "Crea el componente `RegistrationForm.tsx` que contenga los campos de nombre, email y contraseña. Utiliza el hook `usePáginadeRegistro.ts` para manejar el estado y la lógica de envío. Llama a la función de registro desde `api.ts` y maneja la redirección en caso de éxito.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Validación de fortaleza de contraseña en tiempo real",
+      "description": "Como un nuevo usuario, quiero ver los requisitos de la contraseña y obtener retroalimentación visual inmediata mientras la escribo, para poder crear una contraseña segura y válida desde el primer intento, evitando errores de envío.",
+      "pageContext": "Página de Registro",
+      "affectedFiles": [
+        "src/features/pgina-de-registro/PáginadeRegistroPage.tsx",
+        "src/features/pgina-de-registro/hooks/usePáginadeRegistro.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "PasswordStrengthIndicator",
+            "type": "component",
+            "path": "src/features/pgina-de-registro/components/PasswordStrengthIndicator.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "RegistrationForm",
+            "from": "./components/RegistrationForm.tsx"
+          }
+        ]
+      },
+      "logicData": "El hook `usePáginadeRegistro.ts` debe expandirse para incluir lógica que valide la contraseña en cada cambio. Esta lógica verificará criterios como longitud mínima (8 caracteres), presencia de mayúsculas, minúsculas, números y caracteres especiales. El estado de cumplimiento de cada criterio se pasará como props al componente `PasswordStrengthIndicator`.",
+      "styling": {
+        "framework": "No especificado, se asumirá Tailwind CSS por convención",
+        "classes": "text-sm mt-2",
+        "colorCoding": "Usar `text-red-500` para los criterios no cumplidos y `text-green-500` para los cumplidos. Se puede acompañar con íconos de 'check' o 'cross'."
+      },
+      "acceptanceCriteria": [
+        "Debajo del campo de la contraseña, se debe mostrar una lista de requisitos (ej: Mínimo 8 caracteres, al menos una mayúscula, un número).",
+        "A medida que el usuario escribe en el campo de contraseña, el color o ícono de cada requisito se actualiza para reflejar si se ha cumplido.",
+        "El botón de 'Crear Cuenta' no se habilitará si la contraseña no cumple con todos los requisitos, incluso si los otros campos están llenos.",
+        "La retroalimentación debe ser clara y no intrusiva."
+      ],
+      "additionalSuggestions": [
+        "Implementar una barra de progreso que indique la fortaleza general de la contraseña (Débil, Media, Fuerte, Muy Fuerte).",
+        "Añadir un botón para mostrar/ocultar la contraseña."
+      ],
+      "aiEditorTask": "Crea el componente `PasswordStrengthIndicator.tsx` que acepte props para mostrar el estado de varios criterios de contraseña. Actualiza el hook `usePáginadeRegistro.ts` para que valide la contraseña en tiempo real y pase los resultados al nuevo componente.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Registro de usuario mediante proveedor de OAuth (Google)",
+      "description": "Como un nuevo visitante, quiero poder registrarme usando mi cuenta de Google con un solo clic, para agilizar el proceso de creación de cuenta y no tener que recordar otra contraseña.",
+      "pageContext": "Página de Registro",
+      "affectedFiles": [
+        "src/features/pgina-de-registro/PáginadeRegistroPage.tsx",
+        "src/features/pgina-de-registro/hooks/usePáginadeRegistro.ts",
+        "src/features/pgina-de-registro/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "SocialLoginButtons",
+            "type": "component",
+            "path": "src/features/pgina-de-registro/components/SocialLoginButtons.tsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Se necesita integrar una librería de cliente para OAuth de Google (ej. `@react-oauth/google`). El componente `SocialLoginButtons` iniciará el flujo de autenticación de Google. Al recibir el token de Google, una función en `usePáginadeRegistro.ts` lo enviará al backend a través de una nueva función en `api.ts` (ej: `POST /api/auth/google/callback`). El backend validará el token, creará o encontrará al usuario, generará una sesión y el frontend redirigirá al dashboard.",
+      "styling": {
+        "framework": "No especificado, se asumirá Tailwind CSS por convención",
+        "classes": "flex flex-col gap-3 w-full",
+        "colorCoding": "El botón de Google debe seguir sus guías de branding oficiales (logo, color blanco/azul, tipografía Roboto)."
+      },
+      "acceptanceCriteria": [
+        "En la página de registro, debe haber un botón claramente identificado para 'Continuar con Google'.",
+        "Al hacer clic en el botón, se debe abrir la ventana emergente de autenticación de Google.",
+        "Tras una autenticación exitosa con Google, se debe crear una cuenta de usuario en CogniTutor AI si no existe.",
+        "El usuario debe ser automáticamente logueado y redirigido al 'Panel de Control del Estudiante (Dashboard)'.",
+        "Si el usuario cancela el flujo de Google, debe regresar a la página de registro sin errores."
+      ],
+      "additionalSuggestions": [
+        "Mostrar un divisor de texto como 'O' entre el formulario de registro tradicional y las opciones de registro social.",
+        "Considerar añadir otros proveedores de OAuth populares como GitHub o Facebook, dependiendo del público objetivo."
+      ],
+      "aiEditorTask": "Implementa el componente `SocialLoginButtons.tsx`. Integra una librería cliente de Google OAuth. En `usePáginadeRegistro.ts`, maneja el callback de la autenticación para enviar el token al backend a través de una nueva función en `api.ts` y gestiona la redirección.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Gestión y visualización de errores de registro",
+      "description": "Como un nuevo usuario, si mi intento de registro falla, quiero ver un mensaje de error claro y específico para poder entender qué salió mal y cómo corregirlo.",
+      "pageContext": "Página de Registro",
+      "affectedFiles": [
+        "src/features/pgina-de-registro/PáginadeRegistroPage.tsx",
+        "src/features/pgina-de-registro/hooks/usePáginadeRegistro.ts",
+        "src/features/pgina-de-registro/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "Alert",
+            "type": "component",
+            "path": "src/components/Alert.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Alert",
+            "from": "src/components/Alert.tsx"
+          }
+        ]
+      },
+      "logicData": "El hook `usePáginadeRegistro.ts` debe tener un estado para almacenar mensajes de error (ej: `error: string | null`). La llamada a la API en el hook debe estar envuelta en un bloque `try...catch`. Si la API devuelve un error (ej: 409 Conflict por email duplicado), el bloque `catch` actualizará el estado de error con un mensaje amigable. El componente `PáginadeRegistroPage.tsx` renderizará el componente `Alert` condicionalmente si el estado de error contiene un mensaje.",
+      "styling": {
+        "framework": "No especificado, se asumirá Tailwind CSS por convención",
+        "classes": "p-4 mb-4 text-sm rounded-lg",
+        "colorCoding": "Usar `bg-red-100 text-red-700` para errores y `bg-yellow-100 text-yellow-700` para advertencias."
+      },
+      "acceptanceCriteria": [
+        "Si se intenta registrar con un correo electrónico que ya existe, se muestra un mensaje: 'Este correo electrónico ya está en uso. Por favor, inicia sesión'.",
+        "Si ocurre un error inesperado del servidor (ej: código 500), se muestra un mensaje genérico: 'Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde'.",
+        "Los mensajes de error deben aparecer en una ubicación prominente del formulario, como en la parte superior.",
+        "El mensaje de error debe poder ser descartado por el usuario o desaparecer automáticamente cuando el usuario empieza a corregir los datos."
+      ],
+      "additionalSuggestions": [
+        "El mensaje de 'correo ya en uso' debería incluir un link directo a la página de inicio de sesión para mejorar la experiencia de usuario.",
+        "Implementar notificaciones tipo 'toast' para errores no bloqueantes."
+      ],
+      "aiEditorTask": "Crea un componente `Alert.tsx` reutilizable. Modifica el hook `usePáginadeRegistro.ts` para que capture errores de la API, actualice un estado de error y lo limpie cuando el usuario modifique el formulario. Muestra el componente `Alert` en `PáginadeRegistroPage.tsx` cuando haya un error.",
+      "priority": "Alta",
+      "estimatedHours": 5
+    },
+    {
+      "title": "Aceptación de Términos de Servicio y Política de Privacidad",
+      "description": "Como un nuevo usuario, quiero poder revisar y aceptar los Términos de Servicio y la Política de Privacidad antes de completar mi registro, para estar informado sobre las condiciones de uso y el tratamiento de mis datos personales.",
+      "pageContext": "Página de Registro",
+      "affectedFiles": [
+        "src/features/pgina-de-registro/PáginadeRegistroPage.tsx",
+        "src/features/pgina-de-registro/hooks/usePáginadeRegistro.ts"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "RegistrationForm",
+            "from": "./components/RegistrationForm.tsx"
+          }
+        ]
+      },
+      "logicData": "Se debe añadir un nuevo estado booleano (`termsAccepted`) al hook `usePáginadeRegistro.ts`, inicializado en `false`. En el formulario, se incluirá un checkbox que controle este estado. La lógica de validación del formulario en el hook debe incluir la verificación de que `termsAccepted` sea `true` antes de habilitar el botón de envío.",
+      "styling": {
+        "framework": "No especificado, se asumirá Tailwind CSS por convención",
+        "classes": "flex items-center gap-2 mt-4 text-xs text-gray-600",
+        "colorCoding": "Los enlaces a los documentos legales deben tener un color distintivo (`text-blue-600`) y un efecto `hover:underline`."
+      },
+      "acceptanceCriteria": [
+        "El formulario de registro debe incluir una casilla de verificación (checkbox) no marcada por defecto.",
+        "Junto a la casilla, debe haber un texto como 'He leído y acepto los [Términos de Servicio] y la [Política de Privacidad]'.",
+        "Las partes del texto 'Términos de Servicio' y 'Política de Privacidad' deben ser enlaces funcionales que abran las páginas correspondientes.",
+        "El botón de 'Crear Cuenta' permanecerá deshabilitado si la casilla no está marcada, incluso si todos los demás campos son válidos."
+      ],
+      "additionalSuggestions": [
+        "Para cumplir con GDPR, los enlaces deberían abrir los documentos en una nueva pestaña o en un modal para que el usuario no pierda el progreso del formulario.",
+        "Asegurarse de que las rutas para los documentos legales (`/terms`, `/privacy`) estén definidas en `App.tsx`."
+      ],
+      "aiEditorTask": "Añade un estado booleano `termsAccepted` al hook `usePáginadeRegistro.ts`. En `PáginadeRegistroPage.tsx` o `RegistrationForm.tsx`, incluye un checkbox y el texto legal con los enlaces correspondientes. Vincula el estado del checkbox al nuevo estado del hook y actualiza la lógica de deshabilitación del botón de envío.",
+      "priority": "Media",
+      "estimatedHours": 4
+    }
+  ]
+}
+```

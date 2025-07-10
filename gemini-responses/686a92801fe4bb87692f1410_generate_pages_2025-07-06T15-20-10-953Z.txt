@@ -1,0 +1,62 @@
+```json
+{
+  "pages": [
+    {
+      "name": "Página de Inicio (Landing Page)",
+      "description": "Página principal de marketing que presenta SolarQuote AI. Explica los beneficios, características clave y muestra testimonios. El objetivo principal es la conversión de visitantes a usuarios (registro o demo).",
+      "route": "/",
+      "isEssential": true,
+      "priority": 1
+    },
+    {
+      "name": "Dashboard de Proyectos",
+      "description": "La vista principal después de iniciar sesión. Muestra un resumen de los proyectos y propuestas recientes, estadísticas clave y accesos directos para crear un nuevo proyecto.",
+      "route": "/dashboard",
+      "isEssential": true,
+      "priority": 1
+    },
+    {
+      "name": "Generador de Propuestas (Nuevo Proyecto)",
+      "description": "El corazón de la aplicación. Un flujo guiado donde el usuario introduce la dirección del cliente, datos de consumo y preferencias para que la IA genere el diseño del sistema solar y la propuesta comercial.",
+      "route": "/proyectos/nuevo",
+      "isEssential": true,
+      "priority": 1
+    },
+    {
+      "name": "Detalle del Proyecto / Visualizador de Propuesta",
+      "description": "Muestra el resultado generado por la IA: el diseño del sistema sobre la imagen satelital, análisis de producción, desglose de costos y la propuesta comercial completa. Permite editar y compartir la propuesta.",
+      "route": "/proyectos/:id",
+      "isEssential": true,
+      "priority": 2
+    },
+    {
+      "name": "Inicio de Sesión",
+      "description": "Formulario para que los usuarios registrados accedan a su cuenta en la plataforma. Debe ser simple, seguro e incluir opciones para recuperar la contraseña.",
+      "route": "/login",
+      "isEssential": true,
+      "priority": 2
+    },
+    {
+      "name": "Registro de Usuario",
+      "description": "Formulario para que nuevos usuarios creen una cuenta en SolarQuote AI. Solicita información esencial como nombre, empresa, email y contraseña para iniciar el proceso de onboarding.",
+      "route": "/registro",
+      "isEssential": true,
+      "priority": 3
+    },
+    {
+      "name": "Página de Precios",
+      "description": "Detalla los diferentes planes de suscripción, sus precios y las características incluidas en cada uno. Permite a los usuarios comparar opciones y seleccionar el plan que mejor se adapte a sus necesidades.",
+      "route": "/precios",
+      "isEssential": true,
+      "priority": 4
+    },
+    {
+      "name": "Configuración de la Cuenta",
+      "description": "Permite al usuario gestionar su perfil, cambiar la contraseña, ver los detalles de su suscripción, administrar la facturación y configurar las preferencias de la cuenta o del equipo.",
+      "route": "/cuenta/configuracion",
+      "isEssential": true,
+      "priority": 5
+    }
+  ]
+}
+```

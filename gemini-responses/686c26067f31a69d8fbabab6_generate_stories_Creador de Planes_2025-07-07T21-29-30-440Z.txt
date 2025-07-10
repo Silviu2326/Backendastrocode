@@ -1,0 +1,272 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Búsqueda y Adición de Ejercicios desde la Biblioteca",
+      "description": "Como entrenador personal, quiero buscar ejercicios en una biblioteca y añadirlos al plan que estoy creando para poder construir rutinas de forma rápida y eficiente sin tener que recordar cada ejercicio.",
+      "pageContext": "Creador de Planes",
+      "affectedFiles": [
+        "src/features/creador-de-planes/CreadordePlanesPage.tsx",
+        "src/features/creador-de-planes/hooks/useCreadordePlanes.ts",
+        "src/features/creador-de-planes/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ExerciseLibraryModal",
+            "type": "component",
+            "path": "src/features/creador-de-planes/components/ExerciseLibraryModal.tsx"
+          },
+          {
+            "name": "SearchBar",
+            "type": "component",
+            "path": "src/features/creador-de-planes/components/SearchBar.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          },
+          {
+            "name": "Table",
+            "from": "src/components/Table.jsx"
+          }
+        ]
+      },
+      "logicData": "El componente `CreadordePlanesPage` contendrá un botón 'Añadir Ejercicio' que abrirá `ExerciseLibraryModal`. Este modal utilizará `SearchBar` para filtrar los ejercicios. La lógica para buscar y obtener los ejercicios se manejará en `useCreadordePlanes.ts`, que llamará a una función en `api.ts` para hacer una petición GET a un endpoint (ej. /api/exercises). Al seleccionar ejercicios y confirmar, el estado del plan en el hook `useCreadordePlanes` se actualizará.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "modal-overlay bg-black/50, modal-content bg-white p-6 rounded-lg, search-input border border-gray-300 rounded px-2 py-1",
+        "colorCoding": "Utilizar colores primarios de la marca para los botones de acción y fondos neutros (blanco/gris claro) para el modal."
+      },
+      "acceptanceCriteria": [
+        "El usuario debe poder hacer clic en un botón 'Añadir Ejercicio' en la página.",
+        "Al hacer clic, se debe abrir un modal con una lista de ejercicios y una barra de búsqueda.",
+        "El usuario debe poder escribir en la barra de búsqueda para filtrar la lista de ejercicios en tiempo real.",
+        "Se deben poder seleccionar múltiples ejercicios de la lista.",
+        "Un botón 'Añadir seleccionados' debe cerrar el modal y agregar los ejercicios al plan en construcción en la página principal."
+      ],
+      "additionalSuggestions": [
+        "Añadir filtros por grupo muscular o tipo de equipamiento en la biblioteca.",
+        "Mostrar una miniatura o GIF del ejercicio al pasar el ratón sobre un elemento de la lista."
+      ],
+      "aiEditorTask": "Crea el componente `ExerciseLibraryModal.tsx` que incluya un `SearchBar` y una tabla para listar ejercicios. Implementa la lógica de fetching y filtrado en el hook `useCreadordePlanes.ts` y expón una función para añadir los ejercicios seleccionados al estado del plan.",
+      "priority": "Alta",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Configuración de Parámetros de Ejercicio (Series, Reps, Descanso)",
+      "description": "Como entrenador personal, quiero definir las series, repeticiones, peso y tiempo de descanso para cada ejercicio añadido al plan para poder personalizar la carga de trabajo y la intensidad para mis clientes.",
+      "pageContext": "Creador de Planes",
+      "affectedFiles": [
+        "src/features/creador-de-planes/CreadordePlanesPage.tsx",
+        "src/features/creador-de-planes/hooks/useCreadordePlanes.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ExerciseConfigurationRow",
+            "type": "component",
+            "path": "src/features/creador-de-planes/components/ExerciseConfigurationRow.tsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Cada ejercicio añadido al plan se renderizará usando el componente `ExerciseConfigurationRow`. Este componente contendrá campos de entrada numérica (inputs) para 'series', 'repeticiones', 'peso' y 'descanso (seg)'. Los cambios en estos inputs deben invocar una función del hook `useCreadordePlanes.ts` para actualizar el estado del ejercicio específico dentro del objeto del plan.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex items-center gap-4 p-2 border-b, input-numeric w-16 text-center border rounded",
+        "colorCoding": "Mantener un diseño limpio y tabular. Resaltar los campos de entrada al enfocarlos."
+      },
+      "acceptanceCriteria": [
+        "Por cada ejercicio en el plan, deben mostrarse campos de entrada para series, repeticiones y descanso.",
+        "Los campos deben aceptar solo valores numéricos.",
+        "Cualquier cambio en un campo debe actualizarse inmediatamente en el estado del plan.",
+        "Debe haber un botón para eliminar el ejercicio de la lista.",
+        "Los valores por defecto pueden ser pre-configurados (ej. 3 series, 10 repeticiones)."
+      ],
+      "additionalSuggestions": [
+        "Permitir añadir notas específicas para cada ejercicio.",
+        "Implementar la opción de rangos, como '8-12' repeticiones."
+      ],
+      "aiEditorTask": "Crea el componente `ExerciseConfigurationRow.tsx` con inputs controlados para series, repeticiones, peso y descanso. Pasa una función `onUpdate` y `onDelete` como props para manejar la lógica en el componente padre `CreadordePlanesPage.tsx`.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Guardar Plan de Entrenamiento como Plantilla Reutilizable",
+      "description": "Como entrenador personal, quiero guardar un plan de entrenamiento completo como una plantilla con un nombre específico para poder reutilizarlo fácilmente con diferentes clientes en el futuro, ahorrando tiempo de creación.",
+      "pageContext": "Creador de Planes",
+      "affectedFiles": [
+        "src/features/creador-de-planes/CreadordePlanesPage.tsx",
+        "src/features/creador-de-planes/hooks/useCreadordePlanes.ts",
+        "src/features/creador-de-planes/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "SaveTemplateModal",
+            "type": "component",
+            "path": "src/features/creador-de-planes/components/SaveTemplateModal.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "Un botón 'Guardar como Plantilla' en `CreadordePlanesPage` abrirá el `SaveTemplateModal`. El modal tendrá un campo para el nombre de la plantilla. Al guardar, se llamará a una función en `useCreadordePlanes.ts` que tomará el estado actual del plan y lo enviará a través de una función en `api.ts` (ej. `POST /api/plan-templates`). La API guardará la estructura del plan en la base de datos.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex justify-end mt-4, btn-primary bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded",
+        "colorCoding": "Usar color primario para el botón de guardado. El modal debe ser consistente con otros modales de la aplicación."
+      },
+      "acceptanceCriteria": [
+        "Debe existir un botón 'Guardar como Plantilla' en la página.",
+        "Al hacer clic, se abre un modal pidiendo un nombre para la plantilla.",
+        "El campo de nombre de la plantilla es obligatorio.",
+        "Al confirmar, se debe enviar el plan completo (ejercicios y sus parámetros) a la API.",
+        "El sistema debe mostrar una notificación de éxito o error tras el intento de guardado."
+      ],
+      "additionalSuggestions": [
+        "Permitir añadir una descripción a la plantilla.",
+        "Comprobar si ya existe una plantilla con el mismo nombre para evitar duplicados."
+      ],
+      "aiEditorTask": "Crea el componente `SaveTemplateModal.tsx`. En `useCreadordePlanes.ts`, implementa la función `savePlanAsTemplate` que obtenga el estado actual del plan y llame a un endpoint POST definido en `api.ts`.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Estructuración del Plan por Días de Entrenamiento",
+      "description": "Como entrenador personal, quiero organizar los ejercicios en diferentes días (ej. Día 1, Día 2) y darles un nombre (ej. 'Pecho y Tríceps') para crear planes semanales estructurados y fáciles de seguir por el cliente.",
+      "pageContext": "Creador de Planes",
+      "affectedFiles": [
+        "src/features/creador-de-planes/CreadordePlanesPage.tsx",
+        "src/features/creador-de-planes/hooks/useCreadordePlanes.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "TrainingDayCard",
+            "type": "component",
+            "path": "src/features/creador-de-planes/components/TrainingDayCard.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "La estructura de datos del plan en `useCreadordePlanes` debe cambiar a un array de días, donde cada día tiene un nombre y un array de ejercicios. La UI en `CreadordePlanesPage` permitirá añadir un nuevo `TrainingDayCard`. Dentro de cada tarjeta, el usuario podrá añadir ejercicios específicos para ese día. El nombre del día debe ser editable.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-gray-100 p-4 rounded-lg shadow-md mb-6, day-title font-bold text-xl mb-2",
+        "colorCoding": "Usar fondos ligeramente distintos (gris claro) para las tarjetas de día para separarlas visualmente del fondo principal."
+      },
+      "acceptanceCriteria": [
+        "El usuario debe poder hacer clic en un botón 'Añadir Día'.",
+        "Cada día se representa como un bloque o tarjeta separable.",
+        "El usuario puede hacer clic en el título del día para editar su nombre.",
+        "Los ejercicios deben poder añadirse dentro de un día específico.",
+        "El usuario debe poder eliminar un día completo con todos sus ejercicios (previa confirmación)."
+      ],
+      "additionalSuggestions": [
+        "Permitir duplicar un día completo para crear rápidamente una estructura similar.",
+        "Añadir la opción de marcar un día como 'Día de Descanso'."
+      ],
+      "aiEditorTask": "Modifica la estructura de estado en `useCreadordePlanes.ts` para acomodar un array de días. Crea el componente `TrainingDayCard.tsx` que reciba los datos de un día como prop y permita editar el título y listar los `ExerciseConfigurationRow` de ese día.",
+      "priority": "Media",
+      "estimatedHours": 14
+    },
+    {
+      "title": "Cargar Plantilla Existente para Crear un Nuevo Plan",
+      "description": "Como entrenador personal, quiero cargar una plantilla de entrenamiento guardada para poder crear un nuevo plan para un cliente rápidamente, modificándolo si es necesario, en lugar de empezar desde cero.",
+      "pageContext": "Creador de Planes",
+      "affectedFiles": [
+        "src/features/creador-de-planes/CreadordePlanesPage.tsx",
+        "src/features/creador-de-planes/hooks/useCreadordePlanes.ts",
+        "src/features/creador-de-planes/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "LoadTemplateModal",
+            "type": "component",
+            "path": "src/features/creador-de-planes/components/LoadTemplateModal.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          },
+          {
+            "name": "Table",
+            "from": "src/components/Table.jsx"
+          }
+        ]
+      },
+      "logicData": "Un botón 'Cargar Plantilla' en la página principal abrirá `LoadTemplateModal`. Este modal obtendrá y listará las plantillas disponibles haciendo una llamada GET a `/api/plan-templates` desde `api.ts`. Al seleccionar una plantilla, se hará otra llamada GET a `/api/plan-templates/{id}` para obtener sus datos completos. Estos datos reemplazarán el estado actual del plan en `useCreadordePlanes.ts`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "cursor-pointer hover:bg-gray-100, modal-content max-h-[80vh] overflow-y-auto",
+        "colorCoding": "El modal debe ser consistente con otros. La fila de la tabla seleccionada puede tener un color de fondo para indicar la selección."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un botón 'Cargar Plantilla' visible en la página.",
+        "Al hacer clic, se abre un modal que lista las plantillas guardadas por el usuario.",
+        "El usuario puede seleccionar una plantilla de la lista.",
+        "Al confirmar la selección, el contenido del Creador de Planes se puebla con los datos de la plantilla.",
+        "Si hay cambios sin guardar en el plan actual, se debe mostrar una advertencia antes de cargar la plantilla."
+      ],
+      "additionalSuggestions": [
+        "Incluir una función de búsqueda dentro del modal de plantillas.",
+        "Mostrar la fecha de creación o última modificación de la plantilla en la lista."
+      ],
+      "aiEditorTask": "Crea el componente `LoadTemplateModal.tsx` que use el componente `Table` para listar plantillas. Implementa la lógica en `useCreadordePlanes.ts` para obtener la lista de plantillas y para cargar una plantilla seleccionada, actualizando el estado del constructor de planes.",
+      "priority": "Media",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Reordenación de Ejercicios y Días mediante Arrastrar y Soltar",
+      "description": "Como entrenador personal, quiero poder reordenar los ejercicios dentro de un día y también el orden de los días de entrenamiento usando arrastrar y soltar (drag and drop) para ajustar la secuencia del plan de forma intuitiva y visual.",
+      "pageContext": "Creador de Planes",
+      "affectedFiles": [
+        "src/features/creador-de-planes/CreadordePlanesPage.tsx",
+        "src/features/creador-de-planes/hooks/useCreadordePlanes.ts",
+        "src/features/creador-de-planes/components/TrainingDayCard.tsx",
+        "src/features/creador-de-planes/components/ExerciseConfigurationRow.tsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "Se debe integrar una librería de arrastrar y soltar como 'react-beautiful-dnd' o 'dnd-kit'. Los componentes `TrainingDayCard` y `ExerciseConfigurationRow` se envolverán en los proveedores y elementos `Draggable`/`Droppable` de la librería. La lógica de reordenación (`onDragEnd`) se manejará en `CreadordePlanesPage.tsx` y llamará a una función en `useCreadordePlanes.ts` para actualizar el orden de los arrays (días o ejercicios) en el estado del plan.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "dragging-item opacity-50 shadow-2xl, drop-placeholder bg-blue-100 border-dashed border-2 border-blue-400",
+        "colorCoding": "Proporcionar una retroalimentación visual clara durante el arrastre, como un cambio de color de fondo o una sombra elevada en el elemento que se arrastra."
+      },
+      "acceptanceCriteria": [
+        "El usuario puede hacer clic y arrastrar una `ExerciseConfigurationRow` para cambiar su posición dentro del mismo día.",
+        "El usuario puede hacer clic y arrastrar una `TrainingDayCard` completa para cambiar su orden en la secuencia de la semana.",
+        "No se debe permitir arrastrar un ejercicio fuera de su día a otro día (a menos que esa funcionalidad se decida implementar explícitamente).",
+        "El estado del plan debe reflejar el nuevo orden después de soltar el elemento.",
+        "La interfaz debe mostrar claramente dónde se soltará el elemento."
+      ],
+      "additionalSuggestions": [
+        "Implementar la capacidad de arrastrar un ejercicio de un día a otro.",
+        "Añadir animaciones suaves para que la reordenación se sienta fluida."
+      ],
+      "aiEditorTask": "Integra `dnd-kit` en el proyecto. Envuelve la lista de `TrainingDayCard` y la lista de `ExerciseConfigurationRow` en los contextos de D&D. Implementa la función `handleDragEnd` para actualizar el estado en `useCreadordePlanes.ts` según el resultado del arrastre.",
+      "priority": "Baja",
+      "estimatedHours": 16
+    }
+  ]
+}
+```

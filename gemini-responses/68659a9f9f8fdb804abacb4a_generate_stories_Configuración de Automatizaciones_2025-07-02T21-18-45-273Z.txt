@@ -1,0 +1,272 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualizar Lista de Automatizaciones Existentes",
+      "description": "Como administrador, quiero ver una lista de todas las automatizaciones configuradas en la página para tener una visión general rápida de los flujos de trabajo actuales y su estado.",
+      "pageContext": "Configuración de Automatizaciones",
+      "affectedFiles": [
+        "pages/settings/automations/index.jsx",
+        "components/AutomationList.jsx",
+        "components/AutomationCard.jsx",
+        "hooks/useAutomations.js",
+        "services/automationsApi.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "AutomationList",
+            "from": "@/components/AutomationList"
+          },
+          {
+            "name": "useAutomations",
+            "from": "@/hooks/useAutomations"
+          },
+          {
+            "name": "Button",
+            "from": "@/components/ui/Button"
+          }
+        ]
+      },
+      "logicData": "El componente principal `index.jsx` utilizará el hook `useAutomations` para obtener la lista de automatizaciones desde el backend a través de `automationsApi.js` (GET /api/automations). Se debe manejar un estado de carga y de error. Los datos obtenidos se pasarán como props al componente `AutomationList`, que se encargará de iterar y renderizar un `AutomationCard` por cada automatización.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6",
+        "colorCoding": "Las tarjetas de automatización activas pueden tener un borde verde (`border-green-500`), mientras que las inactivas un borde gris (`border-gray-300`)."
+      },
+      "acceptanceCriteria": [
+        "Al cargar la página, se debe realizar una llamada a la API para obtener todas las automatizaciones existentes.",
+        "Cada automatización debe mostrarse en una tarjeta (`AutomationCard`) con su nombre, una descripción breve y un indicador de estado (Activo/Inactivo).",
+        "Mientras se cargan los datos, se debe mostrar un esqueleto de carga o un spinner.",
+        "Si no existen automatizaciones, se debe mostrar un mensaje claro como 'No hay automatizaciones creadas.' junto con un botón para 'Crear Nueva Automatización'."
+      ],
+      "additionalSuggestions": [
+        "Añadir un campo de búsqueda en la parte superior para filtrar las automatizaciones por nombre.",
+        "Incluir un contador que muestre el número total de automatizaciones y cuántas están activas."
+      ],
+      "aiEditorTask": "Implementa el hook `useAutomations` para hacer un fetch de datos desde `automationsApi.js`. En `index.jsx`, usa este hook para obtener los datos y pásalos al componente `AutomationList`. Crea el componente `AutomationList` que mapea los datos y renderiza `AutomationCard`s.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Crear Nueva Automatización de Asignación de Leads",
+      "description": "Como jefe de ventas, quiero crear una nueva automatización para asignar leads provenientes de una fuente específica a un agente determinado, para así reducir el tiempo de respuesta.",
+      "pageContext": "Configuración de Automatizaciones",
+      "affectedFiles": [
+        "pages/settings/automations/index.jsx",
+        "components/AutomationForm.jsx",
+        "components/ui/Modal.jsx",
+        "components/ui/Input.jsx",
+        "components/ui/Select.jsx",
+        "hooks/useAutomations.js",
+        "services/automationsApi.js",
+        "utils/automationValidators.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "Modal",
+            "from": "@/components/ui/Modal"
+          },
+          {
+            "name": "AutomationForm",
+            "from": "@/components/AutomationForm"
+          }
+        ]
+      },
+      "logicData": "Un botón 'Crear Automatización' en `index.jsx` abrirá un `Modal` que contiene el `AutomationForm`. El estado del formulario se manejará localmente. Al enviar, se llamará a una función `createAutomation` del hook `useAutomations`, que realizará una petición POST a `/api/automations`. Las validaciones se aplicarán usando `automationValidators.js` antes de enviar.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "space-y-4 p-6",
+        "colorCoding": "El botón principal de guardado debe ser del color primario del CRM. Los campos con errores de validación deben tener un borde rojo (`border-red-500`)."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un botón 'Crear Automatización' en la página principal.",
+        "Al hacer clic, se abre un modal con el `AutomationForm`.",
+        "El formulario debe permitir introducir un nombre, seleccionar un disparador ('Nuevo Lead'), añadir una condición ('Fuente es X') y seleccionar una acción ('Asignar a Usuario Y').",
+        "Los campos de selección para disparadores, condiciones y acciones deben poblarse con datos (ej. lista de usuarios, lista de fuentes).",
+        "Al guardar, el formulario se valida. Si es válido, se envía la nueva automatización al backend, se cierra el modal y la nueva automatización aparece en la lista sin necesidad de recargar la página."
+      ],
+      "additionalSuggestions": [
+        "Permitir la adición de múltiples condiciones (ej. Fuente es X Y Presupuesto > 5000).",
+        "Guardar el borrador del formulario en el `localStorage` en caso de que el usuario cierre accidentalmente el modal."
+      ],
+      "aiEditorTask": "Crea la lógica para abrir el `AutomationForm` dentro de un `Modal`. Implementa la función `createAutomation` en `useAutomations` y `automationsApi.js` para manejar la petición POST. Conecta la validación de `automationValidators.js` al evento `onSubmit` del formulario.",
+      "priority": "Alta",
+      "estimatedHours": 16
+    },
+    {
+      "title": "Activar o Desactivar una Automatización",
+      "description": "Como jefe de ventas, quiero poder activar o desactivar una automatización con un solo clic para pausar o reanudar un flujo de trabajo de forma temporal sin perder su configuración.",
+      "pageContext": "Configuración de Automatizaciones",
+      "affectedFiles": [
+        "components/AutomationCard.jsx",
+        "hooks/useAutomations.js",
+        "services/automationsApi.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ToggleSwitch",
+            "type": "component",
+            "path": "components/ui/ToggleSwitch.jsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "ToggleSwitch",
+            "from": "@/components/ui/ToggleSwitch"
+          }
+        ]
+      },
+      "logicData": "El componente `AutomationCard.jsx` contendrá un `ToggleSwitch`. El cambio de estado del toggle llamará a una función `toggleAutomationStatus` pasada por props desde `useAutomations`. Esta función realizará una petición PATCH a `/api/automations/:id` con el nuevo estado (`{isActive: true/false}`). La UI debe actualizarse optimistamente o tras la confirmación de la API.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex items-center space-x-2",
+        "colorCoding": "El toggle puede ser de color verde cuando está activo y gris cuando está inactivo."
+      },
+      "acceptanceCriteria": [
+        "Cada `AutomationCard` debe mostrar un componente de tipo interruptor (toggle switch) que refleje el estado actual (activo/inactivo) de la automatización.",
+        "Al hacer clic en el interruptor, el estado de la automatización debe cambiar en el backend.",
+        "El cambio visual en el interruptor y en la tarjeta (ej. color del borde) debe ser inmediato.",
+        "Una notificación de tipo 'toast' debe confirmar que el estado se ha actualizado correctamente."
+      ],
+      "additionalSuggestions": [
+        "Mostrar un tooltip en el interruptor que explique lo que hace ('Haz clic para activar/desactivar').",
+        "Añadir una pequeña animación al cambiar de estado para mejorar la experiencia de usuario."
+      ],
+      "aiEditorTask": "Crea un nuevo componente reutilizable `ToggleSwitch.jsx` en `components/ui`. Intégralo en `AutomationCard.jsx`. Implementa la lógica de actualización de estado en `useAutomations` y `automationsApi.js` usando un método PATCH.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Eliminar una Automatización Obsoleta",
+      "description": "Como administrador, quiero poder eliminar permanentemente una automatización que ya no se utiliza para mantener la lista de flujos de trabajo organizada y prevenir ejecuciones erróneas.",
+      "pageContext": "Configuración de Automatizaciones",
+      "affectedFiles": [
+        "components/AutomationCard.jsx",
+        "components/ui/Modal.jsx",
+        "hooks/useAutomations.js",
+        "services/automationsApi.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "Modal",
+            "from": "@/components/ui/Modal"
+          }
+        ]
+      },
+      "logicData": "En `AutomationCard.jsx`, un botón de eliminar abrirá un `Modal` de confirmación. Si el usuario confirma, se llamará a la función `deleteAutomation(id)` del hook `useAutomations`. Esta función enviará una petición DELETE a `/api/automations/:id`. Tras el éxito, la lista de automatizaciones en el estado global se actualizará para reflejar la eliminación.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "text-red-600 hover:text-red-800",
+        "colorCoding": "El botón de confirmación de borrado en el modal debe ser de color rojo para indicar una acción destructiva."
+      },
+      "acceptanceCriteria": [
+        "Cada `AutomationCard` debe tener un icono o botón para eliminar.",
+        "Al hacer clic en eliminar, se debe mostrar un modal de confirmación con el mensaje '¿Estás seguro de que quieres eliminar esta automatización? Esta acción no se puede deshacer'.",
+        "Al confirmar la eliminación, la automatización se borra del sistema y desaparece de la lista en la UI.",
+        "Si el usuario cancela, el modal se cierra y no se realiza ninguna acción."
+      ],
+      "additionalSuggestions": [
+        "El botón de eliminar podría estar deshabilitado si el usuario no tiene los permisos necesarios.",
+        "Antes de eliminar, se podría mostrar un resumen de cuántas veces se ha ejecutado la automatización en el último mes."
+      ],
+      "aiEditorTask": "Añade un botón de eliminar a `AutomationCard.jsx`. Al hacer clic, gestiona la apertura de un modal de confirmación. Implementa la función `deleteAutomation` en el hook `useAutomations` y el servicio `automationsApi.js` para manejar la petición DELETE.",
+      "priority": "Media",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Editar una Automatización Existente",
+      "description": "Como jefe de ventas, quiero poder editar una automatización existente para ajustar sus reglas, como cambiar el agente al que se le asigna un lead, y así adaptar el flujo de trabajo a los cambios en el equipo.",
+      "pageContext": "Configuración de Automatizaciones",
+      "affectedFiles": [
+        "pages/settings/automations/index.jsx",
+        "components/AutomationCard.jsx",
+        "components/AutomationForm.jsx",
+        "hooks/useAutomations.js",
+        "services/automationsApi.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "AutomationForm",
+            "from": "@/components/AutomationForm"
+          },
+          {
+            "name": "Modal",
+            "from": "@/components/ui/Modal"
+          }
+        ]
+      },
+      "logicData": "El botón 'Editar' en `AutomationCard.jsx` abrirá el `AutomationForm` dentro de un modal. El formulario deberá estar pre-poblado con los datos de la automatización seleccionada. Esto requiere una función `getAutomationById` en el servicio y el hook. Al guardar los cambios, se llamará a `updateAutomation(id, data)` que hará una petición PUT/PATCH a `/api/automations/:id`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "text-gray-600 hover:text-blue-600",
+        "colorCoding": "El título del modal podría ser 'Editar Automatización' para diferenciarlo del de creación."
+      },
+      "acceptanceCriteria": [
+        "Cada `AutomationCard` debe tener un botón o icono de 'Editar'.",
+        "Al hacer clic en 'Editar', se abre el `AutomationForm` en un modal con todos los campos rellenos con los datos actuales de la automatización.",
+        "El usuario puede modificar cualquiera de los campos (nombre, disparador, condiciones, acciones).",
+        "Al guardar, los cambios se persisten en el backend y la tarjeta en la lista se actualiza con la nueva información (ej. el nuevo nombre).",
+        "El botón 'Cancelar' o cerrar el modal descarta todos los cambios."
+      ],
+      "additionalSuggestions": [
+        "Mostrar un historial de cambios simple para la automatización dentro del modal de edición.",
+        "Mientras se guardan los datos, el botón de 'Guardar' debe mostrar un estado de carga."
+      ],
+      "aiEditorTask": "Añade un botón de editar a `AutomationCard.jsx`. Implementa la lógica para obtener los datos de una automatización específica y pasarlos al `AutomationForm` para pre-rellenar los campos. Crea la función `updateAutomation` en el hook y el servicio API.",
+      "priority": "Alta",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Configurar un Seguimiento por Email con Retraso",
+      "description": "Como coordinador de marketing, quiero configurar una automatización que envíe un email de seguimiento a un lead un día después de su creación, para nutrir al prospecto de forma automática.",
+      "pageContext": "Configuración de Automatizaciones",
+      "affectedFiles": [
+        "components/AutomationForm.jsx",
+        "components/ui/Select.jsx",
+        "components/ui/Input.jsx",
+        "hooks/useAutomations.js",
+        "services/automationsApi.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "EmailActionFields",
+            "type": "component",
+            "path": "components/EmailActionFields.jsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "En el `AutomationForm`, cuando la acción seleccionada es 'Enviar Email', se deben mostrar campos adicionales de forma condicional. Estos campos permitirán seleccionar una plantilla de email y configurar un retraso (un número y una unidad de tiempo: minutos, horas, días). El estado del formulario debe manejar estos nuevos datos y enviarlos como parte del objeto de la automatización.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex items-center gap-2 mt-2 p-4 border border-dashed rounded",
+        "colorCoding": "La sección de configuración de la acción podría tener un fondo ligeramente distinto para agrupar visualmente los campos relacionados."
+      },
+      "acceptanceCriteria": [
+        "En el formulario de automatización, al seleccionar la acción 'Enviar Email', deben aparecer nuevos campos.",
+        "Debe haber un campo de selección para elegir una plantilla de email predefinida.",
+        "Debe haber campos para definir un retraso: un input numérico y un selector de unidad (minutos, horas, días).",
+        "El usuario debe poder configurar, por ejemplo, un retraso de '1 día'.",
+        "Al guardar, esta configuración de acción con retraso se debe persistir correctamente en el backend."
+      ],
+      "additionalSuggestions": [
+        "Permitir una vista previa de la plantilla de email seleccionada.",
+        "Añadir la opción de enviar el email inmediatamente (retraso de 0)."
+      ],
+      "aiEditorTask": "Modifica `AutomationForm.jsx` para que renderice condicionalmente los campos para la acción de 'Enviar Email'. Crea un nuevo componente `EmailActionFields.jsx` para encapsular esta lógica. Asegúrate de que el estado del formulario y la carga útil de la API incluyan los datos de la plantilla y el retraso.",
+      "priority": "Alta",
+      "estimatedHours": 18
+    }
+  ]
+}
+```

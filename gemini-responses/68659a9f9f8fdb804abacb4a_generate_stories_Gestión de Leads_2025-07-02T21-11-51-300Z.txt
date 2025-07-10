@@ -1,0 +1,236 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Filtrar Leads por Estado",
+      "description": "Como agente inmobiliario, quiero filtrar la lista de leads por su estado (ej: Nuevo, Contactado, Calificado) para poder enfocarme en los leads que requieren mi atención inmediata y organizar mi trabajo de manera eficiente.",
+      "pageContext": "Gestión de Leads",
+      "affectedFiles": ["pages/leads/index.jsx", "components/FilterBar.jsx", "hooks/useLeads.js", "hooks/useFilters.js"],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "FilterBar",
+            "from": "@/components/FilterBar"
+          },
+          {
+            "name": "useLeads",
+            "from": "@/hooks/useLeads"
+          }
+        ]
+      },
+      "logicData": "El componente FilterBar contendrá un dropdown para 'Estado'. Al seleccionar un estado, el hook `useFilters` actualizará el estado del filtro. El hook `useLeads` escuchará este cambio y volverá a solicitar los leads al `leadService.js` con el parámetro de filtro de estado. La lista de estados (Nuevo, Contactado, Calificado, No Calificado, Cerrado) debe ser obtenida de una constante o endpoint de configuración.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex items-center space-x-4 p-4 bg-gray-50 border-b",
+        "colorCoding": "El dropdown de filtro debe usar el color primario del CRM cuando está activo. Las opciones del dropdown pueden tener colores asociados a cada estado (ej: azul para 'Nuevo', verde para 'Calificado')."
+      },
+      "acceptanceCriteria": [
+        "Debe existir un control (dropdown) en la `FilterBar` para seleccionar el estado del lead.",
+        "Las opciones del dropdown deben ser: 'Todos', 'Nuevo', 'Contactado', 'Calificado', 'No Calificado'.",
+        "Al seleccionar un estado, la lista de leads (tabla o tarjetas) se actualiza automáticamente para mostrar solo los leads con ese estado.",
+        "Al seleccionar 'Todos', se eliminan los filtros por estado y se muestran todos los leads.",
+        "El filtro seleccionado debe mantenerse activo si el usuario navega a otra página y vuelve.",
+        "Debe mostrarse un indicador visual de que el filtro está activo."
+      ],
+      "additionalSuggestions": [
+        "Permitir la selección de múltiples estados a la vez.",
+        "Mostrar un contador del número de leads que coinciden con el filtro actual."
+      ],
+      "aiEditorTask": "Implementa un componente `Select` reutilizable dentro de `FilterBar.jsx` que tome las opciones y una función `onChange` como props. Conecta su estado al hook `useFilters.js` para gestionar los parámetros de la URL.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Búsqueda Rápida de Leads",
+      "description": "Como gerente de ventas, quiero un campo de búsqueda para encontrar leads rápidamente por nombre, email o número de teléfono, para poder acceder a su información sin tener que escanear toda la lista.",
+      "pageContext": "Gestión de Leads",
+      "affectedFiles": ["pages/leads/index.jsx", "components/SearchBar.jsx", "hooks/useLeads.js", "services/leadService.js"],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "SearchBar",
+            "from": "@/components/SearchBar"
+          }
+        ]
+      },
+      "logicData": "El componente `SearchBar` contendrá un input de texto. Al escribir, se debe implementar un 'debounce' (retraso, ej: 300ms) para no enviar peticiones en cada pulsación. Pasado el retraso, el hook `useLeads` realizará una llamada a `leadService.js` con el término de búsqueda. La API debe poder buscar en los campos de nombre, email y teléfono del lead.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "relative w-full md:w-1/3",
+        "colorCoding": "El input debe tener un borde sutil que se resalte con el color primario al estar enfocado. Un ícono de lupa debe estar presente dentro del campo."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un campo de entrada de texto visible en la parte superior de la lista de leads.",
+        "El campo debe tener un placeholder claro, como 'Buscar por nombre, email o teléfono...'.",
+        "Al escribir en el campo y pausar, la lista de leads se debe actualizar para mostrar los resultados que coincidan.",
+        "La búsqueda debe ser insensible a mayúsculas y minúsculas.",
+        "Si el campo de búsqueda se vacía, la lista debe volver a mostrar todos los leads (respetando otros filtros activos).",
+        "La búsqueda debe funcionar en conjunto con los filtros (ej: buscar 'Juan' dentro de los leads con estado 'Nuevo')."
+      ],
+      "additionalSuggestions": [
+        "Mostrar un spinner de carga mientras se realiza la búsqueda.",
+        "Resaltar el término de búsqueda en los resultados."
+      ],
+      "aiEditorTask": "Crea la lógica de 'debounce' en el componente `SearchBar.jsx` usando un hook `useEffect` con un `setTimeout`. Pasa el término de búsqueda 'debounced' a la función de fetching provista por el hook `useLeads`.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Cambio Rápido de Estado del Lead",
+      "description": "Como agente inmobiliario, quiero poder cambiar el estado de un lead directamente desde la lista, para actualizar su progreso de forma ágil después de una llamada o reunión sin tener que entrar a su perfil completo.",
+      "pageContext": "Gestión de Leads",
+      "affectedFiles": ["components/LeadTable.jsx", "components/LeadCard.jsx", "components/QuickActionsMenu.jsx", "services/leadService.js"],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "QuickActionsMenu",
+            "from": "@/components/QuickActionsMenu"
+          }
+        ]
+      },
+      "logicData": "Cada fila en `LeadTable.jsx` o cada `LeadCard.jsx` tendrá un `QuickActionsMenu.jsx` (menú de 3 puntos). Este menú contendrá una opción 'Cambiar Estado' que abrirá un submenú o modal con los posibles estados. Al seleccionar un nuevo estado, se llamará a una función en `leadService.js` para actualizar el lead en la base de datos. Tras una actualización exitosa, se debe refrescar el estado del lead en la UI sin recargar toda la página.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "relative inline-block text-left",
+        "colorCoding": "El estado actual del lead puede mostrarse como una 'píldora' (badge) con un color distintivo (ej: `bg-blue-100 text-blue-800` para 'Nuevo'). El menú de acciones rápidas debe ser un dropdown sutil."
+      },
+      "acceptanceCriteria": [
+        "Cada lead en la lista (fila o tarjeta) debe tener un menú de acciones rápidas (icono de 3 puntos).",
+        "Dentro del menú, debe existir una opción para 'Cambiar Estado'.",
+        "Al hacer clic en 'Cambiar Estado', se deben mostrar los estados a los que se puede mover el lead.",
+        "Al seleccionar un nuevo estado, se envía una petición PATCH/PUT a la API.",
+        "Tras la confirmación de la API, el indicador de estado del lead en la lista se actualiza visualmente al nuevo estado.",
+        "Debe mostrarse una notificación de éxito (ej: 'toast') al usuario."
+      ],
+      "additionalSuggestions": [
+        "Añadir una ventana de confirmación antes de cambiar a estados importantes como 'No Calificado' o 'Cerrado'.",
+        "Incluir otras acciones rápidas en el menú, como 'Añadir Nota' o 'Agendar Seguimiento'."
+      ],
+      "aiEditorTask": "En `QuickActionsMenu.jsx`, implementa un componente `Dropdown` que reciba las acciones como un array de objetos. Para la acción 'Cambiar Estado', crea un submenú dinámico. Gestiona la llamada a la API y la actualización del estado local usando una función de 'mutación' del hook `useLeads`.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Alternar entre Vista de Tabla y Vista de Tarjetas",
+      "description": "Como agente inmobiliario, quiero poder cambiar la visualización de los leads entre una tabla densa y una vista de tarjetas más visual, para adaptar la interfaz a mis necesidades, ya sea para escanear datos rápidamente o para tener una vista más completa de cada lead.",
+      "pageContext": "Gestión de Leads",
+      "affectedFiles": ["pages/leads/index.jsx", "components/LeadTable.jsx", "components/LeadCard.jsx"],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ViewToggler",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "LeadTable",
+            "from": "@/components/LeadTable"
+          },
+          {
+            "name": "LeadCard",
+            "from": "@/components/LeadCard"
+          }
+        ]
+      },
+      "logicData": "En `pages/leads/index.jsx`, se debe gestionar un estado local (ej: `viewMode`) que puede ser 'table' o 'card'. Se creará un nuevo componente `ViewToggler` con dos iconos (tabla y tarjetas) para cambiar este estado. Dependiendo del valor de `viewMode`, se renderizará condicionalmente el componente `LeadTable` o un contenedor que mapee los datos para renderizar componentes `LeadCard`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex space-x-2 p-2 bg-gray-200 rounded-lg",
+        "colorCoding": "El botón de la vista activa debe tener un color de fondo distintivo (ej: `bg-white` o el color primario) y una sombra sutil, mientras que el inactivo es transparente o gris."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un control visible, típicamente cerca de la barra de filtros/búsqueda, con dos opciones: 'Vista de Tabla' y 'Vista de Tarjetas'.",
+        "Por defecto, la vista de tabla debe estar seleccionada.",
+        "Al hacer clic en el icono de 'Vista de Tarjetas', la lista de leads cambia a un formato de tarjetas.",
+        "Al hacer clic en el icono de 'Vista de Tabla', la visualización regresa al formato de tabla.",
+        "La elección de vista debe persistir durante la sesión del usuario (usando `localStorage` o similar).",
+        "Ambas vistas deben responder correctamente a los filtros, búsqueda y paginación."
+      ],
+      "additionalSuggestions": [
+        "La vista de tabla es ideal para mostrar más leads por pantalla con columnas personalizables.",
+        "La vista de tarjeta puede mostrar una foto del lead (si aplica), y un resumen de las últimas notas o actividades."
+      ],
+      "aiEditorTask": "Crea el componente `ViewToggler.jsx` con dos botones que invocan una función `onViewChange`. En `pages/leads/index.jsx`, usa un `useState` para el `viewMode` y renderiza `LeadTable` o `LeadCard` condicionalmente. Guarda la preferencia del usuario en `localStorage`.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Paginación de la Lista de Leads",
+      "description": "Como usuario, quiero que la lista de leads esté paginada para que la página cargue rápidamente y la navegación sea fluida, incluso cuando haya miles de leads en el sistema.",
+      "pageContext": "Gestión de Leads",
+      "affectedFiles": ["pages/leads/index.jsx", "components/Pagination.jsx", "hooks/useLeads.js", "services/leadService.js"],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "Pagination",
+            "from": "@/components/Pagination"
+          }
+        ]
+      },
+      "logicData": "La llamada a la API en `leadService.js` debe aceptar parámetros de paginación (`page`, `limit`). El hook `useLeads` gestionará la página actual y el total de páginas. El componente `Pagination.jsx` recibirá esta información (página actual, total de páginas, función para cambiar de página) y renderizará los controles de navegación. Al cambiar de página, se ejecutará una nueva llamada a la API con el número de página solicitado.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex justify-between items-center px-4 py-3 border-t",
+        "colorCoding": "El número de la página actual debe estar resaltado con un fondo de color primario y texto blanco. Los botones 'Anterior' y 'Siguiente' deben estar deshabilitados visualmente cuando corresponda."
+      },
+      "acceptanceCriteria": [
+        "La lista de leads debe mostrar un número fijo de elementos por página (ej: 25).",
+        "Debajo de la lista, deben aparecer los controles de paginación.",
+        "Los controles deben incluir botones para 'Anterior' y 'Siguiente'.",
+        "Los controles deben mostrar los números de página, con la página actual destacada.",
+        "El botón 'Anterior' debe estar deshabilitado en la primera página.",
+        "El botón 'Siguiente' debe estar deshabilitado en la última página.",
+        "Hacer clic en un número de página o en 'Siguiente'/'Anterior' debe cargar los leads correspondientes sin recargar toda la página."
+      ],
+      "additionalSuggestions": [
+        "Mostrar un resumen como 'Mostrando 1-25 de 150 leads'.",
+        "Añadir un selector para que el usuario pueda elegir cuántos leads ver por página (ej: 25, 50, 100)."
+      ],
+      "aiEditorTask": "Implementa la lógica en `Pagination.jsx` para que sea un componente controlado. Debe recibir `currentPage`, `totalPages` y `onPageChange` como props. En `useLeads.js`, añade la gestión del estado de la página y pásalo a la llamada del servicio.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Asignar un Lead a un Agente",
+      "description": "Como gerente de ventas, quiero asignar un lead a un agente específico directamente desde el menú de acciones rápidas, para poder distribuir el trabajo de manera equitativa y rápida.",
+      "pageContext": "Gestión de Leads",
+      "affectedFiles": ["components/QuickActionsMenu.jsx", "hooks/useLeads.js", "services/leadService.js"],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "QuickActionsMenu",
+            "from": "@/components/QuickActionsMenu"
+          }
+        ]
+      },
+      "logicData": "Dentro de `QuickActionsMenu.jsx`, se añadirá una opción 'Asignar a...'. Al hacer clic, se abrirá un submenú o modal con una lista de agentes disponibles (obtenida de un `agentService`). Al seleccionar un agente, se llamará a una función en `leadService.js` con el ID del lead y el ID del nuevo agente. Tras la confirmación, el campo 'Agente Asignado' en la UI se actualizará.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "w-56 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg",
+        "colorCoding": "La lista de agentes podría incluir sus avatares para una identificación más rápida. El agente actualmente asignado puede estar preseleccionado o destacado en la lista."
+      },
+      "acceptanceCriteria": [
+        "El menú de acciones rápidas de cada lead debe incluir la opción 'Asignar a...'.",
+        "Al seleccionar 'Asignar a...', se debe mostrar una lista de todos los agentes activos en el sistema.",
+        "La lista debe permitir buscar o filtrar agentes si es muy larga.",
+        "Al seleccionar un agente, se envía una petición a la API para actualizar el propietario del lead.",
+        "El nombre del agente asignado en la fila/tarjeta del lead se actualiza inmediatamente en la UI.",
+        "El sistema debe mostrar una notificación de éxito tras la reasignación."
+      ],
+      "additionalSuggestions": [
+        "Permitir la asignación de múltiples leads a un agente de una sola vez mediante checkboxes y una acción masiva.",
+        "Enviar una notificación por correo electrónico o dentro del CRM al agente que recibe el nuevo lead."
+      ],
+      "aiEditorTask": "Añade la opción 'Asignar a...' al array de acciones en `QuickActionsMenu.jsx`. Al hacer clic, muestra un `Dropdown` anidado que se puebla con los datos de los agentes. La selección de un agente debe invocar una función de mutación del hook `useLeads` para actualizar el lead.",
+      "priority": "Alta",
+      "estimatedHours": 12
+    }
+  ]
+}
+```

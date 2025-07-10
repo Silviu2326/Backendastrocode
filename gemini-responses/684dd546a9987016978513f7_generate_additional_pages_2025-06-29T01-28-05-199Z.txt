@@ -1,0 +1,55 @@
+```json
+{
+  "pages": [
+    {
+      "name": "Solicitud para ser Instructor",
+      "description": "Página de aterrizaje y formulario donde los expertos pueden solicitar convertirse en instructores de Eduplatform. Describe los beneficios de enseñar en la plataforma, los estándares de calidad requeridos y el proceso de revisión. El formulario recopila información profesional, experiencia en la materia y propuestas de cursos iniciales. Es un paso crucial para asegurar la calidad del contenido y la credibilidad de la plataforma a medida que escala.",
+      "route": "/teach/apply",
+      "isEssential": true,
+      "priority": 9
+    },
+    {
+      "name": "Panel de Analíticas Avanzadas del Instructor",
+      "description": "Una sección dedicada que ofrece un análisis profundo del rendimiento de los cursos de un instructor. A diferencia del dashboard general, esta página permite desglosar métricas por curso o lección: engagement y puntos de abandono en videos, rendimiento promedio en evaluaciones, preguntas más frecuentes de los estudiantes y análisis demográfico. Ayuda a los instructores a optimizar su contenido basándose en datos concretos.",
+      "route": "/instructor/analytics",
+      "isEssential": false,
+      "priority": 8
+    },
+    {
+      "name": "Eduplatform para Empresas (B2B)",
+      "description": "Página de marketing dirigida a organizaciones y empresas. Detalla la propuesta de valor de Eduplatform para la capacitación de equipos, incluyendo gestión de usuarios centralizada, seguimiento del progreso del equipo y planes de precios por volumen. Incluye casos de estudio de empresas y un CTA claro para solicitar una demostración o contactar al equipo de ventas. Es la puerta de entrada al funnel de ventas B2B.",
+      "route": "/business",
+      "isEssential": false,
+      "priority": 8
+    },
+    {
+      "name": "Panel de Administración de Equipos",
+      "description": "Dashboard para los administradores de cuentas empresariales. Permite a los gerentes o líderes de RR.HH. invitar o eliminar miembros de su equipo, asignar cursos o rutas de aprendizaje específicas, visualizar el progreso general del equipo y de cada miembro individualmente, y gestionar la facturación de la suscripción corporativa. Es la herramienta esencial para que el producto B2B sea funcional.",
+      "route": "/team/admin",
+      "isEssential": false,
+      "priority": 8
+    },
+    {
+      "name": "Sesiones en Vivo y Webinars",
+      "description": "Un calendario interactivo que muestra las próximas sesiones en vivo, webinars, talleres o sesiones de 'Pregúntale al Experto'. Los usuarios pueden registrarse, recibir recordatorios y acceder a las grabaciones de eventos pasados. Esto añade un componente de aprendizaje síncrono, fomenta la comunidad y crea oportunidades de monetización adicionales (p. ej., webinars premium).",
+      "route": "/live-sessions",
+      "isEssential": false,
+      "priority": 7
+    },
+    {
+      "name": "Bolsa de Trabajo impulsada por IA",
+      "description": "Un portal de empleo integrado en la plataforma. La IA de Eduplatform conecta el perfil de habilidades de los estudiantes (validado por los cursos completados) con ofertas de trabajo relevantes publicadas por empresas asociadas. Los estudiantes pueden construir un perfil profesional, postularse a empleos y recibir recomendaciones proactivas. Cierra el ciclo de aprendizaje-empleo, ofreciendo un ROI claro a los usuarios.",
+      "route": "/jobs",
+      "isEssential": false,
+      "priority": 7
+    },
+    {
+      "name": "Evaluación de Habilidades con IA",
+      "description": "Una herramienta de diagnóstico que permite a los usuarios nuevos (o existentes) realizar una evaluación para identificar sus fortalezas y debilidades en un área de conocimiento específica. Basándose en los resultados, la IA genera un informe detallado y recomienda una ruta de aprendizaje personalizada para cerrar las brechas de conocimiento. Funciona como un potente imán de leads y una herramienta de onboarding.",
+      "route": "/skills-assessment",
+      "isEssential": false,
+      "priority": 6
+    }
+  ]
+}
+```

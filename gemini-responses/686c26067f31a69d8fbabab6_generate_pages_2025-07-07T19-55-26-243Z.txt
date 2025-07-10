@@ -1,0 +1,76 @@
+```json
+{
+  "pages": [
+    {
+      "name": "Página de Inicio (Landing Page)",
+      "description": "Página principal de marketing que presenta la propuesta de valor de FitFlow Pro. Destaca características clave, beneficios, testimonios y contiene llamadas a la acción (CTA) claras para el registro. Es el primer punto de contacto para atraer a nuevos entrenadores.",
+      "route": "/",
+      "isEssential": true,
+      "priority": 1
+    },
+    {
+      "name": "Registro de Entrenador",
+      "description": "Formulario donde los entrenadores personales pueden crear una nueva cuenta. Solicita información esencial (nombre, email, contraseña) y puede incluir la selección de un plan de suscripción para iniciar el periodo de prueba o el pago.",
+      "route": "/signup",
+      "isEssential": true,
+      "priority": 2
+    },
+    {
+      "name": "Dashboard Principal",
+      "description": "La primera pantalla que ve el entrenador al iniciar sesión. Ofrece una vista general y rápida de su negocio: clientes activos, próximas sesiones, ingresos del mes, y notificaciones importantes. Actúa como el centro de mando de la aplicación.",
+      "route": "/dashboard",
+      "isEssential": true,
+      "priority": 3
+    },
+    {
+      "name": "Gestión de Clientes",
+      "description": "Un listado completo y centralizado de todos los clientes del entrenador. Permite añadir nuevos clientes, buscar, filtrar y acceder al perfil detallado de cada uno con un solo clic.",
+      "route": "/clients",
+      "isEssential": true,
+      "priority": 4
+    },
+    {
+      "name": "Perfil del Cliente",
+      "description": "Vista detallada de un cliente específico. Muestra su información de contacto, los planes de entrenamiento y nutrición asignados, seguimiento de progreso (fotos, medidas, etc.), historial de pagos y notas privadas del entrenador.",
+      "route": "/clients/{clientId}",
+      "isEssential": true,
+      "priority": 5
+    },
+    {
+      "name": "Creador de Planes",
+      "description": "Herramienta interactiva para diseñar planes de entrenamiento y/o nutrición personalizados. Debe tener una biblioteca de ejercicios, permitir definir series, repeticiones, descansos y la capacidad de guardar planes como plantillas reutilizables.",
+      "route": "/plans/builder",
+      "isEssential": true,
+      "priority": 6
+    },
+    {
+      "name": "Pagos y Facturación",
+      "description": "Sección para gestionar el aspecto financiero del negocio. El entrenador puede ver sus ingresos, conectar su cuenta de pagos (ej. Stripe), gestionar las suscripciones de sus clientes y ver un historial detallado de transacciones.",
+      "route": "/billing",
+      "isEssential": true,
+      "priority": 7
+    },
+    {
+      "name": "Calendario y Agenda",
+      "description": "Vista de calendario para programar y visualizar sesiones de entrenamiento, citas y recordatorios. Se integra con la gestión de clientes para una planificación eficiente.",
+      "route": "/calendar",
+      "isEssential": false,
+      "priority": 8
+    },
+    {
+      "name": "Configuración de Cuenta",
+      "description": "Área donde el entrenador gestiona su propio perfil, actualiza su información de facturación para el pago de FitFlow Pro, cambia su contraseña y configura las integraciones de pago para sus clientes.",
+      "route": "/settings",
+      "isEssential": true,
+      "priority": 9
+    },
+    {
+      "name": "Planes y Precios",
+      "description": "Página pública que detalla claramente los diferentes niveles de suscripción disponibles para FitFlow Pro, enumerando las características incluidas en cada plan y su costo. Ayuda a los potenciales clientes a tomar una decisión de compra.",
+      "route": "/pricing",
+      "isEssential": true,
+      "priority": 10
+    }
+  ]
+}
+```

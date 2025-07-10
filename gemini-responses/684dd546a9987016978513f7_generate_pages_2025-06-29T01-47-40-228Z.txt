@@ -1,0 +1,69 @@
+```json
+{
+  "pages": [
+    {
+      "name": "Página de Inicio (Landing Page)",
+      "description": "Página principal de marketing que presenta la plataforma, sus beneficios clave (especialmente el aprendizaje personalizado con IA), testimonios y un llamado a la acción claro para registrarse o explorar cursos.",
+      "route": "/",
+      "isEssential": true,
+      "priority": 10
+    },
+    {
+      "name": "Catálogo de Cursos",
+      "description": "Galería de todos los cursos disponibles. Debe incluir potentes filtros, una barra de búsqueda y una sección de 'Recomendados para ti' impulsada por la IA basada en los intereses del usuario.",
+      "route": "/cursos",
+      "isEssential": true,
+      "priority": 9
+    },
+    {
+      "name": "Detalle del Curso",
+      "description": "Página con información completa de un curso específico: temario, objetivos de aprendizaje, instructor, duración, precio, y reseñas. Esencial para la decisión de inscripción del usuario.",
+      "route": "/cursos/{slug-del-curso}",
+      "isEssential": true,
+      "priority": 8
+    },
+    {
+      "name": "Registro de Usuario",
+      "description": "Formulario para que nuevos usuarios creen una cuenta. Podría incluir un breve 'onboarding' para capturar intereses iniciales y empezar a personalizar la experiencia con IA desde el primer momento.",
+      "route": "/registro",
+      "isEssential": true,
+      "priority": 9
+    },
+    {
+      "name": "Inicio de Sesión",
+      "description": "Formulario simple y seguro para que los usuarios existentes accedan a la plataforma. Debe incluir una opción de 'recuperar contraseña'.",
+      "route": "/login",
+      "isEssential": true,
+      "priority": 9
+    },
+    {
+      "name": "Panel de Usuario (Dashboard)",
+      "description": "Centro de operaciones personalizado para el usuario. Muestra los cursos en progreso, el avance, las próximas lecciones y recomendaciones dinámicas generadas por la IA para guiar su ruta de aprendizaje.",
+      "route": "/dashboard",
+      "isEssential": true,
+      "priority": 10
+    },
+    {
+      "name": "Interfaz de Aprendizaje (Visor del Curso)",
+      "description": "El corazón de la plataforma. Aquí el usuario consume el contenido (videos, texto, etc.), realiza quizzes y, crucialmente, interactúa con un asistente de IA para resolver dudas, obtener explicaciones adicionales o practicar conceptos.",
+      "route": "/aprender/{slug-del-curso}/{slug-de-la-leccion}",
+      "isEssential": true,
+      "priority": 10
+    },
+    {
+      "name": "Perfil y Configuración",
+      "description": "Área donde el usuario puede gestionar su información personal, ver sus certificados, administrar su suscripción, configurar notificaciones y ajustar sus preferencias de aprendizaje.",
+      "route": "/perfil",
+      "isEssential": true,
+      "priority": 7
+    },
+    {
+      "name": "Planes y Precios",
+      "description": "Página clara y concisa que detalla los diferentes modelos de monetización (suscripción, pago único por curso, etc.) y las características incluidas en cada plan.",
+      "route": "/precios",
+      "isEssential": false,
+      "priority": 6
+    }
+  ]
+}
+```

@@ -1,0 +1,140 @@
+{
+  "name": "Ejemplo de User Story con Locate-or-Create",
+  "description": "Este archivo muestra cómo usar la funcionalidad locate-or-create en las user stories",
+  "examples": [
+    {
+      "scenario": "Crear nueva función en archivo existente",
+      "userStory": {
+        "id": "story-001",
+        "title": "Añadir función de cálculo de descuentos",
+        "description": "Implementar lógica para aplicar descuentos por cupones y envío gratuito si el subtotal es mayor a 50€",
+        "priority": "high",
+        "status": "backlog",
+        "estimatedHours": 3,
+        "pageId": "orders-page",
+        "projectId": "ecommerce-project",
+        "apiImpact": true,
+        "target": {
+          "file": "src/controllers/order.controller.ts",
+          "function": "calculateTotal",
+          "createIfMissing": true
+        }
+      },
+      "api": {
+        "name": "order",
+        "type": "controller",
+        "framework": "express",
+        "database": "mongoose",
+        "typescript": true
+      },
+      "tests": {
+        "happyPath": true,
+        "edgeCases": ["subtotal exactamente 50", "cupón expirado", "cupón inválido"]
+      }
+    },
+    {
+      "scenario": "Scaffoldear archivo completamente nuevo",
+      "userStory": {
+        "id": "story-002",
+        "title": "Crear servicio de notificaciones",
+        "description": "Implementar servicio para enviar notificaciones por email y SMS",
+        "priority": "medium",
+        "status": "backlog",
+        "estimatedHours": 5,
+        "pageId": "notifications-page",
+        "projectId": "ecommerce-project",
+        "apiImpact": true,
+        "target": {
+          "file": "src/services/notification.service.ts",
+          "function": "sendNotification",
+          "createIfMissing": true
+        }
+      },
+      "api": {
+        "name": "notification",
+        "type": "service",
+        "framework": "express",
+        "database": "prisma",
+        "typescript": true
+      }
+    },
+    {
+      "scenario": "Parchear función existente (modo seguro)",
+      "userStory": {
+        "id": "story-003",
+        "title": "Mejorar validación de usuarios",
+        "description": "Añadir validación de email y teléfono en el registro de usuarios",
+        "priority": "high",
+        "status": "backlog",
+        "estimatedHours": 2,
+        "pageId": "auth-page",
+        "projectId": "ecommerce-project",
+        "apiImpact": true,
+        "target": {
+          "file": "src/controllers/auth.controller.ts",
+          "function": "register",
+          "createIfMissing": false
+        }
+      },
+      "api": {
+        "name": "auth",
+        "type": "controller",
+        "framework": "express",
+        "database": "mongoose",
+        "typescript": true
+      },
+      "requirements": {
+        "validation": true,
+        "authentication": true
+      }
+    }
+  ],
+  "workflow": {
+    "steps": [
+      {
+        "step": 1,
+        "agent": "BE-Manager",
+        "action": "Recibe user story con campo target",
+        "result": "Envía a BE-Draft con flag createIfMissing"
+      },
+      {
+        "step": 2,
+        "agent": "BE-Draft",
+        "action": "Verifica si archivo existe con fs.existsSync()",
+        "result": "Decide entre Patch Mode o Scaffold Mode"
+      },
+      {
+        "step": 3,
+        "agent": "BE-Draft",
+        "action": "Ejecuta modo correspondiente",
+        "result": "Genera/modifica archivo con función base"
+      },
+      {
+        "step": 4,
+        "agent": "BE-Logic",
+        "action": "Implementa lógica de negocio",
+        "result": "Completa función con código real"
+      },
+      {
+        "step": 5,
+        "agent": "BE-Test",
+        "action": "Genera/actualiza tests",
+        "result": "Crea casos de prueba apropiados"
+      },
+      {
+        "step": 6,
+        "agent": "BE-Typefix",
+        "action": "Corrige tipos TypeScript",
+        "result": "Asegura compilación sin errores"
+      }
+    ]
+  },
+  "benefits": [
+    "Flexibilidad para trabajar con archivos existentes o nuevos",
+    "Prevención de sobrescritura accidental con createIfMissing=false",
+    "Scaffolding automático con estructura consistente",
+    "Integración perfecta con el flujo de agentes existente",
+    "Trazabilidad completa de cambios",
+    "Soporte para múltiples frameworks y bases de datos"
+  ]
+}

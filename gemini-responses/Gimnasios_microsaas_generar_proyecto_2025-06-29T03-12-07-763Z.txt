@@ -1,0 +1,123 @@
+```json
+{
+  "softwares": [
+    {
+      "name": "GymFlow Scheduler",
+      "description": "Una plataforma minimalista para que los gimnasios boutique y estudios de fitness gestionen sus horarios de clases, la disponibilidad de los entrenadores y las reservas de los miembros. Se enfoca en la simplicidad y la integración fácil en el sitio web existente del gimnasio.",
+      "targetClient": "Propietarios o gerentes de gimnasios pequeños a medianos (ej. estudios de yoga, CrossFit, pilates) que se sienten abrumados por software de gestión complejo y costoso. Necesitan una solución rápida, asequible y fácil de usar para automatizar las reservas.",
+      "pages": [
+        {
+          "name": "Dashboard",
+          "description": "Vista general de las próximas clases, número de inscritos y disponibilidad de los entrenadores.",
+          "route": "/dashboard"
+        },
+        {
+          "name": "Calendario de Clases",
+          "description": "Interfaz visual para crear, editar y cancelar clases. Permite asignar entrenadores y establecer cupos máximos.",
+          "route": "/schedule"
+        },
+        {
+          "name": "Gestión de Entrenadores",
+          "description": "Perfiles de entrenadores, configuración de su disponibilidad y visualización de las clases asignadas.",
+          "route": "/trainers"
+        },
+        {
+          "name": "Gestión de Reservas",
+          "description": "Listado de miembros inscritos por clase, gestión de listas de espera y cancelaciones.",
+          "route": "/bookings"
+        },
+        {
+          "name": "Página Pública de Reservas (Widget)",
+          "description": "Componente integrable en el sitio web del gimnasio para que los miembros vean y reserven clases.",
+          "route": "/public/booking"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$5,000 - $10,000 USD",
+        "monthlyRevenuePotential": "$2,500 - $7,500 USD",
+        "breakEvenTime": "8-14 meses",
+        "marketSize": "Alto (miles de estudios boutique a nivel mundial)",
+        "competitionLevel": "Medio"
+      }
+    },
+    {
+      "name": "RetainFit",
+      "description": "Software automatizado para la retención de miembros. Envía encuestas de satisfacción y mensajes de 'check-in' basados en la actividad del miembro (o inactividad), identificando a aquellos en riesgo de abandonar para que el personal del gimnasio pueda intervenir.",
+      "targetClient": "Gimnasios de cualquier tamaño enfocados en la experiencia del cliente y en reducir la tasa de cancelación (churn). El cliente ideal es un gerente que valora la retención pero no tiene tiempo para un seguimiento manual.",
+      "pages": [
+        {
+          "name": "Panel de Retención",
+          "description": "Métricas clave: miembros en riesgo, feedback reciente y tasa de churn estimada.",
+          "route": "/dashboard"
+        },
+        {
+          "name": "Campañas Automatizadas",
+          "description": "Configuración de disparadores (triggers) y mensajes automáticos (ej. 'tras 30 días de inactividad').",
+          "route": "/automations"
+        },
+        {
+          "name": "Listado de Miembros",
+          "description": "Vista de todos los miembros con su estado de actividad, nivel de riesgo y historial de comunicación.",
+          "route": "/members"
+        },
+        {
+          "name": "Reportes y Analíticas",
+          "description": "Análisis de tendencias en el feedback, efectividad de las campañas y razones de cancelación.",
+          "route": "/reports"
+        },
+        {
+          "name": "Integraciones",
+          "description": "Página para conectar RetainFit con el software de gestión de gimnasios existente para sincronizar datos de miembros.",
+          "route": "/settings/integrations"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$8,000 - $15,000 USD",
+        "monthlyRevenuePotential": "$4,000 - $12,000 USD",
+        "breakEvenTime": "12-18 meses",
+        "marketSize": "Alto (el churn es un problema universal en la industria)",
+        "competitionLevel": "Bajo/Medio"
+      }
+    },
+    {
+      "name": "IronLog Maintenance",
+      "description": "Un sistema de bitácora digital para el seguimiento del mantenimiento de equipos del gimnasio. Permite programar revisiones preventivas, reportar averías con QR y gestionar el historial de reparaciones para garantizar la seguridad y operatividad.",
+      "targetClient": "Gerentes de operaciones en gimnasios medianos a grandes o cadenas, responsables de la seguridad, el presupuesto de mantenimiento y el tiempo de actividad del equipamiento. Necesitan una alternativa a las hojas de cálculo y los registros en papel.",
+      "pages": [
+        {
+          "name": "Panel de Mantenimiento",
+          "description": "Resumen del estado del equipo, tickets de reparación abiertos y próximas tareas de mantenimiento.",
+          "route": "/dashboard"
+        },
+        {
+          "name": "Inventario de Equipos",
+          "description": "Listado de todo el equipamiento con detalles, historial y la posibilidad de generar códigos QR para cada uno.",
+          "route": "/equipment"
+        },
+        {
+          "name": "Calendario de Mantenimiento",
+          "description": "Programación y asignación de tareas de mantenimiento preventivo para evitar averías.",
+          "route": "/maintenance-schedule"
+        },
+        {
+          "name": "Bitácora de Reparaciones",
+          "description": "Creación y seguimiento de tickets de reparación, desde el reporte del problema hasta su solución.",
+          "route": "/tickets"
+        },
+        {
+          "name": "Reportes de Costos",
+          "description": "Informes sobre el gasto en mantenimiento por equipo, tiempo de inactividad y vida útil.",
+          "route": "/reports"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$6,000 - $12,000 USD",
+        "monthlyRevenuePotential": "$3,000 - $9,000 USD",
+        "breakEvenTime": "10-16 meses",
+        "marketSize": "Medio (enfocado en gimnasios con un volumen considerable de equipos)",
+        "competitionLevel": "Bajo"
+      }
+    }
+  ]
+}
+```

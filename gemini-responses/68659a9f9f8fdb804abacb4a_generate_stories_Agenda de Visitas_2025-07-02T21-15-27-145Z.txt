@@ -1,0 +1,198 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización del calendario de visitas",
+      "description": "Como agente inmobiliario, quiero ver todas las visitas programadas en una vista de calendario (mes/semana/día) para tener una visión clara de mi agenda y planificar mi jornada eficientemente.",
+      "pageContext": "Agenda de Visitas",
+      "affectedFiles": ["/pages/calendar/index.jsx", "/components/calendar/CalendarView.jsx", "/hooks/useVisits.js", "/services/api/visits.js", "/store/calendarSlice.js"],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "CalendarView",
+            "from": "@/components/calendar/CalendarView"
+          },
+          {
+            "name": "useVisits",
+            "from": "@/hooks/useVisits"
+          }
+        ]
+      },
+      "logicData": "Al cargar la página, el hook `useVisits` debe realizar una llamada a `services/api/visits.js` para obtener todas las visitas. Los datos se almacenarán en el `calendarSlice` del estado global. El componente `CalendarView` consumirá estos datos y los renderizará como eventos en una librería de calendario (ej. FullCalendar, react-big-calendar).",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-4 md:p-6 bg-gray-50 min-h-screen",
+        "colorCoding": "Usar colores para diferenciar el estado de las visitas: Verde (`bg-green-100 border-green-400`) para 'Confirmada', Amarillo (`bg-yellow-100 border-yellow-400`) para 'Pendiente', Rojo (`bg-red-100 border-red-400`) para 'Cancelada'."
+      },
+      "acceptanceCriteria": [
+        "El calendario debe mostrarse al cargar la ruta `/calendar`.",
+        "Todas las visitas existentes deben cargarse y mostrarse como eventos en el calendario.",
+        "Cada evento en el calendario debe mostrar como mínimo el nombre del cliente y la dirección del inmueble.",
+        "Debe ser posible cambiar la vista del calendario entre 'mes', 'semana' y 'día'.",
+        "Los eventos deben estar coloreados según su estado (Confirmada, Pendiente, Cancelada)."
+      ],
+      "additionalSuggestions": ["Añadir un 'tooltip' al pasar el cursor sobre un evento para ver más detalles sin necesidad de hacer clic.", "Implementar una vista de 'agenda' o 'lista' además de las vistas de calendario."],
+      "aiEditorTask": "Implementa el componente `CalendarView.jsx` utilizando la librería `FullCalendar`. Conecta el componente al hook `useVisits` para obtener y mostrar los eventos. Asegúrate de que las vistas de mes, semana y día estén habilitadas en la cabecera.",
+      "priority": "Alta",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Agendar una nueva visita",
+      "description": "Como agente, quiero poder agendar una nueva visita haciendo clic en un horario disponible en el calendario para registrar rápidamente un nuevo compromiso con un cliente.",
+      "pageContext": "Agenda de Visitas",
+      "affectedFiles": ["/components/calendar/EventModal.jsx", "/components/calendar/AgentSelector.jsx", "/components/calendar/PropertySelector.jsx", "/hooks/useVisits.js", "/services/api/visits.js"],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "EventModal",
+            "from": "@/components/calendar/EventModal"
+          }
+        ]
+      },
+      "logicData": "Al hacer clic en una franja horaria vacía del calendario, se debe abrir el `EventModal.jsx`. Este modal contendrá un formulario para introducir los detalles de la visita: nombre del cliente, teléfono, email, y selectores (`AgentSelector`, `PropertySelector`) para asignar un agente y un inmueble. Al guardar, se llamará a una función `createVisit` del hook `useVisits` que a su vez ejecutará la petición POST en `services/api/visits.js`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "modal-overlay backdrop-blur-sm, modal-content bg-white p-6 rounded-lg shadow-xl",
+        "colorCoding": "El botón de guardar debe ser el color primario de la marca (ej. `bg-blue-600 hover:bg-blue-700`)."
+      },
+      "acceptanceCriteria": [
+        "Al hacer clic en una celda de fecha/hora vacía del calendario, se abre un modal.",
+        "El modal debe contener campos para la información del cliente (nombre, contacto).",
+        "El modal debe incluir un selector para elegir un inmueble de una lista.",
+        "El modal debe incluir un selector para elegir un agente disponible.",
+        "Al completar y guardar el formulario, se crea un nuevo evento en el calendario y la base de datos.",
+        "El modal se cierra automáticamente después de guardar con éxito."
+      ],
+      "additionalSuggestions": ["Autocompletar la búsqueda de inmuebles y clientes existentes en el CRM.", "Mostrar un mensaje de confirmación (toast/snackbar) al crear la visita."],
+      "aiEditorTask": "Crea el formulario dentro de `EventModal.jsx` con validación de campos obligatorios (cliente, inmueble, agente). Implementa la lógica para que al guardar se llame a la función `createVisit` del hook `useVisits` y se actualice el calendario.",
+      "priority": "Alta",
+      "estimatedHours": 16
+    },
+    {
+      "title": "Reprogramar visita con arrastrar y soltar",
+      "description": "Como coordinador de visitas, quiero poder arrastrar y soltar una visita existente a una nueva fecha u hora para reprogramarla de forma ágil y visual.",
+      "pageContext": "Agenda de Visitas",
+      "affectedFiles": ["/components/calendar/CalendarView.jsx", "/hooks/useVisits.js", "/services/api/visits.js", "/store/calendarSlice.js"],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "La librería de calendario en `CalendarView.jsx` debe tener habilitada la funcionalidad de 'eventDrop'. Se debe implementar un manejador para este evento que reciba el ID de la visita y la nueva fecha/hora. Este manejador llamará a una función `updateVisit` en `useVisits`, la cual enviará una petición PUT/PATCH a la API en `services/api/visits.js`. Se debe mostrar un modal de confirmación antes de guardar el cambio.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "cursor-move",
+        "colorCoding": "Mientras se arrastra el evento, este podría tener una opacidad reducida (ej. `opacity-75`) y una sombra más pronunciada (`shadow-lg`)."
+      },
+      "acceptanceCriteria": [
+        "Las visitas existentes en el calendario deben ser arrastrables.",
+        "Al soltar una visita en una nueva franja horaria, aparece un diálogo de confirmación.",
+        "Si el usuario confirma, la visita se actualiza en el calendario y en la base de datos a la nueva fecha/hora.",
+        "Si el usuario cancela, la visita vuelve a su posición original.",
+        "La lógica debe comprobar si hay conflictos de horario en la nueva posición antes de permitir la reprogramación."
+      ],
+      "additionalSuggestions": ["Permitir también redimensionar el evento para cambiar su duración.", "Enviar una notificación automática por email al cliente y al agente informando del cambio."],
+      "aiEditorTask": "En `CalendarView.jsx`, habilita la propiedad `editable` y `eventDrop` en la configuración de FullCalendar. Implementa el callback `onEventDrop` para gestionar la lógica de actualización, incluyendo un diálogo de confirmación (`window.confirm` o un modal personalizado).",
+      "priority": "Media",
+      "estimatedHours": 14
+    },
+    {
+      "title": "Cancelar una visita programada",
+      "description": "Como agente, quiero poder cancelar una visita desde el calendario, con la opción de añadir un motivo, para mantener la agenda actualizada y liberar los recursos.",
+      "pageContext": "Agenda de Visitas",
+      "affectedFiles": ["/components/calendar/EventModal.jsx", "/hooks/useVisits.js", "/services/api/visits.js"],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "Al hacer clic en una visita existente, se abre `EventModal.jsx` con los datos de la visita. Este modal debe contener un botón de 'Cancelar Visita'. Al pulsarlo, se mostrará un diálogo de confirmación. Si se confirma, se llamará a una función `cancelVisit` en `useVisits` que realizará una petición (DELETE o PATCH para cambiar estado) a la API, pasando el ID de la visita. Opcionalmente, se puede incluir un campo para el motivo de la cancelación.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded",
+        "colorCoding": "El botón de cancelación debe ser de color rojo para indicar una acción destructiva."
+      },
+      "acceptanceCriteria": [
+        "Al hacer clic en un evento del calendario, se abre el modal con sus detalles.",
+        "El modal muestra un botón 'Cancelar Visita'.",
+        "Al hacer clic en 'Cancelar Visita', se pide confirmación al usuario.",
+        "Si se confirma, la visita se marca como cancelada en la base de datos.",
+        "El evento en el calendario cambia su apariencia (ej. color rojo o tachado) para reflejar la cancelación."
+      ],
+      "additionalSuggestions": ["Guardar el motivo de la cancelación y mostrarlo en los detalles de la visita.", "Permitir deshacer la cancelación durante un breve periodo de tiempo."],
+      "aiEditorTask": "Añade un botón de 'Cancelar Visita' en `EventModal.jsx`. Implementa la lógica de confirmación y la llamada a la función `cancelVisit` del hook `useVisits`. Tras la cancelación, asegúrate de que el estado del calendario se actualice para reflejar el cambio de estado del evento.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Filtrado de visitas por agente o inmueble",
+      "description": "Como administrador, quiero filtrar el calendario para ver solo las visitas de un agente o inmueble específico para supervisar la actividad de forma centralizada.",
+      "pageContext": "Agenda de Visitas",
+      "affectedFiles": ["/pages/calendar/index.jsx", "/components/calendar/AgentSelector.jsx", "/components/calendar/PropertySelector.jsx", "/hooks/useVisits.js", "/store/calendarSlice.js"],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "AgentSelector",
+            "from": "@/components/calendar/AgentSelector"
+          },
+          {
+            "name": "PropertySelector",
+            "from": "@/components/calendar/PropertySelector"
+          }
+        ]
+      },
+      "logicData": "Añadir los componentes `AgentSelector` y `PropertySelector` en la página `index.jsx`, encima del calendario. Al seleccionar un valor, se actualizará un estado de filtros en `calendarSlice`. El hook `useVisits` leerá estos filtros y los añadirá como parámetros a la llamada a la API (`/api/visits?agentId=...&propertyId=...`). La API devolverá los datos filtrados, y el calendario se volverá a renderizar.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex gap-4 mb-4",
+        "colorCoding": "Los selectores de filtro deben estar claramente separados visualmente de la vista del calendario, quizás en una barra superior."
+      },
+      "acceptanceCriteria": [
+        "Deben existir dos menús desplegables en la página: uno para agentes y otro para inmuebles.",
+        "Por defecto, ambos filtros muestran 'Todos'.",
+        "Al seleccionar un agente, el calendario debe actualizarse y mostrar únicamente las visitas de ese agente.",
+        "Al seleccionar un inmueble, el calendario debe mostrar únicamente las visitas para esa propiedad.",
+        "Es posible combinar ambos filtros (visitas del agente X para el inmueble Y).",
+        "Debe haber un botón para limpiar los filtros y volver a la vista por defecto."
+      ],
+      "additionalSuggestions": ["Añadir un filtro por estado de la visita (Pendiente, Confirmada, Cancelada).", "Guardar los filtros seleccionados en el LocalStorage para que persistan entre sesiones."],
+      "aiEditorTask": "Integra los componentes `AgentSelector` y `PropertySelector` en la página `index.jsx`. Conecta sus eventos `onChange` para actualizar el estado de los filtros en `calendarSlice`. Modifica el hook `useVisits` para que incluya los parámetros de filtro en la llamada a la API cada vez que cambien.",
+      "priority": "Media",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Detección de conflictos de horario al agendar",
+      "description": "Como agente, quiero que el sistema me alerte visualmente si intento agendar una visita en un horario donde el agente o el inmueble ya están ocupados, para evitar dobles reservas.",
+      "pageContext": "Agenda de Visitas",
+      "affectedFiles": ["/components/calendar/EventModal.jsx", "/hooks/useVisits.js", "/services/api/agents.js"],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AvailabilityIndicator",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Dentro del `EventModal.jsx`, cada vez que cambie la fecha, hora, agente o inmueble seleccionado, se debe disparar una comprobación de disponibilidad. Esta lógica (posiblemente en `useVisits` o un nuevo hook `useAvailability`) consultará el estado actual de las visitas para ver si existe un solapamiento para el agente o el inmueble seleccionados. Si se detecta un conflicto, se mostrará un mensaje de advertencia claro en el modal y se deshabilitará el botón de 'Guardar'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "text-yellow-600 bg-yellow-100 border-l-4 border-yellow-500 p-4",
+        "colorCoding": "Mostrar una alerta de advertencia (amarilla) para conflictos de agente y una alerta de error (roja) para conflictos de inmueble (que es un bloqueo físico)."
+      },
+      "acceptanceCriteria": [
+        "En el modal de creación/edición de visita, si la combinación de agente y franja horaria ya está ocupada, se muestra una advertencia.",
+        "Si la combinación de inmueble y franja horaria ya está ocupada, se muestra una advertencia.",
+        "El botón para guardar la visita debe estar deshabilitado si existe algún conflicto.",
+        "El mensaje de advertencia debe especificar claramente cuál es el conflicto (agente no disponible, inmueble ocupado, o ambos).",
+        "La comprobación se debe realizar en tiempo real al cambiar los datos en el formulario."
+      ],
+      "additionalSuggestions": ["Sugerir el próximo horario disponible para el agente o inmueble en conflicto.", "Permitir a los administradores 'forzar' el agendamiento a pesar del conflicto, con un registro de auditoría."],
+      "aiEditorTask": "En `EventModal.jsx`, implementa una función `useEffect` que se ejecute cuando cambien la fecha, hora, agente o inmueble. Dentro, llama a una función del hook `useVisits` que verifique la disponibilidad. Muestra un componente de alerta condicionalmente y deshabilita el botón de envío si se detecta un conflicto.",
+      "priority": "Alta",
+      "estimatedHours": 18
+    }
+  ]
+}
+```

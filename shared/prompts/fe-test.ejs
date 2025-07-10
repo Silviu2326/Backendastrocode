@@ -1,0 +1,442 @@
+# Frontend Component Testing
+
+You are a testing expert tasked with creating comprehensive test suites for React components. Generate thorough, maintainable tests that cover functionality, accessibility, performance, and edge cases.
+
+## Context
+
+### User Story
+**ID:** <%= userStory.id %>
+**Title:** <%= userStory.title %>
+**Description:** <%= userStory.description %>
+
+**Acceptance Criteria:**
+<% userStory.acceptanceCriteria.forEach(criteria => { %>
+- <%= criteria %>
+<% }); %>
+
+### Component Information
+**Name:** <%= component.name %>
+**Type:** <%= component.type %>
+**Path:** <%= component.path %>
+
+### Project Configuration
+**Framework:** <%= project.framework %>
+**TypeScript:** <%= project.typescript ? 'Yes' : 'No' %>
+**Testing Framework:** <%= project.testingFramework || 'Jest + React Testing Library' %>
+**Styling:** <%= project.styling %>
+
+<% if (component.props && component.props.length > 0) { %>
+### Component Props
+<% component.props.forEach(prop => { %>
+- **<%= prop.name %>** (<%= prop.type %>)<% if (prop.required) { %> - Required<% } %><% if (prop.defaultValue) { %> - Default: <%= prop.defaultValue %><% } %>
+  <%= prop.description || '' %>
+<% }); %>
+<% } %>
+
+<% if (component.hooks && component.hooks.length > 0) { %>
+### Component Hooks
+<% component.hooks.forEach(hook => { %>
+- **<%= hook.name %>**: <%= hook.description || 'Custom hook usage' %>
+<% }); %>
+<% } %>
+
+## Testing Requirements
+
+### 1. Unit Tests
+Test individual component functionality in isolation:
+
+#### Rendering Tests
+- Component renders without crashing
+- Renders with required props
+- Renders with optional props
+- Renders with default props
+- Handles missing props gracefully
+
+#### Interaction Tests
+- User interactions (clicks, inputs, hovers)
+- Keyboard navigation
+- Form submissions
+- Event handlers
+- State changes
+
+#### Props Testing
+- All prop combinations
+- Prop validation
+- Default prop values
+- Prop type checking
+- Edge case prop values
+
+#### State Management
+- Initial state
+- State updates
+- State persistence
+- State reset
+- Complex state interactions
+
+### 2. Integration Tests
+Test component interactions with other components and systems:
+
+#### Component Integration
+- Parent-child component communication
+- Sibling component interactions
+- Context provider integration
+- Higher-order component behavior
+
+#### API Integration
+- Data fetching
+- Error handling
+- Loading states
+- Cache behavior
+- Real-time updates
+
+#### Router Integration
+- Navigation behavior
+- Route parameters
+- Query parameters
+- Route guards
+- Deep linking
+
+### 3. Accessibility Tests
+Ensure component meets accessibility standards:
+
+#### Screen Reader Support
+- ARIA labels and descriptions
+- Semantic HTML structure
+- Alternative text for images
+- Form field associations
+- Live region announcements
+
+#### Keyboard Navigation
+- Tab order
+- Keyboard shortcuts
+- Focus management
+- Escape key handling
+- Arrow key navigation
+
+#### Visual Accessibility
+- Color contrast
+- Focus indicators
+- Text scaling
+- Reduced motion
+- High contrast mode
+
+### 4. Performance Tests
+Validate component performance characteristics:
+
+#### Rendering Performance
+- Initial render time
+- Re-render optimization
+- Memory usage
+- Bundle size impact
+- Lazy loading behavior
+
+#### User Experience
+- Time to interactive
+- First contentful paint
+- Cumulative layout shift
+- Input responsiveness
+- Animation performance
+
+### 5. Visual Regression Tests
+Ensure visual consistency across changes:
+
+#### Snapshot Testing
+- Component structure snapshots
+- Style snapshots
+- Responsive design snapshots
+- Theme variation snapshots
+- State-based snapshots
+
+#### Cross-browser Testing
+- Browser compatibility
+- Responsive behavior
+- Feature detection
+- Polyfill requirements
+- Progressive enhancement
+
+## Testing Patterns and Best Practices
+
+### 1. Test Structure
+```typescript
+// Arrange - Set up test data and environment
+// Act - Execute the behavior being tested
+// Assert - Verify the expected outcome
+```
+
+### 2. Test Organization
+```typescript
+describe('ComponentName', () => {
+  describe('Rendering', () => {
+    // Rendering tests
+  });
+  
+  describe('Interactions', () => {
+    // User interaction tests
+  });
+  
+  describe('Accessibility', () => {
+    // Accessibility tests
+  });
+  
+  describe('Edge Cases', () => {
+    // Edge case and error handling tests
+  });
+});
+```
+
+### 3. Mock Strategies
+```typescript
+// Mock external dependencies
+jest.mock('../api/userService');
+jest.mock('react-router-dom');
+jest.mock('../hooks/useAuth');
+
+// Mock timers for async behavior
+jest.useFakeTimers();
+
+// Mock intersection observer
+global.IntersectionObserver = jest.fn();
+```
+
+### 4. Custom Render Utilities
+```typescript
+// Custom render with providers
+const renderWithProviders = (ui: React.ReactElement, options = {}) => {
+  const Wrapper = ({ children }: { children: React.ReactNode }) => (
+    <ThemeProvider theme={theme}>
+      <Router>
+        <AuthProvider>
+          {children}
+        </AuthProvider>
+      </Router>
+    </ThemeProvider>
+  );
+  
+  return render(ui, { wrapper: Wrapper, ...options });
+};
+```
+
+### 5. Async Testing
+```typescript
+// Wait for elements
+await waitFor(() => {
+  expect(screen.getByText('Loading complete')).toBeInTheDocument();
+});
+
+// Wait for disappearance
+await waitForElementToBeRemoved(() => screen.queryByText('Loading...'));
+
+// User events
+const user = userEvent.setup();
+await user.click(screen.getByRole('button'));
+await user.type(screen.getByLabelText('Email'), 'test@example.com');
+```
+
+## Test Implementation Guidelines
+
+### 1. Query Priorities
+Use React Testing Library queries in order of preference:
+1. `getByRole` - Most accessible
+2. `getByLabelText` - Form elements
+3. `getByPlaceholderText` - Input placeholders
+4. `getByText` - Text content
+5. `getByDisplayValue` - Form values
+6. `getByAltText` - Images
+7. `getByTitle` - Title attributes
+8. `getByTestId` - Last resort
+
+### 2. Assertion Strategies
+```typescript
+// Presence assertions
+expect(element).toBeInTheDocument();
+expect(element).toBeVisible();
+expect(element).toHaveTextContent('Expected text');
+
+// Accessibility assertions
+expect(element).toHaveAccessibleName('Button name');
+expect(element).toHaveAccessibleDescription('Button description');
+
+// Form assertions
+expect(input).toHaveValue('Expected value');
+expect(input).toBeRequired();
+expect(input).toBeDisabled();
+
+// Style assertions
+expect(element).toHaveStyle('color: rgb(255, 0, 0)');
+expect(element).toHaveClass('active');
+```
+
+### 3. Error Boundary Testing
+```typescript
+// Test error handling
+const ThrowError = ({ shouldThrow }: { shouldThrow: boolean }) => {
+  if (shouldThrow) {
+    throw new Error('Test error');
+  }
+  return <div>No error</div>;
+};
+
+// Suppress console.error for expected errors
+const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+```
+
+### 4. Performance Testing
+```typescript
+// Measure render performance
+const startTime = performance.now();
+render(<Component />);
+const endTime = performance.now();
+expect(endTime - startTime).toBeLessThan(100); // 100ms threshold
+
+// Test memo optimization
+const renderSpy = jest.fn();
+const MemoizedComponent = React.memo(() => {
+  renderSpy();
+  return <Component />;
+});
+```
+
+## Output Format
+
+### Main Test File
+```typescript
+// Complete test suite for the component
+```
+
+### Test Utilities
+```typescript
+// Custom render functions and test helpers
+```
+
+### Mock Implementations
+```typescript
+// Mock services, hooks, and external dependencies
+```
+
+### Setup Files
+```typescript
+// Test setup and configuration
+```
+
+### Performance Tests
+```typescript
+// Performance and load testing
+```
+
+### Visual Regression Tests
+```typescript
+// Snapshot and visual regression tests
+```
+
+## Testing Checklist
+
+### Functionality
+- [ ] Component renders without errors
+- [ ] All props are tested
+- [ ] User interactions work correctly
+- [ ] State management functions properly
+- [ ] Event handlers are called
+- [ ] Conditional rendering works
+- [ ] Error states are handled
+- [ ] Loading states are tested
+
+### Accessibility
+- [ ] Screen reader compatibility
+- [ ] Keyboard navigation
+- [ ] Focus management
+- [ ] ARIA attributes
+- [ ] Color contrast (if applicable)
+- [ ] Semantic HTML structure
+
+### Integration
+- [ ] API calls are mocked and tested
+- [ ] Context providers work
+- [ ] Router integration
+- [ ] Form submissions
+- [ ] External service integration
+
+### Performance
+- [ ] Render performance
+- [ ] Memory leaks
+- [ ] Bundle size impact
+- [ ] Lazy loading
+- [ ] Optimization effectiveness
+
+### Edge Cases
+- [ ] Empty states
+- [ ] Error conditions
+- [ ] Network failures
+- [ ] Invalid props
+- [ ] Boundary conditions
+- [ ] Race conditions
+
+### Browser Compatibility
+- [ ] Cross-browser testing
+- [ ] Mobile responsiveness
+- [ ] Touch interactions
+- [ ] Polyfill requirements
+
+## Common Testing Patterns
+
+### Form Testing
+```typescript
+test('submits form with valid data', async () => {
+  const onSubmit = jest.fn();
+  const user = userEvent.setup();
+  
+  render(<ContactForm onSubmit={onSubmit} />);
+  
+  await user.type(screen.getByLabelText(/name/i), 'John Doe');
+  await user.type(screen.getByLabelText(/email/i), 'john@example.com');
+  await user.click(screen.getByRole('button', { name: /submit/i }));
+  
+  expect(onSubmit).toHaveBeenCalledWith({
+    name: 'John Doe',
+    email: 'john@example.com'
+  });
+});
+```
+
+### Async Data Testing
+```typescript
+test('displays user data after loading', async () => {
+  const userData = { id: 1, name: 'John Doe' };
+  jest.mocked(fetchUser).mockResolvedValue(userData);
+  
+  render(<UserProfile userId={1} />);
+  
+  expect(screen.getByText(/loading/i)).toBeInTheDocument();
+  
+  await waitFor(() => {
+    expect(screen.getByText('John Doe')).toBeInTheDocument();
+  });
+  
+  expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
+});
+```
+
+### Modal Testing
+```typescript
+test('opens and closes modal', async () => {
+  const user = userEvent.setup();
+  
+  render(<ModalComponent />);
+  
+  // Modal should be closed initially
+  expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  
+  // Open modal
+  await user.click(screen.getByRole('button', { name: /open modal/i }));
+  expect(screen.getByRole('dialog')).toBeInTheDocument();
+  
+  // Close modal with escape key
+  await user.keyboard('{Escape}');
+  expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+});
+```
+
+---
+
+**Generated at:** <%= timestamp %>
+**Template:** <%= template.name %>
+**Output Format:** <%= template.outputFormat %>

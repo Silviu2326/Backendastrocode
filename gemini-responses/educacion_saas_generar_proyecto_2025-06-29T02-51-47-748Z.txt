@@ -1,0 +1,123 @@
+```json
+{
+  "softwares": [
+    {
+      "name": "SchoolHub Connect",
+      "description": "Una plataforma de gestión escolar todo en uno diseñada para instituciones K-12. Centraliza la administración de estudiantes, la comunicación entre padres y maestros, y el seguimiento académico para reducir la carga de trabajo administrativo y mejorar la participación de la comunidad.",
+      "targetClient": "Pequeñas y medianas escuelas privadas o concertadas (50-500 estudiantes). Dirigido a administradores escolares que buscan una solución asequible y moderna para reemplazar sistemas fragmentados (hojas de cálculo, email, WhatsApp) y mejorar la eficiencia operativa.",
+      "pages": [
+        {
+          "name": "Panel de Administración",
+          "description": "Vista general de estadísticas clave de la escuela, anuncios y gestión de usuarios.",
+          "route": "/admin/dashboard"
+        },
+        {
+          "name": "Gestión de Alumnos",
+          "description": "Base de datos de perfiles de estudiantes, matrículas, asistencia y expedientes académicos.",
+          "route": "/admin/students"
+        },
+        {
+          "name": "Centro de Comunicación",
+          "description": "Sistema de mensajería segura para comunicados masivos y conversaciones privadas entre personal y padres.",
+          "route": "/comms"
+        },
+        {
+          "name": "Portal para Padres y Alumnos",
+          "description": "Acceso para que los padres y alumnos consulten calificaciones, tareas, asistencia y comunicados.",
+          "route": "/portal"
+        },
+        {
+          "name": "Calificador del Profesor",
+          "description": "Interfaz para que los profesores introduzcan notas, gestionen tareas y pasen lista.",
+          "route": "/teacher/gradebook"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$20,000 - $50,000 USD",
+        "monthlyRevenuePotential": "$5,000 - $25,000 USD",
+        "breakEvenTime": "12-18 meses",
+        "marketSize": "Mercado de sistemas de gestión para escuelas privadas y concertadas.",
+        "competitionLevel": "Medio"
+      }
+    },
+    {
+      "name": "CertifyPro",
+      "description": "Plataforma de preparación de exámenes enfocada en certificaciones profesionales de alta demanda (ej. PMP, AWS, Google Cloud). Ofrece simulacros de examen realistas, analíticas de rendimiento detalladas y planes de estudio personalizados para maximizar la probabilidad de éxito del usuario.",
+      "targetClient": "Profesionales (25-45 años) que buscan avanzar en su carrera obteniendo una certificación específica. Necesitan una herramienta de estudio eficiente y estructurada que identifique sus áreas débiles y optimice su tiempo de preparación.",
+      "pages": [
+        {
+          "name": "Dashboard de Estudio",
+          "description": "Panel principal con el progreso general, plan de estudio personalizado y próximos objetivos.",
+          "route": "/dashboard"
+        },
+        {
+          "name": "Simulador de Exámenes",
+          "description": "Módulo para realizar exámenes de práctica completos o por temas específicos, con tiempo limitado.",
+          "route": "/practice-exam"
+        },
+        {
+          "name": "Análisis de Rendimiento",
+          "description": "Reportes detallados que desglosan el rendimiento por área de conocimiento, tipo de pregunta y velocidad.",
+          "route": "/analytics"
+        },
+        {
+          "name": "Biblioteca de Recursos",
+          "description": "Colección de notas de estudio, flashcards digitales y resúmenes de video por tema.",
+          "route": "/resources"
+        },
+        {
+          "name": "Planes y Suscripción",
+          "description": "Página para elegir la certificación deseada y gestionar el plan de acceso (mensual, trimestral).",
+          "route": "/pricing"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$15,000 - $35,000 USD",
+        "monthlyRevenuePotential": "$8,000 - $40,000 USD",
+        "breakEvenTime": "8-14 meses",
+        "marketSize": "Mercado global de preparación para certificaciones profesionales.",
+        "competitionLevel": "Medio"
+      }
+    },
+    {
+      "name": "SkillUp Quest",
+      "description": "Un sistema de gestión del aprendizaje (LMS) corporativo que utiliza la gamificación para la capacitación de empleados. Transforma el onboarding, el desarrollo de habilidades y la formación obligatoria en una experiencia atractiva con misiones, insignias y tablas de clasificación.",
+      "targetClient": "Departamentos de RRHH y Formación en PYMES (50-500 empleados). Buscan una alternativa a los LMS tradicionales que sea más atractiva para los empleados, fácil de administrar y que mejore las tasas de finalización de los cursos.",
+      "pages": [
+        {
+          "name": "Dashboard del Empleado",
+          "description": "Vista del 'héroe' con sus misiones (cursos) actuales, puntos, insignias y progreso.",
+          "route": "/home"
+        },
+        {
+          "name": "Catálogo de Cursos",
+          "description": "Biblioteca de formaciones disponibles que los empleados pueden explorar o que les son asignadas.",
+          "route": "/courses"
+        },
+        {
+          "name": "Tabla de Clasificación",
+          "description": "Ranking de empleados o equipos basado en puntos para fomentar una competencia sana.",
+          "route": "/leaderboard"
+        },
+        {
+          "name": "Panel de Administrador",
+          "description": "Interfaz para que RRHH cree contenido, asigne cursos y revise analíticas de progreso del equipo.",
+          "route": "/admin/dashboard"
+        },
+        {
+          "name": "Perfil y Logros",
+          "description": "Página personal que muestra todas las insignias, certificados y habilidades adquiridas.",
+          "route": "/profile/achievements"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$25,000 - $60,000 USD",
+        "monthlyRevenuePotential": "$10,000 - $50,000 USD",
+        "breakEvenTime": "15-24 meses",
+        "marketSize": "Mercado de e-learning corporativo para PYMES.",
+        "competitionLevel": "Alto"
+      }
+    }
+  ]
+}
+```

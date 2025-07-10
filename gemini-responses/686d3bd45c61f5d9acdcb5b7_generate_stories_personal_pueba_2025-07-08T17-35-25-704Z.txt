@@ -1,0 +1,49 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Implementación de formulario de envío de datos de prueba",
+      "description": "Como administrador del sistema, quiero poder rellenar y enviar un formulario de datos en la página 'pueba' para poder realizar pruebas de integración y verificar la funcionalidad del backend.",
+      "pageContext": "pueba",
+      "affectedFiles": [
+        "app/pueba/page.jsx",
+        "components/forms/TestDataForm.jsx",
+        "services/api/testDataService.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "TestDataForm",
+            "type": "component",
+            "description": "Un componente de formulario autocontenido y reutilizable para la entrada de datos de prueba. Incluirá campos de texto, un área de texto y un botón de envío. Gestionará su propio estado, validaciones y la lógica de envío."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El componente 'TestDataForm' debe gestionar el estado de sus campos (por ejemplo: nombre, descripción). Al enviar, debe realizar una validación para asegurar que los campos no estén vacíos. Si la validación es exitosa, debe invocar una función (pasada por props) que realice una llamada POST a un endpoint de API (ej. '/api/pueba'). Es crucial manejar los estados de carga, éxito y error para proporcionar retroalimentación al usuario.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "max-w-lg mx-auto mt-10 p-8 bg-white rounded-xl shadow-lg space-y-6",
+        "colorCoding": "Fondo: `bg-white`, Inputs: `border-gray-300 focus:ring-blue-500`, Botón primario: `bg-blue-600 text-white hover:bg-blue-700`, Texto de error: `text-red-500`."
+      },
+      "acceptanceCriteria": [
+        "Al visitar la ruta '/pueba', la página debe mostrar el formulario 'TestDataForm'.",
+        "El formulario debe contener al menos un campo de texto para 'Nombre de la Prueba' y un área de texto para 'Descripción'.",
+        "Ambos campos deben ser obligatorios. Si el usuario intenta enviar el formulario con algún campo vacío, se debe mostrar un mensaje de error junto al campo correspondiente.",
+        "Al hacer clic en el botón 'Enviar', se debe deshabilitar el botón y mostrar un indicador de carga para evitar envíos duplicados.",
+        "Si la API responde con éxito, los campos del formulario deben limpiarse y se debe mostrar un mensaje de confirmación (ej: 'Prueba enviada con éxito').",
+        "Si la API devuelve un error, se debe mostrar un mensaje de error descriptivo al usuario y el botón de envío debe volver a habilitarse."
+      ],
+      "additionalSuggestions": [
+        "Implementar notificaciones tipo 'toast' para los mensajes de éxito y error para una mejor experiencia de usuario.",
+        "Crear un archivo de servicio dedicado (ej: `services/api/testDataService.js`) para encapsular la lógica de la llamada a la API, promoviendo la separación de responsabilidades."
+      ],
+      "aiEditorTask": "Crea el nuevo componente `components/forms/TestDataForm.jsx`. Implementa la gestión de estado local con `useState` para los campos del formulario y los estados de envío. En `app/pueba/page.jsx`, importa y renderiza `TestDataForm`, proporcionándole una función para manejar el envío de datos que interactúe con el servicio de API.",
+      "priority": "Alta",
+      "estimatedHours": 8,
+      "strategicImpact": "core",
+      "comments": "Esta funcionalidad es la base de la página 'pueba', permitiendo la interacción fundamental con el sistema para propósitos de validación."
+    }
+  ]
+}
+```

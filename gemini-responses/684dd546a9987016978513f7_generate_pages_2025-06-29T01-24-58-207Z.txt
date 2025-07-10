@@ -1,0 +1,62 @@
+```json
+{
+  "pages": [
+    {
+      "name": "Página de Inicio (Landing Page)",
+      "description": "Página principal de marketing para atraer nuevos usuarios. Presenta la propuesta de valor única de la plataforma, destacando cómo la IA personaliza el aprendizaje. Incluye testimonios, llamadas a la acción (CTA) claras para el registro y una vista previa de los cursos populares.",
+      "route": "/",
+      "isEssential": true,
+      "priority": 10
+    },
+    {
+      "name": "Catálogo de Cursos",
+      "description": "Muestra la oferta completa de cursos disponibles. Permite a los usuarios filtrar por categoría, nivel de dificultad, duración y popularidad. Cada curso presenta una descripción, temario y valoración.",
+      "route": "/courses",
+      "isEssential": true,
+      "priority": 9
+    },
+    {
+      "name": "Registro y Acceso (Auth)",
+      "description": "Formularios para que los usuarios creen una nueva cuenta o inicien sesión en una existente. Es el punto de entrada a la plataforma y debe ser simple y seguro, ofreciendo opciones como el registro con redes sociales.",
+      "route": "/auth",
+      "isEssential": true,
+      "priority": 10
+    },
+    {
+      "name": "Dashboard del Estudiante",
+      "description": "Panel de control personalizado para usuarios autenticados. Muestra los cursos en los que está inscrito, su progreso, próximas lecciones y recomendaciones de nuevos cursos generadas por la IA basadas en sus intereses y desempeño.",
+      "route": "/dashboard",
+      "isEssential": true,
+      "priority": 9
+    },
+    {
+      "name": "Visor del Curso y Tutor IA",
+      "description": "El corazón de la experiencia de aprendizaje. Aquí el estudiante visualiza el contenido del curso (videos, textos, evaluaciones). Integra un chatbot o asistente de IA que responde preguntas, clarifica conceptos y sugiere recursos adicionales en tiempo real.",
+      "route": "/learn/{courseId}/{lessonId}",
+      "isEssential": true,
+      "priority": 10
+    },
+    {
+      "name": "Página de Precios",
+      "description": "Detalla los diferentes planes de suscripción o modelos de pago (p. ej., pago por curso, membresía mensual/anual). Compara las características de cada plan de forma clara para facilitar la decisión de compra.",
+      "route": "/pricing",
+      "isEssential": true,
+      "priority": 8
+    },
+    {
+      "name": "Perfil y Configuración",
+      "description": "Área donde el usuario puede gestionar su información personal, cambiar su contraseña, configurar preferencias de notificación, ver su historial de pagos y administrar su suscripción.",
+      "route": "/settings/profile",
+      "isEssential": true,
+      "priority": 7
+    },
+    {
+      "name": "Mi Progreso y Certificados",
+      "description": "Una página dedicada a visualizar de forma detallada el avance del estudiante, las calificaciones obtenidas y los logros desbloqueados. Desde aquí podrá ver y descargar los certificados de los cursos completados.",
+      "route": "/my-progress",
+      "isEssential": false,
+      "priority": 6
+    }
+  ]
+}
+```

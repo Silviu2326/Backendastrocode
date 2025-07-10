@@ -1,0 +1,266 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Actualización de Información de Perfil de Usuario",
+      "description": "Como usuario del CRM, quiero poder actualizar mi información personal (nombre completo y teléfono) para que mis datos estén siempre al día y mi equipo pueda contactarme correctamente.",
+      "pageContext": "Configuración de Cuenta",
+      "affectedFiles": [
+        "src/pages/settings/account/page.jsx",
+        "src/components/forms/profile-form.jsx",
+        "src/lib/actions.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "ProfileForm",
+            "from": "@/components/forms/profile-form"
+          },
+          {
+            "name": "Input",
+            "from": "@/components/ui/input"
+          },
+          {
+            "name": "Button",
+            "from": "@/components/ui/button"
+          }
+        ]
+      },
+      "logicData": "El formulario debe obtener los datos actuales del usuario al cargar. Al enviar, se debe llamar a una acción (ej. `updateUserProfile`) en `lib/actions.js` que realice una petición PATCH/PUT a la API. Se necesita manejar estados de carga y mostrar notificaciones de éxito o error.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex flex-col gap-4 p-6 border rounded-lg",
+        "colorCoding": "Utilizar colores primarios para el botón de guardado y colores de error (rojo) para los mensajes de validación."
+      },
+      "acceptanceCriteria": [
+        "El formulario debe mostrar los campos 'Nombre Completo' y 'Teléfono' pre-rellenados con la información actual del usuario.",
+        "El botón 'Guardar Cambios' debe estar deshabilitado hasta que se modifique al menos un campo.",
+        "Al hacer clic en 'Guardar Cambios', se debe mostrar un indicador de carga.",
+        "Si la actualización es exitosa, se debe mostrar un mensaje de confirmación (ej. 'Perfil actualizado correctamente') y el formulario debe reflejar los nuevos datos.",
+        "Si ocurre un error, se debe mostrar un mensaje descriptivo del error (ej. 'No se pudo actualizar el perfil. Inténtalo de nuevo')."
+      ],
+      "additionalSuggestions": [
+        "Considerar añadir validación en tiempo real para el formato del número de teléfono.",
+        "Implementar un 'dirty check' para advertir al usuario si intenta navegar fuera de la página con cambios sin guardar."
+      ],
+      "aiEditorTask": "Implementa el componente `profile-form.jsx` con dos campos controlados para nombre y teléfono. Añade un estado para la carga y un manejador de envío que simule una llamada a la API con un retardo de 1.5 segundos. Utiliza componentes `Input` y `Button` de la UI.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Cambio de Contraseña de Usuario",
+      "description": "Como usuario, quiero cambiar mi contraseña de forma segura para proteger mi cuenta contra accesos no autorizados.",
+      "pageContext": "Configuración de Cuenta",
+      "affectedFiles": [
+        "src/pages/settings/account/page.jsx",
+        "src/components/forms/password-form.jsx",
+        "src/lib/actions.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "PasswordForm",
+            "from": "@/components/forms/password-form"
+          }
+        ]
+      },
+      "logicData": "El formulario requiere tres campos: 'Contraseña Actual', 'Nueva Contraseña' y 'Confirmar Nueva Contraseña'. La lógica de validación en el cliente debe asegurar que la nueva contraseña y su confirmación coincidan. La acción en `lib/actions.js` (ej. `changePassword`) debe enviar los datos a un endpoint seguro de la API.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "mt-8 p-6 border rounded-lg",
+        "colorCoding": "Utilizar feedback visual (bordes verdes/rojos) para la validación de la fortaleza de la contraseña y la coincidencia."
+      },
+      "acceptanceCriteria": [
+        "El formulario debe contener tres campos de tipo contraseña: 'Contraseña Actual', 'Nueva Contraseña' y 'Confirmar Nueva Contraseña'.",
+        "La validación debe impedir el envío si el campo 'Nueva Contraseña' y 'Confirmar Nueva Contraseña' no coinciden.",
+        "Debe existir un requisito de fortaleza para la nueva contraseña (ej. mínimo 8 caracteres, una mayúscula, un número).",
+        "Al enviar con éxito, todos los campos deben limpiarse y mostrarse un mensaje de éxito.",
+        "Si la 'Contraseña Actual' es incorrecta, la API debe devolver un error específico que se muestre al usuario."
+      ],
+      "additionalSuggestions": [
+        "Añadir un botón de 'ojo' para mostrar/ocultar la contraseña en cada campo.",
+        "Implementar un medidor de fortaleza de contraseña visual."
+      ],
+      "aiEditorTask": "Crea el componente `password-form.jsx` con tres campos de tipo contraseña. Implementa la lógica de validación del lado del cliente para asegurar que las nuevas contraseñas coincidan antes de habilitar el botón de envío.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Gestión de Preferencias de Notificaciones",
+      "description": "Como agente inmobiliario, quiero configurar qué notificaciones recibo (por email y en la app) para mantenerme informado sobre eventos importantes sin sentirme abrumado.",
+      "pageContext": "Configuración de Cuenta",
+      "affectedFiles": [
+        "src/pages/settings/account/page.jsx",
+        "src/components/settings/notification-settings.jsx",
+        "src/components/ui/switch.jsx",
+        "src/lib/actions.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "Switch",
+            "type": "component",
+            "path": "src/components/ui/switch.jsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "NotificationSettings",
+            "from": "@/components/settings/notification-settings"
+          }
+        ]
+      },
+      "logicData": "El componente debe obtener las preferencias actuales del usuario. Cada opción (ej. 'Nuevo lead asignado', 'Nuevo mensaje de cliente') tendrá toggles para 'Email' y 'App'. Cada cambio en un toggle debe disparar una acción de guardado automático (debounced) para una mejor UX.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-3 items-center gap-4 py-4 border-b",
+        "colorCoding": "Usar el color de acento del tema para los toggles activados."
+      },
+      "acceptanceCriteria": [
+        "Debe mostrarse una lista de tipos de notificación (ej. Nuevo Lead, Tarea Vencida, Mención en Comentario).",
+        "Para cada tipo, deben existir al menos dos opciones de canal: 'Email' y 'Notificación en App', representadas por interruptores (toggles).",
+        "El estado de los interruptores debe reflejar la configuración actual del usuario.",
+        "Al cambiar el estado de un interruptor, el cambio debe guardarse automáticamente.",
+        "Debe mostrarse una confirmación sutil (ej. un 'check' temporal) después de que un cambio se guarde correctamente."
+      ],
+      "additionalSuggestions": [
+        "Usar una función 'debounce' en el guardado para evitar múltiples llamadas a la API si el usuario activa/desactiva opciones rápidamente.",
+        "Añadir una opción maestra para 'Activar/Desactivar todas las notificaciones'."
+      ],
+      "aiEditorTask": "Implementa el componente `notification-settings.jsx`. Debe renderizar una lista de 3 tipos de notificaciones ficticias, cada una con un toggle para 'Email' y 'App'. Al hacer clic en un toggle, simula una llamada de guardado y muestra un mensaje de 'Guardado' por 2 segundos.",
+      "priority": "Media",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Cambiar Foto de Perfil",
+      "description": "Como usuario, quiero subir y cambiar mi foto de perfil para que mis compañeros de equipo puedan reconocerme fácilmente dentro del CRM.",
+      "pageContext": "Configuración de Cuenta",
+      "affectedFiles": [
+        "src/components/forms/profile-form.jsx",
+        "src/components/ui/avatar.jsx",
+        "src/lib/actions.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ImageUploader",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Avatar",
+            "from": "@/components/ui/avatar"
+          }
+        ]
+      },
+      "logicData": "Se necesita un componente para la subida de archivos que permita seleccionar imágenes (JPG, PNG). Al seleccionar una imagen, se debe mostrar una vista previa. La subida se puede realizar a un servicio de almacenamiento (como S3) y la URL resultante se guarda en el perfil del usuario a través de una acción en `lib/actions.js`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "relative group w-24 h-24 rounded-full",
+        "colorCoding": "Mostrar un overlay con un ícono de cámara al pasar el cursor sobre la foto de perfil actual para indicar que es editable."
+      },
+      "acceptanceCriteria": [
+        "El avatar actual del usuario debe ser visible en la página.",
+        "Al hacer clic o pasar el cursor sobre el avatar, debe aparecer una opción para 'Cambiar foto'.",
+        "Al seleccionar la opción, se debe abrir un selector de archivos del sistema operativo, filtrado para aceptar solo archivos de imagen (ej. .jpg, .png).",
+        "Después de seleccionar una imagen, se debe mostrar una vista previa antes de la subida final.",
+        "Tras confirmar, la nueva imagen debe subirse y reemplazar el avatar actual en la interfaz.",
+        "El tamaño del archivo debe estar limitado (ej. a 5MB) y se debe mostrar un error si se excede."
+      ],
+      "additionalSuggestions": [
+        "Implementar una funcionalidad de recorte (cropping) de la imagen para que el usuario pueda ajustarla a un formato cuadrado.",
+        "Mostrar una barra de progreso durante la subida de la imagen."
+      ],
+      "aiEditorTask": "En `profile-form.jsx`, junto al campo de nombre, añade el componente `Avatar`. Haz que al hacer clic en el Avatar se active un `<input type='file' />` oculto. No es necesario implementar la lógica de subida, solo la interacción y la selección de archivo.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Conectar una Nueva Integración de Fuente de Leads",
+      "description": "Como administrador o agente, quiero conectar una nueva fuente de leads (ej. un portal inmobiliario) para automatizar la entrada de prospectos en el CRM y ahorrar tiempo.",
+      "pageContext": "Configuración de Cuenta",
+      "affectedFiles": [
+        "src/pages/settings/account/page.jsx",
+        "src/components/settings/integration-card.jsx",
+        "src/lib/actions.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "IntegrationConnectModal",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "IntegrationCard",
+            "from": "@/components/settings/integration-card"
+          }
+        ]
+      },
+      "logicData": "La página mostrará una lista de integraciones disponibles. Las no conectadas tendrán un botón 'Conectar'. Al hacer clic, se abrirá un modal (`IntegrationConnectModal`) que solicitará la información necesaria (ej. API Key, email de reenvío). La acción `connectIntegration` en `lib/actions.js` validará y guardará la conexión.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-4 border rounded-lg flex items-center justify-between",
+        "colorCoding": "Usar gris para integraciones no conectadas y el color de la marca de la integración para las conectadas."
+      },
+      "acceptanceCriteria": [
+        "Se debe mostrar una lista de integraciones disponibles (ej. Fotocasa, Idealista, Facebook Leads).",
+        "Cada integración no conectada debe tener un botón 'Conectar'.",
+        "Al hacer clic en 'Conectar', se debe abrir un modal con instrucciones y campos para la configuración (ej. 'Introduce tu API Key').",
+        "Tras rellenar los datos y confirmar, el sistema debe intentar establecer la conexión.",
+        "Si la conexión es exitosa, el estado de la integración en la UI debe cambiar a 'Conectado' y el modal debe cerrarse.",
+        "Si falla, el modal debe mostrar un mensaje de error claro."
+      ],
+      "additionalSuggestions": [
+        "Para integraciones OAuth (ej. Facebook), el botón 'Conectar' debería iniciar el flujo de autenticación de terceros.",
+        "Incluir un enlace a la documentación o a un artículo de ayuda para cada integración."
+      ],
+      "aiEditorTask": "Crea el componente `IntegrationCard.jsx`. Debe aceptar props como `name`, `logoUrl` y `isConnected`. Si `isConnected` es falso, muestra un botón 'Conectar'. Si es verdadero, muestra un badge 'Conectado' y un botón 'Desconectar'.",
+      "priority": "Alta",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Desconectar una Integración de Fuente de Leads",
+      "description": "Como administrador o agente, quiero desconectar una fuente de leads que ya no utilizo para dejar de recibir prospectos de ese canal y mantener limpia mi lista de integraciones.",
+      "pageContext": "Configuración de Cuenta",
+      "affectedFiles": [
+        "src/components/settings/integration-card.jsx",
+        "src/lib/actions.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "AlertDialog",
+            "from": "@/components/ui/alert-dialog"
+          }
+        ]
+      },
+      "logicData": "Dentro del componente `IntegrationCard` para una integración ya conectada, habrá un botón de 'Desconectar'. Al hacer clic, se debe mostrar un modal de confirmación (`AlertDialog`) para prevenir una desconexión accidental. Al confirmar, se llama a la acción `disconnectIntegration` en `lib/actions.js`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "text-red-600 hover:text-red-800",
+        "colorCoding": "El botón de desconexión y la acción de confirmación en el modal deben usar colores destructivos (rojo)."
+      },
+      "acceptanceCriteria": [
+        "Cada integración conectada debe mostrar un botón o un menú con la opción 'Desconectar'.",
+        "Al hacer clic en 'Desconectar', debe aparecer un modal de confirmación preguntando '¿Estás seguro de que quieres desconectar esta integración?'.",
+        "El modal de confirmación debe tener dos botones: 'Cancelar' y 'Sí, desconectar'.",
+        "Si el usuario hace clic en 'Cancelar', el modal se cierra y no ocurre ninguna acción.",
+        "Si el usuario confirma, se realiza la llamada a la API y el estado de la integración en la UI cambia a 'No conectado', mostrando nuevamente el botón 'Conectar'."
+      ],
+      "additionalSuggestions": [
+        "En el modal de confirmación, advertir al usuario sobre las consecuencias, como 'Dejarás de recibir nuevos leads de esta fuente'.",
+        "Registrar el evento de desconexión en un log de auditoría del sistema."
+      ],
+      "aiEditorTask": "Dentro del componente `IntegrationCard.jsx` existente, cuando la prop `isConnected` es verdadera, muestra un botón 'Desconectar'. Al hacer clic en este botón, utiliza un componente de `AlertDialog` (puedes simularlo con `window.confirm`) para pedir confirmación antes de proceder.",
+      "priority": "Media",
+      "estimatedHours": 5
+    }
+  ]
+}
+```

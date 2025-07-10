@@ -1,0 +1,196 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Inicio de Sesión Exitoso con Credenciales Válidas",
+      "description": "Como un usuario registrado, quiero ingresar mi correo electrónico y contraseña para acceder de forma segura a mi panel de control (Dashboard).",
+      "pageContext": "Página de Inicio de Sesión",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-de-sesin/PáginadeIniciodeSesiónPage.tsx",
+        "src/features/pgina-de-inicio-de-sesin/hooks/usePáginadeIniciodeSesión.ts",
+        "src/features/pgina-de-inicio-de-sesin/api.ts",
+        "src/App.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "LoginForm",
+            "type": "component",
+            "path": "src/features/pgina-de-inicio-de-sesin/components/LoginForm.tsx"
+          },
+          {
+            "name": "InputField",
+            "type": "component",
+            "path": "src/features/pgina-de-inicio-de-sesin/components/InputField.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El componente 'LoginForm' gestionará el estado de los campos de correo y contraseña. Al enviar, invocará una función del hook 'usePáginadeIniciodeSesión'. Este hook llamará al endpoint de la API definido en 'api.ts' para autenticar al usuario. En caso de éxito (e.g., recibiendo un token JWT), se debe almacenar el token de forma segura (e.g., en cookies httpOnly) y redirigir al usuario a la ruta '/panel-de-control-del-estudiante-dashboard'.",
+      "styling": {
+        "framework": "No especificado (ej. Tailwind CSS)",
+        "classes": "flex flex-col items-center justify-center min-h-screen bg-gray-100",
+        "colorCoding": "El botón principal debe usar el color primario de la marca. Los campos de entrada deben tener un estilo limpio y moderno."
+      },
+      "acceptanceCriteria": [
+        "Dado que estoy en la página '/login'",
+        "Cuando relleno el campo 'correo electrónico' con un email registrado",
+        "Y relleno el campo 'contraseña' con la contraseña correcta",
+        "Y hago clic en el botón 'Iniciar Sesión'",
+        "Entonces soy redirigido a mi panel de control en '/panel-de-control-del-estudiante-dashboard'",
+        "Y se establece una sesión de usuario válida."
+      ],
+      "additionalSuggestions": [
+        "Considerar un estado de 'cargando' en el botón de 'Iniciar Sesión' para dar feedback al usuario mientras se procesa la solicitud."
+      ],
+      "aiEditorTask": "Crea un componente 'LoginForm' en la carpeta de componentes de la feature 'pgina-de-inicio-de-sesin' que contenga dos campos de entrada (email y contraseña) y un botón de envío. Implementa la lógica de estado y envío en el hook 'usePáginadeIniciodeSesión.ts' para llamar a la API de login.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Visualización de Errores de Autenticación del Servidor",
+      "description": "Como un usuario, si ingreso credenciales incorrectas, quiero ver un mensaje de error claro para entender por qué falló el inicio de sesión y poder corregirlo.",
+      "pageContext": "Página de Inicio de Sesión",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-de-sesin/PáginadeIniciodeSesiónPage.tsx",
+        "src/features/pgina-de-inicio-de-sesin/hooks/usePáginadeIniciodeSesión.ts",
+        "src/features/pgina-de-inicio-de-sesin/components/LoginForm.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AlertMessage",
+            "type": "component",
+            "path": "src/components/AlertMessage.tsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El hook 'usePáginadeIniciodeSesión' debe gestionar un estado de error. Cuando la llamada a 'api.ts' falle con un código de estado específico (e.g., 401 Unauthorized, 404 Not Found), el hook debe actualizar el estado con un mensaje de error apropiado. Este mensaje se pasará como prop al componente 'LoginForm' o 'PáginadeIniciodeSesiónPage' para ser mostrado en un componente 'AlertMessage'.",
+      "styling": {
+        "framework": "No especificado (ej. Tailwind CSS)",
+        "classes": "bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative",
+        "colorCoding": "El mensaje de error debe usar colores que denoten alerta/error, como tonos de rojo."
+      },
+      "acceptanceCriteria": [
+        "Dado que estoy en la página '/login'",
+        "Cuando ingreso un correo o contraseña incorrectos",
+        "Y hago clic en 'Iniciar Sesión'",
+        "Entonces se muestra un mensaje de error global, como 'Correo o contraseña incorrectos.'",
+        "Y no soy redirigido a ninguna otra página.",
+        "Y los campos del formulario no se borran (excepto la contraseña, opcionalmente)."
+      ],
+      "additionalSuggestions": [
+        "El mensaje de error debe ser genérico ('Credenciales inválidas') para no revelar si el correo electrónico existe en el sistema, por motivos de seguridad."
+      ],
+      "aiEditorTask": "Modifica el hook 'usePáginadeIniciodeSesión' para que capture los errores de la API de login y los exponga como un estado. Luego, en el componente 'PáginadeIniciodeSesiónPage', muestra un componente de alerta con el mensaje de error cuando este exista.",
+      "priority": "Alta",
+      "estimatedHours": 5
+    },
+    {
+      "title": "Validación de Campos en el Cliente",
+      "description": "Como usuario, quiero recibir feedback inmediato en el formulario si dejo un campo vacío o el formato del correo es incorrecto, para poder corregir los datos antes de intentar iniciar sesión.",
+      "pageContext": "Página de Inicio de Sesión",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-de-sesin/components/LoginForm.tsx",
+        "src/features/pgina-de-inicio-de-sesin/hooks/usePáginadeIniciodeSesión.ts"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "Implementar lógica de validación dentro del componente 'LoginForm' o en el hook 'usePáginadeIniciodeSesión'. Se puede usar una librería como 'react-hook-form' o 'zod' para la validación de esquemas. Reglas: el campo de correo debe ser un email válido y no estar vacío; el campo de contraseña no debe estar vacío. El botón de 'Iniciar Sesión' debe estar deshabilitado si el formulario no es válido.",
+      "styling": {
+        "framework": "No especificado (ej. Tailwind CSS)",
+        "classes": "border-red-500 focus:ring-red-500 focus:border-red-500",
+        "colorCoding": "Los campos con errores deben tener un borde rojo. Los mensajes de error de campo deben aparecer en texto pequeño y rojo debajo del campo correspondiente."
+      },
+      "acceptanceCriteria": [
+        "Dado que el campo de correo está vacío",
+        "Cuando intento enviar el formulario",
+        "Entonces aparece un mensaje 'Este campo es obligatorio' debajo del campo de correo.",
+        "Dado que he escrito un texto que no es un correo válido",
+        "Cuando el campo pierde el foco",
+        "Entonces aparece un mensaje 'Por favor, introduce un correo electrónico válido'.",
+        "El botón 'Iniciar Sesión' está deshabilitado mientras haya errores de validación en el formulario."
+      ],
+      "additionalSuggestions": [
+        "La validación debe ocurrir 'onBlur' (cuando el campo pierde el foco) o 'onChange' después del primer envío para una mejor experiencia de usuario."
+      ],
+      "aiEditorTask": "Añade validación de cliente al 'LoginForm'. El campo de correo debe ser un email válido y requerido. El campo de contraseña debe ser requerido. Muestra mensajes de error específicos para cada campo y deshabilita el botón de envío si el formulario no es válido.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Funcionalidad de Mostrar/Ocultar Contraseña",
+      "description": "Como usuario, quiero poder alternar la visibilidad de mi contraseña para asegurarme de que la he escrito correctamente.",
+      "pageContext": "Página de Inicio de Sesión",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-de-sesin/components/InputField.tsx",
+        "src/features/pgina-de-inicio-de-sesin/components/LoginForm.tsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "En el componente 'InputField' (o directamente en 'LoginForm'), se añadirá un ícono de ojo junto al campo de contraseña. Se usará un estado local (ej. 'isPasswordVisible') para controlar el atributo 'type' del input, alternando entre 'password' y 'text'. Al hacer clic en el ícono, se cambiará este estado.",
+      "styling": {
+        "framework": "No especificado (ej. Tailwind CSS)",
+        "classes": "absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer",
+        "colorCoding": "El ícono debe ser de un color neutro (gris) para no distraer, pero claramente visible."
+      },
+      "acceptanceCriteria": [
+        "Dado que estoy en la página de inicio de sesión",
+        "Veo un ícono (por ejemplo, un ojo) dentro o junto al campo de la contraseña.",
+        "Cuando hago clic en el ícono, los caracteres de la contraseña se vuelven visibles.",
+        "Y el ícono cambia para indicar que se puede ocultar (por ejemplo, un ojo tachado).",
+        "Cuando hago clic de nuevo en el ícono, los caracteres de la contraseña se ocultan.",
+        "Y el ícono vuelve a su estado original."
+      ],
+      "additionalSuggestions": [
+        "Usar una librería de íconos como 'react-icons' para implementar fácilmente los íconos de ojo y ojo tachado."
+      ],
+      "aiEditorTask": "Implementa un botón tipo ícono dentro del campo de contraseña en el 'LoginForm'. Al hacer clic en este ícono, se debe alternar la visibilidad del texto de la contraseña entre oculto (puntos) y visible (texto plano).",
+      "priority": "Media",
+      "estimatedHours": 3
+    },
+    {
+      "title": "Enlace para Recuperación de Contraseña",
+      "description": "Como un usuario que ha olvidado su contraseña, quiero un enlace de '¿Olvidaste tu contraseña?' para poder iniciar el proceso de reseteo.",
+      "pageContext": "Página de Inicio de Sesión",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-de-sesin/PáginadeIniciodeSesiónPage.tsx",
+        "src/features/pgina-de-inicio-de-sesin/components/LoginForm.tsx",
+        "src/App.tsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "Añadir un elemento de enlace (usando el componente de enrutamiento de la librería correspondiente, ej. '<Link>' de React Router) debajo del formulario de inicio de sesión. Este enlace debe apuntar a una nueva ruta, por ejemplo, '/recuperar-contrasena'. Esta historia solo cubre la creación y el enrutamiento del enlace, no la página de recuperación en sí.",
+      "styling": {
+        "framework": "No especificado (ej. Tailwind CSS)",
+        "classes": "text-sm text-blue-600 hover:underline mt-4",
+        "colorCoding": "El enlace debe tener un estilo estándar de hipervínculo para ser fácilmente reconocible."
+      },
+      "acceptanceCriteria": [
+        "Dado que estoy en la página '/login'",
+        "Veo un enlace de texto que dice '¿Olvidaste tu contraseña?'.",
+        "El enlace está ubicado de forma visible, usualmente debajo del botón de 'Iniciar Sesión'.",
+        "Cuando hago clic en el enlace, soy redirigido a la página de recuperación de contraseña (por ejemplo, '/recuperar-contrasena')."
+      ],
+      "additionalSuggestions": [
+        "Crear un ticket o historia de usuario por separado para construir la página y el flujo de recuperación de contraseña."
+      ],
+      "aiEditorTask": "Añade un enlace de navegación con el texto '¿Olvidaste tu contraseña?' en el componente 'LoginForm'. Asegúrate de que este enlace dirija al usuario a una nueva ruta como '/recuperar-contrasena' y que esta ruta esté definida en 'src/App.tsx' (aunque apunte a un componente temporal).",
+      "priority": "Media",
+      "estimatedHours": 2
+    }
+  ]
+}
+```

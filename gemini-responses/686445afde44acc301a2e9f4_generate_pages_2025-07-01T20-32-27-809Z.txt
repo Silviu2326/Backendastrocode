@@ -1,0 +1,69 @@
+```json
+{
+  "pages": [
+    {
+      "name": "Página de Inicio (Landing Page)",
+      "description": "Página de marketing principal para atraer a nuevas empresas. Describe el problema, presenta la solución de EquityViz, muestra características clave, testimonios y una llamada a la acción clara para solicitar una demo o registrarse.",
+      "route": "/",
+      "isEssential": true,
+      "priority": 1
+    },
+    {
+      "name": "Inicio de Sesión",
+      "description": "Formulario seguro para que los usuarios existentes (empleados y administradores de empresas) accedan a la plataforma. Debe incluir opciones de 'olvidé mi contraseña' y potencialmente SSO (Single Sign-On).",
+      "route": "/login",
+      "isEssential": true,
+      "priority": 2
+    },
+    {
+      "name": "Dashboard de Equity",
+      "description": "El corazón de la aplicación para el empleado. Visualiza de forma interactiva el plan de stock options, el calendario de 'vesting', el valor estimado actual y proyecciones futuras basadas en diferentes escenarios de crecimiento de la empresa. Es la herramienta principal de motivación y claridad.",
+      "route": "/dashboard",
+      "isEssential": true,
+      "priority": 1
+    },
+    {
+      "name": "Precios",
+      "description": "Página pública que detalla los diferentes planes de suscripción para las startups. Compara las características, los límites de usuarios y el costo de cada nivel, facilitando la decisión de compra.",
+      "route": "/precios",
+      "isEssential": true,
+      "priority": 4
+    },
+    {
+      "name": "Recursos Educativos / Aprende",
+      "description": "Una sección con un glosario de términos (ej. vesting, cliff, strike price), artículos y guías sencillas que explican cómo funcionan las stock options y sus implicaciones fiscales. Cumple la promesa de 'ayudar a comprender'.",
+      "route": "/aprende",
+      "isEssential": true,
+      "priority": 5
+    },
+    {
+      "name": "Perfil y Configuración de Cuenta",
+      "description": "Área donde el usuario puede gestionar su información personal, cambiar su contraseña, configurar las preferencias de notificación y gestionar la seguridad de su cuenta (ej. 2FA).",
+      "route": "/perfil",
+      "isEssential": true,
+      "priority": 6
+    },
+    {
+      "name": "Panel de Administración de la Empresa",
+      "description": "Vista exclusiva para los administradores de la empresa cliente (ej. RRHH). Permite gestionar la lista de empleados, asignar y modificar los 'grants' de stock options, y ver métricas agregadas sobre el compromiso y la retención del equipo.",
+      "route": "/admin/dashboard",
+      "isEssential": true,
+      "priority": 3
+    },
+    {
+      "name": "Simulador de Escenarios",
+      "description": "Herramienta interactiva dentro del dashboard que permite al empleado modelar el valor potencial de su equity bajo diferentes supuestos (ej. valoración de la empresa en la próxima ronda, precio de acción en una IPO).",
+      "route": "/dashboard/simulador",
+      "isEssential": false,
+      "priority": 7
+    },
+    {
+      "name": "Repositorio de Documentos",
+      "description": "Un lugar seguro donde los empleados pueden acceder y descargar los documentos legales oficiales relacionados con sus stock options, como el 'Grant Agreement'. Aporta transparencia y confianza.",
+      "route": "/documentos",
+      "isEssential": false,
+      "priority": 8
+    }
+  ]
+}
+```

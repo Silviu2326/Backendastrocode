@@ -1,0 +1,118 @@
+```json
+{
+  "segmentation": {
+    "segments": [
+      {
+        "name": "Estudiantes de Educación Superior (B2C)",
+        "description": "Alumnos universitarios y de posgrado que buscan herramientas de estudio personalizadas, tutoría inteligente y preparación de exámenes para mejorar su rendimiento académico.",
+        "tam": "100 mil millones USD (Mercado Global de e-learning para Educación Superior)",
+        "sam": "10 mil millones USD (Mercado de e-learning para Educación Superior en países de habla hispana)",
+        "som": "50 millones USD (Objetivo de mercado capturable en 3-5 años)",
+        "characteristics": [
+          "Búsqueda de eficiencia en el estudio",
+          "Alta adopción tecnológica",
+          "Sensibilidad al precio",
+          "Enfocados en resultados académicos"
+        ]
+      },
+      {
+        "name": "Profesionales en Desarrollo Continuo (B2C)",
+        "description": "Trabajadores activos que necesitan actualizar sus habilidades (upskilling) o adquirir nuevas competencias (reskilling) para avanzar en su carrera, especialmente en áreas de alta demanda como tecnología y gestión.",
+        "tam": "200 mil millones USD (Mercado Global de Formación Corporativa y Profesional)",
+        "sam": "20 mil millones USD (Mercado de Formación Profesional en países de habla hispana)",
+        "som": "50 millones USD (Objetivo de mercado capturable en 3-5 años)",
+        "characteristics": [
+          "Disponibilidad de tiempo limitada",
+          "Enfoque en el retorno de la inversión (ROI) de la formación",
+          "Interesados en certificaciones",
+          "Buscan aplicación práctica e inmediata"
+        ]
+      },
+      {
+        "name": "Instituciones Educativas (B2B)",
+        "description": "Universidades, escuelas de negocio y centros de formación profesional que buscan integrar plataformas tecnológicas para personalizar la enseñanza, mejorar la participación estudiantil y optimizar los resultados de aprendizaje a escala institucional.",
+        "tam": "100 mil millones USD (Mercado Global de EdTech para Instituciones)",
+        "sam": "10 mil millones USD (Mercado de EdTech para Instituciones en países de habla hispana)",
+        "som": "30 millones USD (Objetivo de mercado capturable en 5 años)",
+        "characteristics": [
+          "Ciclos de venta largos",
+          "Múltiples tomadores de decisión",
+          "Foco en la integración con sistemas existentes (LMS)",
+          "NAICS: 611 (Servicios Educativos) / SIC: 82 (Servicios Educativos)"
+        ]
+      }
+    ],
+    "buyerPersonas": [
+      {
+        "name": "Elena García, la Estudiante Eficiente",
+        "role": "Estudiante de 3er año de Ingeniería",
+        "demographics": {
+          "age": "19-24",
+          "income": "Bajo (dependiente o con trabajo a tiempo parcial)",
+          "education": "Educación Superior (en curso)",
+          "location": "Principales ciudades universitarias (ej. Madrid, Ciudad de México, Buenos Aires)"
+        },
+        "painPoints": [
+          "Dificultad para organizar la gran cantidad de material de estudio.",
+          "Falta de feedback personalizado sobre su progreso.",
+          "Los métodos de estudio tradicionales son monótonos y poco efectivos.",
+          "Ansiedad ante los exámenes por no sentirse suficientemente preparado."
+        ],
+        "goals": [
+          "Mejorar sus calificaciones y promedio.",
+          "Reducir el tiempo de estudio sin sacrificar la comprensión.",
+          "Entender conceptos complejos de forma intuitiva.",
+          "Sentirse con más confianza y control sobre su aprendizaje."
+        ],
+        "buyingBehavior": "Busca pruebas gratuitas y planes para estudiantes. Confía en las recomendaciones de compañeros y reseñas en redes sociales. El proceso de decisión es rápido e individual. Valora una interfaz intuitiva y la gamificación."
+      },
+      {
+        "name": "Marcos Rojas, el Profesional Ambicioso",
+        "role": "Gerente de Proyectos de TI",
+        "demographics": {
+          "age": "30-45",
+          "income": "Medio-Alto",
+          "education": "Licenciatura o superior",
+          "location": "Polos de negocio y tecnología (ej. Bogotá, Santiago de Chile, Barcelona)"
+        },
+        "painPoints": [
+          "Sentimiento de obsolescencia profesional por la rápida evolución tecnológica.",
+          "Falta de tiempo para asistir a cursos presenciales o de larga duración.",
+          "Los contenidos de los cursos online suelen ser demasiado genéricos.",
+          "Necesita adquirir una habilidad específica para un proyecto o ascenso."
+        ],
+        "goals": [
+          "Obtener un ascenso o un rol de mayor responsabilidad.",
+          "Mantener su relevancia y competitividad en el mercado laboral.",
+          "Aplicar nuevos conocimientos de forma inmediata en su trabajo.",
+          "Liderar proyectos de mayor impacto y complejidad."
+        ],
+        "buyingBehavior": "Dispuesto a invertir en formación de calidad si percibe un claro ROI. Busca cursos con certificación, impartidos por expertos de la industria y con un enfoque práctico. A menudo, su empresa puede patrocinar la formación. Investiga a fondo y compara opciones antes de comprar."
+      },
+      {
+        "name": "Dra. Sofía Reyes, la Directora de Innovación",
+        "role": "Directora de Innovación Académica en una Universidad",
+        "demographics": {
+          "age": "45-60",
+          "income": "Alto",
+          "education": "Doctorado",
+          "location": "Universidad privada de prestigio en una capital latinoamericana"
+        },
+        "painPoints": [
+          "Altas tasas de deserción en los primeros años de carrera.",
+          "La competencia por atraer a los mejores estudiantes es cada vez mayor.",
+          "Los docentes están sobrecargados y no pueden ofrecer atención personalizada.",
+          "Los sistemas tecnológicos actuales de la universidad son rígidos y están desactualizados."
+        ],
+        "goals": [
+          "Posicionar a la universidad como líder en innovación educativa.",
+          "Mejorar las métricas de retención y satisfacción estudiantil.",
+          "Empoderar al profesorado con herramientas pedagógicas de vanguardia.",
+          "Ofrecer una experiencia de aprendizaje diferenciada y de alto valor."
+        ],
+        "buyingBehavior": "El proceso de compra es largo (6-18 meses) e involucra a múltiples departamentos (académico, TI, finanzas). Requiere demos personalizadas, pruebas piloto, casos de éxito y propuestas detalladas. La seguridad de los datos, la escalabilidad y la integración con el LMS existente (ej. Moodle, Canvas) son factores críticos de decisión. Busca un socio estratégico a largo plazo."
+      }
+    ]
+  }
+}
+```

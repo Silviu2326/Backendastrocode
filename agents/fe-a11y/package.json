@@ -1,0 +1,53 @@
+{
+  "name": "fe-a11y",
+  "version": "1.0.0",
+  "description": "Frontend Accessibility Agent - Generates accessibility features and compliance checks for React components",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix"
+  },
+  "dependencies": {
+    "bullmq": "^4.15.4",
+    "express": "^4.18.2",
+    "ioredis": "^5.3.2",
+    "typescript": "^5.3.3",
+    "ts-node": "^10.9.1",
+    "axe-core": "^4.8.3",
+    "aria-query": "^5.3.0",
+    "color-contrast-checker": "^2.1.0",
+    "wcag-contrast": "^3.0.0",
+    "@axe-core/puppeteer": "^4.8.3",
+    "puppeteer": "^21.6.1",
+    "cheerio": "^1.0.0-rc.12",
+    "html-validate": "^8.7.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@types/express": "^4.17.21",
+    "@types/cheerio": "^0.22.35",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "eslint": "^8.56.0",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.11",
+    "ts-jest": "^29.1.1"
+  },
+  "keywords": [
+    "accessibility",
+    "a11y",
+    "wcag",
+    "react",
+    "frontend",
+    "compliance",
+    "aria",
+    "screen-reader"
+  ],
+  "author": "Frontend Agent System",
+  "license": "MIT"
+}

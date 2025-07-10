@@ -1,0 +1,400 @@
+# Frontend Accessibility Implementation
+
+You are an accessibility expert tasked with enhancing a React component to meet WCAG 2.1 AA standards and provide an inclusive user experience for all users, including those with disabilities.
+
+## Context
+
+### User Story
+**ID:** <%= userStory.id %>
+**Title:** <%= userStory.title %>
+**Description:** <%= userStory.description %>
+
+**Acceptance Criteria:**
+<% userStory.acceptanceCriteria.forEach(criteria => { %>
+- <%= criteria %>
+<% }); %>
+
+### Component Information
+**Name:** <%= component.name %>
+**Type:** <%= component.type %>
+**Path:** <%= component.path %>
+
+### Project Configuration
+**Framework:** <%= project.framework %>
+**TypeScript:** <%= project.typescript ? 'Yes' : 'No' %>
+**Styling:** <%= project.styling %>
+
+## Accessibility Requirements
+
+### 1. WCAG 2.1 AA Compliance
+Ensure the component meets all applicable WCAG 2.1 AA success criteria:
+
+#### Perceivable
+- **1.1.1 Non-text Content**: Provide text alternatives for images and icons
+- **1.3.1 Info and Relationships**: Use semantic HTML and proper heading structure
+- **1.3.2 Meaningful Sequence**: Ensure logical reading order
+- **1.4.1 Use of Color**: Don't rely solely on color to convey information
+- **1.4.3 Contrast (Minimum)**: Ensure 4.5:1 contrast ratio for normal text, 3:1 for large text
+- **1.4.4 Resize Text**: Support 200% zoom without horizontal scrolling
+- **1.4.10 Reflow**: Support responsive design up to 320px width
+- **1.4.11 Non-text Contrast**: Ensure 3:1 contrast for UI components and graphics
+
+#### Operable
+- **2.1.1 Keyboard**: All functionality available via keyboard
+- **2.1.2 No Keyboard Trap**: Users can navigate away from any component
+- **2.1.4 Character Key Shortcuts**: Provide ways to turn off or remap shortcuts
+- **2.4.1 Bypass Blocks**: Provide skip links for repetitive content
+- **2.4.3 Focus Order**: Logical focus order
+- **2.4.6 Headings and Labels**: Descriptive headings and labels
+- **2.4.7 Focus Visible**: Visible focus indicators
+
+#### Understandable
+- **3.1.1 Language of Page**: Specify language attributes
+- **3.2.1 On Focus**: No unexpected context changes on focus
+- **3.2.2 On Input**: No unexpected context changes on input
+- **3.3.1 Error Identification**: Clear error identification
+- **3.3.2 Labels or Instructions**: Provide labels and instructions for inputs
+
+#### Robust
+- **4.1.1 Parsing**: Valid HTML markup
+- **4.1.2 Name, Role, Value**: Proper ARIA implementation
+- **4.1.3 Status Messages**: Announce status changes to screen readers
+
+### 2. Screen Reader Support
+- Implement proper ARIA labels and descriptions
+- Use semantic HTML elements
+- Provide alternative text for images and icons
+- Announce dynamic content changes
+- Implement proper heading hierarchy
+
+### 3. Keyboard Navigation
+- Support Tab, Shift+Tab navigation
+- Implement arrow key navigation for complex widgets
+- Provide keyboard shortcuts where appropriate
+- Ensure focus management in dynamic content
+- Support Escape key for closing modals/dropdowns
+
+### 4. Motor Accessibility
+- Ensure touch targets are at least 44x44px
+- Provide sufficient spacing between interactive elements
+- Support click and touch interactions
+- Implement drag and drop alternatives
+- Consider users with limited dexterity
+
+### 5. Cognitive Accessibility
+- Use clear and simple language
+- Provide consistent navigation and layout
+- Implement clear error messages and recovery
+- Support users with attention and memory limitations
+- Provide help and documentation
+
+## Implementation Guidelines
+
+### 1. Semantic HTML
+```typescript
+// Use proper semantic elements
+<main>, <nav>, <section>, <article>, <aside>, <header>, <footer>
+<h1>, <h2>, <h3>, <h4>, <h5>, <h6>
+<button>, <a>, <input>, <label>, <fieldset>, <legend>
+<table>, <thead>, <tbody>, <th>, <td>
+<ul>, <ol>, <li>, <dl>, <dt>, <dd>
+```
+
+### 2. ARIA Implementation
+```typescript
+// Essential ARIA attributes
+aria-label="Descriptive label"
+aria-labelledby="element-id"
+aria-describedby="description-id"
+aria-expanded="true|false"
+aria-hidden="true|false"
+aria-live="polite|assertive|off"
+aria-atomic="true|false"
+role="button|dialog|menu|menuitem|tab|tabpanel|etc"
+```
+
+### 3. Focus Management
+```typescript
+// Focus management patterns
+const focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+const firstFocusable = container.querySelector(focusableElements);
+const lastFocusable = container.querySelectorAll(focusableElements);
+
+// Trap focus in modals
+const trapFocus = (e: KeyboardEvent) => {
+  if (e.key === 'Tab') {
+    if (e.shiftKey) {
+      if (document.activeElement === firstFocusable) {
+        lastFocusable.focus();
+        e.preventDefault();
+      }
+    } else {
+      if (document.activeElement === lastFocusable) {
+        firstFocusable.focus();
+        e.preventDefault();
+      }
+    }
+  }
+};
+```
+
+### 4. Keyboard Event Handling
+```typescript
+// Standard keyboard interactions
+const handleKeyDown = (e: KeyboardEvent) => {
+  switch (e.key) {
+    case 'Enter':
+    case ' ': // Space
+      // Activate button/link
+      break;
+    case 'Escape':
+      // Close modal/dropdown
+      break;
+    case 'ArrowDown':
+    case 'ArrowUp':
+    case 'ArrowLeft':
+    case 'ArrowRight':
+      // Navigate within component
+      break;
+    case 'Home':
+    case 'End':
+      // Jump to first/last item
+      break;
+  }
+};
+```
+
+### 5. Screen Reader Announcements
+```typescript
+// Live regions for dynamic content
+const announceToScreenReader = (message: string, priority: 'polite' | 'assertive' = 'polite') => {
+  const announcement = document.createElement('div');
+  announcement.setAttribute('aria-live', priority);
+  announcement.setAttribute('aria-atomic', 'true');
+  announcement.className = 'sr-only';
+  announcement.textContent = message;
+  document.body.appendChild(announcement);
+  
+  setTimeout(() => {
+    document.body.removeChild(announcement);
+  }, 1000);
+};
+```
+
+## Component-Specific Accessibility Patterns
+
+### Forms
+- Associate labels with form controls
+- Provide clear error messages
+- Group related fields with fieldset/legend
+- Indicate required fields
+- Provide input format instructions
+
+### Navigation
+- Use nav element for navigation areas
+- Provide skip links
+- Indicate current page/section
+- Use proper heading hierarchy
+- Implement breadcrumbs where appropriate
+
+### Interactive Widgets
+- Implement proper ARIA roles and states
+- Provide keyboard navigation
+- Announce state changes
+- Support standard interaction patterns
+- Provide alternative interaction methods
+
+### Data Tables
+- Use proper table markup
+- Provide table captions and summaries
+- Associate headers with data cells
+- Implement sortable column indicators
+- Provide table navigation shortcuts
+
+### Modals and Dialogs
+- Trap focus within modal
+- Return focus to trigger element
+- Provide close mechanisms
+- Use proper ARIA roles
+- Announce modal opening/closing
+
+### Dynamic Content
+- Announce content changes
+- Manage focus for new content
+- Provide loading indicators
+- Handle error states gracefully
+- Update page titles for SPA navigation
+
+## Testing and Validation
+
+### Automated Testing
+- Use axe-core for accessibility testing
+- Implement accessibility unit tests
+- Include accessibility in CI/CD pipeline
+- Use accessibility linting tools
+
+### Manual Testing
+- Test with keyboard only
+- Test with screen readers (NVDA, JAWS, VoiceOver)
+- Test with high contrast mode
+- Test with 200% zoom
+- Test with reduced motion settings
+
+### User Testing
+- Include users with disabilities in testing
+- Gather feedback on usability
+- Test with assistive technologies
+- Validate real-world usage scenarios
+
+## Output Format
+
+### Enhanced Component
+```typescript
+// Component with full accessibility implementation
+```
+
+### Accessibility Utilities
+```typescript
+// Custom hooks and utilities for accessibility
+```
+
+### ARIA Live Region Component
+```typescript
+// Screen reader announcement component
+```
+
+### Accessibility Styles
+<% if (project.styling === 'tailwind') { %>
+```css
+/* Tailwind accessibility utilities */
+.sr-only {
+  @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
+}
+
+.focus-visible {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2;
+}
+```
+<% } else { %>
+```css
+/* Accessibility-specific styles */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.focus-visible {
+  outline: 2px solid #0066cc;
+  outline-offset: 2px;
+}
+```
+<% } %>
+
+### Documentation
+```markdown
+# Accessibility Features
+
+## Keyboard Navigation
+- Tab: Navigate to next focusable element
+- Shift+Tab: Navigate to previous focusable element
+- Enter/Space: Activate buttons and links
+- Escape: Close modals and dropdowns
+- Arrow keys: Navigate within component
+
+## Screen Reader Support
+- All interactive elements have accessible names
+- Dynamic content changes are announced
+- Proper heading hierarchy is maintained
+- Form fields have associated labels
+
+## Testing
+- Tested with NVDA, JAWS, and VoiceOver
+- Keyboard navigation verified
+- Color contrast meets WCAG AA standards
+- Responsive design supports 200% zoom
+```
+
+## Accessibility Checklist
+
+- [ ] Semantic HTML elements used appropriately
+- [ ] All interactive elements are keyboard accessible
+- [ ] Focus indicators are visible and clear
+- [ ] Color contrast meets WCAG AA standards (4.5:1 for normal text)
+- [ ] Images have appropriate alt text
+- [ ] Form fields have associated labels
+- [ ] Error messages are clear and helpful
+- [ ] Dynamic content changes are announced
+- [ ] Page has proper heading hierarchy
+- [ ] Skip links provided for repetitive content
+- [ ] Touch targets are at least 44x44px
+- [ ] Component works with screen readers
+- [ ] No keyboard traps exist
+- [ ] Reduced motion preferences are respected
+- [ ] Language attributes are specified
+- [ ] ARIA attributes are used correctly
+- [ ] Component is tested with assistive technologies
+
+## Common Accessibility Patterns
+
+### Button
+```typescript
+<button
+  type="button"
+  aria-label="Close dialog"
+  onClick={handleClose}
+  onKeyDown={handleKeyDown}
+>
+  <CloseIcon aria-hidden="true" />
+</button>
+```
+
+### Form Field
+```typescript
+<div>
+  <label htmlFor="email" className="required">
+    Email Address
+  </label>
+  <input
+    id="email"
+    type="email"
+    required
+    aria-describedby="email-error email-help"
+    aria-invalid={hasError}
+  />
+  <div id="email-help">We'll never share your email</div>
+  {hasError && (
+    <div id="email-error" role="alert">
+      Please enter a valid email address
+    </div>
+  )}
+</div>
+```
+
+### Modal
+```typescript
+<div
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-title"
+  aria-describedby="modal-description"
+  onKeyDown={handleKeyDown}
+>
+  <h2 id="modal-title">Confirm Action</h2>
+  <p id="modal-description">Are you sure you want to proceed?</p>
+  <button onClick={handleConfirm}>Confirm</button>
+  <button onClick={handleCancel}>Cancel</button>
+</div>
+```
+
+---
+
+**Generated at:** <%= timestamp %>
+**Template:** <%= template.name %>
+**Output Format:** <%= template.outputFormat %>

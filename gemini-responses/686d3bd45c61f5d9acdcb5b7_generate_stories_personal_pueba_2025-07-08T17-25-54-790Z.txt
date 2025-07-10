@@ -1,0 +1,49 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización de Lista de Elementos de Prueba",
+      "description": "Como visitante de la página, quiero ver una lista de elementos de prueba cargados desde una fuente de datos para verificar que la conexión de datos y la renderización de componentes funcionan correctamente.",
+      "pageContext": "pueba",
+      "affectedFiles": [
+        "app/pueba/page.jsx",
+        "components/TestList/TestItemCard.jsx",
+        "lib/data.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "TestItemCard",
+            "type": "component",
+            "description": "Un componente de tarjeta reutilizable diseñado para mostrar la información resumida de un único elemento de prueba. Debe incluir un título, una descripción y un indicador visual de estado."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "La página principal ('page.jsx') debe importar y utilizar una función (ej. desde 'lib/data.js') para obtener un array de objetos de prueba. Inicialmente, esta función puede devolver datos mock. La página debe iterar sobre este array y renderizar un componente 'TestItemCard' por cada elemento, pasándole los datos correspondientes (id, título, descripción, estado) como props.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "Para el contenedor de la lista: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 md:p-6'. Para la tarjeta 'TestItemCard': 'bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 border border-gray-200 dark:border-gray-700 flex flex-col justify-between'.",
+        "colorCoding": "Utilizar un sistema de colores para el indicador de estado en la tarjeta: verde (ej. 'bg-green-100 text-green-800') para 'completado', amarillo (ej. 'bg-yellow-100 text-yellow-800') para 'en progreso' y rojo (ej. 'bg-red-100 text-red-800') para 'error'."
+      },
+      "acceptanceCriteria": [
+        "Al visitar la ruta '/pueba', se debe mostrar una cuadrícula con elementos de prueba.",
+        "Cada elemento de la cuadrícula debe ser una instancia del nuevo componente 'TestItemCard'.",
+        "El componente 'TestItemCard' debe mostrar correctamente el título y la descripción del elemento de prueba.",
+        "El 'TestItemCard' debe incluir un indicador de estado (ej. una pastilla de color) que refleje el estado del elemento ('completado', 'en progreso', 'error').",
+        "Si la fuente de datos no devuelve elementos, se debe mostrar un mensaje claro como 'No hay elementos de prueba para mostrar'.",
+        "La página debe ser responsive, ajustando el número de columnas de la cuadrícula según el tamaño de la pantalla."
+      ],
+      "additionalSuggestions": [
+        "Implementar un esqueleto de carga (loading skeleton) que imite la estructura de las tarjetas mientras se obtienen los datos para mejorar la percepción de rendimiento.",
+        "Añadir interactividad a la tarjeta, como un efecto 'hover' que aumente ligeramente su tamaño o sombra."
+      ],
+      "aiEditorTask": "Crear un nuevo componente 'TestItemCard.jsx' en una nueva carpeta 'components/TestList'. Este componente debe aceptar 'title', 'description' y 'status' como props y estilizarlos según lo especificado. En 'app/pueba/page.jsx', importar este nuevo componente y renderizar una lista a partir de datos mock obtenidos de un nuevo archivo 'lib/data.js'.",
+      "priority": "Alta",
+      "estimatedHours": 8,
+      "strategicImpact": "core",
+      "comments": ""
+    }
+  ]
+}
+```

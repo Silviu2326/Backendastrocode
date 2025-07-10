@@ -1,0 +1,298 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Registro de un nuevo pago en la ficha del cliente",
+      "description": "Como entrenador, quiero registrar un nuevo pago para un cliente en su pestaña de 'Finanzas' para mantener un historial financiero preciso y actualizado.",
+      "pageContext": "Workspace",
+      "affectedFiles": [
+        "/src/views/Workspace/Workspace.jsx",
+        "/src/components/client/ClientDetailView.jsx",
+        "/src/components/client/FinanceTab.jsx",
+        "/src/services/paymentService.js",
+        "/src/context/ClientContext.js",
+        "/api/models/payment.model.js",
+        "/api/controllers/payment.controller.js",
+        "/api/routes/payment.routes.js",
+        "/api/models/client.model.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "FinanceTab",
+            "type": "component"
+          },
+          {
+            "name": "PaymentForm",
+            "type": "component"
+          },
+          {
+            "name": "PaymentList",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "/src/components/ui/Button"
+          },
+          {
+            "name": "Input",
+            "from": "/src/components/ui/Input"
+          },
+          {
+            "name": "DatePicker",
+            "from": "/src/components/ui/DatePicker"
+          }
+        ]
+      },
+      "logicData": "Crear un nuevo modelo 'Payment' en MongoDB con campos: amount, date, method, notes, clientId (referencia a Client). El backend necesita un endpoint POST /api/clients/:clientId/payments para crear un nuevo pago y un endpoint GET para listar los pagos de un cliente. El componente 'FinanceTab' obtendrá y mostrará la lista de pagos. El formulario 'PaymentForm' (posiblemente en un modal) gestionará la entrada de datos y su envío al servicio 'paymentService'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-4 bg-gray-50 rounded-lg",
+        "colorCoding": "Usar tonos verdes para confirmaciones y cantidades positivas (pagos). Rojo para errores de validación."
+      },
+      "acceptanceCriteria": [
+        "Dentro de la pestaña 'Finanzas' en la ficha del cliente, debe existir un botón '+ Registrar Pago'.",
+        "Al hacer clic, se abre un modal o un formulario con campos para: importe (numérico), fecha (con un date-picker), método de pago (desplegable: Tarjeta, Transferencia, Efectivo) y un campo de texto para notas.",
+        "El formulario debe validar que el importe sea un número positivo.",
+        "Tras enviar el formulario con éxito, el nuevo pago debe aparecer instantáneamente en la lista de pagos de esa pestaña, ordenado por fecha descendente.",
+        "La lista de pagos debe mostrar claramente la fecha, el importe, el método y las notas de cada transacción."
+      ],
+      "additionalSuggestions": [
+        "Añadir una vista de resumen en la parte superior de la pestaña que muestre el 'Total Pagado'.",
+        "Permitir editar y eliminar pagos existentes con la debida confirmación."
+      ],
+      "aiEditorTask": "Crea el componente 'FinanceTab.jsx' que renderice un botón para abrir un modal con el formulario 'PaymentForm.jsx'. Este tab también debe obtener y mostrar una lista de pagos utilizando un componente 'PaymentList.jsx'. Implementa el servicio 'paymentService.js' para manejar las llamadas a la API de pagos.",
+      "priority": "Alta",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Registro y visualización de métricas de progreso físico",
+      "description": "Como entrenador, quiero registrar métricas clave de progreso (peso, % grasa, medidas) en la pestaña 'Progreso' para visualizar la evolución física del cliente a lo largo del tiempo mediante gráficos.",
+      "pageContext": "Workspace",
+      "affectedFiles": [
+        "/src/components/client/ProgressTab.jsx",
+        "/src/services/progressService.js",
+        "/src/hooks/useProgress.js",
+        "/api/models/progressLog.model.js",
+        "/api/controllers/progress.controller.js",
+        "/api/routes/progress.routes.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ProgressTab",
+            "type": "component"
+          },
+          {
+            "name": "ProgressLogForm",
+            "type": "component"
+          },
+          {
+            "name": "ProgressChart",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Recharts",
+            "from": "recharts"
+          },
+          {
+            "name": "Card",
+            "from": "/src/components/ui/Card"
+          }
+        ]
+      },
+      "logicData": "Crear un modelo 'ProgressLog' con campos: date, weight, bodyFat, measurements (objeto con cintura, cadera, etc.), clientId. El backend necesita endpoints para crear un nuevo registro y para obtener todo el historial de un cliente. El 'ProgressTab' usará un hook 'useProgress' para obtener los datos. 'ProgressChart' recibirá estos datos y los renderizará usando una librería como Recharts. 'ProgressLogForm' permitirá añadir nuevas entradas.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-1 md:grid-cols-2 gap-4",
+        "colorCoding": "El gráfico debe usar colores de marca para las líneas de datos. Los puntos de datos deben ser claramente visibles."
+      },
+      "acceptanceCriteria": [
+        "En la pestaña 'Progreso' de la ficha del cliente, debe haber un botón '+ Añadir Registro'.",
+        "El formulario de registro debe permitir introducir la fecha, el peso, el porcentaje de grasa corporal y al menos dos medidas corporales (ej. cintura, cadera).",
+        "Al guardar, el nuevo registro se añade a una tabla histórica y el gráfico se actualiza automáticamente.",
+        "Debe mostrarse un gráfico de líneas que represente la evolución del peso a lo largo del tiempo.",
+        "Debe haber un selector o botones para cambiar la métrica visualizada en el gráfico (ej. ver % grasa en lugar de peso)."
+      ],
+      "additionalSuggestions": [
+        "Calcular y mostrar el cambio (+/-) desde el registro anterior en la tabla histórica.",
+        "Permitir al entrenador personalizar qué métricas se pueden registrar."
+      ],
+      "aiEditorTask": "Implementa el componente 'ProgressTab.jsx' que contenga el formulario 'ProgressLogForm.jsx' y el gráfico 'ProgressChart.jsx'. Crea el modelo, controlador y ruta en el backend para gestionar los registros de progreso. El gráfico debe ser interactivo, con tooltips que muestren el valor exacto al pasar el ratón.",
+      "priority": "Alta",
+      "estimatedHours": 14
+    },
+    {
+      "title": "Subida y gestión de contratos del cliente",
+      "description": "Como entrenador, quiero subir, ver y descargar el contrato de un cliente en una nueva pestaña 'Documentos' para tener toda la documentación legal centralizada y accesible.",
+      "pageContext": "Workspace",
+      "affectedFiles": [
+        "/src/components/client/DocumentsTab.jsx",
+        "/src/services/fileUploadService.js",
+        "/src/components/ui/FileUpload.jsx",
+        "/api/controllers/document.controller.js",
+        "/api/routes/document.routes.js",
+        "/api/models/document.model.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "DocumentsTab",
+            "type": "component"
+          },
+          {
+            "name": "FileUpload",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "useDropzone",
+            "from": "react-dropzone"
+          },
+          {
+            "name": "FileIcon",
+            "from": "react-file-icon"
+          }
+        ]
+      },
+      "logicData": "Esta funcionalidad requiere almacenamiento de archivos (ej. en una carpeta 'uploads' en el servidor o un servicio como AWS S3). Se necesita un modelo 'Document' con campos: fileName, filePath, mimeType, clientId. El backend debe tener un endpoint que acepte 'multipart/form-data' para la subida. 'FileUpload' manejará la interacción del usuario (arrastrar y soltar o seleccionar archivo) y 'DocumentsTab' listará los documentos subidos para ese cliente, con enlaces para descargar.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "border-dashed border-2 rounded-lg p-8 text-center cursor-pointer",
+        "colorCoding": "La zona de subida puede cambiar de color al arrastrar un archivo sobre ella (ej. a un azul claro)."
+      },
+
+      "acceptanceCriteria": [
+        "En la ficha de cliente, debe existir una nueva pestaña llamada 'Documentos'.",
+        "Dentro de esta pestaña, debe haber un área o un botón para subir archivos.",
+        "El sistema debe aceptar archivos comunes como PDF, DOCX y JPG.",
+        "Una vez subido, el archivo debe aparecer en una lista con su nombre, fecha de subida y un botón para 'Descargar'.",
+        "Al hacer clic en 'Descargar', el navegador debe iniciar la descarga del archivo original.",
+        "Debe haber una opción para eliminar un documento, previa confirmación."
+      ],
+      "additionalSuggestions": [
+        "Mostrar un icono representativo del tipo de archivo (PDF, Word, imagen).",
+        "Implementar una barra de progreso durante la subida de archivos grandes."
+      ],
+      "aiEditorTask": "Crea la ruta y el controlador en Node.js/Express para manejar la subida de archivos con 'multer'. En el frontend, crea el componente 'DocumentsTab.jsx' que usa 'react-dropzone' para una experiencia de subida de archivos amigable. El tab debe listar los archivos existentes y permitir su descarga y eliminación.",
+      "priority": "Media",
+      "estimatedHours": 16
+    },
+    {
+      "title": "Añadir nota privada en la ficha del cliente",
+      "description": "Como entrenador, quiero añadir notas privadas a la ficha de un cliente, visibles solo para mí, para registrar recordatorios, observaciones o información confidencial que no debe ser compartida.",
+      "pageContext": "Workspace",
+      "affectedFiles": [
+        "/src/components/client/PersonalTab.jsx",
+        "/src/components/client/PrivateNotesWidget.jsx",
+        "/src/services/noteService.js",
+        "/api/models/note.model.js",
+        "/api/controllers/note.controller.js",
+        "/api/routes/note.routes.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "PrivateNotesWidget",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Textarea",
+            "from": "/src/components/ui/Textarea"
+          },
+          {
+            "name": "Button",
+            "from": "/src/components/ui/Button"
+          }
+        ]
+      },
+      "logicData": "Crear un modelo 'Note' con campos: content, createdAt, clientId, trainerId. El backend necesita endpoints CRUD para las notas. Es crucial que las rutas estén protegidas y que la lógica del controlador verifique que solo el 'trainerId' asociado a la nota pueda leerla, actualizarla o borrarla. El 'PrivateNotesWidget', ubicado por ejemplo en la pestaña 'Personal', contendrá un área de texto para crear nuevas notas y mostrará una lista cronológica de las existentes.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-yellow-100 border-l-4 border-yellow-400 text-yellow-700 p-4 my-2 rounded-md",
+        "colorCoding": "Utilizar un estilo de 'post-it' o nota adhesiva (fondos amarillos claros) para diferenciar visualmente estas notas del resto del contenido."
+      },
+      "acceptanceCriteria": [
+        "En una sección visible de la ficha del cliente (ej. en la pestaña 'Personal'), debe haber un área titulada 'Notas Privadas'.",
+        "Esta área debe contener un campo de texto y un botón 'Guardar Nota'.",
+        "Al guardar, la nota aparece en una lista debajo del campo de texto, mostrando el contenido y la fecha de creación.",
+        "Las notas deben persistir y cargarse cada vez que se abre la ficha del cliente.",
+        "Estas notas no deben ser accesibles a través de la API por ningún otro usuario que no sea el entrenador que las creó.",
+        "Debo poder editar y eliminar mis notas pasadas."
+      ],
+      "additionalSuggestions": [
+        "Usar Markdown para formatear el texto de las notas.",
+        "Añadir una función de búsqueda dentro de las notas de un cliente."
+      ],
+      "aiEditorTask": "Implementa el widget 'PrivateNotesWidget.jsx'. Crea el modelo 'Note' en MongoDB y los endpoints CRUD seguros en la API de Node.js, asegurando que solo el entrenador creador pueda acceder a sus notas. El widget debe permitir crear, leer, actualizar y eliminar notas.",
+      "priority": "Media",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Definición y seguimiento de objetivos del cliente",
+      "description": "Como entrenador, quiero definir objetivos específicos para un cliente (ej. 'Correr 5k en 25 min') y marcar su estado (Pendiente, En Progreso, Logrado) para tener un seguimiento claro de sus metas.",
+      "pageContext": "Workspace",
+      "affectedFiles": [
+        "/src/components/client/GoalsTab.jsx",
+        "/src/services/goalService.js",
+        "/api/models/goal.model.js",
+        "/api/controllers/goal.controller.js",
+        "/api/routes/goal.routes.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "GoalsTab",
+            "type": "component"
+          },
+          {
+            "name": "GoalCard",
+            "type": "component"
+          },
+          {
+            "name": "GoalForm",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Select",
+            "from": "/src/components/ui/Select"
+          },
+          {
+            "name": "Badge",
+            "from": "/src/components/ui/Badge"
+          }
+        ]
+      },
+      "logicData": "Se necesita un modelo 'Goal' con campos: description, targetDate, status ('Pendiente', 'En Progreso', 'Logrado', 'Cancelado'), clientId. El backend debe ofrecer endpoints CRUD para estos objetivos. Se creará una nueva pestaña 'Objetivos' en la ficha del cliente. Esta pestaña mostrará los objetivos en formato de tarjetas ('GoalCard') y tendrá un formulario para añadir nuevos.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex flex-col gap-3",
+        "colorCoding": "Usar colores para los estados de los objetivos: Gris para 'Pendiente', Azul para 'En Progreso', Verde para 'Logrado', Rojo para 'Cancelado'. Estos colores se aplicarán a un componente 'Badge'."
+      },
+      "acceptanceCriteria": [
+        "Debe haber una nueva pestaña 'Objetivos' en la vista detallada del cliente.",
+        "Dentro de la pestaña, un botón '+ Nuevo Objetivo' debe abrir un formulario para definir un objetivo (descripción y fecha objetivo opcional).",
+        "Cada objetivo se muestra como una tarjeta individual, mostrando su descripción y su estado actual.",
+        "Puedo cambiar el estado de un objetivo (ej. de 'Pendiente' a 'En Progreso') directamente desde su tarjeta mediante un menú desplegable.",
+        "Los objetivos 'Logrados' pueden tener una apariencia visualmente distinta (ej. tachados o con un color de fondo verde)."
+      ],
+      "additionalSuggestions": [
+        "Permitir categorizar los objetivos (ej. 'Fuerza', 'Resistencia', 'Nutrición').",
+        "Mostrar un contador de objetivos logrados vs. pendientes en la parte superior de la pestaña."
+      ],
+      "aiEditorTask": "Crea el componente 'GoalsTab.jsx', que manejará la lógica para mostrar y añadir objetivos. Desarrolla el componente 'GoalCard.jsx' para visualizar cada objetivo, incluyendo un control para cambiar su estado. Implementa el backend completo (modelo, controlador, ruta) para la gestión de objetivos.",
+      "priority": "Media",
+      "estimatedHours": 10
+    }
+  ]
+}
+```

@@ -1,0 +1,372 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización de la Lista de Clientes con Información Clave",
+      "description": "Como entrenador, quiero ver una lista tabulada de todos mis clientes que muestre su foto, nombre completo, estado (activo/inactivo) y una barra de progreso general, para poder evaluar de un vistazo la situación de mi cartera de clientes.",
+      "pageContext": "Gestión de Clientes (CRM)",
+      "affectedFiles": [
+        "src/features/gestin-de-clientes-crm/GestióndeClientes(CRM)Page.tsx",
+        "src/features/gestin-de-clientes-crm/hooks/useGestióndeClientes(CRM).ts",
+        "src/features/gestin-de-clientes-crm/api.ts",
+        "src/features/gestin-de-clientes-crm/components/ClientTableRow.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ClientTableRow",
+            "type": "component",
+            "description": "Componente que renderiza una fila de la tabla de clientes. Incluirá celdas específicas para el avatar, nombre, un badge de estado y un indicador de progreso, encapsulando la lógica de presentación de un solo cliente."
+          }
+        ],
+        "import": [
+          {
+            "name": "Table",
+            "from": "src/components/Table.jsx",
+            "improvements": "Utilizar el componente genérico de tabla como contenedor para las filas de clientes generadas por ClientTableRow. Se le pasarán los datos de los clientes y las cabeceras de la tabla como props."
+          }
+        ]
+      },
+      "logicData": "El hook 'useGestióndeClientes(CRM).ts' debe realizar una llamada a 'api.ts' para obtener el listado completo de clientes. Cada objeto de cliente debe contener: id, avatarUrl, nombreCompleto, estado ('activo' | 'inactivo'), y progresoGeneral (un número de 0 a 100). La página principal mapeará estos datos para renderizar un componente 'ClientTableRow' por cada cliente dentro del componente 'Table'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "min-w-full divide-y divide-gray-200",
+        "colorCoding": "El estado 'activo' usará un badge verde (bg-green-100 text-green-800) y 'inactivo' usará uno gris (bg-gray-100 text-gray-800)."
+      },
+      "acceptanceCriteria": [
+        "Al cargar la página, se debe mostrar una tabla con los clientes.",
+        "Cada fila debe mostrar la foto (o un avatar por defecto), el nombre, el estado y el progreso del cliente.",
+        "El estado 'activo' debe ser visualmente distinto del 'inactivo' mediante un badge de color.",
+        "El progreso general debe mostrarse como una barra de progreso visual.",
+        "Si no hay clientes, se debe mostrar un mensaje indicándolo."
+      ],
+      "additionalSuggestions": [
+        "Añadir un skeleton loader mientras se cargan los datos de los clientes para mejorar la UX.",
+        "Hacer que el nombre del cliente sea un enlace que navegue a su perfil detallado (`/clients/[id]`)."
+      ],
+      "aiEditorTask": "Crea el componente 'ClientTableRow.tsx' en 'src/features/gestin-de-clientes-crm/components/'. Este componente recibirá un objeto 'client' como prop y renderizará una fila `<tr>` con celdas `<td>` para la imagen, nombre, un badge de estado y un componente de barra de progreso.",
+      "priority": "Alta",
+      "estimatedHours": 6,
+      "strategicImpact": "core",
+      "comments": "Esta es la funcionalidad base de la página. Sin ella, el resto de las características no tienen contexto."
+    },
+    {
+      "title": "Adición de un Nuevo Cliente a través de un Modal",
+      "description": "Como entrenador, quiero poder hacer clic en un botón 'Añadir Cliente' que abra un formulario modal, para registrar rápidamente la información esencial de un nuevo cliente (nombre, email) sin abandonar la vista de la lista.",
+      "pageContext": "Gestión de Clientes (CRM)",
+      "affectedFiles": [
+        "src/features/gestin-de-clientes-crm/GestióndeClientes(CRM)Page.tsx",
+        "src/features/gestin-de-clientes-crm/components/AddClientModal.tsx",
+        "src/features/gestin-de-clientes-crm/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AddClientModal",
+            "type": "component",
+            "description": "Componente modal que contiene un formulario con campos para el nombre, apellido, y email del nuevo cliente. Incluirá validación de campos y un botón de envío."
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx",
+            "improvements": "Utilizar este componente para el botón 'Añadir Cliente' que dispara la apertura del modal y para los botones 'Guardar' y 'Cancelar' dentro del modal."
+          }
+        ]
+      },
+      "logicData": "Un estado en 'GestióndeClientes(CRM)Page.tsx' controlará la visibilidad del modal. Al enviar el formulario, el componente 'AddClientModal' llamará a una función (pasada por props) que a su vez ejecutará una petición POST a través de 'api.ts'. Tras una respuesta exitosa, se deberá cerrar el modal y refrescar la lista de clientes.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full",
+        "colorCoding": "El botón principal de acción 'Guardar' será azul, y el secundario 'Cancelar' será gris."
+      },
+      "acceptanceCriteria": [
+        "Debe existir un botón 'Añadir Cliente' visible en la parte superior de la página.",
+        "Al hacer clic en el botón, se debe abrir un modal con un formulario.",
+        "El formulario debe tener campos para nombre, apellido y email, todos obligatorios.",
+        "Al enviar el formulario con datos válidos, el cliente debe ser creado y la lista actualizada.",
+        "El modal se debe poder cerrar sin guardar los cambios."
+      ],
+      "additionalSuggestions": [
+        "Añadir validación de email en tiempo real.",
+        "Mostrar una notificación de éxito o error después de intentar crear el cliente."
+      ],
+      "aiEditorTask": "Crea el componente 'AddClientModal.tsx' en 'src/features/gestin-de-clientes-crm/components/'. Debe gestionar su propio estado de formulario y validación. Recibirá una prop 'onClose' para cerrar el modal y 'onSubmit' para manejar la lógica de creación del cliente.",
+      "priority": "Alta",
+      "estimatedHours": 8,
+      "strategicImpact": "core",
+      "comments": "Funcionalidad crítica para hacer crecer la base de clientes dentro de la aplicación."
+    },
+    {
+      "title": "Búsqueda de Clientes por Nombre",
+      "description": "Como entrenador, quiero un campo de búsqueda en la parte superior de la lista, para poder escribir el nombre o apellido de un cliente y filtrar la lista en tiempo real, facilitando la localización de individuos específicos.",
+      "pageContext": "Gestión de Clientes (CRM)",
+      "affectedFiles": [
+        "src/features/gestin-de-clientes-crm/GestióndeClientes(CRM)Page.tsx",
+        "src/features/gestin-de-clientes-crm/components/ClientSearchBar.tsx",
+        "src/features/gestin-de-clientes-crm/hooks/useGestióndeClientes(CRM).ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ClientSearchBar",
+            "type": "component",
+            "description": "Un componente de input de texto específico para la búsqueda. Incluirá un ícono de lupa y opcionalmente un botón para limpiar la búsqueda. Gestionará el 'debouncing' para evitar peticiones excesivas a la API."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El componente 'ClientSearchBar' mantendrá su propio estado interno para el valor del input. Usará un 'debounce' (aprox. 300ms) para llamar a una función 'onSearch' pasada por props. Esta función, definida en la página principal, actualizará un estado de búsqueda en el hook 'useGestióndeClientes(CRM).ts', que a su vez volverá a solicitar los datos a la API con el término de búsqueda como parámetro.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "relative w-full md:w-1/3",
+        "colorCoding": "Input con borde gris claro que se enfoca en azul. Ícono de búsqueda gris."
+      },
+      "acceptanceCriteria": [
+        "Un campo de búsqueda debe estar visible en la página.",
+        "A medida que el usuario escribe en el campo, la lista de clientes se debe actualizar para mostrar solo los resultados que coinciden.",
+        "La búsqueda debe realizarse por nombre y/o apellido.",
+        "La búsqueda no debe activarse en cada pulsación de tecla, sino tras una breve pausa (debouncing).",
+        "Debe ser posible limpiar el campo de búsqueda para volver a ver todos los clientes."
+      ],
+      "additionalSuggestions": [
+        "Mostrar un spinner o indicador de carga junto al campo de búsqueda mientras se realiza la petición."
+      ],
+      "aiEditorTask": "Crea el componente 'ClientSearchBar.tsx' en 'src/features/gestin-de-clientes-crm/components/'. Implementa la lógica de 'debouncing' usando un hook personalizado (ej. useDebounce) y llama a la prop 'onSearch' con el término de búsqueda.",
+      "priority": "Alta",
+      "estimatedHours": 5,
+      "strategicImpact": "core",
+      "comments": "Esencial para la usabilidad en entrenadores con más de un puñado de clientes."
+    },
+    {
+      "title": "Filtrado de Clientes por Estado",
+      "description": "Como entrenador, quiero tener botones o pestañas para filtrar la lista de clientes por su estado ('Todos', 'Activos', 'Inactivos'), para poder enfocar mi atención y acciones en un subconjunto específico de clientes.",
+      "pageContext": "Gestión de Clientes (CRM)",
+      "affectedFiles": [
+        "src/features/gestin-de-clientes-crm/GestióndeClientes(CRM)Page.tsx",
+        "src/features/gestin-de-clientes-crm/components/ClientStatusFilter.tsx",
+        "src/features/gestin-de-clientes-crm/hooks/useGestióndeClientes(CRM).ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ClientStatusFilter",
+            "type": "component",
+            "description": "Un grupo de botones o pestañas que representan los posibles estados de filtro ('Todos', 'Activos', 'Inactivos'). El componente gestiona cuál es el filtro activo y notifica al componente padre del cambio."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El componente 'ClientStatusFilter' recibe el filtro activo actual y una función 'onFilterChange' como props. Al hacer clic en una opción de filtro, invoca 'onFilterChange' con el nuevo valor. La página principal actualiza el estado del filtro en 'useGestióndeClientes(CRM).ts', lo que provoca una nueva llamada a la API con el parámetro de filtro de estado.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex space-x-2 p-1 bg-gray-100 rounded-lg",
+        "colorCoding": "El botón del filtro activo tendrá un fondo más oscuro (ej. blanco o azul) y texto contrastante, mientras que los inactivos serán transparentes con texto gris."
+      },
+      "acceptanceCriteria": [
+        "Deben mostrarse las opciones de filtro 'Todos', 'Activos' e 'Inactivos'.",
+        "Por defecto, se mostrarán 'Todos' los clientes.",
+        "Al hacer clic en 'Activos', la tabla solo debe mostrar clientes con estado activo.",
+        "Al hacer clic en 'Inactivos', la tabla solo debe mostrar clientes con estado inactivo.",
+        "La opción de filtro seleccionada debe estar visualmente destacada."
+      ],
+      "additionalSuggestions": [
+        "Mostrar un contador del número de clientes en cada categoría de filtro (ej. 'Activos (15)')."
+      ],
+      "aiEditorTask": "Crea el componente 'ClientStatusFilter.tsx' en 'src/features/gestin-de-clientes-crm/components/'. Este componente será un grupo de botones. Recibirá 'activeFilter' y 'onFilterChange' como props para ser un componente controlado.",
+      "priority": "Alta",
+      "estimatedHours": 5,
+      "strategicImpact": "core",
+      "comments": "Permite segmentar la base de clientes, una función CRM fundamental."
+    },
+    {
+      "title": "Paginación de la Lista de Clientes",
+      "description": "Como entrenador con una gran cantidad de clientes, quiero controles de paginación en la parte inferior de la tabla, para poder navegar entre las páginas de resultados de forma ordenada y sin afectar el rendimiento de la aplicación.",
+      "pageContext": "Gestión de Clientes (CRM)",
+      "affectedFiles": [
+        "src/features/gestin-de-clientes-crm/GestióndeClientes(CRM)Page.tsx",
+        "src/features/gestin-de-clientes-crm/components/ClientListPagination.tsx",
+        "src/features/gestin-de-clientes-crm/api.ts",
+        "src/features/gestin-de-clientes-crm/hooks/useGestióndeClientes(CRM).ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ClientListPagination",
+            "type": "component",
+            "description": "Componente que renderiza los controles de paginación, incluyendo botones 'Anterior' y 'Siguiente', y números de página. Debe ser capaz de manejar un gran número de páginas de forma eficiente (ej. mostrando puntos suspensivos)."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "La API debe soportar paginación, aceptando parámetros como 'page' y 'limit'. La respuesta de la API debe incluir los datos de los clientes para la página actual y metadatos de paginación (total de clientes, total de páginas). El hook 'useGestióndeClientes(CRM).ts' gestionará el estado de la página actual. El componente 'ClientListPagination' recibirá estos metadatos y una función 'onPageChange' para notificar un cambio de página.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex items-center justify-between border-t border-gray-200 px-4 py-3 sm:px-6",
+        "colorCoding": "El botón de la página actual estará resaltado (ej. fondo azul, texto blanco). Los botones deshabilitados (ej. 'Anterior' en la primera página) estarán en gris y sin eventos de puntero."
+      },
+      "acceptanceCriteria": [
+        "Si hay más clientes que el límite por página, deben aparecer los controles de paginación.",
+        "Los botones 'Anterior' y 'Siguiente' deben navegar a la página correspondiente.",
+        "Hacer clic en un número de página debe cargar los datos de esa página.",
+        "El botón 'Anterior' debe estar deshabilitado en la primera página.",
+        "El botón 'Siguiente' debe estar deshabilitado en la última página."
+      ],
+      "additionalSuggestions": [
+        "Añadir una opción para que el usuario pueda cambiar el número de clientes por página (ej. 10, 25, 50)."
+      ],
+      "aiEditorTask": "Crea el componente 'ClientListPagination.tsx' en 'src/features/gestin-de-clientes-crm/components/'. Debe recibir props como 'currentPage', 'totalPages', y 'onPageChange'. Debe calcular qué números de página mostrar, especialmente cuando hay muchas páginas.",
+      "priority": "Alta",
+      "estimatedHours": 6,
+      "strategicImpact": "core",
+      "comments": "Crítico para la escalabilidad y el rendimiento de la aplicación a medida que el entrenador gana más clientes."
+    },
+    {
+      "title": "Menú de Acciones Rápidas por Cliente",
+      "description": "Como entrenador, quiero un menú desplegable (de 3 puntos) en cada fila de cliente, para poder realizar acciones comunes como 'Ver Perfil', 'Editar' o 'Cambiar Estado' directamente desde la lista, agilizando mi flujo de trabajo.",
+      "pageContext": "Gestión de Clientes (CRM)",
+      "affectedFiles": [
+        "src/features/gestin-de-clientes-crm/components/ClientTableRow.tsx",
+        "src/features/gestin-de-clientes-crm/components/ClientActionMenu.tsx",
+        "src/features/gestin-de-clientes-crm/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ClientActionMenu",
+            "type": "component",
+            "description": "Un componente de menú desplegable (dropdown) que se activa con un botón de ícono (tres puntos). Muestra una lista de acciones aplicables a un cliente específico."
+          }
+        ],
+        "import": [
+          {
+            "name": "ClientTableRow",
+            "from": "src/features/gestin-de-clientes-crm/components/ClientTableRow.tsx",
+            "improvements": "Se importará y añadirá el nuevo componente 'ClientActionMenu' en una nueva celda de la fila, al final."
+          }
+        ]
+      },
+      "logicData": "El componente 'ClientActionMenu' recibirá el 'clientId' como prop. Cada opción del menú ('Ver Perfil', 'Cambiar Estado') tendrá un 'onClick' handler. 'Ver Perfil' provocará una navegación a '/clients/[clientId]'. 'Cambiar Estado' llamará a una función que ejecutará una petición PATCH/PUT a 'api.ts' para actualizar el estado del cliente y luego refrescará los datos de la lista.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "relative inline-block text-left",
+        "colorCoding": "El menú desplegable tendrá un fondo blanco, sombra y bordes redondeados. Las opciones del menú tendrán un efecto 'hover' con un fondo gris claro."
+      },
+      "acceptanceCriteria": [
+        "Cada fila de cliente en la tabla debe tener un ícono de menú (3 puntos).",
+        "Al hacer clic en el ícono, se debe desplegar un menú con opciones.",
+        "El menú debe contener al menos las opciones 'Ver Perfil' y 'Cambiar Estado' (a 'activo' o 'inactivo' según corresponda).",
+        "La opción 'Ver Perfil' debe redirigir a la página de perfil de ese cliente.",
+        "La opción 'Cambiar Estado' debe actualizar el estado del cliente y reflejar el cambio en la UI."
+      ],
+      "additionalSuggestions": [
+        "Añadir una opción 'Eliminar' con un diálogo de confirmación para prevenir borrados accidentales.",
+        "Añadir la opción 'Asignar Plan' que lleve directamente al creador de planes con el cliente preseleccionado."
+      ],
+      "aiEditorTask": "Crea el componente 'ClientActionMenu.tsx' en 'src/features/gestin-de-clientes-crm/components/'. Debe manejar la lógica para abrir/cerrar el menú. Recibirá el objeto 'client' para determinar las acciones disponibles y ejecutar las llamadas correspondientes.",
+      "priority": "Alta",
+      "estimatedHours": 7,
+      "strategicImpact": "core",
+      "comments": "Mejora drásticamente la eficiencia del entrenador al reducir el número de clics para tareas frecuentes."
+    },
+    {
+      "title": "Selección Múltiple y Acciones en Bloque",
+      "description": "Como entrenador, quiero poder seleccionar múltiples clientes mediante checkboxes y aplicar una acción en bloque, como 'Desactivar Seleccionados', para gestionar grupos de clientes de forma eficiente.",
+      "pageContext": "Gestión de Clientes (CRM)",
+      "affectedFiles": [
+        "src/features/gestin-de-clientes-crm/GestióndeClientes(CRM)Page.tsx",
+        "src/features/gestin-de-clientes-crm/components/BulkActionsToolbar.tsx",
+        "src/features/gestin-de-clientes-crm/components/ClientTableRow.tsx",
+        "src/features/gestin-de-clientes-crm/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "BulkActionsToolbar",
+            "type": "component",
+            "description": "Una barra de herramientas que aparece condicionalmente (generalmente en la parte superior de la tabla) cuando se selecciona al menos un cliente. Contiene botones para acciones en bloque."
+          }
+        ],
+        "import": [
+          {
+            "name": "ClientTableRow",
+            "from": "src/features/gestin-de-clientes-crm/components/ClientTableRow.tsx",
+            "improvements": "Se añadirá un checkbox al inicio de cada fila. El estado 'checked' y la función 'onChange' serán manejados por la página principal."
+          }
+        ]
+      },
+      "logicData": "La página 'GestióndeClientes(CRM)Page.tsx' mantendrá un estado con un array de los IDs de los clientes seleccionados. Cada 'ClientTableRow' tendrá un checkbox. Habrá un checkbox en la cabecera de la tabla para seleccionar/deseleccionar todos los clientes de la página actual. Cuando el array de selección no esté vacío, se mostrará el 'BulkActionsToolbar'. Al hacer clic en una acción en bloque, se llamará a la API con la lista de IDs seleccionados.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "absolute top-0 left-1/2 -translate-x-1/2 bg-blue-500 text-white p-2 rounded-md shadow-lg flex items-center space-x-4",
+        "colorCoding": "La barra de herramientas tendrá un fondo destacado (ej. azul) para indicar que es un modo especial. Mostrará el número de clientes seleccionados."
+      },
+      "acceptanceCriteria": [
+        "La tabla de clientes debe incluir un checkbox en cada fila y uno en la cabecera.",
+        "Al seleccionar uno o más clientes, debe aparecer una barra de herramientas de acciones en bloque.",
+        "La barra de herramientas debe mostrar cuántos clientes están seleccionados.",
+        "La barra de herramientas debe tener al menos una opción, como 'Desactivar Seleccionados'.",
+        "Al ejecutar la acción en bloque, esta debe aplicarse a todos los clientes seleccionados y la UI debe actualizarse."
+      ],
+      "additionalSuggestions": [
+        "Añadir más acciones en bloque como 'Activar Seleccionados' o 'Asignar Plantilla'.",
+        "Asegurarse de que el estado de selección se limpie después de realizar una acción o de navegar a otra página."
+      ],
+      "aiEditorTask": "Crea el componente 'BulkActionsToolbar.tsx' en 'src/features/gestin-de-clientes-crm/components/'. Recibirá el número de seleccionados y un objeto con las funciones para las acciones en bloque. Modifica 'ClientTableRow.tsx' para incluir un checkbox controlado.",
+      "priority": "Alta",
+      "estimatedHours": 9,
+      "strategicImpact": "core",
+      "comments": "Funcionalidad avanzada de CRM que proporciona un gran valor en términos de eficiencia para entrenadores con muchos clientes."
+    },
+    {
+      "title": "Encabezados de Tabla Ordenables",
+      "description": "Como entrenador, quiero poder hacer clic en los encabezados de la tabla (como 'Nombre' o 'Progreso') para ordenar la lista de clientes de forma ascendente o descendente, para poder analizar mi cartera de clientes desde diferentes perspectivas.",
+      "pageContext": "Gestión de Clientes (CRM)",
+      "affectedFiles": [
+        "src/features/gestin-de-clientes-crm/GestióndeClientes(CRM)Page.tsx",
+        "src/features/gestin-de-clientes-crm/components/SortableTableHeader.tsx",
+        "src/features/gestin-de-clientes-crm/hooks/useGestióndeClientes(CRM).ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "SortableTableHeader",
+            "type": "component",
+            "description": "Componente que renderiza un encabezado de tabla (`<th>`). Será clickeable y mostrará un ícono indicador (flecha arriba/abajo) para señalar la columna de ordenación actual y su dirección (ascendente/descendente)."
+          }
+        ],
+        "import": [
+          {
+            "name": "Table",
+            "from": "src/components/Table.jsx",
+            "improvements": "La cabecera del componente Table se construirá usando múltiples instancias del nuevo componente 'SortableTableHeader' en lugar de `<th>` estáticos."
+          }
+        ]
+      },
+      "logicData": "El hook 'useGestióndeClientes(CRM).ts' gestionará el estado de la ordenación: 'sortKey' (ej. 'nombre') y 'sortDirection' ('asc' | 'desc'). El componente 'SortableTableHeader' recibirá su propia clave (ej. 'nombre'), la clave de ordenación activa y la dirección. Al hacer clic, llamará a una función 'onSort' que actualizará el estado en el hook, lo cual provocará una nueva llamada a la API con los parámetros de ordenación.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100",
+        "colorCoding": "La columna activa para ordenar tendrá el texto más oscuro. Se mostrará un ícono de flecha junto al texto."
+      },
+      "acceptanceCriteria": [
+        "Los encabezados de las columnas 'Nombre' y 'Progreso' deben ser clickeables.",
+        "Al hacer clic en un encabezado por primera vez, la tabla se ordenará por esa columna en orden ascendente.",
+        "Al hacer clic de nuevo en el mismo encabezado, el orden cambiará a descendente.",
+        "Un ícono visual (flecha) debe indicar qué columna está activa para la ordenación y en qué dirección.",
+        "La ordenación debe funcionar correctamente en conjunto con la paginación y los filtros."
+      ],
+      "additionalSuggestions": [
+        "Implementar la ordenación en el lado del servidor para un mejor rendimiento con grandes volúmenes de datos.",
+        "Añadir la capacidad de ordenar por la fecha de alta del cliente."
+      ],
+      "aiEditorTask": "Crea el componente 'SortableTableHeader.tsx' en 'src/features/gestin-de-clientes-crm/components/'. Recibirá props como 'sortKey', 'activeSortKey', 'sortDirection' y 'onSort'. Renderizará un `<th>` con la lógica para mostrar el ícono y manejar el evento de clic.",
+      "priority": "Alta",
+      "estimatedHours": 6,
+      "strategicImpact": "core",
+      "comments": "Una funcionalidad estándar pero crítica en cualquier tabla de datos para permitir al usuario organizar la información según sus necesidades."
+    }
+  ]
+}
+```

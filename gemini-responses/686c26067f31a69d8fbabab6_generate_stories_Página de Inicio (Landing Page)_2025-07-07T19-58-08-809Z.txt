@@ -1,0 +1,266 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización de la Propuesta de Valor en la Sección Hero",
+      "description": "Como un entrenador personal que visita el sitio por primera vez, quiero ver una sección principal (hero) con un titular claro, una breve descripción y una imagen atractiva, para entender rápidamente de qué se trata FitFlow Pro y si es relevante para mí.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": ["src/pages/HomePage.jsx", "src/components/Header.jsx", "src/components/Button.jsx", "public/assets/images/hero-image.png"],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "HeroSection",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Header",
+            "from": "../components/Header"
+          },
+          {
+            "name": "Button",
+            "from": "../components/Button"
+          },
+          {
+            "name": "HeroSection",
+            "from": "../components/HeroSection"
+          }
+        ]
+      },
+      "logicData": "La sección debe ser estática. El titular, subtitular y texto del botón deben ser fácilmente configurables. La imagen de fondo provendrá de 'public/assets/images/hero-image.png'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex flex-col items-center justify-center text-center p-8 min-h-screen bg-cover bg-center",
+        "colorCoding": "Uso de colores primarios de la marca para el CTA y texto de alto contraste sobre la imagen de fondo."
+      },
+      "acceptanceCriteria": [
+        "La sección debe ocupar la mayor parte de la pantalla visible al cargar la página (above the fold).",
+        "Debe mostrar un titular principal (H1) que comunique la propuesta de valor.",
+        "Debe incluir un párrafo corto que elabore sobre el titular.",
+        "Debe haber un botón de Llamada a la Acción (CTA) principal, como 'Comienza Gratis', que sea prominente.",
+        "La imagen 'hero-image.png' debe usarse como fondo o elemento visual principal.",
+        "El contenido debe ser legible y estar bien alineado en dispositivos de escritorio y móviles."
+      ],
+      "additionalSuggestions": [
+        "Considerar un efecto de superposición oscura (overlay) sobre la imagen de fondo para mejorar la legibilidad del texto.",
+        "El botón CTA podría tener una microinteracción sutil al pasar el cursor sobre él."
+      ],
+      "aiEditorTask": "Crea el componente 'HeroSection.jsx'. Debe recibir 'title', 'subtitle', 'ctaText' y 'imageUrl' como props. Utiliza Tailwind CSS para el estilizado y asegúrate de que sea completamente responsivo, centrando el contenido tanto vertical como horizontalmente.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Exploración de Funcionalidades Clave",
+      "description": "Como un entrenador que evalúa la plataforma, quiero ver una sección que destaque las características clave del producto con íconos y descripciones breves, para comprender rápidamente las funcionalidades que ofrece.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": ["src/pages/HomePage.jsx", "public/assets/icons/feature-icon.svg"],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "FeaturesSection",
+            "type": "component"
+          },
+          {
+            "name": "FeatureCard",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "FeaturesSection",
+            "from": "../components/FeaturesSection"
+          }
+        ]
+      },
+      "logicData": "Se necesita un array de objetos, donde cada objeto representa una característica y contiene 'icon', 'title' y 'description'. Los datos deben ser mapeados para renderizar los componentes 'FeatureCard'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-1 md:grid-cols-3 gap-8 p-8",
+        "colorCoding": "Íconos con el color de acento de la marca. Texto del título en un peso de fuente mayor que la descripción."
+      },
+      "acceptanceCriteria": [
+        "La sección debe tener un título general, como 'Nuestras Características'.",
+        "Debe mostrar al menos 3 características principales en un diseño de cuadrícula (grid).",
+        "Cada característica debe tener un ícono representativo (usar 'feature-icon.svg' como placeholder), un título corto y una descripción concisa.",
+        "El diseño de la cuadrícula debe ser responsivo, apilándose en una sola columna en pantallas pequeñas.",
+        "El texto debe ser claro y fácil de leer."
+      ],
+      "additionalSuggestions": [
+        "Añadir una animación sutil de aparición (fade-in) a las tarjetas de características cuando el usuario se desplaza hacia ellas.",
+        "Usar íconos SVG únicos para cada característica para mejorar la comunicación visual."
+      ],
+      "aiEditorTask": "Desarrolla el componente 'FeaturesSection.jsx' que renderice una lista de 'FeatureCard'. El componente 'FeatureCard.jsx' debe mostrar un ícono, un título y un texto. Utiliza un grid layout de Tailwind que se ajuste de 3 columnas en desktop a 1 columna en móvil.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Verificación de Prueba Social a través de Testimonios",
+      "description": "Como un entrenador indeciso, quiero leer testimonios de otros entrenadores que ya usan FitFlow Pro, para ganar confianza en el producto y ver casos de éxito reales.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": ["src/pages/HomePage.jsx", "src/components/TestimonialCard.jsx", "public/assets/images/testimonial-avatar.png"],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "TestimonialsSection",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "TestimonialCard",
+            "from": "../components/TestimonialCard"
+          },
+          {
+            "name": "TestimonialsSection",
+            "from": "../components/TestimonialsSection"
+          }
+        ]
+      },
+      "logicData": "Se necesita un array de testimonios, donde cada objeto contenga 'quote' (la cita), 'name' (nombre del entrenador), 'role' (ej. 'Entrenador Personal Certificado') y 'avatarUrl' (usando 'testimonial-avatar.png').",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-gray-100 p-8 flex flex-col items-center",
+        "colorCoding": "Fondo de sección en un tono neutro claro para diferenciarla. Texto de la cita en cursiva."
+      },
+      "acceptanceCriteria": [
+        "La sección debe mostrar al menos dos testimonios.",
+        "Cada testimonio, renderizado con 'TestimonialCard.jsx', debe incluir el texto del testimonio, el nombre del entrenador y su foto o avatar.",
+        "Debe haber un título para la sección, como 'Lo que dicen nuestros entrenadores'.",
+        "El diseño debe ser profesional y fácil de leer.",
+        "En dispositivos móviles, los testimonios deben apilarse verticalmente de forma clara."
+      ],
+      "additionalSuggestions": [
+        "Implementar un carrusel o slider si hay más de 3 testimonios para ahorrar espacio vertical.",
+        "Incluir una calificación de estrellas (ej. 5/5) en cada tarjeta de testimonio para una validación rápida."
+      ],
+      "aiEditorTask": "Implementa el componente 'TestimonialsSection.jsx'. Debe tomar un array de datos de testimonios y mapearlos para renderizar componentes 'TestimonialCard.jsx'. Asegúrate de que el layout sea responsivo y esté centrado.",
+      "priority": "Alta",
+      "estimatedHours": 5
+    },
+    {
+      "title": "Resolver dudas comunes con una Sección de FAQ",
+      "description": "Como un entrenador con dudas específicas sobre precios o funcionalidades, quiero una sección de Preguntas Frecuentes (FAQ) para resolver mis inquietudes rápidamente sin tener que contactar a soporte.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": ["src/pages/HomePage.jsx"],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "FaqSection",
+            "type": "component"
+          },
+          {
+            "name": "AccordionItem",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "FaqSection",
+            "from": "../components/FaqSection"
+          }
+        ]
+      },
+      "logicData": "Se necesita un array de objetos FAQ, cada uno con 'question' y 'answer'. La lógica del componente 'AccordionItem' manejará un estado local (booleano) para controlar la visibilidad de la respuesta.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "max-w-3xl mx-auto p-8",
+        "colorCoding": "Bordes sutiles para separar las preguntas. Un ícono de '+' o flecha que rote al expandir."
+      },
+      "acceptanceCriteria": [
+        "La sección debe contener al menos 4-5 preguntas y respuestas comunes.",
+        "Cada pregunta debe ser un elemento clickeable que revele/oculte su respuesta (comportamiento de acordeón).",
+        "Por defecto, todas las respuestas deben estar ocultas.",
+        "Debe haber una indicación visual (ej. un ícono de flecha) que muestre si un elemento está expandido o contraído.",
+        "Solo una respuesta puede estar abierta a la vez (opcional pero recomendado)."
+      ],
+      "additionalSuggestions": [
+        "Añadir una transición suave (smooth transition) al abrir y cerrar las respuestas para una mejor experiencia de usuario.",
+        "Incluir un enlace de 'Contáctanos' al final de la sección de FAQ por si la duda del usuario no fue resuelta."
+      ],
+      "aiEditorTask": "Crea el componente 'FaqSection.jsx' que renderice una lista de 'AccordionItem'. El 'AccordionItem.jsx' debe manejar su propio estado para expandir/colapsar y debe tener una transición suave en la altura. La pregunta debe ser visible siempre y la respuesta debe mostrarse al hacer clic.",
+      "priority": "Media",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Visualización de un Bloque de CTA Final",
+      "description": "Como un entrenador convencido por la información, quiero encontrar una sección final de llamada a la acción (CTA) clara y motivadora antes del pie de página, para que me impulse a dar el último paso y registrarme.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": ["src/pages/HomePage.jsx", "src/components/Button.jsx"],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "FinalCtaSection",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "../components/Button"
+          },
+          {
+            "name": "FinalCtaSection",
+            "from": "../components/FinalCtaSection"
+          }
+        ]
+      },
+      "logicData": "Componente estático. Requiere un texto para el titular y un texto para el botón.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-blue-600 text-white text-center p-12 rounded-lg my-8",
+        "colorCoding": "Usar un color de fondo de alto contraste (el primario de la marca) que se destaque del resto de la página para llamar la atención."
+      },
+      "acceptanceCriteria": [
+        "La sección debe estar ubicada cerca del final de la página, justo antes del Footer.",
+        "Debe tener un titular convincente y orientado a la acción, ej. '¿Listo para transformar tu negocio?'.",
+        "Debe contener un botón 'Button.jsx' grande y prominente con un texto claro como 'Regístrate Ahora'.",
+        "La sección debe ser visualmente distinta del resto de los contenidos.",
+        "El contenido debe estar centrado y ser responsivo."
+      ],
+      "additionalSuggestions": [
+        "Incluir un subtítulo corto que refuerce un beneficio clave, como 'Prueba gratuita de 14 días. Sin tarjeta de crédito.' para reducir la fricción.",
+        "Añadir un elemento gráfico sutil de fondo para hacerla más atractiva."
+      ],
+      "aiEditorTask": "Crea el componente 'FinalCtaSection.jsx'. Debe tener un fondo de color sólido y llamativo. Incluirá un título H2 y un componente 'Button' reutilizable. Asegúrate de que tenga suficiente padding y sea visualmente impactante.",
+      "priority": "Media",
+      "estimatedHours": 4
+    },
+    {
+      "title": "Acceso a Información Legal y de Contacto en el Footer",
+      "description": "Como un visitante del sitio, quiero encontrar un pie de página (Footer) al final de la página con enlaces a redes sociales, términos de servicio y contacto, para acceder a información adicional y legal.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": ["src/pages/HomePage.jsx", "src/components/Footer.jsx", "public/assets/images/logo.svg"],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "Footer",
+            "from": "../components/Footer"
+          }
+        ]
+      },
+      "logicData": "El footer contendrá enlaces estáticos a páginas como '/terminos', '/privacidad' y enlaces externos a perfiles de redes sociales. También mostrará el año actual dinámicamente.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-gray-800 text-gray-400 p-8",
+        "colorCoding": "Esquema de color oscuro, con texto de bajo contraste pero legible. Los enlaces deben cambiar de color al pasar el cursor."
+      },
+      "acceptanceCriteria": [
+        "El componente 'Footer.jsx' debe mostrarse al final de 'HomePage.jsx'.",
+        "Debe incluir el logo de la empresa ('logo.svg').",
+        "Debe contener enlaces a 'Términos de Servicio', 'Política de Privacidad' y 'Contacto'.",
+        "Debe mostrar íconos y enlaces a las redes sociales relevantes (ej. Instagram, LinkedIn).",
+        "Debe mostrar un aviso de copyright con el año actual, generado dinámicamente (ej. © 2024 FitFlow Pro)."
+      ],
+      "additionalSuggestions": [
+        "Organizar los enlaces en columnas para una mejor legibilidad en pantallas grandes.",
+        "El logo en el footer puede enlazar de vuelta a la página de inicio ('/')."
+      ],
+      "aiEditorTask": "Modifica el componente existente 'Footer.jsx'. Debe tener un fondo oscuro. Organiza los enlaces en al menos dos columnas en desktop, que se apilarán en móvil. Implementa la lógica para mostrar el año actual en el texto del copyright. Importa y muestra el 'logo.svg'.",
+      "priority": "Media",
+      "estimatedHours": 5
+    }
+  ]
+}
+```

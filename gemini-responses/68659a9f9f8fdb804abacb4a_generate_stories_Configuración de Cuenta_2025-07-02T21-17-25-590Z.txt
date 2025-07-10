@@ -1,0 +1,263 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Actualización de Información de Perfil de Usuario",
+      "description": "Como usuario del CRM, quiero poder editar mi nombre completo y mi correo electrónico para que mis datos de contacto estén siempre actualizados en el sistema.",
+      "pageContext": "Configuración de Cuenta",
+      "affectedFiles": [
+        "app/settings/account/page.jsx",
+        "components/account/ProfileForm.jsx",
+        "hooks/useUser.js",
+        "lib/api.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "ProfileForm",
+            "from": "@/components/account/ProfileForm"
+          }
+        ]
+      },
+      "logicData": "El componente `ProfileForm` debe usar el hook `useUser` para obtener y mostrar los datos actuales del usuario. Al enviar el formulario, se debe llamar a una función en `lib/api.js` que realice una petición PATCH a `/api/users/me` con los datos actualizados. Implementar manejo de estados de carga y error.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex flex-col space-y-4",
+        "colorCoding": "Utilizar colores primarios para el botón de guardado y colores de error (rojo) para los mensajes de validación."
+      },
+      "acceptanceCriteria": [
+        "El formulario debe mostrar el nombre y correo electrónico actuales del usuario al cargar la página.",
+        "Los campos de nombre y correo electrónico deben ser editables.",
+        "Debe existir un botón 'Guardar Cambios' que esté deshabilitado hasta que se modifique algún campo.",
+        "Al hacer clic en 'Guardar Cambios', los datos se envían al backend.",
+        "Tras una actualización exitosa, se debe mostrar una notificación 'toast' de éxito.",
+        "Si la actualización falla, se debe mostrar un mensaje de error claro."
+      ],
+      "additionalSuggestions": [
+        "Considerar añadir validación en tiempo real para el formato del correo electrónico.",
+        "Añadir un campo para el número de teléfono del usuario."
+      ],
+      "aiEditorTask": "Implementa el componente ProfileForm.jsx usando los componentes de UI `Input` y `Button`. Conecta el estado del formulario con el hook `useUser` y maneja el envío con una función asíncrona que llame a la API.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Gestión de Foto de Perfil",
+      "description": "Como agente inmobiliario, quiero subir y cambiar mi foto de perfil para personalizar mi cuenta y que mis compañeros y clientes me reconozcan fácilmente.",
+      "pageContext": "Configuración de Cuenta",
+      "affectedFiles": [
+        "components/account/ProfileForm.jsx",
+        "components/ui/avatar.jsx",
+        "lib/api.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ImageUploader",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Avatar",
+            "from": "@/components/ui/avatar"
+          }
+        ]
+      },
+      "logicData": "Crear un componente `ImageUploader` que gestione la selección de archivos. Al seleccionar una imagen, se debe mostrar una vista previa. Al guardar, la imagen se sube a un servicio de almacenamiento (ej. S3) y la URL resultante se guarda en el perfil del usuario a través de una llamada a la API.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "relative group",
+        "colorCoding": "Mostrar un icono de 'subir' sobre el avatar al pasar el cursor (hover)."
+      },
+      "acceptanceCriteria": [
+        "El avatar actual del usuario debe mostrarse en la página.",
+        "Al hacer clic en el avatar o en un botón cercano, se debe abrir el selector de archivos del sistema.",
+        "Solo se deben aceptar formatos de imagen comunes (JPG, PNG, WEBP).",
+        "Se debe mostrar una vista previa de la imagen seleccionada antes de subirla.",
+        "Al guardar, la nueva imagen debe reemplazar la anterior en la UI y persistir en el backend.",
+        "El tamaño del archivo no debe exceder los 5MB."
+      ],
+      "additionalSuggestions": [
+        "Implementar una funcionalidad de recorte (crop) de imagen antes de subirla.",
+        "Mostrar un spinner o indicador de carga mientras la imagen se está subiendo."
+      ],
+      "aiEditorTask": "Crea un nuevo componente `ImageUploader` que encapsule la lógica de selección y previsualización de imagen. Integra este componente dentro de `ProfileForm.jsx`.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Funcionalidad de Cambio de Contraseña",
+      "description": "Como usuario, quiero cambiar mi contraseña de forma segura, ingresando mi contraseña actual y una nueva, para proteger mi cuenta contra accesos no autorizados.",
+      "pageContext": "Configuración de Cuenta",
+      "affectedFiles": [
+        "app/settings/account/page.jsx",
+        "components/account/PasswordForm.jsx",
+        "lib/api.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "PasswordForm",
+            "from": "@/components/account/PasswordForm"
+          }
+        ]
+      },
+      "logicData": "El componente `PasswordForm` tendrá tres campos de tipo contraseña: 'Contraseña Actual', 'Nueva Contraseña', 'Confirmar Nueva Contraseña'. La lógica de envío debe validar que la nueva contraseña y su confirmación coincidan. La petición a la API debe ser de tipo POST a un endpoint como `/api/auth/change-password`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "border-t border-gray-200 pt-6 mt-6",
+        "colorCoding": "Usar un indicador de fortaleza de contraseña (débil, media, fuerte) con colores."
+      },
+      "acceptanceCriteria": [
+        "El formulario debe contener tres campos: contraseña actual, nueva contraseña y confirmación de nueva contraseña.",
+        "El botón 'Cambiar Contraseña' debe estar deshabilitado hasta que todos los campos estén rellenos.",
+        "Debe haber una validación en el cliente para asegurar que la 'Nueva Contraseña' y la 'Confirmación' coinciden.",
+        "Al enviar el formulario, se debe verificar en el backend que la 'Contraseña Actual' es correcta.",
+        "Tras un cambio exitoso, se debe mostrar una notificación de éxito y limpiar los campos del formulario.",
+        "Si la contraseña actual es incorrecta o hay otro error, se debe mostrar un mensaje específico."
+      ],
+      "additionalSuggestions": [
+        "Añadir un botón para mostrar/ocultar la contraseña en cada campo.",
+        "Requerir que la nueva contraseña cumpla con ciertos criterios de seguridad (longitud, caracteres especiales, etc.)."
+      ],
+      "aiEditorTask": "Desarrolla el componente `PasswordForm.jsx`. Incluye la validación de campos en el cliente y la lógica de envío que se comunique con el endpoint de la API para el cambio de contraseña.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Gestión de Preferencias de Notificaciones",
+      "description": "Como agente, quiero poder activar o desactivar individualmente las notificaciones (ej. por email) para eventos como 'Nuevo Lead Asignado' o 'Recordatorio de Tarea' para no saturar mi bandeja de entrada.",
+      "pageContext": "Configuración de Cuenta",
+      "affectedFiles": [
+        "app/settings/account/page.jsx",
+        "components/account/NotificationsSettings.jsx",
+        "components/ui/switch.jsx",
+        "hooks/useNotifications.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "NotificationsSettings",
+            "from": "@/components/account/NotificationsSettings"
+          },
+          {
+            "name": "Switch",
+            "from": "@/components/ui/switch"
+          }
+        ]
+      },
+      "logicData": "El hook `useNotifications` obtendrá las preferencias actuales del usuario. `NotificationsSettings.jsx` renderizará una lista de opciones de notificación, cada una con un componente `Switch`. Cada vez que un switch cambia de estado, se debe realizar una llamada a la API (PATCH `/api/users/me/notifications`) para guardar el cambio inmediatamente, mostrando un toast de 'Guardado'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex items-center justify-between py-4",
+        "colorCoding": "El componente `Switch` debe usar el color primario de la aplicación cuando está activado."
+      },
+      "acceptanceCriteria": [
+        "La página debe mostrar una lista de tipos de notificación disponibles (ej. Nuevo Lead, Tarea Vencida).",
+        "Cada tipo de notificación debe tener un interruptor (switch) para activarlo o desactivarlo.",
+        "El estado de cada interruptor debe reflejar la configuración actual del usuario.",
+        "Al cambiar el estado de un interruptor, el cambio se guarda automáticamente sin necesidad de un botón 'Guardar'.",
+        "Se debe mostrar una notificación 'toast' breve para confirmar que la preferencia ha sido guardada.",
+        "Debe haber un manejo de errores si la API falla al guardar la preferencia."
+      ],
+      "additionalSuggestions": [
+        "Permitir configurar el canal de notificación (Email, Push, SMS) si la aplicación lo soporta.",
+        "Agrupar las notificaciones por categorías (Leads, Tareas, Sistema)."
+      ],
+      "aiEditorTask": "Implementa el componente `NotificationsSettings.jsx`. Utiliza el `Switch` de la UI para cada opción y el hook `useNotifications` para obtener y actualizar los datos. Cada cambio en un switch debe disparar una actualización a la API.",
+      "priority": "Media",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Integración con Fuentes de Leads Externas",
+      "description": "Como agente inmobiliario, quiero conectar una nueva fuente de leads (ej. un portal inmobiliario) introduciendo su nombre y una clave API, para que los nuevos prospectos se creen automáticamente en InmoFlow CRM.",
+      "pageContext": "Configuración de Cuenta",
+      "affectedFiles": [
+        "app/settings/account/page.jsx",
+        "components/account/IntegrationsManager.jsx",
+        "hooks/useIntegrations.js",
+        "lib/api.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "IntegrationCard",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "IntegrationsManager",
+            "from": "@/components/account/IntegrationsManager"
+          }
+        ]
+      },
+      "logicData": "El componente `IntegrationsManager` mostrará las integraciones existentes y un formulario para añadir una nueva. El formulario tendrá campos para el nombre de la fuente y la clave API. Al enviar, se llama a `POST /api/integrations`. La lista de integraciones se obtiene del hook `useIntegrations`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-1 md:grid-cols-2 gap-4",
+        "colorCoding": "Usar tarjetas (`Card`) para mostrar cada integración, con el logo del portal si es posible."
+      },
+      "acceptanceCriteria": [
+        "Se debe mostrar una lista de las integraciones ya conectadas.",
+        "Debe haber un formulario o un modal para añadir una nueva integración.",
+        "El formulario de nueva integración debe pedir al menos un nombre y una clave API/token.",
+        "Al añadir una nueva integración, el sistema debe validarla (si es posible) y añadirla a la lista.",
+        "Se debe mostrar una notificación de éxito o error tras el intento de conexión.",
+        "La lista de integraciones se debe actualizar automáticamente al añadir una nueva."
+      ],
+      "additionalSuggestions": [
+        "Ofrecer una lista predefinida de portales populares para facilitar la configuración.",
+        "Añadir un botón 'Probar Conexión' para verificar la clave API antes de guardarla."
+      ],
+      "aiEditorTask": "Crea el componente `IntegrationsManager.jsx` que incluya un formulario para añadir integraciones y renderice una lista de `IntegrationCard`. Usa el hook `useIntegrations` para la gestión de datos.",
+      "priority": "Alta",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Desconexión de una Integración de Leads",
+      "description": "Como usuario, quiero poder desconectar una fuente de leads que ya no utilizo para mantener mi lista de integraciones limpia y detener la importación de leads de esa fuente.",
+      "pageContext": "Configuración de Cuenta",
+      "affectedFiles": [
+        "components/account/IntegrationsManager.jsx",
+        "hooks/useIntegrations.js",
+        "lib/api.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "AlertDialog",
+            "from": "@/components/ui/AlertDialog"
+          }
+        ]
+      },
+      "logicData": "Dentro de cada `IntegrationCard` (componente que muestra una integración), debe haber un botón de 'Desconectar' o 'Eliminar'. Al hacer clic, se debe mostrar un modal de confirmación (`AlertDialog`) para prevenir borrados accidentales. Si el usuario confirma, se realiza una llamada `DELETE /api/integrations/{id}` y la lista se actualiza.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "text-red-600 hover:text-red-800",
+        "colorCoding": "El botón de 'Desconectar' debe tener un color rojo o destructivo para indicar una acción peligrosa."
+      },
+      "acceptanceCriteria": [
+        "Cada integración listada debe tener un botón o icono para eliminarla.",
+        "Al hacer clic en el botón de eliminar, debe aparecer un diálogo de confirmación preguntando '¿Estás seguro?'.",
+        "Si el usuario cancela la acción, no ocurre nada y el diálogo se cierra.",
+        "Si el usuario confirma, se envía una petición al backend para eliminar la integración.",
+        "Una vez eliminada con éxito, la integración debe desaparecer de la lista en la UI.",
+        "Se debe mostrar una notificación de éxito tras la eliminación."
+      ],
+      "additionalSuggestions": [
+        "En el diálogo de confirmación, informar al usuario de las consecuencias (ej. 'Ya no recibirás leads de esta fuente').",
+        "En lugar de eliminar, se podría ofrecer la opción de 'Pausar' la integración temporalmente."
+      ],
+      "aiEditorTask": "Añade un botón de eliminar a la `IntegrationCard`. Al hacer clic, implementa un modal de confirmación usando un componente como `AlertDialog`. La confirmación debe disparar la llamada a la API para eliminar y actualizar el estado local.",
+      "priority": "Media",
+      "estimatedHours": 5
+    }
+  ]
+}
+```

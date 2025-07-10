@@ -1,0 +1,15 @@
+```json
+{
+  "executiveSummary": {
+    "overview": "KineticOS es una plataforma de IA que revoluciona la logística al unificar la gestión de flotas y almacenes. Mediante machine learning, optimizamos operaciones de extremo a extremo, reduciendo costos drásticamente y aumentando la eficiencia. Proponemos capitalizar una clara ventaja de primer jugador en un mercado que demanda soluciones integradas e inteligentes para superar la fragmentación tecnológica actual y obtener una visibilidad operativa sin precedentes.",
+    "marketSize": "El mercado global de software para la cadena de suministro supera los $20 mil millones. Nuestro nicho de optimización unificada con IA representa una oportunidad inicial accesible de +$500M, con un alto potencial de crecimiento impulsado por la digitalización.",
+    "marketGap": "Actualmente, las empresas utilizan herramientas aisladas para flotas y almacenes. La brecha es la falta de una plataforma única e inteligente que integre y optimice ambas áreas de forma sinérgica, lo que hoy genera ineficiencias y sobrecostos.",
+    "opportunity": "Ser la solución pionera y estándar de la industria para la optimización logística unificada. La ausencia de competidores directos nos permite establecer una posición de liderazgo y capturar una cuota de mercado significativa de forma acelerada.",
+    "keyPoints": [
+      "Unifica flotas y almacenes, eliminando silos de datos y ofreciendo una visibilidad y control operativo total sin precedentes.",
+      "Nuestra IA predice fallos y demanda, transformando la logística de reactiva a proactiva, reduciendo costos imprevistos.",
+      "Ventaja de 'first-mover' en un nicho sin competencia directa, permitiendo una rápida captura y dominio del mercado."
+    ]
+  }
+}
+```

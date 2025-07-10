@@ -1,0 +1,510 @@
+# Frontend TypeScript Error Fixing
+
+You are a TypeScript expert tasked with analyzing and fixing TypeScript errors in React components. Provide precise, type-safe solutions that maintain code quality and follow best practices.
+
+## Context
+
+### User Story
+**ID:** <%= userStory.id %>
+**Title:** <%= userStory.title %>
+**Description:** <%= userStory.description %>
+
+### Component Information
+**Name:** <%= component.name %>
+**Type:** <%= component.type %>
+**Path:** <%= component.path %>
+
+### Project Configuration
+**Framework:** <%= project.framework %>
+**TypeScript Version:** <%= project.typescriptVersion || 'Latest' %>
+**Strict Mode:** <%= project.strictMode ? 'Enabled' : 'Disabled' %>
+**Styling:** <%= project.styling %>
+
+<% if (errors && errors.length > 0) { %>
+### TypeScript Errors
+<% errors.forEach((error, index) => { %>
+**Error <%= index + 1 %>:**
+- **File:** <%= error.file %>
+- **Line:** <%= error.line %>
+- **Column:** <%= error.column %>
+- **Code:** <%= error.code %>
+- **Message:** <%= error.message %>
+- **Severity:** <%= error.severity %>
+
+```typescript
+<%= error.context || 'No context available' %>
+```
+
+<% }); %>
+<% } %>
+
+<% if (component.dependencies && component.dependencies.length > 0) { %>
+### Component Dependencies
+<% component.dependencies.forEach(dep => { %>
+- **<%= dep.name %>** (<%= dep.version || 'latest' %>): <%= dep.description || '' %>
+<% }); %>
+<% } %>
+
+## TypeScript Error Categories
+
+### 1. Type Errors (TS2xxx)
+- Type assignment errors
+- Property access errors
+- Function signature mismatches
+- Generic type errors
+- Union/intersection type issues
+
+### 2. Syntax Errors (TS1xxx)
+- Invalid syntax
+- Missing semicolons
+- Incorrect imports/exports
+- Malformed declarations
+
+### 3. Module Resolution Errors (TS2307, TS2339)
+- Missing module declarations
+- Incorrect import paths
+- Missing type definitions
+- Ambient module issues
+
+### 4. React-Specific Errors
+- JSX element type errors
+- Props interface mismatches
+- Event handler type errors
+- Ref type issues
+- Hook dependency errors
+
+### 5. Configuration Errors
+- tsconfig.json issues
+- Compiler option conflicts
+- Path mapping problems
+- Declaration file issues
+
+## Error Fixing Strategies
+
+### 1. Type Assertion and Guards
+```typescript
+// Type assertion (use sparingly)
+const value = unknownValue as string;
+
+// Type guards (preferred)
+function isString(value: unknown): value is string {
+  return typeof value === 'string';
+}
+
+if (isString(value)) {
+  // value is now typed as string
+  console.log(value.toUpperCase());
+}
+
+// Discriminated unions
+type Result = 
+  | { success: true; data: any }
+  | { success: false; error: string };
+
+function handleResult(result: Result) {
+  if (result.success) {
+    // result.data is available
+  } else {
+    // result.error is available
+  }
+}
+```
+
+### 2. Interface and Type Definitions
+```typescript
+// Component props interface
+interface ComponentProps {
+  title: string;
+  count?: number;
+  onUpdate?: (value: number) => void;
+  children?: React.ReactNode;
+}
+
+// Generic interfaces
+interface ApiResponse<T> {
+  data: T;
+  status: number;
+  message: string;
+}
+
+// Utility types
+type PartialProps = Partial<ComponentProps>;
+type RequiredProps = Required<ComponentProps>;
+type PickedProps = Pick<ComponentProps, 'title' | 'count'>;
+type OmittedProps = Omit<ComponentProps, 'onUpdate'>;
+```
+
+### 3. Event Handler Types
+```typescript
+// Mouse events
+const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  event.preventDefault();
+};
+
+// Form events
+const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+};
+
+// Input events
+const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  setValue(event.target.value);
+};
+
+// Keyboard events
+const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+  if (event.key === 'Enter') {
+    // Handle enter key
+  }
+};
+```
+
+### 4. Hook Types
+```typescript
+// useState with explicit types
+const [user, setUser] = useState<User | null>(null);
+const [loading, setLoading] = useState<boolean>(false);
+const [data, setData] = useState<ApiResponse<User[]>>({ data: [], status: 200, message: '' });
+
+// useRef types
+const inputRef = useRef<HTMLInputElement>(null);
+const divRef = useRef<HTMLDivElement>(null);
+
+// useEffect dependencies
+useEffect(() => {
+  // Effect logic
+}, [dependency1, dependency2]); // All dependencies must be included
+
+// Custom hook types
+function useApi<T>(url: string): {
+  data: T | null;
+  loading: boolean;
+  error: string | null;
+} {
+  // Hook implementation
+}
+```
+
+### 5. Generic Components
+```typescript
+// Generic component
+interface ListProps<T> {
+  items: T[];
+  renderItem: (item: T) => React.ReactNode;
+  keyExtractor: (item: T) => string | number;
+}
+
+function List<T>({ items, renderItem, keyExtractor }: ListProps<T>) {
+  return (
+    <ul>
+      {items.map(item => (
+        <li key={keyExtractor(item)}>
+          {renderItem(item)}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+// Usage
+<List<User>
+  items={users}
+  renderItem={user => <span>{user.name}</span>}
+  keyExtractor={user => user.id}
+/>
+```
+
+### 6. Module Declarations
+```typescript
+// Declare missing modules
+declare module '*.module.css' {
+  const classes: { [key: string]: string };
+  export default classes;
+}
+
+declare module '*.svg' {
+  const content: React.FunctionComponent<React.SVGAttributes<SVGElement>>;
+  export default content;
+}
+
+// Ambient declarations
+declare global {
+  interface Window {
+    gtag: (...args: any[]) => void;
+  }
+}
+
+// Module augmentation
+declare module 'react' {
+  interface CSSProperties {
+    '--custom-property'?: string;
+  }
+}
+```
+
+## Common Error Patterns and Solutions
+
+### 1. Property Does Not Exist (TS2339)
+```typescript
+// Problem: Property 'customProp' does not exist on type 'HTMLDivElement'
+// Solution: Extend the interface or use data attributes
+
+// Option 1: Use data attributes
+<div data-custom-prop="value" />
+
+// Option 2: Extend interface
+declare module 'react' {
+  interface HTMLAttributes<T> {
+    customProp?: string;
+  }
+}
+
+// Option 3: Use ref with proper typing
+const divRef = useRef<HTMLDivElement & { customProp?: string }>(null);
+```
+
+### 2. Cannot Find Module (TS2307)
+```typescript
+// Problem: Cannot find module './Component'
+// Solutions:
+
+// 1. Add file extension
+import Component from './Component.tsx';
+
+// 2. Create index file
+// components/index.ts
+export { default as Component } from './Component';
+
+// 3. Add to tsconfig paths
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}
+```
+
+### 3. Type 'undefined' is not assignable (TS2322)
+```typescript
+// Problem: Possible undefined values
+// Solutions:
+
+// 1. Optional chaining
+const name = user?.profile?.name;
+
+// 2. Nullish coalescing
+const displayName = user?.name ?? 'Anonymous';
+
+// 3. Type guards
+if (user && user.profile) {
+  console.log(user.profile.name);
+}
+
+// 4. Non-null assertion (use carefully)
+const name = user!.profile!.name;
+```
+
+### 4. Argument of type 'X' is not assignable to parameter of type 'Y'
+```typescript
+// Problem: Type mismatch in function calls
+// Solutions:
+
+// 1. Fix the type
+interface User {
+  id: number; // was string
+  name: string;
+}
+
+// 2. Use union types
+type UserId = string | number;
+
+// 3. Function overloads
+function getUser(id: string): Promise<User>;
+function getUser(id: number): Promise<User>;
+function getUser(id: string | number): Promise<User> {
+  // Implementation
+}
+```
+
+### 5. JSX Element Type Errors
+```typescript
+// Problem: JSX element type issues
+// Solutions:
+
+// 1. Proper component typing
+const Button: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = (props) => {
+  return <button {...props} />;
+};
+
+// 2. Forward refs
+const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
+  (props, ref) => {
+    return <input ref={ref} {...props} />;
+  }
+);
+
+// 3. Generic components
+interface SelectProps<T> {
+  value: T;
+  onChange: (value: T) => void;
+  options: T[];
+}
+
+function Select<T extends string | number>({ value, onChange, options }: SelectProps<T>) {
+  return (
+    <select value={value} onChange={e => onChange(e.target.value as T)}>
+      {options.map(option => (
+        <option key={option} value={option}>{option}</option>
+      ))}
+    </select>
+  );
+}
+```
+
+## Advanced TypeScript Patterns
+
+### 1. Conditional Types
+```typescript
+type ApiResult<T> = T extends string 
+  ? { message: T } 
+  : T extends number 
+  ? { count: T } 
+  : { data: T };
+
+// Mapped types
+type Optional<T> = {
+  [K in keyof T]?: T[K];
+};
+
+// Template literal types
+type EventName<T extends string> = `on${Capitalize<T>}`;
+type ClickEvent = EventName<'click'>; // 'onClick'
+```
+
+### 2. Utility Types for React
+```typescript
+// Component prop extraction
+type ButtonProps = React.ComponentProps<'button'>;
+type DivProps = React.ComponentProps<'div'>;
+
+// Ref types
+type ButtonRef = React.ElementRef<'button'>;
+type InputRef = React.ElementRef<'input'>;
+
+// Event types
+type ClickHandler = React.MouseEventHandler<HTMLButtonElement>;
+type ChangeHandler = React.ChangeEventHandler<HTMLInputElement>;
+```
+
+### 3. Strict Type Checking
+```typescript
+// Exhaustive checking
+type Theme = 'light' | 'dark' | 'auto';
+
+function getThemeColor(theme: Theme): string {
+  switch (theme) {
+    case 'light':
+      return '#ffffff';
+    case 'dark':
+      return '#000000';
+    case 'auto':
+      return '#f0f0f0';
+    default:
+      // This will cause a TypeScript error if we miss a case
+      const exhaustiveCheck: never = theme;
+      throw new Error(`Unhandled theme: ${exhaustiveCheck}`);
+  }
+}
+```
+
+## Output Format
+
+### Fixed Component Code
+```typescript
+// Complete component with all TypeScript errors resolved
+```
+
+### Type Definitions
+```typescript
+// Additional type definitions and interfaces
+```
+
+### Module Declarations
+```typescript
+// Module declarations for missing types
+```
+
+### Configuration Updates
+```json
+// tsconfig.json updates if needed
+```
+
+### Error Summary
+```markdown
+# TypeScript Error Fixes
+
+## Errors Resolved
+1. **TS2339**: Property 'customProp' does not exist
+   - **Fix**: Added interface extension
+   - **Location**: Line 45, Component.tsx
+
+2. **TS2322**: Type 'string | undefined' is not assignable
+   - **Fix**: Added optional chaining and nullish coalescing
+   - **Location**: Line 67, Component.tsx
+
+## Type Safety Improvements
+- Added strict prop interfaces
+- Implemented proper event handler types
+- Added generic type constraints
+- Improved error boundary types
+
+## Recommendations
+- Enable strict mode in tsconfig.json
+- Add ESLint TypeScript rules
+- Consider using branded types for IDs
+- Implement runtime type validation with zod
+```
+
+## TypeScript Best Practices
+
+### 1. Strict Configuration
+```json
+{
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "exactOptionalPropertyTypes": true
+  }
+}
+```
+
+### 2. Type-First Development
+- Define interfaces before implementation
+- Use branded types for domain-specific values
+- Implement discriminated unions for state
+- Leverage template literal types
+
+### 3. Error Prevention
+- Use readonly for immutable data
+- Implement exhaustive type checking
+- Add runtime validation for external data
+- Use const assertions for literal types
+
+### 4. Performance Considerations
+- Avoid complex conditional types in hot paths
+- Use type imports when possible
+- Leverage TypeScript's incremental compilation
+- Monitor compilation times
+
+---
+
+**Generated at:** <%= timestamp %>
+**Template:** <%= template.name %>
+**TypeScript Version:** <%= project.typescriptVersion || 'Latest' %>
+**Strict Mode:** <%= project.strictMode ? 'Enabled' : 'Disabled' %>

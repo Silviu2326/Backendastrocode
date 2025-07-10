@@ -1,0 +1,276 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización y Comparación de Planes de Suscripción",
+      "description": "Como un profesional que visita la plataforma, quiero ver una tabla comparativa de todos los planes de suscripción disponibles para poder entender fácilmente las características, límites y precios de cada uno y tomar una decisión informada.",
+      "pageContext": "Página de Planes y Suscripciones",
+      "affectedFiles": [
+        "src/features/pgina-de-planes-y-suscripciones/PáginadePlanesySuscripcionesPage.tsx",
+        "src/features/pgina-de-planes-y-suscripciones/api.ts",
+        "src/features/pgina-de-planes-y-suscripciones/hooks/usePáginadePlanesySuscripciones.ts",
+        "src/features/pgina-de-planes-y-suscripciones/components/PlanComparisonTable.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "PlanComparisonTable",
+            "type": "component",
+            "path": "src/features/pgina-de-planes-y-suscripciones/components/PlanComparisonTable.jsx"
+          },
+          {
+            "name": "PlanCard",
+            "type": "component",
+            "path": "src/features/pgina-de-planes-y-suscripciones/components/PlanCard.jsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Table",
+            "from": "src/components/Table.jsx"
+          },
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El hook `usePáginadePlanesySuscripciones` debe realizar una llamada a través de `api.ts` a un endpoint (ej. `GET /api/v1/plans`) para obtener un array de objetos de plan. Cada objeto debe contener: `id`, `name`, `price`, `billingCycle` (mensual/anual), y un array de `features`. La página renderizará estos datos en el componente `PlanComparisonTable`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-1 md:grid-cols-3 gap-8 p-8",
+        "colorCoding": "Utilizar colores primarios de la marca para los botones de 'Seleccionar Plan'. El plan recomendado o más popular puede tener un borde o fondo destacado."
+      },
+      "acceptanceCriteria": [
+        "La página debe mostrar al menos dos planes de suscripción uno al lado del otro.",
+        "Cada plan debe mostrar claramente su nombre, precio y ciclo de facturación (ej. '$29/mes').",
+        "Una lista de características debe ser visible para cada plan, usando íconos para indicar la inclusión o exclusión de una característica.",
+        "Debe haber un botón de llamada a la acción (CTA) claro en cada plan, como 'Comenzar' o 'Suscribirse'.",
+        "La página debe ser responsiva y mostrar los planes correctamente en dispositivos móviles (apilados verticalmente)."
+      ],
+      "additionalSuggestions": [
+        "Añadir un interruptor (toggle) para ver precios mensuales vs. anuales, mostrando el ahorro potencial.",
+        "Destacar visualmente el plan 'Más Popular' para guiar al usuario."
+      ],
+      "aiEditorTask": "Crea el componente `PlanComparisonTable.jsx`. Debe aceptar una prop `plans` (array de objetos) y renderizar una tabla o una serie de tarjetas (`PlanCard`) que muestren la información del plan. Utiliza el componente `Button` importado para el CTA de cada plan.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Selección de un Plan e Inicio del Proceso de Pago",
+      "description": "Como un profesional listo para suscribirme, quiero seleccionar un plan y ser dirigido a una página de pago para completar mi suscripción y obtener acceso a las funcionalidades premium.",
+      "pageContext": "Página de Planes y Suscripciones",
+      "affectedFiles": [
+        "src/features/pgina-de-planes-y-suscripciones/PáginadePlanesySuscripcionesPage.tsx",
+        "src/App.tsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "useNavigate",
+            "from": "react-router-dom"
+          },
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "Al hacer clic en el botón 'Suscribirse' de un plan, se debe capturar el `id` del plan seleccionado. Esta información se debe pasar al estado de la aplicación o como un parámetro de ruta/estado de navegación. El usuario debe ser redirigido a la ruta `/pgina-de-pago`, pasándole el identificador del plan elegido para que la página de pago sepa qué producto facturar.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "hover:scale-105 transition-transform duration-200",
+        "colorCoding": "El botón CTA debe tener un efecto hover claro para indicar que es clickeable."
+      },
+      "acceptanceCriteria": [
+        "Al hacer clic en el botón 'Suscribirse' de un plan, el usuario es redirigido a la página de pago (`/pgina-de-pago`).",
+        "El ID del plan seleccionado debe estar disponible en la página de pago.",
+        "Si el usuario no está autenticado, debe ser redirigido primero a la página de registro/login (`/pgina-de-registrologin`) antes de continuar al pago.",
+        "El botón debe estar deshabilitado mientras se procesa la redirección para evitar clics múltiples."
+      ],
+      "additionalSuggestions": [
+        "Mostrar un modal de confirmación ('Estás a punto de suscribirte al Plan X por $Y/mes. ¿Continuar?') antes de redirigir."
+      ],
+      "aiEditorTask": "En `PáginadePlanesySuscripcionesPage.tsx`, implementa la lógica `onClick` para los botones de los planes. Utiliza el hook `useNavigate` de `react-router-dom` para redirigir al usuario a `/pgina-de-pago` y pasa el ID del plan a través del estado de la navegación (`navigate('/pgina-de-pago', { state: { planId: '...' } })`).",
+      "priority": "Alta",
+      "estimatedHours": 4
+    },
+    {
+      "title": "Gestión de la Suscripción Activa",
+      "description": "Como un profesional ya suscrito, quiero poder ver mi plan actual y tener la opción de cambiar a un plan superior (upgrade) o inferior (downgrade) directamente desde la página de planes.",
+      "pageContext": "Página de Planes y Suscripciones",
+      "affectedFiles": [
+        "src/features/pgina-de-planes-y-suscripciones/PáginadePlanesySuscripcionesPage.tsx",
+        "src/features/pgina-de-planes-y-suscripciones/hooks/usePáginadePlanesySuscripciones.ts",
+        "src/features/pgina-de-planes-y-suscripciones/api.ts",
+        "src/features/pgina-de-planes-y-suscripciones/components/SubscriptionManagement.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "SubscriptionManagement",
+            "type": "component",
+            "path": "src/features/pgina-de-planes-y-suscripciones/components/SubscriptionManagement.jsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El hook `usePáginadePlanesySuscripciones` debe verificar si el usuario tiene una suscripción activa (ej. `GET /api/v1/subscriptions/current`). Si es así, la página debe resaltar el plan actual del usuario. Para otros planes, los botones CTA cambiarán a 'Cambiar a este plan'. Al hacer clic, se debe invocar a la API para modificar la suscripción (ej. `PUT /api/v1/subscriptions`) y gestionar el prorrateo del pago si es necesario.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "border-2 border-blue-500 ring-4 ring-blue-200",
+        "colorCoding": "El plan activo del usuario debe estar claramente destacado con un borde o un fondo distintivo. Los botones de cambio pueden tener colores diferentes (verde para upgrade, naranja para downgrade)."
+      },
+      "acceptanceCriteria": [
+        "Si el usuario está suscrito, su plan actual debe estar visualmente identificado en la página.",
+        "El CTA del plan actual debe estar deshabilitado o mostrar 'Plan Actual'.",
+        "Los otros planes deben mostrar un botón para 'Cambiar Plan'.",
+        "Al hacer clic en 'Cambiar Plan', se debe mostrar un modal de confirmación detallando los cambios en el costo y las características.",
+        "El cambio de plan debe reflejarse inmediatamente en la UI después de una confirmación exitosa."
+      ],
+      "additionalSuggestions": [
+        "Incluir una opción para cancelar la suscripción, que podría dirigir al usuario a un flujo de retención.",
+        "Mostrar la fecha en que el nuevo plan se hará efectivo."
+      ],
+      "aiEditorTask": "Crea el componente `SubscriptionManagement.jsx`. Este componente deberá obtener el estado de la suscripción del usuario. Renderizará la tabla de planes, pero con una lógica condicional para cambiar el texto y la funcionalidad de los botones CTA dependiendo de si un plan es el activo, un upgrade o un downgrade.",
+      "priority": "Media",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Aplicar un Código Promocional",
+      "description": "Como un nuevo profesional, quiero poder ingresar un código promocional o de descuento antes de finalizar mi suscripción para obtener un precio reducido.",
+      "pageContext": "Página de Planes y Suscripciones",
+      "affectedFiles": [
+        "src/features/pgina-de-planes-y-suscripciones/PáginadePlanesySuscripcionesPage.tsx",
+        "src/features/pgina-de-planes-y-suscripciones/components/PromoCodeInput.jsx",
+        "src/features/pgina-de-planes-y-suscripciones/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "PromoCodeInput",
+            "type": "component",
+            "path": "src/features/pgina-de-planes-y-suscripciones/components/PromoCodeInput.jsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "Se necesita un campo de texto y un botón 'Aplicar'. Al hacer clic, se realiza una llamada a un endpoint de la API (ej. `POST /api/v1/promos/validate`) con el código. La API responde si el código es válido y qué descuento aplica. Si es válido, el estado de la aplicación se actualiza con el descuento, y los precios mostrados en los planes se actualizan dinámicamente para reflejar el precio final.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex items-center space-x-2 mt-4",
+        "colorCoding": "Mensajes de éxito (verde) o error (rojo) después de intentar aplicar el código."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un campo de texto visible para ingresar un código promocional.",
+        "Un botón 'Aplicar' debe estar junto al campo de texto.",
+        "Al aplicar un código válido, los precios de los planes deben actualizarse para mostrar el descuento.",
+        "Debe mostrarse un mensaje de éxito claro (ej. '¡Descuento del 20% aplicado!').",
+        "Si el código es inválido o ha expirado, se debe mostrar un mensaje de error claro.",
+        "El descuento aplicado debe pasarse a la página de pago."
+      ],
+      "additionalSuggestions": [
+        "El campo de código promocional podría estar inicialmente colapsado bajo un enlace '¿Tienes un código de descuento?' para mantener la UI limpia."
+      ],
+      "aiEditorTask": "Crea el componente `PromoCodeInput.jsx`. Debe contener un input de texto y un botón. Manejará su propio estado para el valor del input y una función `onApply` pasada por props, que se comunicará con la API y actualizará el estado de los precios a nivel de página.",
+      "priority": "Baja",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Iniciar un Período de Prueba Gratuito",
+      "description": "Como un profesional indeciso, quiero poder comenzar un período de prueba gratuito para explorar todas las funcionalidades de un plan premium antes de tener que ingresar los datos de mi tarjeta de crédito.",
+      "pageContext": "Página de Planes y Suscripciones",
+      "affectedFiles": [
+        "src/features/pgina-de-planes-y-suscripciones/PáginadePlanesySuscripcionesPage.tsx",
+        "src/features/pgina-de-registrologin/PáginadeRegistro/LoginPage.tsx",
+        "src/features/pgina-de-planes-y-suscripciones/api.ts"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "Se mostrará una opción o un plan 'Prueba Gratuita'. Al seleccionarla, si el usuario no está registrado, se le redirige al registro. Una vez registrado y logueado, una llamada a la API (ej. `POST /api/v1/subscriptions/trial`) crea una suscripción de prueba con una fecha de expiración. No se debe redirigir a la página de pago a menos que se requiera la tarjeta 'on file'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-green-500 hover:bg-green-600 text-white font-bold",
+        "colorCoding": "El botón de prueba gratuita debe ser prominente y usar un color que inspire acción, como el verde."
+      },
+      "acceptanceCriteria": [
+        "Debe existir una opción clara y visible para iniciar una prueba gratuita.",
+        "Al hacer clic en 'Iniciar Prueba Gratuita', el usuario debe crear una cuenta si no la tiene.",
+        "Una vez registrado, la suscripción de prueba se activa automáticamente.",
+        "El usuario es redirigido a su nuevo 'Panel del Profesional' (`/panel-del-profesional`) para empezar a usar la plataforma.",
+        "El sistema debe registrar la fecha de inicio y fin de la prueba."
+      ],
+      "additionalSuggestions": [
+        "Mostrar un banner en el panel del profesional indicando los días restantes de la prueba.",
+        "Enviar un correo electrónico de recordatorio unos días antes de que finalice la prueba."
+      ],
+      "aiEditorTask": "Modifica `PáginadePlanesySuscripcionesPage.tsx` para incluir un botón o una tarjeta de plan para la 'Prueba Gratuita'. La lógica `onClick` debe verificar la autenticación del usuario, redirigir a registro si es necesario, y luego llamar a un endpoint en `api.ts` para activar la prueba. Tras el éxito, redirigir al panel del profesional.",
+      "priority": "Media",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Ver Historial de Facturación y Próximo Pago",
+      "description": "Como un profesional suscrito, quiero acceder a una sección dentro de la gestión de mi suscripción donde pueda ver mi historial de pagos y la fecha de mi próximo cobro para tener un control claro de mis finanzas.",
+      "pageContext": "Página de Planes y Suscripciones",
+      "affectedFiles": [
+        "src/features/panel-del-profesional/PaneldelProfesionalPage.tsx",
+        "src/features/pgina-de-planes-y-suscripciones/components/BillingHistory.jsx",
+        "src/features/panel-del-profesional/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "BillingHistory",
+            "type": "component",
+            "path": "src/features/pgina-de-planes-y-suscripciones/components/BillingHistory.jsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Table",
+            "from": "src/components/Table.jsx"
+          }
+        ]
+      },
+      "logicData": "Esta funcionalidad podría vivir en una pestaña o sección de 'Facturación' dentro del Panel del Profesional, pero enlazaría desde la página de planes. Se necesita una llamada a un endpoint de la API (ej. `GET /api/v1/billing/history`) que devuelva un array de facturas. Cada factura debe tener `id`, `date`, `amount`, `status` y un enlace para descargar el PDF. Otra llamada (o la misma) debe devolver `nextBillingDate` y `nextBillingAmount`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-white shadow-md rounded-lg p-6",
+        "colorCoding": "Un diseño limpio y profesional, similar a un extracto bancario. Usar colores sutiles para diferenciar estados de pago (ej. pagado, fallido)."
+      },
+      "acceptanceCriteria": [
+        "El usuario debe poder ver una sección con su plan actual y la fecha del próximo cobro.",
+        "Debe mostrarse una tabla con el historial de pagos.",
+        "La tabla debe incluir fecha, concepto, importe y estado de cada pago.",
+        "Debe haber una opción para descargar cada factura, preferiblemente en formato PDF.",
+        "La información debe estar protegida y solo ser visible para el usuario autenticado."
+      ],
+      "additionalSuggestions": [
+        "Añadir la opción de actualizar el método de pago desde esta misma sección.",
+        "Integrar un sistema de notificaciones para pagos fallidos."
+      ],
+      "aiEditorTask": "Crea el componente `BillingHistory.jsx`. Debe ser reutilizable. Aceptará una prop `invoices`. Usará el componente genérico `Table` para renderizar el historial. Incluye una columna con un icono de descarga que, al hacer clic, iniciaría la descarga de la factura.",
+      "priority": "Media",
+      "estimatedHours": 8
+    }
+  ]
+}
+```

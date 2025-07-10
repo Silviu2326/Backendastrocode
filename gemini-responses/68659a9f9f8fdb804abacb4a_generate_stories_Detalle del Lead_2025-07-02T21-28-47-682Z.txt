@@ -1,0 +1,285 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Cambiar el estado del Lead en el embudo de ventas",
+      "description": "Como agente inmobiliario, quiero poder cambiar el estado de un lead directamente en su página de detalle para reflejar su progreso en el embudo de ventas y mantener la información actualizada para todo el equipo.",
+      "pageContext": "Detalle del Lead",
+      "affectedFiles": [
+        "pages/leads/[id].jsx",
+        "components/lead/LeadStatusStepper.jsx",
+        "services/leadService.js",
+        "hooks/useLead.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "LeadStatusStepper",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "useLead",
+            "from": "@/hooks/useLead"
+          },
+          {
+            "name": "leadService",
+            "from": "@/services/leadService"
+          }
+        ]
+      },
+      "logicData": "El componente obtendrá el estado actual del lead y la lista de todos los estados posibles del embudo desde el hook `useLead`. Al hacer clic en un nuevo estado, se llamará a una función del `leadService` para enviar una petición `PATCH` a `/api/leads/{id}` con el nuevo `statusId`. Se debe manejar un estado de carga durante la petición y actualizar la UI de forma optimista o al recibir la confirmación.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex items-center space-x-4 p-4 bg-gray-50 rounded-lg",
+        "colorCoding": "Utilizar colores para indicar el progreso: gris para estados iniciales, azul para intermedios, verde para 'Ganado' y rojo para 'Perdido'."
+      },
+      "acceptanceCriteria": [
+        "La página debe mostrar claramente el estado actual del lead.",
+        "Se debe presentar un componente visual (como un stepper o una barra de progreso con clics) que muestre todos los estados posibles del embudo.",
+        "Al hacer clic en un estado diferente, el sistema debe pedir confirmación.",
+        "Tras la confirmación, se realiza la llamada a la API y el estado se actualiza en la base de datos.",
+        "La interfaz de usuario se actualiza para reflejar el nuevo estado sin necesidad de recargar la página.",
+        "Se muestra una notificación (toast) de éxito: 'Estado del lead actualizado a [Nuevo Estado]'."
+      ],
+      "additionalSuggestions": [
+        "Considerar registrar el cambio de estado como una interacción automática en el historial del lead.",
+        "Permitir añadir una nota opcional al cambiar de estado, especialmente al marcarlo como 'Perdido'."
+      ],
+      "aiEditorTask": "Crea el componente React `LeadStatusStepper.jsx`. Debe aceptar `currentStatusId` y un array `statuses` como props. Cada paso del stepper debe ser clickeable para invocar una función `onStatusChange(newStatusId)` pasada por props.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Registrar una nueva interacción con el Lead",
+      "description": "Como agente, quiero registrar rápidamente una nueva interacción (llamada, email o nota) en el historial del lead para mantener un registro completo y cronológico de la comunicación.",
+      "pageContext": "Detalle del Lead",
+      "affectedFiles": [
+        "pages/leads/[id].jsx",
+        "components/interaction/InteractionForm.jsx",
+        "components/interaction/InteractionList.jsx",
+        "services/interactionService.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "InteractionForm",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "InteractionList",
+            "from": "@/components/interaction/InteractionList"
+          }
+        ]
+      },
+      "logicData": "Un formulario con pestañas para 'Nota', 'Llamada', 'Email'. Cada pestaña puede tener campos específicos (ej. 'Duración de la llamada'). El envío del formulario llama a `interactionService.createInteraction` con el `leadId`, tipo y contenido. La respuesta exitosa debe agregar la nueva interacción al estado local que alimenta `InteractionList`, mostrándola al instante.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-white shadow rounded-lg p-4",
+        "colorCoding": "Usar iconos distintivos para cada tipo de interacción (nota, teléfono, sobre) en la lista del historial."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un formulario claro y accesible para agregar una nueva interacción.",
+        "El usuario puede seleccionar el tipo de interacción: Nota, Llamada, o Email.",
+        "El usuario puede escribir el contenido o detalles de la interacción en un área de texto.",
+        "Al guardar, la nueva interacción aparece inmediatamente en la parte superior del historial, sin recargar la página.",
+        "Cada entrada en el historial muestra el tipo de interacción, su contenido, el agente que la registró y la fecha/hora."
+      ],
+      "additionalSuggestions": [
+        "Habilitar el uso de plantillas de texto para emails o notas comunes.",
+        "Permitir adjuntar archivos a las notas."
+      ],
+      "aiEditorTask": "Implementa el componente `InteractionForm.jsx`. Debe usar `useState` para gestionar los campos del formulario. Al enviar, debe llamar a una prop `onSubmit` con un objeto que contenga `{type, content}`. Incluye validación básica para que el contenido no esté vacío.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Editar la información de contacto del Lead",
+      "description": "Como agente, quiero editar la información de contacto principal de un lead (teléfono, email, nombre) de forma sencilla para asegurar que los datos estén siempre correctos y actualizados.",
+      "pageContext": "Detalle del Lead",
+      "affectedFiles": [
+        "pages/leads/[id].jsx",
+        "components/lead/LeadContactInfo.jsx",
+        "services/leadService.js",
+        "hooks/useLead.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "LeadContactInfo",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "PencilIcon",
+            "from": "@heroicons/react/solid"
+          }
+        ]
+      },
+      "logicData": "El componente `LeadContactInfo` manejará un estado interno 'isEditing'. Por defecto, muestra la información como texto. Un botón 'Editar' cambia `isEditing` a `true`, lo que renderiza campos de formulario en lugar de texto. Un botón 'Guardar' ejecuta la llamada a la API (`PATCH /api/leads/{id}`) y al finalizar, vuelve `isEditing` a `false`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-white p-6 rounded-lg shadow",
+        "colorCoding": "En modo edición, los campos de entrada deben tener un borde azul claro para indicar que son editables."
+      },
+      "acceptanceCriteria": [
+        "La información de contacto del lead (nombre, email, teléfono) se muestra claramente.",
+        "Un botón o icono de 'Editar' está visible junto a la información de contacto.",
+        "Al hacer clic en 'Editar', los campos de texto se convierten en campos de entrada editables.",
+        "En modo edición, aparecen los botones 'Guardar' y 'Cancelar'.",
+        "Al hacer clic en 'Guardar', los cambios se persisten y la vista vuelve al modo de solo lectura con la información actualizada.",
+        "Al hacer clic en 'Cancelar', se descartan los cambios y se vuelve al modo de solo lectura."
+      ],
+      "additionalSuggestions": [
+        "Implementar edición en línea (inline editing) para cada campo individualmente para una experiencia más fluida.",
+        "Añadir validación de formato para el email y el número de teléfono."
+      ],
+      "aiEditorTask": "Crea el componente `LeadContactInfo.jsx` que recibe un objeto `lead` como prop. Utiliza el hook `useState` para gestionar un booleano `isEditing` y el estado de los datos del formulario. Implementa la lógica para los botones de guardar y cancelar.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Asociar propiedades de interés a un Lead",
+      "description": "Como agente, quiero buscar y asociar propiedades del inventario a un lead para llevar un registro de su interés y facilitar el seguimiento de las propiedades recomendadas.",
+      "pageContext": "Detalle del Lead",
+      "affectedFiles": [
+        "pages/leads/[id].jsx",
+        "components/property/AssociatedProperties.jsx",
+        "components/property/PropertySearchModal.jsx",
+        "services/propertyService.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AssociatedProperties",
+            "type": "component"
+          },
+          {
+            "name": "PropertySearchModal",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "propertyService",
+            "from": "@/services/propertyService"
+          }
+        ]
+      },
+      "logicData": "La sección 'Propiedades de Interés' muestra una lista de propiedades ya asociadas. Un botón 'Añadir Propiedad' abre `PropertySearchModal`. Este modal tiene un input de búsqueda que llama a `propertyService.search(query)`. Los resultados se muestran en una lista. Al seleccionar una y confirmar, se llama a una API (`POST /api/leads/{id}/properties`) y se actualiza la lista en la página principal.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "mt-6",
+        "colorCoding": "Las propiedades asociadas se muestran como tarjetas (cards) con una imagen, título y precio. El modal de búsqueda debe ser limpio y funcional."
+      },
+      "acceptanceCriteria": [
+        "Se muestra una lista de las propiedades de interés actualmente asociadas al lead.",
+        "Hay un botón visible para 'Asociar nueva propiedad'.",
+        "Al pulsar el botón, se abre un modal de búsqueda de propiedades.",
+        "Dentro del modal, puedo buscar propiedades por ID, nombre o ubicación.",
+        "Puedo seleccionar una propiedad de los resultados de búsqueda para asociarla.",
+        "La propiedad recién asociada aparece en la lista de 'Propiedades de Interés' del lead.",
+        "Cada propiedad en la lista tiene un botón para 'Desasociar'."
+      ],
+      "additionalSuggestions": [
+        "En el modal de búsqueda, añadir filtros avanzados como rango de precios o número de habitaciones.",
+        "Al pasar el ratón sobre una propiedad en la lista, mostrar un tooltip con más detalles."
+      ],
+      "aiEditorTask": "Desarrolla el componente `PropertySearchModal.jsx`. Debe gestionar un estado para el término de búsqueda y los resultados. Debe usar un `useEffect` para llamar al servicio de búsqueda cuando el término cambie (con debounce). Al confirmar, debe invocar una prop `onAssociate(propertyId)`.",
+      "priority": "Alta",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Filtrar el historial de interacciones",
+      "description": "Como manager, quiero filtrar el historial de interacciones por tipo o por agente para poder revisar rápidamente la comunicación específica con un lead y evaluar la actividad del equipo.",
+      "pageContext": "Detalle del Lead",
+      "affectedFiles": [
+        "components/interaction/InteractionList.jsx",
+        "components/interaction/InteractionFilter.jsx",
+        "hooks/useInteractions.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "InteractionFilter",
+            "type": "component"
+          },
+          {
+            "name": "useInteractions",
+            "type": "hook"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Refactorizar la lógica del historial a un hook `useInteractions(leadId)`. Este hook obtendrá todas las interacciones y expondrá la lista filtrada y funciones para actualizar los filtros. El componente `InteractionFilter` contendrá los controles (dropdowns para tipo y agente) que llamarán a las funciones del hook. `InteractionList` solo recibirá la lista filtrada y la renderizará.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex space-x-2 mb-4",
+        "colorCoding": "Los filtros activos deben tener un estilo visual diferente (p. ej., un fondo de color o un borde más grueso) para que el usuario sepa qué filtro está aplicado."
+      },
+      "acceptanceCriteria": [
+        "Encima de la lista de interacciones, se muestran controles de filtro (p. ej., dos dropdowns).",
+        "Un dropdown permite filtrar por tipo de interacción (Todos, Nota, Llamada, Email).",
+        "Otro dropdown permite filtrar por el agente que registró la interacción.",
+        "Al cambiar el valor de un filtro, la lista de interacciones se actualiza automáticamente.",
+        "Debe haber un botón para 'Limpiar Filtros' que restaure la vista completa del historial."
+      ],
+      "additionalSuggestions": [
+        "Añadir un filtro por rango de fechas para acotar aún más la búsqueda.",
+        "Guardar los filtros aplicados en la URL como query params para que se puedan compartir vistas filtradas."
+      ],
+      "aiEditorTask": "Crea el hook personalizado `useInteractions.js`. Debe aceptar un `leadId`, hacer la llamada inicial a la API, almacenar las interacciones en un estado, y exponer la lista filtrada basada en los estados de los filtros. También debe exponer funciones `setFilterType` y `setFilterAgent`.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Ver y editar propiedades personalizadas del Lead",
+      "description": "Como administrador del CRM, quiero poder ver y editar campos personalizados (ej. 'Presupuesto', 'Fecha deseada de compra') para cada lead, permitiendo almacenar información única y relevante para nuestro negocio.",
+      "pageContext": "Detalle del Lead",
+      "affectedFiles": [
+        "pages/leads/[id].jsx",
+        "components/lead/CustomProperties.jsx",
+        "services/leadService.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "CustomProperties",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "useLead",
+            "from": "@/hooks/useLead"
+          }
+        ]
+      },
+      "logicData": "Los datos del lead obtenidos a través de `useLead` deben incluir un array de `customProperties`, donde cada objeto tiene `{id, label, value, type}`. El componente `CustomProperties` iterará sobre este array y renderizará cada propiedad. Al igual que la información de contacto, tendrá un modo de edición que, al guardar, enviará solo los campos personalizados modificados en una petición `PATCH`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-1 md:grid-cols-2 gap-4 mt-6",
+        "colorCoding": "Usar una tipografía clara para diferenciar etiquetas (label) de valores (value). En modo edición, los inputs deben ser consistentes con el resto de la aplicación."
+      },
+      "acceptanceCriteria": [
+        "Una sección en la página de detalle muestra todos los campos personalizados definidos para el lead.",
+        "Cada campo se muestra con su nombre (etiqueta) y su valor actual.",
+        "Un botón 'Editar' permite pasar a un modo de edición para todos los campos personalizados.",
+        "En modo edición, el tipo de input debe corresponder al tipo de dato del campo (texto, número, fecha, etc.).",
+        "Al guardar, los nuevos valores se persisten en la base de datos y la vista se actualiza."
+      ],
+      "additionalSuggestions": [
+        "La definición de qué campos personalizados existen debería ser manejada en un panel de administración separado, no codificada en el front-end.",
+        "Permitir reordenar la visualización de los campos personalizados."
+      ],
+      "aiEditorTask": "Crea el componente `CustomProperties.jsx`. Debe ser dinámico y renderizar una lista de propiedades basadas en un array de objetos. Implementa el cambio entre modo vista y modo edición, y asegúrate de que en modo edición se renderice el tipo de input correcto (`<input type='text'>`, `<input type='number'>`, `<input type='date'>`) según la prop `type` de cada propiedad.",
+      "priority": "Media",
+      "estimatedHours": 9
+    }
+  ]
+}
+```

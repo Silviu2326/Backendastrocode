@@ -1,0 +1,118 @@
+```json
+{
+  "softwares": [
+    {
+      "name": "OpoGestor 360",
+      "description": "Plataforma SaaS todo-en-uno diseñada para academias y preparadores de justicia. Centraliza la gestión de temarios con control de versiones, el seguimiento detallado del progreso de los opositores, la creación de simulacros y la comunicación.",
+      "targetClient": "Academias de oposiciones de tamaño pequeño-mediano o preparadores individuales consolidados (+15 alumnos). Necesitan optimizar su tiempo, profesionalizar su método, escalar su negocio y ofrecer una experiencia de usuario premium a sus opositores.",
+      "pages": [
+        {
+          "name": "Dashboard",
+          "description": "Vista general con métricas clave: progreso medio de alumnos, próximos eventos, y alertas de temario desactualizado.",
+          "route": "/dashboard"
+        },
+        {
+          "name": "Gestor de Temarios",
+          "description": "Repositorio para subir, organizar y versionar el material de estudio. Permite vincular temas con legislación específica.",
+          "route": "/content-manager"
+        },
+        {
+          "name": "Alumnos",
+          "description": "CRM para gestionar la ficha de cada opositor, ver su progreso individual, estadísticas de tests y añadir notas privadas.",
+          "route": "/students"
+        },
+        {
+          "name": "Simulacros y Tests",
+          "description": "Herramienta para crear exámenes tipo test, asignarlos a grupos de alumnos y obtener correcciones y estadísticas automáticas.",
+          "route": "/exams"
+        },
+        {
+          "name": "Calendario y Cantes",
+          "description": "Agenda para planificar clases, tutorías y sesiones de cante (exposición oral), con sistema de reservas para alumnos.",
+          "route": "/schedule"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$25,000 - $45,000 USD",
+        "monthlyRevenuePotential": "$5,000 - $18,000 USD",
+        "breakEvenTime": "18-24 meses",
+        "marketSize": "Medio. Miles de preparadores y cientos de academias especializadas en España y LATAM.",
+        "competitionLevel": "Medio"
+      }
+    },
+    {
+      "name": "LexUpdate AI",
+      "description": "Servicio de inteligencia legislativa que monitoriza en tiempo real el BOE y otros diarios oficiales. Detecta automáticamente cualquier modificación que afecte a los temarios de justicia y notifica al preparador con un análisis del cambio.",
+      "targetClient": "Preparadores y editoriales de temarios que basan su reputación en la precisión y actualidad del contenido. Su principal dolor es el tiempo y el riesgo asociados a la actualización manual de miles de páginas de texto legal.",
+      "pages": [
+        {
+          "name": "Panel de Alertas",
+          "description": "Feed principal que muestra las últimas reformas legislativas detectadas y su nivel de relevancia para las oposiciones seleccionadas.",
+          "route": "/"
+        },
+        {
+          "name": "Análisis de Impacto",
+          "description": "Visualizador que compara el texto de una ley antes y después de la reforma, destacando los cambios y permitiendo ver cómo afecta a un tema concreto.",
+          "route": "/impact-analysis"
+        },
+        {
+          "name": "Mis Temarios",
+          "description": "Área donde el preparador sube sus temas para que el sistema los escanee y los vincule a la legislación, automatizando la detección de contenido obsoleto.",
+          "route": "/my-content"
+        },
+        {
+          "name": "Configuración de Vigilancia",
+          "description": "Panel para que el usuario seleccione exactamente qué oposiciones (Judicatura, LAJ, Tramitación Procesal, etc.) y qué boletines quiere monitorizar.",
+          "route": "/settings/monitoring"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$30,000 - $50,000 USD",
+        "monthlyRevenuePotential": "$4,000 - $12,000 USD",
+        "breakEvenTime": "20-28 meses",
+        "marketSize": "Bajo-Medio. Es un producto de alto valor para un segmento premium del mercado.",
+        "competitionLevel": "Bajo"
+      }
+    },
+    {
+      "name": "JurisTest Analytics",
+      "description": "Software enfocado exclusivamente en la evaluación del opositor. Permite crear tests parametrizables a partir de un banco de miles de preguntas oficiales, y genera informes analíticos para detectar patrones de error por tema o artículo.",
+      "targetClient": "Cualquier preparador o academia, independientemente de su tamaño, que busque una solución potente y específica para la fase de testeo. Quieren ahorrar tiempo en la corrección y tomar decisiones basadas en datos sobre el plan de estudio del alumno.",
+      "pages": [
+        {
+          "name": "Inicio",
+          "description": "Dashboard con resumen de los últimos tests realizados y el rendimiento general de los alumnos.",
+          "route": "/"
+        },
+        {
+          "name": "Banco de Preguntas",
+          "description": "Base de datos de preguntas de exámenes oficiales, filtrable por oposición, tema, año o artículo de ley.",
+          "route": "/question-bank"
+        },
+        {
+          "name": "Generador de Tests",
+          "description": "Interfaz para crear un nuevo examen, seleccionando número de preguntas, temas, tiempo límite y ponderación.",
+          "route": "/test-generator"
+        },
+        {
+          "name": "Informes de Rendimiento",
+          "description": "Visualización de datos con gráficos sobre el porcentaje de aciertos por tema, preguntas más falladas y evolución del alumno.",
+          "route": "/analytics"
+        },
+        {
+          "name": "Gestión de Grupos",
+          "description": "Para organizar a los alumnos en diferentes grupos (p. ej., 'Intensivo Julio', 'LAJ Promoción Interna') y asignarles tests específicos.",
+          "route": "/groups"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$15,000 - $25,000 USD",
+        "monthlyRevenuePotential": "$3,000 - $9,000 USD",
+        "breakEvenTime": "12-18 meses",
+        "marketSize": "Alto. La realización de tests es una necesidad universal en este nicho.",
+        "competitionLevel": "Medio-Alto"
+      }
+    }
+  ]
+}
+```

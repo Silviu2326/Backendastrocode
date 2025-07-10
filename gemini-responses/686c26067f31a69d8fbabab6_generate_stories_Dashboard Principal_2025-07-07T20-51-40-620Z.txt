@@ -1,0 +1,215 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización de métricas clave (KPIs) del negocio",
+      "description": "Como entrenador, quiero ver tarjetas de resumen con mis métricas clave (clientes activos, ingresos del mes, sesiones de hoy) al entrar al dashboard para obtener una visión general rápida del estado de mi negocio.",
+      "pageContext": "Dashboard Principal",
+      "affectedFiles": [
+        "src/features/dashboard-principal/DashboardPrincipalPage.tsx",
+        "src/features/dashboard-principal/api.ts",
+        "src/features/dashboard-principal/hooks/useDashboardPrincipal.ts",
+        "src/features/dashboard-principal/components/KPICard.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "KPICard",
+            "type": "component",
+            "path": "src/features/dashboard-principal/components/KPICard.tsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El hook `useDashboardPrincipal` debe obtener datos agregados desde el endpoint en `api.ts`. Este endpoint debe devolver un objeto con los totales de: clientes activos, ingresos del mes actual y el número de sesiones programadas para el día actual. La página `DashboardPrincipalPage.tsx` consumirá estos datos del hook y los pasará a los componentes `KPICard`.",
+      "styling": {
+        "framework": "No especificado",
+        "classes": "grid grid-cols-1 md:grid-cols-3 gap-4",
+        "colorCoding": "Utilizar colores neutros para el fondo de las tarjetas (ej. gris claro) y el color primario de la aplicación para los valores numéricos o iconos para destacarlos."
+      },
+      "acceptanceCriteria": [
+        "Al cargar el dashboard, se deben mostrar tres tarjetas de métricas separadas: 'Clientes Activos', 'Ingresos del Mes' y 'Sesiones de Hoy'.",
+        "Cada tarjeta debe mostrar un título claro y el valor numérico correspondiente.",
+        "Los datos mostrados deben ser los correctos y estar actualizados.",
+        "Cada tarjeta debe ser visualmente distinta y fácil de leer.",
+        "Debe mostrarse un estado de carga (skeleton) mientras se obtienen los datos."
+      ],
+      "additionalSuggestions": [
+        "Considerar añadir un pequeño icono representativo en cada tarjeta (ej. un usuario para clientes, un símbolo de moneda para ingresos).",
+        "Hacer que las tarjetas sean clickables para navegar a la sección detallada correspondiente (ej. la tarjeta de 'Clientes Activos' podría llevar a '/gestin-de-clientes')."
+      ],
+      "aiEditorTask": "Crea el componente `KPICard.tsx` que acepte `title`, `value` y `icon` como props. En `DashboardPrincipalPage.tsx`, implementa 3 instancias de este componente. Modifica `useDashboardPrincipal.ts` y `api.ts` para obtener y proporcionar los datos necesarios para estas tarjetas.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Listado de próximas sesiones del día",
+      "description": "Como entrenador, quiero ver una lista de mis próximas sesiones programadas para el día de hoy en el dashboard para prepararme y saber con quién me reúno.",
+      "pageContext": "Dashboard Principal",
+      "affectedFiles": [
+        "src/features/dashboard-principal/DashboardPrincipalPage.tsx",
+        "src/features/dashboard-principal/api.ts",
+        "src/features/dashboard-principal/hooks/useDashboardPrincipal.ts",
+        "src/features/dashboard-principal/components/UpcomingSessionList.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "UpcomingSessionList",
+            "type": "component",
+            "path": "src/features/dashboard-principal/components/UpcomingSessionList.tsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El hook `useDashboardPrincipal` debe hacer una llamada a `api.ts` para obtener un listado de las sesiones agendadas para la fecha actual. La API debe devolver un array de objetos, donde cada objeto contenga: id del cliente, nombre del cliente, hora de la sesión y tipo de sesión. La lista debe estar ordenada por hora.",
+      "styling": {
+        "framework": "No especificado",
+        "classes": "bg-white p-4 rounded-lg shadow",
+        "colorCoding": "Usar un borde sutil para cada elemento de la lista. La hora de la sesión debe tener un color destacado. Se puede usar un avatar o las iniciales del cliente."
+      },
+      "acceptanceCriteria": [
+        "Se debe mostrar un componente de lista titulado 'Sesiones de Hoy'.",
+        "Cada elemento de la lista debe mostrar el nombre del cliente y la hora de la sesión.",
+        "La lista debe estar ordenada cronológicamente, de la más temprana a la más tardía.",
+        "Si no hay sesiones programadas para el día, se debe mostrar un mensaje claro como 'No tienes sesiones programadas para hoy'.",
+        "Cada elemento de la lista debe ser un enlace que lleve al perfil del cliente correspondiente en '/perfil-del-cliente/:id'."
+      ],
+      "additionalSuggestions": [
+        "Incluir el tipo de sesión (ej. 'Virtual', 'Presencial') en cada elemento de la lista.",
+        "Añadir un botón 'Ver Calendario Completo' que redirija a una página de calendario más detallada."
+      ],
+      "aiEditorTask": "Desarrolla el componente `UpcomingSessionList.tsx`. Este debe obtener la lista de sesiones de hoy del hook `useDashboardPrincipal`. Renderiza cada sesión mostrando nombre del cliente, hora y un enlace al perfil del cliente. Maneja el estado en que no haya sesiones para hoy.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Gráfico de evolución de ingresos",
+      "description": "Como entrenador, quiero ver un gráfico de barras simple que muestre la evolución de mis ingresos en los últimos 6 meses para poder analizar visualmente el rendimiento financiero de mi negocio.",
+      "pageContext": "Dashboard Principal",
+      "affectedFiles": [
+        "src/features/dashboard-principal/DashboardPrincipalPage.tsx",
+        "src/features/dashboard-principal/api.ts",
+        "src/features/dashboard-principal/hooks/useDashboardPrincipal.ts",
+        "src/features/dashboard-principal/components/RevenueChart.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "RevenueChart",
+            "type": "component",
+            "path": "src/features/dashboard-principal/components/RevenueChart.tsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Crear un nuevo endpoint en `api.ts` que devuelva los ingresos totales de los últimos 6 meses, agrupados por mes. El hook `useDashboardPrincipal` llamará a este endpoint. Los datos deben tener un formato adecuado para una librería de gráficos, por ejemplo: `[{ month: 'Ene', revenue: 1200 }, { month: 'Feb', revenue: 1500 }]`.",
+      "styling": {
+        "framework": "No especificado",
+        "classes": "bg-white p-4 rounded-lg shadow w-full h-64",
+        "colorCoding": "Utilizar el color primario de la aplicación para las barras del gráfico. Los ejes y etiquetas deben tener un color de texto oscuro y legible."
+      },
+      "acceptanceCriteria": [
+        "El dashboard debe mostrar un gráfico de barras.",
+        "El eje X del gráfico debe mostrar los últimos 6 meses (ej. 'Ene', 'Feb', 'Mar').",
+        "El eje Y del gráfico debe representar el monto de los ingresos.",
+        "Al pasar el cursor sobre una barra, un tooltip debe mostrar el mes y el monto exacto de los ingresos de ese mes.",
+        "El gráfico debe ser responsivo y ajustarse al tamaño del contenedor."
+      ],
+      "additionalSuggestions": [
+        "Añadir un selector para cambiar el período de tiempo visualizado (ej. últimos 3, 6, o 12 meses).",
+        "Considerar un gráfico de líneas como alternativa para mostrar la tendencia de forma más clara."
+      ],
+      "aiEditorTask": "Integra una librería de gráficos (ej. Recharts o Chart.js) para crear el componente `RevenueChart.tsx`. El componente debe obtener los datos de ingresos de los últimos 6 meses a través del hook `useDashboardPrincipal` y renderizar un gráfico de barras. Asegura que el gráfico sea responsivo.",
+      "priority": "Media",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Panel de notificaciones accionables",
+      "description": "Como entrenador, quiero un panel de notificaciones en mi dashboard que me alerte sobre eventos importantes como pagos atrasados o mensajes nuevos, para poder responder a tiempo y no perder de vista tareas críticas.",
+      "pageContext": "Dashboard Principal",
+      "affectedFiles": [
+        "src/features/dashboard-principal/DashboardPrincipalPage.tsx",
+        "src/features/dashboard-principal/api.ts",
+        "src/features/dashboard-principal/hooks/useDashboardPrincipal.ts",
+        "src/features/dashboard-principal/components/NotificationsPanel.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "NotificationsPanel",
+            "type": "component",
+            "path": "src/features/dashboard-principal/components/NotificationsPanel.tsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El hook `useDashboardPrincipal` debe obtener una lista de notificaciones no leídas desde `api.ts`. Cada notificación debe incluir: un ID, un tipo (ej. 'pago_vencido', 'nuevo_mensaje'), un texto descriptivo, y un enlace de destino.",
+      "styling": {
+        "framework": "No especificado",
+        "classes": "divide-y divide-gray-200",
+        "colorCoding": "Usar un punto de color o un fondo ligeramente diferente para las notificaciones no leídas. Utilizar iconos para diferenciar los tipos de notificación (ej. un sobre para mensajes, un símbolo de dólar para pagos)."
+      },
+      "acceptanceCriteria": [
+        "Debe existir un panel o sección de 'Notificaciones' en el dashboard.",
+        "El panel debe listar las notificaciones más recientes y relevantes.",
+        "Cada notificación debe ser un enlace que dirija al usuario a la página correspondiente (pago, perfil de cliente, etc.).",
+        "Debe haber una forma de marcar una notificación como leída, por ejemplo, al hacer clic en ella.",
+        "Si no hay notificaciones, se debe mostrar un mensaje como 'No tienes notificaciones nuevas'."
+      ],
+      "additionalSuggestions": [
+        "Agregar un contador de notificaciones no leídas en la barra de navegación o en el título del panel.",
+        "Implementar un botón 'Marcar todas como leídas'."
+      ],
+      "aiEditorTask": "Crea el componente `NotificationsPanel.tsx`. Obtén las notificaciones del hook `useDashboardPrincipal`. Cada notificación en la lista debe ser un enlace que redirija al usuario a la página correcta. Implementa la lógica para marcar una notificación como leída.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Accesos directos para acciones comunes",
+      "description": "Como entrenador, quiero tener botones de acceso rápido para las tareas más frecuentes, como 'Añadir Cliente' o 'Crear Plan', directamente en el dashboard para agilizar mi flujo de trabajo diario.",
+      "pageContext": "Dashboard Principal",
+      "affectedFiles": [
+        "src/features/dashboard-principal/DashboardPrincipalPage.tsx",
+        "src/features/dashboard-principal/components/QuickActions.tsx",
+        "src/components/Button.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "QuickActions",
+            "type": "component",
+            "path": "src/features/dashboard-principal/components/QuickActions.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "Este componente es principalmente de UI y navegación. No requiere llamadas a la API. La lógica reside en manejar los eventos `onClick` de los botones para redirigir al usuario a las rutas correctas utilizando el sistema de enrutamiento del proyecto (definido en `App.tsx`).",
+      "styling": {
+        "framework": "No especificado",
+        "classes": "flex flex-col sm:flex-row gap-3",
+        "colorCoding": "Usar el estilo de botón secundario o terciario de la aplicación para que no compitan visualmente con los KPIs, pero que sean fácilmente identificables como acciones."
+      },
+      "acceptanceCriteria": [
+        "Debe haber una sección de 'Acciones Rápidas' en el dashboard.",
+        "Debe incluir un botón 'Añadir Nuevo Cliente' que redirija a la página de gestión de clientes o a un formulario de creación.",
+        "Debe incluir un botón 'Crear Plan de Entrenamiento' que redirija a '/creador-de-planes'.",
+        "Debe incluir un botón 'Registrar Pago' que redirija a '/pagos-y-facturacin'.",
+        "Los botones deben ser claramente visibles y estar etiquetados correctamente."
+      ],
+      "additionalSuggestions": [
+        "Añadir iconos a cada botón para mejorar el reconocimiento visual de la acción.",
+        "Hacer que los botones de acción rápida sean personalizables por el usuario en una futura iteración."
+      ],
+      "aiEditorTask": "Crea un componente `QuickActions.tsx`. Dentro, utiliza el componente reutilizable `Button.jsx` para implementar al menos tres botones: 'Añadir Cliente', 'Crear Plan' y 'Registrar Pago'. Configura la navegación para que cada botón redirija a la ruta correcta.",
+      "priority": "Media",
+      "estimatedHours": 4
+    }
+  ]
+}
+```

@@ -1,0 +1,204 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Filtrar Analíticas por Rango de Fechas",
+      "description": "Como creador de cursos, quiero filtrar todas las analíticas (tanto generales como de cursos específicos) por un rango de fechas para poder analizar el rendimiento durante períodos específicos, como el último mes o la semana de lanzamiento.",
+      "pageContext": "Analytics",
+      "affectedFiles": ["/pages/analytics/index.jsx", "/components/analytics/DateRangePicker.jsx", "/services/api/analyticsService.js"],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "DateRangePicker",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "AnalyticsDashboard",
+            "from": "./components/analytics/AnalyticsDashboard"
+          },
+          {
+            "name": "CourseDetailView",
+            "from": "./components/analytics/CourseDetailView"
+          }
+        ]
+      },
+      "logicData": "Se debe agregar un estado para 'startDate' y 'endDate' en el componente principal de la página. El componente DateRangePicker actualizará este estado. Todas las llamadas a la API para obtener datos de analíticas deben incluir estos parámetros de fecha. Al cambiar las fechas, se debe volver a solicitar los datos y actualizar todos los gráficos y métricas visibles.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex items-center gap-4 p-4 border-b border-gray-200",
+        "colorCoding": "El selector de fechas debe usar los colores primarios de la aplicación para las fechas seleccionadas y un gris neutro para el resto."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un selector de rango de fechas visible en la parte superior de la página de Analíticas.",
+        "El selector debe ofrecer opciones predefinidas como 'Últimos 7 días', 'Últimos 30 días', 'Este mes' y una opción para un rango personalizado.",
+        "Al seleccionar un rango de fechas, todos los datos en la página (resumen general y detalles del curso) se actualizan para reflejar solo ese período.",
+        "El rango de fechas seleccionado debe persistir al cambiar entre la vista general y la vista detallada de un curso."
+      ],
+      "additionalSuggestions": [
+        "Considerar guardar el último rango de fechas seleccionado por el usuario en el 'localStorage' para que se mantenga entre sesiones.",
+        "Mostrar el rango de fechas activo de forma clara junto a los títulos de los gráficos."
+      ],
+      "aiEditorTask": "Implementa un componente 'DateRangePicker' usando la librería 'react-datepicker' y conéctalo al estado principal de la página 'Analytics'. Asegúrate de que las llamadas a la API en 'analyticsService.js' acepten y pasen los parámetros 'startDate' y 'endDate' al backend.",
+      "priority": "Alta",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Exportar Datos de Analíticas a CSV",
+      "description": "Como creador de cursos, quiero exportar los datos de la vista de analíticas actual a un archivo CSV para poder realizar análisis más profundos fuera de la plataforma o para mis propios informes.",
+      "pageContext": "Analytics",
+      "affectedFiles": ["/components/analytics/CourseDetailView.jsx", "/utils/csvExporter.js"],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ExportButton",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "papaparse",
+            "from": "papaparse"
+          }
+        ]
+      },
+      "logicData": "Se necesita un botón de 'Exportar a CSV'. Al hacer clic, se debe tomar el conjunto de datos actual que alimenta los gráficos y tablas (respetando los filtros de curso y fecha aplicados). Se utilizará una librería como 'papaparse' o una función personalizada para convertir el array de objetos JSON a un string en formato CSV y luego iniciar la descarga en el navegador del usuario.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center",
+        "colorCoding": "El botón debe tener un ícono claro de descarga y usar un color secundario para no competir con las acciones principales."
+      },
+      "acceptanceCriteria": [
+        "Un botón de 'Exportar a CSV' debe estar visible cuando se muestra una tabla o gráfico de datos detallados (ej. rendimiento por lección).",
+        "Al hacer clic en el botón, se descarga un archivo con el nombre 'analytics_[nombre_curso]_[fecha].csv'.",
+        "El archivo CSV debe contener las cabeceras de columna correctas y los datos que se están visualizando en ese momento.",
+        "La exportación debe respetar todos los filtros activos (curso seleccionado, rango de fechas, etc.)."
+      ],
+      "additionalSuggestions": [
+        "Ofrecer la opción de exportar a otros formatos como PDF en el futuro.",
+        "Mostrar una notificación o un spinner de carga mientras se prepara el archivo para la descarga."
+      ],
+      "aiEditorTask": "Crea un componente reutilizable 'ExportButton' que reciba 'data' y 'filename' como props. Dentro del componente, implementa la lógica para convertir el JSON a CSV usando 'papaparse' y disparar la descarga del archivo. Integra este botón en la vista de detalle del curso.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Comparar Rendimiento Entre dos Cursos",
+      "description": "Como creador de cursos, quiero seleccionar dos de mis cursos y ver sus métricas clave una al lado de la otra para poder comparar su rendimiento e identificar cuál está funcionando mejor.",
+      "pageContext": "Analytics",
+      "affectedFiles": ["/pages/analytics/index.jsx", "/components/analytics/CourseComparisonView.jsx"],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "CourseComparisonView",
+            "type": "component"
+          },
+          {
+            "name": "MultiCourseSelector",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "AnalyticsCard",
+            "from": "./components/analytics/AnalyticsCard"
+          }
+        ]
+      },
+      "logicData": "Se necesita una nueva sección o modo en la página de analíticas llamado 'Comparar Cursos'. Este modo mostrará dos selectores de cursos. Al seleccionar dos cursos, se realizarán dos llamadas a la API para obtener las métricas resumidas de cada uno. La vista mostrará tarjetas de métricas (ej. 'Tasa de finalización', 'Nuevos estudiantes') con los valores de ambos cursos para una comparación directa.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-2 gap-8 p-4",
+        "colorCoding": "Asignar un color distintivo (ej. azul para el curso 1, verde para el curso 2) a los datos de cada curso en los gráficos y tablas comparativas para una fácil diferenciación."
+      },
+      "acceptanceCriteria": [
+        "Debe haber una opción o botón para entrar en un 'Modo de Comparación'.",
+        "En este modo, puedo seleccionar dos cursos diferentes de mis listas de cursos.",
+        "Una vez seleccionados, se muestra una tabla o una serie de tarjetas que comparan métricas clave (ej. inscripciones, tasa de finalización, tiempo promedio) para ambos cursos.",
+        "Si intento seleccionar el mismo curso en ambos selectores, el sistema debe mostrar un error o impedirlo."
+      ],
+      "additionalSuggestions": [
+        "Permitir comparar más de dos cursos a la vez, quizás en una vista de tabla.",
+        "Resaltar visualmente la métrica que sea superior en cada comparación (ej. el número más alto en verde)."
+      ],
+      "aiEditorTask": "Desarrolla el componente 'CourseComparisonView'. Incluirá dos componentes 'Select' para elegir los cursos. Al cambiar la selección, obtén los datos de ambos cursos y muéstralos en una grilla de componentes 'AnalyticsCard', donde cada tarjeta muestre una métrica y los valores de ambos cursos.",
+      "priority": "Media",
+      "estimatedHours": 16
+    },
+    {
+      "title": "Identificar Puntos de Abandono de Estudiantes",
+      "description": "Como creador de cursos, quiero que el sistema me resalte automáticamente la lección o bloque con la mayor tasa de abandono para poder identificar rápidamente dónde están los mayores problemas en mi curso y enfocar mis esfuerzos de mejora.",
+      "pageContext": "Analytics",
+      "affectedFiles": ["/components/analytics/CourseDetailView.jsx", "/components/analytics/LessonPerformanceChart.jsx"],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "LessonPerformanceChart",
+            "from": "./components/analytics/LessonPerformanceChart"
+          }
+        ]
+      },
+      "logicData": "Dentro de la vista de rendimiento por lección de un curso, se debe calcular la diferencia porcentual de estudiantes que completan una lección en comparación con la anterior. La lección con la mayor caída negativa (el mayor 'drop-off') debe ser identificada. Esta información se puede mostrar en una tarjeta de 'Insight' o resaltando directamente la barra correspondiente en el gráfico.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-red-100 border-l-4 border-red-500 text-red-700 p-4",
+        "colorCoding": "Usar un color de alerta (rojo o naranja) para resaltar la barra del gráfico o la fila de la tabla que representa el mayor punto de abandono. El texto del 'Insight' debe usar colores similares."
+      },
+      "acceptanceCriteria": [
+        "En el análisis detallado de un curso, debe haber una tarjeta o sección de 'Insight Clave'.",
+        "Esta tarjeta debe indicar textualmente cuál es la lección con la mayor tasa de abandono (ej. 'La mayor caída de estudiantes ocurre en la Lección 5').",
+        "En el gráfico de rendimiento por lección, la barra que representa esta lección debe estar resaltada con un color diferente (ej. rojo).",
+        "Al pasar el mouse sobre la barra resaltada, un tooltip debe mostrar el porcentaje exacto de abandono."
+      ],
+      "additionalSuggestions": [
+        "Ofrecer un enlace directo desde el 'Insight' para editar la lección problemática.",
+        "Mostrar los 3 principales puntos de abandono en lugar de solo uno."
+      ],
+      "aiEditorTask": "Modifica el componente 'LessonPerformanceChart'. Después de recibir los datos, calcula el porcentaje de abandono entre lecciones consecutivas. Identifica el máximo y pasa un prop al componente de gráfico (ej. 'recharts' o 'chart.js') para colorear esa barra específica de rojo. Además, crea una tarjeta de 'Insight' que muestre esta información.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Filtrar Analíticas por Segmento de Estudiantes",
+      "description": "Como creador de cursos, quiero filtrar las analíticas por segmentos de estudiantes (ej. por fecha de inscripción o por progreso) para entender cómo se comportan diferentes cohortes dentro de un mismo curso.",
+      "pageContext": "Analytics",
+      "affectedFiles": ["/pages/analytics/index.jsx", "/components/analytics/StudentSegmentFilter.jsx", "/services/api/analyticsService.js"],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "StudentSegmentFilter",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "CourseDetailView",
+            "from": "./components/analytics/CourseDetailView"
+          }
+        ]
+      },
+      "logicData": "Se debe agregar un nuevo componente de filtro desplegable a la par del filtro de fecha. Este filtro contendrá segmentos predefinidos. Por ejemplo: 'Todos los estudiantes', 'Inscritos este mes', 'Estudiantes que han completado < 50%', 'Estudiantes que han completado > 50%'. Al seleccionar un segmento, se debe pasar un nuevo parámetro a la API de analíticas, y el backend deberá filtrar los datos correspondientemente.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "relative inline-block text-left w-full sm:w-auto",
+        "colorCoding": "El filtro debe seguir el estilo de otros filtros de la página, como el selector de cursos o de fechas, para mantener la consistencia visual."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un filtro desplegable 'Segmento de Estudiantes' en la vista de detalle del curso.",
+        "El filtro debe incluir al menos las opciones: 'Todos', 'Inscritos en los últimos 30 días', 'Completados'.",
+        "Al seleccionar un segmento, todos los gráficos y métricas del curso se actualizan para reflejar solo los datos de ese grupo de estudiantes.",
+        "El filtro de segmento debe funcionar en conjunto con el filtro de rango de fechas."
+      ],
+      "additionalSuggestions": [
+        "Permitir a los creadores definir y guardar sus propios segmentos personalizados en el futuro.",
+        "Mostrar el número de estudiantes que pertenecen al segmento seleccionado actualmente."
+      ],
+      "aiEditorTask": "Implementa el componente 'StudentSegmentFilter' como un menú desplegable. Al seleccionar una opción, actualiza un estado global o local que se enviará como un nuevo parámetro en las llamadas a la API de 'analyticsService.js'. Asegúrate de que el backend esté preparado para manejar este nuevo parámetro de segmentación.",
+      "priority": "Media",
+      "estimatedHours": 16
+    }
+  ]
+}
+```

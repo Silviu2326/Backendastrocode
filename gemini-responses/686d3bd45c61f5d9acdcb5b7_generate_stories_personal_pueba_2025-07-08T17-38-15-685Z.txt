@@ -1,0 +1,49 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización de una Lista Dinámica de Entidades",
+      "description": "Como usuario de la plataforma, quiero ver una lista de elementos cargados desde una fuente de datos en la página 'pueba' para poder consultar la información principal de manera organizada.",
+      "pageContext": "pueba",
+      "affectedFiles": [
+        "/app/pueba/page.tsx",
+        "/components/pueba/EntityCard.tsx",
+        "/services/pueba/fetchEntities.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "EntityCard",
+            "type": "component",
+            "description": "Un componente de tarjeta (card) para mostrar la información resumida de una entidad individual. Debe ser capaz de mostrar un título, una descripción corta y una imagen o un icono representativo. Será el bloque de construcción para la lista en la página."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "La página `/pueba` deberá invocar una función de servicio (ej: `fetchEntities`) para obtener un array de objetos desde un endpoint de API (ej: `/api/pueba/entities`). Se debe manejar un estado de carga para mostrar un feedback visual mientras se esperan los datos, y un estado de error para informar al usuario si la petición falla. Cada objeto de la entidad debe contener al menos: `id`, `title`, `description`, y `imageUrl`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4 md:p-8",
+        "colorCoding": "Fondo de página: `bg-slate-50`. Tarjetas (`EntityCard`): `bg-white`, sombra `shadow-md`, borde `rounded-lg`. Título de la tarjeta: `text-lg font-semibold text-gray-800`. Descripción: `text-sm text-gray-600`."
+      },
+      "acceptanceCriteria": [
+        "Al visitar la ruta `/pueba`, se debe mostrar un indicador de carga (ej. un spinner o un esqueleto de UI).",
+        "Una vez que los datos se obtienen correctamente de la API, el indicador de carga desaparece.",
+        "La página debe renderizar una lista de componentes `EntityCard`, uno por cada elemento recibido de la API.",
+        "Cada `EntityCard` debe mostrar correctamente el título, la descripción y la imagen de la entidad correspondiente.",
+        "Si la llamada a la API falla, se debe ocultar el indicador de carga y mostrar un mensaje de error claro y amigable para el usuario.",
+        "El diseño de la lista debe ser responsivo, mostrando una cuadrícula que se ajuste al ancho de la pantalla (ej. 1 columna en móviles, 2 en tablets y 3+ en escritorio)."
+      ],
+      "additionalSuggestions": [
+        "Implementar un skeleton loader que imite la estructura de las `EntityCard` para una mejor experiencia de usuario durante la carga.",
+        "Añadir un efecto de `hover` a las tarjetas para mejorar la interactividad, como un ligero aumento de la sombra o un borde de color."
+      ],
+      "aiEditorTask": "Crea la página en `/app/pueba/page.tsx`. Implementa la lógica para obtener datos, incluyendo estados de carga y error. Crea el nuevo componente `/components/pueba/EntityCard.tsx` que acepte props (`title`, `description`, `imageUrl`) y úsalo dentro de la página para mapear los datos obtenidos. Estiliza ambos archivos usando las clases de Tailwind especificadas.",
+      "priority": "Alta",
+      "estimatedHours": 8,
+      "strategicImpact": "core",
+      "comments": ""
+    }
+  ]
+}
+```

@@ -1,0 +1,216 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Analizar Rendimiento de Cuestionarios",
+      "description": "Como creador de cursos, quiero ver análisis detallados del rendimiento de los cuestionarios (quizzes) dentro de un curso específico para entender la comprensión de los estudiantes e identificar preguntas problemáticas.",
+      "pageContext": "Analytics",
+      "affectedFiles": ["pages/analytics.jsx", "components/analytics/QuizPerformance.jsx", "api/analytics.js"],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "QuizPerformance",
+            "type": "component"
+          },
+          {
+            "name": "QuestionBreakdownChart",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Tabs",
+            "from": "@/components/ui/Tabs"
+          },
+          {
+            "name": "BarChart",
+            "from": "@/components/charts/BarChart"
+          }
+        ]
+      },
+      "logicData": "Dentro de la vista de un curso específico, se debe agregar una nueva pestaña o sección para 'Cuestionarios'. Se necesita una nueva llamada a la API que devuelva datos agregados por cuestionario: ID del cuestionario, título, tasa de finalización, puntuación promedio, y tasa de aprobación. Además, para cada cuestionario, se debe poder obtener un desglose por pregunta: texto de la pregunta, % de respuestas correctas.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-4 bg-gray-50 rounded-lg border",
+        "colorCoding": "Usar verde (ej. #22c55e) para tasas de aprobación altas y rojo (ej. #ef4444) para bajas. Las barras de preguntas con bajo % de acierto deben destacarse en rojo."
+      },
+      "acceptanceCriteria": [
+        "Al seleccionar un curso, puedo ver una pestaña o sección llamada 'Rendimiento de Cuestionarios'.",
+        "Dentro de esta sección, veo una lista de todos los cuestionarios del curso con métricas clave: puntuación promedio y tasa de aprobación.",
+        "Al hacer clic en un cuestionario específico, puedo ver un desglose con el porcentaje de respuestas correctas para cada pregunta.",
+        "El sistema resalta visualmente la pregunta con el menor porcentaje de respuestas correctas."
+      ],
+      "additionalSuggestions": [
+        "Permitir filtrar por intentos de cuestionario (solo el primero, el último, el promedio).",
+        "Mostrar el tiempo promedio que tardan los estudiantes en completar cada cuestionario."
+      ],
+      "aiEditorTask": "Crea el componente 'QuizPerformance.jsx' que renderice una lista de cuestionarios y sus métricas. Al hacer clic en uno, debe mostrar un gráfico de barras 'QuestionBreakdownChart' con el rendimiento por pregunta. Implementa la lógica para obtener los datos desde 'api/analytics.js'.",
+      "priority": "Alta",
+      "estimatedHours": 16
+    },
+    {
+      "title": "Visualizar Tiempo Promedio por Lección",
+      "description": "Como creador de cursos, quiero ver el tiempo promedio que los estudiantes pasan en cada lección o bloque de contenido para identificar qué partes son más atractivas y cuáles podrían ser demasiado largas o confusas.",
+      "pageContext": "Analytics",
+      "affectedFiles": ["components/analytics/LessonPerformanceTable.jsx", "api/analytics.js"],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "Tooltip",
+            "from": "@/components/ui/Tooltip"
+          }
+        ]
+      },
+      "logicData": "La API que devuelve los datos de rendimiento por lección/bloque debe ser actualizada para incluir un nuevo campo: `averageTimeSpent` (en segundos). El frontend debe recibir este dato y mostrarlo en la tabla de desglose por lección. La lógica debe formatear los segundos a un formato legible (ej. '5m 30s').",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "text-sm text-gray-600 font-mono",
+        "colorCoding": "No requiere un color específico, pero se debe alinear consistentemente en su propia columna en la tabla."
+      },
+      "acceptanceCriteria": [
+        "En la tabla de 'Rendimiento por Lección', existe una nueva columna llamada 'Tiempo Promedio'.",
+        "Para cada lección, se muestra el tiempo promedio que los estudiantes han pasado en ella.",
+        "El tiempo se muestra en un formato claro (minutos y segundos).",
+        "Puedo ordenar la tabla de lecciones por la columna 'Tiempo Promedio' de forma ascendente y descendente."
+      ],
+      "additionalSuggestions": [
+        "Añadir una visualización (ej. una pequeña barra horizontal en la celda) para comparar rápidamente el tiempo entre lecciones.",
+        "Mostrar la mediana del tiempo además del promedio para mitigar el efecto de valores atípicos."
+      ],
+      "aiEditorTask": "Modifica el componente 'LessonPerformanceTable.jsx' para agregar una nueva columna 'Tiempo Promedio'. Actualiza la llamada a la API para solicitar el campo 'averageTimeSpent' y formatea el valor de segundos a un string 'Xm Ys'. Implementa la funcionalidad de ordenamiento para esta nueva columna.",
+      "priority": "Media",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Visualizar Funnel de Progreso del Curso",
+      "description": "Como creador de cursos, quiero ver un gráfico de embudo (funnel) que muestre cómo los estudiantes avanzan secuencialmente a través de las lecciones para identificar visualmente los puntos exactos de abandono entre una lección y la siguiente.",
+      "pageContext": "Analytics",
+      "affectedFiles": ["pages/analytics.jsx", "components/analytics/CourseFunnel.jsx", "api/analytics.js"],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "CourseFunnel",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "FunnelChart",
+            "from": "recharts"
+          },
+          {
+            "name": "Card",
+            "from": "@/components/ui/Card"
+          }
+        ]
+      },
+      "logicData": "Se necesita un nuevo endpoint de API que, para un curso dado, devuelva un array ordenado de lecciones. Cada objeto de lección debe contener su título y el número de estudiantes únicos que la han completado. La lógica del frontend construirá el gráfico de embudo, mostrando el porcentaje de estudiantes que pasan de una etapa a la siguiente.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "w-full h-96 p-4",
+        "colorCoding": "Utilizar un gradiente de color para las etapas del embudo, por ejemplo, de un azul oscuro a uno claro. El texto que muestra la tasa de abandono entre etapas debe ser de un color de contraste, como un rojo suave."
+      },
+      "acceptanceCriteria": [
+        "En la vista de análisis de un curso, se muestra un gráfico de embudo.",
+        "Cada paso del embudo representa una lección del curso, en orden secuencial.",
+        "El embudo muestra visualmente el número o porcentaje de estudiantes que completan cada lección.",
+        "Entre cada paso del embudo, se muestra el porcentaje de abandono (drop-off) para esa transición específica."
+      ],
+      "additionalSuggestions": [
+        "Permitir hacer clic en una etapa del embudo para ver una lista de los estudiantes que abandonaron en ese punto.",
+        "Ofrecer la opción de visualizar el embudo por 'Bloques de contenido' en lugar de 'Lecciones'."
+      ],
+      "aiEditorTask": "Crea el componente 'CourseFunnel.jsx'. Utiliza una librería de gráficos (como Recharts o similar) para renderizar un gráfico de embudo. El componente debe fetchear los datos de progreso secuencial y calcular los porcentajes de retención y abandono entre etapas.",
+      "priority": "Alta",
+      "estimatedHours": 18
+    },
+    {
+      "title": "Ver Actividad en Tiempo Real",
+      "description": "Como creador de cursos, quiero tener un widget en mi panel principal que muestre cuántos estudiantes están activos en mis cursos en este momento para tener una idea del engagement instantáneo.",
+      "pageContext": "Analytics",
+      "affectedFiles": ["pages/analytics.jsx", "components/analytics/LiveActivityWidget.jsx", "api/analytics.js"],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "LiveActivityWidget",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "useWebSocket",
+            "from": "@/hooks/useWebSocket"
+          }
+        ]
+      },
+      "logicData": "Esta funcionalidad requiere una conexión en tiempo real, preferiblemente a través de WebSockets. El backend debe emitir eventos cuando un usuario se vuelve activo en un curso. El frontend se suscribe a estos eventos. Se necesita un componente que muestre un contador de 'Usuarios Activos' y opcionalmente una lista de los cursos con más actividad. El contador debe actualizarse sin necesidad de recargar la página.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-green-100 border border-green-300 rounded-lg p-4 flex items-center space-x-3",
+        "colorCoding": "Usar un punto verde parpadeante para indicar el estado 'En vivo'. El número de usuarios activos debe ser grande y prominente."
+      },
+      "acceptanceCriteria": [
+        "En el panel general de Analíticas, hay un widget titulado 'Actividad en Tiempo Real'.",
+        "El widget muestra un número que representa la cantidad total de estudiantes actualmente activos en todos mis cursos.",
+        "El número se actualiza automáticamente cada 15-30 segundos sin recargar la página.",
+        "Un indicador visual (ej. un punto de color) muestra el estado de la conexión en tiempo real."
+      ],
+      "additionalSuggestions": [
+        "Mostrar un desglose de usuarios activos por curso.",
+        "Al pasar el cursor sobre el widget, mostrar las lecciones más vistas en tiempo real."
+      ],
+      "aiEditorTask": "Crea el componente 'LiveActivityWidget.jsx'. Implementa la lógica para establecer una conexión WebSocket y escuchar eventos de actividad. Muestra el contador de usuarios activos y un indicador de estado. Asegúrate de que el componente maneje la conexión y desconexión de forma limpia.",
+      "priority": "Baja",
+      "estimatedHours": 20
+    },
+    {
+      "title": "Establecer y Rastrear Metas de Rendimiento",
+      "description": "Como creador de cursos, quiero establecer una meta para una métrica clave (ej. tasa de finalización) en un curso específico para poder seguir mi progreso hacia un objetivo concreto.",
+      "pageContext": "Analytics",
+      "affectedFiles": ["pages/analytics.jsx", "components/analytics/GoalTracker.jsx", "components/modals/SetGoalModal.jsx"],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "GoalTracker",
+            "type": "component"
+          },
+          {
+            "name": "SetGoalModal",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "GaugeChart",
+            "from": "@/components/charts/GaugeChart"
+          },
+          {
+            "name": "Button",
+            "from": "@/components/ui/Button"
+          }
+        ]
+      },
+      "logicData": "Se necesita una nueva tabla en la base de datos para almacenar las metas (`courseId`, `metricType`, `targetValue`, `deadline`). Se requieren endpoints API para crear, leer y actualizar una meta. En el frontend, en la vista de un curso, un botón 'Establecer Meta' abrirá un modal para seleccionar la métrica y el valor objetivo. Un nuevo componente 'GoalTracker' mostrará el valor actual, el objetivo y el progreso, por ejemplo, con un gráfico de medidor (gauge).",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-4 border rounded-lg",
+        "colorCoding": "El gráfico de medidor debe llenarse con un color (ej. azul) a medida que el valor actual se acerca al objetivo. Si se supera la meta, el color puede cambiar a verde."
+      },
+      "acceptanceCriteria": [
+        "En la vista de análisis de un curso, veo un botón para 'Establecer Meta'.",
+        "Al hacer clic, se abre un modal donde puedo seleccionar una métrica (ej. 'Tasa de Finalización') y establecer un valor numérico objetivo.",
+        "Una vez establecida la meta, veo un widget que muestra el valor actual de la métrica, mi meta y el progreso visualmente (ej. '75% de 90%').",
+        "Puedo editar o eliminar una meta existente."
+      ],
+      "additionalSuggestions": [
+        "Permitir establecer una fecha límite para la meta y mostrar los días restantes.",
+        "Enviar una notificación al creador cuando alcance su meta."
+      ],
+      "aiEditorTask": "Crea el modal 'SetGoalModal.jsx' con un formulario para seleccionar métrica y valor. Crea el widget 'GoalTracker.jsx' que muestra un gráfico de medidor (Gauge) con el progreso actual vs el objetivo. Implementa la lógica para guardar y recuperar la meta a través de la API.",
+      "priority": "Media",
+      "estimatedHours": 12
+    }
+  ]
+}
+```

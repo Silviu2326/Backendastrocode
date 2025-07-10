@@ -1,0 +1,162 @@
+```json
+{
+  "softwares": [
+    {
+      "name": "SeaTrace Chain",
+      "description": "Plataforma SaaS de trazabilidad de extremo a extremo para la industria del marisco. Permite a distribuidores y procesadores rastrear productos desde el barco hasta el plato, gestionar certificaciones de sostenibilidad y cumplir con normativas mediante códigos QR y tecnología blockchain.",
+      "targetClient": "Distribuidores, importadores/exportadores y procesadores de marisco de tamaño mediano a grande. Necesitan garantizar la procedencia, cumplir con regulaciones (FDA, UE) y ofrecer transparencia a sus clientes B2B y consumidores finales.",
+      "pages": [
+        {
+          "name": "Dashboard",
+          "description": "Vista general de lotes activos, alertas de cumplimiento y métricas clave de trazabilidad.",
+          "route": "/dashboard"
+        },
+        {
+          "name": "Gestión de Lotes",
+          "description": "Creación y seguimiento de lotes de marisco, asociando datos de captura, proveedor y transporte.",
+          "route": "/batches"
+        },
+        {
+          "name": "Certificaciones",
+          "description": "Repositorio para cargar y gestionar certificados de sostenibilidad (MSC, ASC) y seguridad alimentaria.",
+          "route": "/certifications"
+        },
+        {
+          "name": "Informes de Cumplimiento",
+          "description": "Generación de informes automáticos para auditorías y requisitos regulatorios.",
+          "route": "/reports"
+        },
+        {
+          "name": "Gestión de Proveedores",
+          "description": "Base de datos de proveedores con su documentación y historial de cumplimiento.",
+          "route": "/suppliers"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$50,000 - $85,000 USD",
+        "monthlyRevenuePotential": "$8,000 - $30,000 USD",
+        "breakEvenTime": "18-24 meses",
+        "marketSize": "Global, enfocado en el mercado de trazabilidad alimentaria valorado en >$15B.",
+        "competitionLevel": "Medio"
+      }
+    },
+    {
+      "name": "Neptune's Ledger",
+      "description": "Software de gestión de inventario y optimización de menús para restaurantes de marisco. Analiza la volatilidad de precios de proveedores, gestiona el stock perecedero y recomienda especiales del día para maximizar márgenes y minimizar el desperdicio.",
+      "targetClient": "Propietarios y chefs de restaurantes independientes o pequeñas cadenas especializadas en marisco. Su principal problema es la gestión de costes y el desperdicio de un inventario caro y de corta vida útil.",
+      "pages": [
+        {
+          "name": "Dashboard de Inventario",
+          "description": "Visualización en tiempo real del stock, valor y alertas de bajo inventario o caducidad.",
+          "route": "/inventory"
+        },
+        {
+          "name": "Precios de Proveedores",
+          "description": "Seguimiento y comparación de precios de marisco de diferentes proveedores.",
+          "route": "/suppliers/pricing"
+        },
+        {
+          "name": "Ingeniería de Menú",
+          "description": "Calculadora de coste por plato y análisis de rentabilidad de cada ítem del menú.",
+          "route": "/menu-engineering"
+        },
+        {
+          "name": "Sugerencias del Día",
+          "description": "Motor de IA que recomienda platos especiales basados en el inventario actual y los precios del mercado.",
+          "route": "/suggestions"
+        },
+        {
+          "name": "Analíticas",
+          "description": "Informes sobre ventas, costes, desperdicio y rentabilidad por periodo.",
+          "route": "/analytics"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$40,000 - $70,000 USD",
+        "monthlyRevenuePotential": "$10,000 - $25,000 USD",
+        "breakEvenTime": "20-30 meses",
+        "marketSize": "Nicho dentro del mercado de software para restaurantes, con decenas de miles de locales potenciales.",
+        "competitionLevel": "Medio-Alto"
+      }
+    },
+    {
+      "name": "AquaManager Pro",
+      "description": "Sistema integral de gestión para granjas de acuicultura (piscifactorías). Monitoriza la calidad del agua, optimiza los ciclos de alimentación, y predice el crecimiento y la salud del stock para maximizar el rendimiento de la producción.",
+      "targetClient": "Operadores de granjas de acuicultura (salmón, camarón, tilapia, etc.). Buscan digitalizar sus operaciones para mejorar la eficiencia, reducir la mortalidad del stock y tomar decisiones basadas en datos.",
+      "pages": [
+        {
+          "name": "Panel de la Granja",
+          "description": "Vista general de todos los estanques o jaulas, con alertas y estado general.",
+          "route": "/farm-overview"
+        },
+        {
+          "name": "Monitoreo de Agua (IoT)",
+          "description": "Datos en tiempo real de sensores de pH, oxígeno, temperatura y amoníaco.",
+          "route": "/water-quality"
+        },
+        {
+          "name": "Plan de Alimentación",
+          "description": "Programación y registro de la alimentación, calculando tasas de conversión de alimento.",
+          "route": "/feeding-plan"
+        },
+        {
+          "name": "Registro de Salud",
+          "description": "Seguimiento de biometrías, tratamientos, enfermedades y tasas de mortalidad.",
+          "route": "/health-log"
+        },
+        {
+          "name": "Proyecciones de Cosecha",
+          "description": "Estimaciones de biomasa y fechas óptimas de cosecha basadas en datos de crecimiento.",
+          "route": "/harvest-planner"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$75,000 - $130,000 USD",
+        "monthlyRevenuePotential": "$15,000 - $50,000 USD",
+        "breakEvenTime": "24-36 meses",
+        "marketSize": "Mercado global de 'AquaTech' dentro de la industria de la acuicultura de >$250B.",
+        "competitionLevel": "Bajo-Medio"
+      }
+    },
+    {
+      "name": "FreshCatch B2B",
+      "description": "Marketplace B2B que conecta directamente a pescadores y cooperativas con restaurantes y minoristas. Facilita la compra de producto fresco, gestiona la logística y asegura pagos, eliminando intermediarios.",
+      "targetClient": "Pequeños y medianos pescadores/cooperativas que buscan mejores precios y acceso al mercado. Chefs y dueños de pescaderías que desean producto más fresco y trazable.",
+      "pages": [
+        {
+          "name": "Mercado",
+          "description": "Listados de productos disponibles con filtros por especie, ubicación, frescura y precio.",
+          "route": "/market"
+        },
+        {
+          "name": "Perfil del Vendedor",
+          "description": "Página de perfil para cada pescador o cooperativa con sus productos, valoraciones y certificaciones.",
+          "route": "/seller/:id"
+        },
+        {
+          "name": "Gestión de Pedidos",
+          "description": "Panel para que compradores y vendedores gestionen pedidos, envíos y facturas.",
+          "route": "/orders"
+        },
+        {
+          "name": "Logística Integrada",
+          "description": "Cálculo de costes de envío y seguimiento de la cadena de frío durante el transporte.",
+          "route": "/logistics"
+        },
+        {
+          "name": "Mensajería",
+          "description": "Sistema de chat para que compradores y vendedores negocien y coordinen detalles.",
+          "route": "/messages"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$80,000 - $150,000 USD",
+        "monthlyRevenuePotential": "$10,000 - $60,000 USD",
+        "breakEvenTime": "24-48 meses",
+        "marketSize": "Mercado de comercio electrónico B2B de alimentos, con un enfoque en la cadena de suministro de marisco.",
+        "competitionLevel": "Medio"
+      }
+    }
+  ]
+}
+```

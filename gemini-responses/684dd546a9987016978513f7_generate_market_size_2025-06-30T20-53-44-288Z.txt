@@ -1,0 +1,54 @@
+```json
+{
+  "marketSize": {
+    "tam": {
+      "value": "405 mil millones USD",
+      "description": "El Mercado Total Direccionable (TAM) representa el mercado global de tecnología educativa (EdTech). Incluye todo el gasto en software, hardware, contenido digital y servicios relacionados para el aprendizaje en todos los niveles (K-12, educación superior, corporativo y aprendizaje continuo) a nivel mundial.",
+      "methodology": "Cálculo Top-Down. Se basa en el valor consolidado del mercado global de EdTech según informes de analistas de la industria. Este valor se obtiene sumando el gasto total en tecnología para la educación en todos los segmentos y geografías."
+    },
+    "sam": {
+      "value": "65 mil millones USD",
+      "description": "El Mercado Servible Direccionable (SAM) es el subconjunto del TAM que se enfoca específicamente en soluciones de educación que utilizan inteligencia artificial. Esto incluye plataformas de aprendizaje adaptativo, tutores inteligentes, sistemas de evaluación automatizada y herramientas de análisis de aprendizaje predictivo, que son el nicho de Eduplatform.",
+      "methodology": "Cálculo Top-Down. Se estima como un porcentaje del TAM que corresponde al segmento de 'IA en la Educación'. Este porcentaje se determina a partir de informes de mercado especializados que analizan la penetración y el crecimiento de la IA dentro del sector EdTech."
+    },
+    "som": {
+      "value": "180 millones USD",
+      "description": "El Mercado Obtenible Servible (SOM) es la porción del SAM que Eduplatform puede capturar de manera realista en los próximos 3-5 años. Esta cifra considera la competencia, la estrategia de go-to-market, la capacidad de ejecución, el presupuesto de marketing y la tasa de adopción esperada en los mercados de lanzamiento iniciales (ej. América del Norte y Europa).",
+      "methodology": "Cálculo Bottom-Up. Se estima multiplicando el número de usuarios objetivo que se pueden adquirir en un período de 3 a 5 años (ej. 1 millón de usuarios) por el Ingreso Promedio Anual por Usuario (ARPU) estimado (ej. 180 USD/año, basado en un modelo de suscripción de 15 USD/mes)."
+    },
+    "historicalData": [
+      {
+        "year": 2020,
+        "marketValue": "27 mil millones USD"
+      },
+      {
+        "year": 2021,
+        "marketValue": "33 mil millones USD"
+      },
+      {
+        "year": 2022,
+        "marketValue": "42 mil millones USD"
+      },
+      {
+        "year": 2023,
+        "marketValue": "52 mil millones USD"
+      }
+    ],
+    "dataSources": [
+      "HolonIQ",
+      "Grand View Research",
+      "MarketsandMarkets",
+      "Statista",
+      "Informes de GSV Ventures",
+      "Datos del Banco Mundial sobre gasto en educación"
+    ],
+    "assumptions": [
+      "El mercado de 'IA en la Educación' (SAM) crecerá a una tasa anual compuesta (CAGR) superior al 20%.",
+      "Eduplatform operará con un modelo de negocio SaaS (Software as a Service) basado en suscripción.",
+      "El ARPU (Ingreso Promedio por Usuario) anual se estima en 180 USD.",
+      "Se logrará una penetración de mercado para alcanzar 1 millón de usuarios activos de pago en un plazo de 3 a 5 años.",
+      "El análisis se enfoca principalmente en los mercados de consumo (B2C) y educación superior (B2B2C), sin considerar el sector corporativo en la fase inicial."
+    ]
+  }
+}
+```

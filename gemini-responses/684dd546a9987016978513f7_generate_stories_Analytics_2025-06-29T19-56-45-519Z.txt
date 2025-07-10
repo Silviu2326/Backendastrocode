@@ -1,0 +1,236 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Analizar Rendimiento Detallado de Evaluaciones",
+      "description": "Como creador de cursos, quiero ver un desglose detallado del rendimiento de las evaluaciones (quizzes, exámenes) dentro de un curso, para identificar las preguntas más difíciles y entender el nivel de comprensión general de los estudiantes.",
+      "pageContext": "Analytics",
+      "affectedFiles": [
+        "pages/analytics/index.jsx",
+        "components/analytics/CourseDetailView.jsx",
+        "api/analytics.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "QuizAnalyticsTab",
+            "type": "component"
+          },
+          {
+            "name": "QuestionBreakdownModal",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Tabs",
+            "from": "@/components/ui/Tabs"
+          },
+          {
+            "name": "DataTable",
+            "from": "@/components/ui/DataTable"
+          }
+        ]
+      },
+      "logicData": "Se necesita un nuevo endpoint en la API (`/api/courses/{courseId}/quiz-analytics`) que devuelva los datos agregados de todas las evaluaciones del curso. La data debe incluir, por cada evaluación: id, título, tasa de finalización, puntuación promedio, y un desglose por pregunta con el porcentaje de respuestas correctas. La lógica del frontend debe renderizar una nueva pestaña en la vista de detalle del curso y poblar una tabla con estos datos. Un clic en una evaluación abrirá un modal con el desglose por pregunta.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-4 bg-card rounded-lg shadow-md",
+        "colorCoding": "Usar verde para tasas de acierto altas (>75%), amarillo para medias (40-75%) y rojo para bajas (<40%) en el desglose de preguntas."
+      },
+      "acceptanceCriteria": [
+        "Dentro de la vista de análisis de un curso, debe existir una pestaña llamada 'Evaluaciones'.",
+        "Al seleccionar la pestaña, se muestra una lista de todas las evaluaciones del curso con sus métricas clave: Tasa de Finalización y Puntuación Promedio.",
+        "Se puede hacer clic en una evaluación de la lista para abrir un modal o expandir una sección.",
+        "El modal/sección de detalle muestra un análisis pregunta por pregunta, incluyendo el porcentaje de estudiantes que la respondieron correctamente.",
+        "La pregunta con el menor porcentaje de respuestas correctas está visualmente destacada."
+      ],
+      "additionalSuggestions": [
+        "Considerar añadir una métrica de 'Tiempo promedio para responder' por pregunta.",
+        "Permitir al creador hacer clic en una pregunta para ver las respuestas incorrectas más comunes."
+      ],
+      "aiEditorTask": "Implementa un nuevo componente `QuizAnalyticsTab` que obtenga y muestre los datos de rendimiento de las evaluaciones. Utiliza un componente `DataTable` para listar las evaluaciones y un `QuestionBreakdownModal` para mostrar el detalle por pregunta al hacer clic en una fila.",
+      "priority": "Alta",
+      "estimatedHours": 16
+    },
+    {
+      "title": "Visualizar Tiempo Promedio de Finalización por Contenido",
+      "description": "Como creador de cursos, quiero ver el tiempo promedio que los estudiantes tardan en completar cada lección y el curso completo, para compararlo con mi tiempo estimado y ajustar la longitud del contenido si es necesario.",
+      "pageContext": "Analytics",
+      "affectedFiles": [
+        "components/analytics/CoursePerformanceChart.jsx",
+        "api/analytics.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "Tooltip",
+            "from": "@/components/ui/Tooltip"
+          }
+        ]
+      },
+      "logicData": "El endpoint de análisis detallado del curso (`/api/courses/{courseId}/analytics`) debe ser modificado para incluir una nueva propiedad `averageCompletionTime` para cada lección/bloque. Este valor debe calcularse en el backend promediando la diferencia de tiempo entre el inicio y la finalización de la lección para cada estudiante que la ha completado. La lógica del frontend debe añadir esta métrica a la tabla o gráfico existente.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "text-sm text-muted-foreground ml-4",
+        "colorCoding": "Mostrar el tiempo en un formato legible (ej. '5m 30s')."
+      },
+      "acceptanceCriteria": [
+        "En la vista de análisis por lección/bloque de un curso, se muestra una nueva columna o métrica llamada 'Tiempo Promedio'.",
+        "El valor del tiempo promedio se muestra para cada lección/bloque en la lista o gráfico.",
+        "En el resumen de métricas clave del curso, se muestra un 'Tiempo Promedio de Finalización del Curso' general.",
+        "Si un creador ha definido un tiempo estimado para una lección, este se podría mostrar junto al tiempo real para una comparación fácil (ej. '8m 15s / 10m est.')."
+      ],
+      "additionalSuggestions": [
+        "Al pasar el cursor sobre la métrica de tiempo, un tooltip podría mostrar un histograma simple con la distribución de los tiempos de finalización.",
+        "Añadir un filtro para excluir los valores atípicos (outliers) en el cálculo del tiempo promedio."
+      ],
+      "aiEditorTask": "Modifica el componente `CoursePerformanceChart` y la tabla de datos asociada para incluir la nueva métrica `averageCompletionTime`. Agrega una nueva columna a la tabla y muestra este dato junto a cada lección. Utiliza un componente `Tooltip` para mostrar información adicional al pasar el cursor.",
+      "priority": "Media",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Monitorear Actividad de Estudiantes en Tiempo Real",
+      "description": "Como creador de cursos, quiero tener una vista de 'Actividad en Vivo' que me muestre cuántos estudiantes están activos en mis cursos en este momento y en qué lecciones se encuentran, para tener una idea del engagement en tiempo real.",
+      "pageContext": "Analytics",
+      "affectedFiles": [
+        "pages/analytics/index.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "LiveActivityWidget",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "useWebSocket",
+            "from": "@/hooks/useWebSocket"
+          }
+        ]
+      },
+      "logicData": "Requiere una infraestructura de backend que soporte conexiones en tiempo real (ej. WebSockets). Se necesita un endpoint que establezca la conexión y envíe actualizaciones periódicas. Un 'usuario activo' se define como alguien que ha realizado una acción en la plataforma en los últimos 5 minutos. El payload del WebSocket debe incluir el conteo total de activos y una lista de los cursos/lecciones más populares en ese momento.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "relative p-4 rounded-lg bg-card border border-primary/50",
+        "colorCoding": "Usar un indicador visual (ej. un punto verde parpadeante) para denotar que la información es 'en vivo'."
+      },
+      "acceptanceCriteria": [
+        "En el panel principal de 'Analytics', debe haber un nuevo widget o sección llamado 'Actividad en Vivo'.",
+        "El widget debe mostrar un número grande que represente el total de 'Estudiantes Activos Ahora' en todos mis cursos.",
+        "Debajo del conteo, se debe mostrar una lista de los 3-5 cursos con más estudiantes activos en ese momento.",
+        "La información del widget debe actualizarse automáticamente cada 60 segundos sin necesidad de recargar la página.",
+        "Debe haber un indicador visual claro de que los datos se están actualizando en tiempo real."
+      ],
+      "additionalSuggestions": [
+        "Al hacer clic en un curso de la lista en vivo, se podría mostrar un desglose de las lecciones más vistas en ese momento para ese curso.",
+        "Añadir un pequeño gráfico de líneas que muestre la tendencia de usuarios activos en la última hora."
+      ],
+      "aiEditorTask": "Crea el componente `LiveActivityWidget`. Implementa la lógica para conectarse a un endpoint de WebSockets y actualizar el estado del componente con los datos recibidos. Muestra el conteo de usuarios activos y la lista de cursos más activos. Asegúrate de manejar la conexión y desconexión del WebSocket correctamente en el ciclo de vida del componente.",
+      "priority": "Media",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Correlacionar Métricas de Lección con Comentarios de Estudiantes",
+      "description": "Como creador de cursos, quiero ver los comentarios o preguntas que los estudiantes han dejado en una lección específica directamente en el gráfico de análisis de esa lección, para entender el 'porqué' detrás de las métricas de rendimiento.",
+      "pageContext": "Analytics",
+      "affectedFiles": [
+        "components/analytics/CoursePerformanceChart.jsx",
+        "api/comments.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "CommentsIndicator",
+            "type": "component"
+          },
+          {
+            "name": "CommentsModal",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "MessageSquare",
+            "from": "lucide-react"
+          }
+        ]
+      },
+      "logicData": "El componente que muestra el rendimiento por lección necesita hacer una llamada adicional a un endpoint como `/api/lessons/{lessonId}/comments`. La respuesta de la API de analíticas podría ser modificada para incluir un `commentCount` por lección. El frontend usará este conteo para mostrar un indicador. Al hacer clic en el indicador, se hará la llamada para obtener los comentarios reales y mostrarlos en un modal.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "cursor-pointer text-muted-foreground hover:text-primary",
+        "colorCoding": "El ícono de comentarios puede tener un color más intenso o un número superpuesto si hay comentarios no leídos."
+      },
+      "acceptanceCriteria": [
+        "En la tabla o gráfico de 'Rendimiento por Lección', cada lección que tenga comentarios de estudiantes muestra un ícono de burbuja de chat.",
+        "El ícono puede mostrar opcionalmente el número de comentarios (ej. '5').",
+        "Al hacer clic en el ícono, se abre un modal que lista los comentarios asociados a esa lección.",
+        "Los comentarios en el modal deben estar anonimizados para proteger la privacidad del estudiante (ej. 'Estudiante A', 'Estudiante B').",
+        "El modal debe permitir cerrar la vista para volver al análisis."
+      ],
+      "additionalSuggestions": [
+        "Dentro del modal, permitir filtrar comentarios por tipo (pregunta, sugerencia, error reportado) si esa data existe.",
+        "Añadir un enlace directo desde el comentario a la lección para que el creador pueda revisarla en contexto."
+      ],
+      "aiEditorTask": "Modifica el componente `CoursePerformanceChart` para que, por cada lección, muestre un `CommentsIndicator` si `commentCount > 0`. El `CommentsIndicator` será un ícono clickeable que, al ser presionado, abrirá un `CommentsModal`, pasándole el ID de la lección para que pueda obtener y mostrar los comentarios correspondientes.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Definir y Rastrear Objetivos de Rendimiento del Curso",
+      "description": "Como creador de cursos, quiero poder establecer objetivos de rendimiento para métricas clave (ej. tasa de finalización > 80%), para recibir alertas si el rendimiento está por debajo de mis expectativas y poder actuar a tiempo.",
+      "pageContext": "Analytics",
+      "affectedFiles": [
+        "components/analytics/CourseDetailView.jsx",
+        "components/analytics/KeyMetrics.jsx",
+        "api/analytics.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "SetGoalModal",
+            "type": "component"
+          },
+          {
+            "name": "MetricWithTarget",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "@/components/ui/Button"
+          },
+          {
+            "name": "Dialog",
+            "from": "@/components/ui/Dialog"
+          }
+        ]
+      },
+      "logicData": "Se necesita un nuevo endpoint para guardar y recuperar los objetivos del creador para un curso (ej. `POST /api/courses/{courseId}/goals`). El objetivo se almacena como un par métrica-valor (ej. `{ completionRate: 80 }`). En el frontend, el componente de métricas clave obtiene tanto el valor actual de la métrica como el objetivo establecido. La lógica de renderizado comparará ambos valores para aplicar el estilo condicional.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "text-lg font-bold",
+        "colorCoding": "El valor de la métrica se muestra en `text-red-500` si está por debajo del objetivo, y en `text-green-500` si lo alcanza o supera. El objetivo se muestra en `text-muted-foreground` (ej. '75% / 80%')."
+      },
+      "acceptanceCriteria": [
+        "En la vista de análisis detallado de un curso, hay un botón de 'Establecer Objetivos'.",
+        "Al hacer clic, se abre un modal que me permite seleccionar una métrica (ej. Tasa de Finalización, Puntuación Promedio) de una lista desplegable y especificar un valor numérico como objetivo.",
+        "Una vez guardado, el widget de métricas clave muestra el valor actual junto con el objetivo establecido (ej. '75% / 80%').",
+        "El valor actual se colorea de forma condicional (rojo/verde) para indicar si se está cumpliendo o no el objetivo.",
+        "Puedo modificar o eliminar un objetivo existente volviendo a abrir el modal."
+      ],
+      "additionalSuggestions": [
+        "Visualizar el objetivo como una línea de puntos en los gráficos de tendencias a lo largo del tiempo.",
+        "Enviar una notificación al creador si una métrica con objetivo cae por debajo de un umbral durante más de 7 días consecutivos."
+      ],
+      "aiEditorTask": "Implementa un `SetGoalModal` que permita al usuario seleccionar una métrica y un valor. Al guardar, realiza una llamada a la API para persistir el objetivo. Modifica el componente `KeyMetrics` para que utilice un nuevo componente `MetricWithTarget`, el cual obtendrá tanto el valor real como el objetivo y aplicará el formato condicional de color.",
+      "priority": "Media",
+      "estimatedHours": 10
+    }
+  ]
+}
+```

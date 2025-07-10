@@ -1,0 +1,303 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualizar Historial de Reservas Anteriores y Próximas",
+      "description": "Como cliente registrado, quiero ver una lista de todas mis reservas de sesiones (pasadas y futuras) para poder llevar un control de mis citas y consultar detalles de sesiones anteriores.",
+      "pageContext": "Panel del Usuario (Cliente)",
+      "affectedFiles": [
+        "src/features/panel-del-usuario-cliente/PaneldelUsuario(Cliente)Page.tsx",
+        "src/features/panel-del-usuario-cliente/api.ts",
+        "src/features/panel-del-usuario-cliente/hooks/usePaneldelUsuario(Cliente).ts",
+        "src/features/panel-del-usuario-cliente/components/BookingHistory.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "BookingHistory",
+            "type": "component"
+          },
+          {
+            "name": "BookingRow",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Table",
+            "from": "src/components/Table.jsx"
+          },
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El hook `usePaneldelUsuario(Cliente).ts` debe incluir una función para hacer una llamada a `api.ts` que obtenga el historial de reservas del usuario (endpoint sugerido: `GET /api/v1/user/bookings`). La respuesta debe contener un array de objetos, cada uno con: id_reserva, nombre_profesional, especialidad, fecha, hora, estado ('Próxima', 'Completada', 'Cancelada'), y un enlace a la página de valoración si está completada y sin valorar.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "divide-y divide-gray-200, bg-white shadow-md rounded-lg",
+        "colorCoding": "Usar colores distintivos para cada estado de la reserva: azul para 'Próxima', verde para 'Completada', rojo para 'Cancelada'."
+      },
+      "acceptanceCriteria": [
+        "Al entrar al panel, se debe mostrar una tabla o lista con las reservas del usuario.",
+        "La lista debe estar dividida en 'Próximas Sesiones' y 'Sesiones Anteriores'.",
+        "Cada fila debe mostrar el nombre del profesional, la fecha y hora de la sesión, y el estado.",
+        "Las sesiones pasadas deben tener un botón 'Dejar Valoración' si aún no se ha valorado, que redirija a `/pagina-de-valoracion/{id_reserva}`.",
+        "Las sesiones futuras deben tener un botón 'Cancelar Cita' (sujeto a políticas de cancelación).",
+        "Debe haber paginación si el historial es muy largo."
+      ],
+      "additionalSuggestions": [
+        "Añadir un filtro para ver solo un tipo de estado (e.g., 'Completadas').",
+        "Permitir exportar el historial a CSV o PDF."
+      ],
+      "aiEditorTask": "Crea el componente `BookingHistory.tsx` en `src/features/panel-del-usuario-cliente/components/`. Este componente debe renderizar una tabla con los datos de las reservas. Implementa la lógica de obtención de datos en el hook `usePaneldelUsuario(Cliente).ts` y la llamada a la API en `api.ts`.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Acceder a Sesión Online Activa o Inminente",
+      "description": "Como cliente con una sesión a punto de comenzar, quiero ver un aviso destacado en mi panel para unirme a la videollamada de forma rápida y sin confusiones.",
+      "pageContext": "Panel del Usuario (Cliente)",
+      "affectedFiles": [
+        "src/features/panel-del-usuario-cliente/PaneldelUsuario(Cliente)Page.tsx",
+        "src/features/panel-del-usuario-cliente/hooks/usePaneldelUsuario(Cliente).ts",
+        "src/features/panel-del-usuario-cliente/components/ActiveSessionCard.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ActiveSessionCard",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El componente principal `PaneldelUsuario(Cliente)Page.tsx` debe comprobar si existe una sesión activa o que comience en los próximos 15 minutos. Esta lógica se puede encapsular en el hook `usePaneldelUsuario(Cliente).ts`. Si se cumple la condición, se renderiza el componente `ActiveSessionCard` con un botón que contiene el enlace a la sala de videoconferencia.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-md shadow-lg mb-6",
+        "colorCoding": "Usar un esquema de colores de 'llamada a la acción' para que el card destaque sobre el resto de elementos del panel."
+      },
+      "acceptanceCriteria": [
+        "Un card/banner debe aparecer en la parte superior del panel 15 minutos antes de la hora de inicio de una sesión.",
+        "El card debe mostrar el nombre del profesional y una cuenta atrás hasta el inicio de la sesión.",
+        "El card debe contener un botón principal con el texto 'Unirse a la Sesión'.",
+        "Al hacer clic en el botón, se debe abrir el enlace de la videollamada en una nueva pestaña.",
+        "El card debe desaparecer automáticamente una vez finalizada la hora de la sesión."
+      ],
+      "additionalSuggestions": [
+        "Emitir una notificación sonora sutil cuando el card aparezca.",
+        "El botón puede estar deshabilitado hasta 5 minutos antes de la sesión para evitar entradas prematuras."
+      ],
+      "aiEditorTask": "Crea el componente `ActiveSessionCard.tsx`. En `PaneldelUsuario(Cliente)Page.tsx`, añade la lógica condicional para mostrar este componente basándote en la fecha y hora de la próxima reserva del usuario.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Gestionar Lista de Profesionales Favoritos",
+      "description": "Como cliente, quiero poder ver y gestionar la lista de profesionales que he marcado como favoritos para acceder a sus perfiles y reservar nuevas citas con ellos fácilmente.",
+      "pageContext": "Panel del Usuario (Cliente)",
+      "affectedFiles": [
+        "src/features/panel-del-usuario-cliente/PaneldelUsuario(Cliente)Page.tsx",
+        "src/features/panel-del-usuario-cliente/api.ts",
+        "src/features/panel-del-usuario-cliente/hooks/usePaneldelUsuario(Cliente).ts",
+        "src/features/panel-del-usuario-cliente/components/FavoritesList.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "FavoritesList",
+            "type": "component"
+          },
+          {
+            "name": "FavoriteCard",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "Crear una nueva sección/pestaña en el panel. El hook `usePaneldelUsuario(Cliente).ts` obtendrá la lista de favoritos desde `GET /api/v1/user/favorites`. Cada favorito debe incluir id, nombre, foto, especialidad y enlace al perfil. Se debe implementar la función para eliminar un favorito, que llamará a `DELETE /api/v1/user/favorites/{professional_id}`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4",
+        "colorCoding": "Las tarjetas de perfil deben ser consistentes con las que se muestran en la página de búsqueda para mantener la familiaridad."
+      },
+      "acceptanceCriteria": [
+        "Debe existir una pestaña o sección llamada 'Mis Favoritos' en el panel de usuario.",
+        "Esta sección muestra una lista de tarjetas, una por cada profesional guardado.",
+        "Cada tarjeta muestra la foto, nombre y especialidad principal del profesional.",
+        "Cada tarjeta tiene un botón/enlace para 'Ver Perfil' que lleva a su ficha completa.",
+        "Cada tarjeta tiene un botón para 'Eliminar de Favoritos'.",
+        "Al hacer clic en 'Eliminar', se pide confirmación antes de realizar la acción.",
+        "Si no hay favoritos, se muestra un mensaje amigable con un enlace a la página de búsqueda."
+      ],
+      "additionalSuggestions": [
+        "Mostrar el estado de disponibilidad del profesional (online/offline) en su tarjeta de favorito.",
+        "Añadir un botón de 'Reservar Ahora' directamente en la tarjeta que lleve al calendario de ese profesional."
+      ],
+      "aiEditorTask": "Implementa una nueva pestaña en el `PaneldelUsuario(Cliente)Page.tsx` para 'Favoritos'. Crea el componente `FavoritesList.tsx` que mapeará y renderizará los `FavoriteCard` con los datos obtenidos de la API.",
+      "priority": "Media",
+      "estimatedHours": 7
+    },
+    {
+      "title": "Editar Información Básica del Perfil",
+      "description": "Como cliente, quiero una forma sencilla de editar mi información de perfil, como mi nombre, apellidos y foto, para mantener mis datos personales actualizados.",
+      "pageContext": "Panel del Usuario (Cliente)",
+      "affectedFiles": [
+        "src/features/panel-del-usuario-cliente/PaneldelUsuario(Cliente)Page.tsx",
+        "src/features/panel-del-usuario-cliente/components/ProfileEditor.tsx",
+        "src/features/panel-del-usuario-cliente/api.ts",
+        "src/features/pgina-de-configuracin-de-cuenta/PáginadeConfiguracióndeCuentaPage.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ProfileEditor",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "En una pestaña/sección 'Mi Perfil' dentro del panel, mostrar la información actual del usuario. Al hacer clic en 'Editar', los campos se vuelven editables. La lógica para guardar los cambios (`PUT /api/v1/user/profile`) residirá en el hook `usePaneldelUsuario(Cliente)`. La edición de datos sensibles como email o contraseña debería redirigir a `PáginadeConfiguracióndeCuentaPage.tsx`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "space-y-4, form-input, form-label",
+        "colorCoding": "Usar un estilo de formulario limpio y claro, con feedback visual (borde verde/rojo) para la validación de campos."
+      },
+      "acceptanceCriteria": [
+        "Debe haber una sección 'Mi Perfil' en el panel.",
+        "Se deben mostrar los campos: nombre, apellidos, foto de perfil y email (no editable).",
+        "Un botón 'Editar' permite modificar los campos de nombre y apellidos.",
+        "El usuario puede subir una nueva foto de perfil.",
+        "Un botón 'Guardar Cambios' envía la información actualizada al servidor.",
+        "Se muestra una notificación de éxito o error tras el intento de guardado.",
+        "Debe haber un enlace a 'Configuración de la Cuenta' para cambiar la contraseña."
+      ],
+      "additionalSuggestions": [
+        "Implementar un recorte de imagen (cropper) para la foto de perfil antes de subirla.",
+        "Mostrar un avatar genérico con las iniciales del usuario si no hay foto de perfil."
+      ],
+      "aiEditorTask": "Crea el componente `ProfileEditor.tsx` con un formulario para editar los datos del usuario. Intégralo en una nueva pestaña 'Mi Perfil' del `PaneldelUsuario(Cliente)Page.tsx`. La lógica de actualización debe usar la API definida en `api.ts`.",
+      "priority": "Media",
+      "estimatedHours": 7
+    },
+    {
+      "title": "Cancelar una Reserva Próxima con Notificación de Política",
+      "description": "Como cliente, quiero poder cancelar una cita futura directamente desde mi historial de reservas para gestionar mis citas de forma autónoma si me surge un imprevisto.",
+      "pageContext": "Panel del Usuario (Cliente)",
+      "affectedFiles": [
+        "src/features/panel-del-usuario-cliente/components/BookingHistory.tsx",
+        "src/features/panel-del-usuario-cliente/components/CancellationModal.tsx",
+        "src/features/panel-del-usuario-cliente/api.ts",
+        "src/features/panel-del-usuario-cliente/hooks/usePaneldelUsuario(Cliente).ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "CancellationModal",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "BookingHistory",
+            "from": "src/features/panel-del-usuario-cliente/components/BookingHistory.tsx"
+          },
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "En el listado de reservas próximas (Historia de Usuario 1), el botón 'Cancelar Cita' estará activo. Al pulsarlo, se abrirá un modal (`CancellationModal`). Este modal informará sobre la política de cancelación (p. ej. 'Las cancelaciones con menos de 24h de antelación no son reembolsables'). Al confirmar, se llamará al endpoint `POST /api/v1/bookings/{booking_id}/cancel`. La UI se actualizará reflejando el estado 'Cancelada'.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "modal-overlay, modal-content, bg-red-100 border-red-500",
+        "colorCoding": "El modal de cancelación debe usar colores de advertencia (amarillo o rojo claro) para alertar al usuario sobre la acción."
+      },
+      "acceptanceCriteria": [
+        "En la lista de reservas futuras, cada cita tiene un botón 'Cancelar'.",
+        "El botón está deshabilitado si la cita es en menos de X horas (según la política de negocio, ej. 24h).",
+        "Al hacer clic en el botón 'Cancelar', aparece un modal de confirmación.",
+        "El modal muestra claramente la política de cancelación y si aplicará o no un reembolso.",
+        "El modal tiene los botones 'Confirmar Cancelación' y 'Volver'.",
+        "Tras confirmar, la cita se marca como 'Cancelada' en la lista y se muestra un mensaje de éxito."
+      ],
+      "additionalSuggestions": [
+        "Enviar un email de confirmación de la cancelación al usuario y al profesional.",
+        "Si la cancelación implica un reembolso, mostrar el estado del reembolso en el panel de usuario."
+      ],
+      "aiEditorTask": "Crea el componente `CancellationModal.tsx` que reciba como props la política de cancelación a mostrar. Modifica el componente `BookingHistory.tsx` para que el botón 'Cancelar' lance este modal y, al confirmar, llame a la función de cancelación definida en `api.ts`.",
+      "priority": "Alta",
+      "estimatedHours": 9
+    },
+    {
+      "title": "Ver y Gestionar Métodos de Pago",
+      "description": "Como cliente, quiero ver mis métodos de pago guardados y poder añadir o eliminar una tarjeta para agilizar futuras reservas y pagos de suscripciones.",
+      "pageContext": "Panel del Usuario (Cliente)",
+      "affectedFiles": [
+        "src/features/panel-del-usuario-cliente/PaneldelUsuario(Cliente)Page.tsx",
+        "src/features/panel-del-usuario-cliente/components/PaymentMethods.tsx",
+        "src/features/pgina-de-pago/api.ts",
+        "src/features/panel-del-usuario-cliente/hooks/usePaneldelUsuario(Cliente).ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "PaymentMethods",
+            "type": "component"
+          },
+          {
+            "name": "AddPaymentMethodForm",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "Esta funcionalidad se integrará en una pestaña de 'Facturación y Pagos'. Utilizará una integración con un proveedor de pagos (ej. Stripe, Adyen). El hook llamará a la API para obtener los métodos de pago guardados (`GET /api/v1/user/payment-methods`). Se mostrará una lista ofuscada (ej. 'VISA **** 4242'). Habrá botones para 'Añadir nuevo método' y 'Eliminar' junto a cada método existente.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "list-group, list-group-item, flex justify-between items-center",
+        "colorCoding": "Usar iconos de tarjetas de crédito (Visa, Mastercard) para una identificación visual rápida."
+      },
+      "acceptanceCriteria": [
+        "Hay una sección 'Métodos de Pago' en el panel.",
+        "Se muestra una lista de los métodos de pago guardados por el usuario.",
+        "Cada método de pago muestra el tipo de tarjeta, los últimos 4 dígitos y la fecha de caducidad.",
+        "Junto a cada método, hay un botón para 'Eliminar'.",
+        "Se pide confirmación antes de eliminar un método de pago.",
+        "Hay un botón para 'Añadir nuevo método de pago' que muestra un formulario seguro para introducir los datos.",
+        "Se puede designar un método de pago como 'Predeterminado'."
+      ],
+      "additionalSuggestions": [
+        "Integrar con Stripe Elements o una librería similar para la captura segura de datos de tarjeta.",
+        "Mostrar un historial de facturas o transacciones en una subsección, enlazando con la `pgina-de-pago`."
+      ],
+      "aiEditorTask": "Crea el componente `PaymentMethods.tsx` que gestionará la visualización y eliminación de tarjetas. Este componente debe comunicarse con el backend a través de funciones en `api.ts` para obtener y eliminar métodos de pago.",
+      "priority": "Media",
+      "estimatedHours": 10
+    }
+  ]
+}
+```

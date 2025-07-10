@@ -1,0 +1,55 @@
+```json
+{
+  "pages": [
+    {
+      "name": "Portal del Cliente (Dashboard)",
+      "description": "La vista principal para el cliente final después de iniciar sesión. Aquí el cliente puede ver su plan de entrenamiento del día, registrar sus comidas, marcar ejercicios como completados, ver su progreso a lo largo del tiempo y comunicarse con su entrenador. Es la contraparte esencial del dashboard del entrenador.",
+      "route": "/client/dashboard",
+      "isEssential": true,
+      "priority": 10
+    },
+    {
+      "name": "Centro de Mensajería",
+      "description": "Una interfaz de chat dedicada para la comunicación directa y segura entre el entrenador y sus clientes. Permite conversaciones individuales o grupales, envío de archivos (fotos, videos de técnica) y mantiene un registro centralizado de toda la comunicación.",
+      "route": "/messages",
+      "isEssential": true,
+      "priority": 9
+    },
+    {
+      "name": "Biblioteca de Ejercicios",
+      "description": "Un gestor central para la base de datos de ejercicios. Permite a los entrenadores añadir sus propios ejercicios personalizados (con video/imágenes y descripciones), editar los existentes y categorizarlos por grupo muscular, equipamiento necesario, etc., para un uso más eficiente en el creador de planes.",
+      "route": "/library/exercises",
+      "isEssential": true,
+      "priority": 8
+    },
+    {
+      "name": "Analíticas y Reportes",
+      "description": "Un panel avanzado que ofrece al entrenador una visión profunda del rendimiento de su negocio y el progreso de sus clientes. Incluye métricas como la adherencia del cliente a los planes, crecimiento de ingresos, retención de clientes y reportes de progreso agregados.",
+      "route": "/analytics",
+      "isEssential": false,
+      "priority": 7
+    },
+    {
+      "name": "Gestión de Plantillas",
+      "description": "Un repositorio centralizado donde los entrenadores pueden gestionar todas las plantillas de planes de entrenamiento y nutrición que han creado. Permite visualizar, editar, duplicar y organizar plantillas para agilizar la asignación a nuevos clientes.",
+      "route": "/templates",
+      "isEssential": false,
+      "priority": 6
+    },
+    {
+      "name": "Proceso de Onboarding Guiado",
+      "description": "Una serie de pasos guiados para nuevos entrenadores justo después del registro. Les ayuda a configurar su perfil, conectar su procesador de pagos, crear su primer cliente y diseñar su primer plan, asegurando que entiendan el valor de la plataforma desde el inicio.",
+      "route": "/onboarding",
+      "isEssential": true,
+      "priority": 8
+    },
+    {
+      "name": "Centro de Ayuda y Soporte",
+      "description": "Un portal de autoservicio que contiene una base de conocimientos con artículos de ayuda (FAQ), tutoriales en video y un formulario para contactar al soporte técnico. Reduce la carga de soporte y empodera a los usuarios para resolver problemas por sí mismos.",
+      "route": "/support",
+      "isEssential": false,
+      "priority": 5
+    }
+  ]
+}
+```

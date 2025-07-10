@@ -1,0 +1,246 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización de Alertas de Planes Próximos a Vencer",
+      "description": "Como entrenador, quiero ver una lista de clientes cuyos planes de entrenamiento están a punto de expirar en los próximos 7 días, para poder contactarlos proactivamente y asegurar su renovación.",
+      "pageContext": "Dashboard Principal",
+      "affectedFiles": [
+        "src/features/dashboard-principal/DashboardPrincipalPage.tsx",
+        "src/features/dashboard-principal/hooks/useDashboardPrincipal.ts",
+        "src/features/dashboard-principal/api.ts",
+        "src/features/dashboard-principal/components/PlanExpirationList.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "PlanExpirationList",
+            "type": "component",
+            "path": "src/features/dashboard-principal/components/PlanExpirationList.tsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Se necesita un nuevo endpoint en `api.ts` que devuelva una lista de clientes con planes que expiran en los próximos X días (configurable, por defecto 7). El hook `useDashboardPrincipal.ts` debe obtener y gestionar estos datos. El componente `PlanExpirationList` renderizará la lista, mostrando el nombre del cliente, el nombre del plan y la fecha de vencimiento.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4",
+        "colorCoding": "Utilizar tonos de advertencia (amarillo/ámbar) para llamar la atención sin ser alarmista como un error rojo."
+      },
+      "acceptanceCriteria": [
+        "En el dashboard, se debe mostrar un nuevo widget si hay clientes con planes que vencen en 7 días o menos.",
+        "Cada elemento de la lista debe mostrar el nombre del cliente, el plan que vence y la fecha exacta de vencimiento.",
+        "La lista debe estar ordenada por la fecha de vencimiento más próxima primero.",
+        "Si no hay planes por vencer, el widget debe mostrar un mensaje amigable como '¡Todo en orden! Ningún plan está por vencer pronto'.",
+        "Cada elemento de la lista debe tener un enlace directo al perfil del cliente (`/perfil-del-cliente/:id`)."
+      ],
+      "additionalSuggestions": [
+        "Considerar añadir un botón de 'Renovar plan' directamente en el item de la lista para agilizar el proceso.",
+        "Permitir al entrenador configurar el umbral de días para la alerta (e.g., 7, 14, 30 días)."
+      ],
+      "aiEditorTask": "Crea el componente `PlanExpirationList.tsx` y actualiza `DashboardPrincipalPage.tsx` para incluirlo. Implementa la lógica de obtención de datos en `useDashboardPrincipal.ts` y `api.ts` para traer clientes con planes a punto de expirar.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Recordatorio de Próximos Cumpleaños de Clientes",
+      "description": "Como entrenador, quiero un widget en el dashboard que me muestre los cumpleaños de mis clientes en la próxima semana, para poder felicitarlos y fortalecer mi relación con ellos.",
+      "pageContext": "Dashboard Principal",
+      "affectedFiles": [
+        "src/features/dashboard-principal/DashboardPrincipalPage.tsx",
+        "src/features/dashboard-principal/hooks/useDashboardPrincipal.ts",
+        "src/features/dashboard-principal/api.ts",
+        "src/features/dashboard-principal/components/UpcomingBirthdays.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "UpcomingBirthdays",
+            "type": "component",
+            "path": "src/features/dashboard-principal/components/UpcomingBirthdays.tsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Se requiere un endpoint en `api.ts` que devuelva los clientes cuyo cumpleaños sea en los próximos 7 días. El hook `useDashboardPrincipal.ts` gestionará estos datos. El componente `UpcomingBirthdays.tsx` mostrará una lista simple con el nombre del cliente y la fecha de su cumpleaños.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-blue-100 rounded-lg p-4",
+        "colorCoding": "Usar un esquema de colores amigable y festivo (tonos de azul claro, quizás un ícono de pastel/regalo)."
+      },
+      "acceptanceCriteria": [
+        "El widget debe mostrar una lista de clientes con cumpleaños en los próximos 7 días.",
+        "Cada ítem de la lista debe mostrar el nombre del cliente y el día del cumpleaños (e.g., 'Juan Pérez - 12 de Julio').",
+        "La lista debe estar ordenada por la fecha de cumpleaños más cercana.",
+        "Si no hay cumpleaños próximos, el widget no se debe renderizar o debe mostrar un mensaje como 'No hay cumpleaños esta semana'.",
+        "El título del widget debe ser claro, como 'Próximos Cumpleaños'."
+      ],
+      "additionalSuggestions": [
+        "Añadir la edad que cumplirá el cliente.",
+        "Integrar un botón que permita enviar un mensaje de felicitación pre-configurado."
+      ],
+      "aiEditorTask": "Genera el componente `UpcomingBirthdays.tsx`. Modifica `api.ts` para crear un endpoint `getUpcomingBirthdays` y usa `useDashboardPrincipal.ts` para llamarlo. Integra el nuevo componente en `DashboardPrincipalPage.tsx`.",
+      "priority": "Media",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Vista Rápida de Perfil de Cliente desde la Lista de Sesiones",
+      "description": "Como entrenador, quiero poder hacer clic en un cliente en la lista de 'Próximas Sesiones' para abrir una vista rápida (modal) con sus detalles clave, para no tener que abandonar el dashboard para refrescar mi memoria antes de una sesión.",
+      "pageContext": "Dashboard Principal",
+      "affectedFiles": [
+        "src/features/dashboard-principal/components/UpcomingSessionList.tsx",
+        "src/features/perfil-del-cliente/api.ts",
+        "src/features/dashboard-principal/components/ClientQuickViewModal.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ClientQuickViewModal",
+            "type": "component",
+            "path": "src/features/dashboard-principal/components/ClientQuickViewModal.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "UpcomingSessionList",
+            "from": "src/features/dashboard-principal/components/UpcomingSessionList.tsx"
+          }
+        ]
+      },
+      "logicData": "En el componente `UpcomingSessionList.tsx`, cada elemento de la lista debe tener un evento `onClick`. Este evento abrirá el modal `ClientQuickViewModal`. El modal recibirá el ID del cliente y usará el `api.ts` de `perfil-del-cliente` para obtener un resumen de sus datos (foto, objetivo principal, última nota o progreso registrado).",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "modal-overlay bg-black bg-opacity-50, modal-content bg-white p-6 rounded-lg shadow-xl",
+        "colorCoding": "El modal debe ser limpio y profesional, fondo blanco con texto oscuro para máxima legibilidad."
+      },
+      "acceptanceCriteria": [
+        "Al hacer clic en un nombre de cliente en la lista de próximas sesiones, se abre una ventana modal.",
+        "El modal debe mostrar la foto del cliente, su nombre completo, su objetivo principal y la última nota registrada por el entrenador.",
+        "El modal debe tener un botón o un icono 'X' para cerrarlo.",
+        "La carga de los datos del cliente en el modal debe mostrar un indicador de carga (spinner).",
+        "Hacer clic fuera del contenido del modal también debe cerrarlo."
+      ],
+      "additionalSuggestions": [
+        "Incluir un enlace dentro del modal para navegar al perfil completo del cliente.",
+        "Mostrar en el modal el plan de entrenamiento asignado para la sesión de hoy."
+      ],
+      "aiEditorTask": "Crea el componente `ClientQuickViewModal.tsx`. Modifica `UpcomingSessionList.tsx` para que cada ítem de sesión sea clickeable y lance el modal, pasándole el ID del cliente. El modal deberá usar una función del `api.ts` de `perfil-del-cliente` para buscar los datos del resumen.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Visualización Agregada del Progreso de Metas de Clientes",
+      "description": "Como entrenador, quiero ver un gráfico (ej. donut chart) en mi dashboard que resuma el estado del progreso de las metas de todos mis clientes, para tener una visión general de la efectividad de mis planes.",
+      "pageContext": "Dashboard Principal",
+      "affectedFiles": [
+        "src/features/dashboard-principal/DashboardPrincipalPage.tsx",
+        "src/features/dashboard-principal/hooks/useDashboardPrincipal.ts",
+        "src/features/dashboard-principal/api.ts",
+        "src/features/dashboard-principal/components/GoalProgressChart.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "GoalProgressChart",
+            "type": "component",
+            "path": "src/features/dashboard-principal/components/GoalProgressChart.tsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El `api.ts` del dashboard necesita un endpoint que devuelva datos agregados sobre el estado de las metas de los clientes (ej. `{ onTrack: 15, lagging: 5, goalMet: 2 }`). El componente `GoalProgressChart.tsx` usará una librería de gráficos (como Chart.js o Recharts) para renderizar un gráfico de donut o de tarta con estos datos.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-4 bg-white rounded-lg shadow",
+        "colorCoding": "Usar colores significativos: verde para 'En progreso/Meta alcanzada', amarillo para 'Estancado', gris para 'Sin datos'."
+      },
+      "acceptanceCriteria": [
+        "El dashboard debe incluir un widget con un gráfico de donut.",
+        "El gráfico debe representar visualmente la proporción de clientes en cada estado de progreso de meta ('En progreso', 'Estancado', etc.).",
+        "Al pasar el cursor sobre una sección del gráfico, se debe mostrar un tooltip con el nombre del estado y el número exacto de clientes.",
+        "Debe haber una leyenda clara que explique qué color corresponde a cada estado.",
+        "Si no hay datos de clientes, el componente debe mostrar un estado vacío apropiado."
+      ],
+      "additionalSuggestions": [
+        "Hacer que cada sección del gráfico sea clickeable, llevando a una lista filtrada de los clientes en ese estado.",
+        "Permitir filtrar el gráfico por tipo de plan de entrenamiento."
+      ],
+      "aiEditorTask": "Crea el componente `GoalProgressChart.tsx` utilizando una librería de gráficos. Implementa la lógica en `useDashboardPrincipal.ts` y `api.ts` para obtener los datos agregados del estado de las metas de los clientes. Añade el componente a `DashboardPrincipalPage.tsx`.",
+      "priority": "Media",
+      "estimatedHours": 12
+    },
+      {
+      "title": "Acceso Directo a Pagos Atrasados desde KPI de Ingresos",
+      "description": "Como entrenador, quiero que la tarjeta de KPI de 'Ingresos del Mes' muestre un indicador visual y un enlace directo a la lista de pagos atrasados si existen, para poder tomar acción inmediata y gestionar la cobranza.",
+      "pageContext": "Dashboard Principal",
+      "affectedFiles": [
+        "src/features/dashboard-principal/components/KPICard.tsx",
+        "src/features/dashboard-principal/hooks/useDashboardPrincipal.ts",
+        "src/features/dashboard-principal/api.ts"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "KPICard",
+            "from": "src/features/dashboard-principal/components/KPICard.tsx"
+          }
+        ]
+      },
+      "logicData": "La llamada a la API que obtiene los datos para las KPIs debe ser extendida para incluir un contador de pagos atrasados (`overduePaymentsCount`). El componente `KPICard.tsx` debe ser modificado para que, si está mostrando la métrica de 'Ingresos' y `overduePaymentsCount > 0`, renderice un subtexto o una insignia con esa información y un enlace a la página de facturación (`/pagos-y-facturacion`).",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "text-red-600 font-bold text-sm mt-1 flex items-center gap-1",
+        "colorCoding": "Utilizar un color rojo de alerta para el indicador de pagos atrasados para denotar urgencia."
+      },
+      "acceptanceCriteria": [
+        "Si hay uno o más pagos atrasados, la tarjeta de KPI de 'Ingresos del Mes' debe mostrar un indicador claro (e.g., '3 Pagos Atrasados').",
+        "Este indicador debe ser de un color llamativo, como el rojo.",
+        "El indicador debe ser un enlace que navegue al usuario a la página de 'Pagos y Facturación'.",
+        "Si no hay pagos atrasados, no se debe mostrar ningún indicador adicional en la tarjeta de KPI.",
+        "El valor principal de la tarjeta (ingresos del mes) debe seguir siendo visible y prominente."
+      ],
+      "additionalSuggestions": [
+        "Pasar un parámetro en la URL al navegar, para que la página de facturación se abra directamente filtrada por 'pagos atrasados'.",
+        "Mostrar el monto total adeudado en el indicador, además del número de pagos."
+      ],
+      "aiEditorTask": "Modifica el componente `KPICard.tsx` para que renderice condicionalmente un enlace de alerta de pagos atrasados. Actualiza el hook `useDashboardPrincipal.ts` y la llamada a la API en `api.ts` para que devuelva el recuento de pagos atrasados junto con las demás métricas.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Personalización del Layout del Dashboard",
+      "description": "Como entrenador, quiero poder arrastrar y soltar los widgets de mi dashboard para reorganizarlos según mis prioridades, para que la información más importante para mí esté siempre a la vista.",
+      "pageContext": "Dashboard Principal",
+      "affectedFiles": [
+        "src/features/dashboard-principal/DashboardPrincipalPage.tsx",
+        "src/features/dashboard-principal/hooks/useDashboardPrincipal.ts"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "Implementar una librería de arrastrar y soltar (ej. `react-dnd` o `dnd-kit`). El orden de los componentes del dashboard se debe guardar, preferiblemente en el backend asociado al perfil del entrenador, o como alternativa más simple, en el `localStorage` del navegador. El `DashboardPrincipalPage.tsx` contendrá la lógica para renderizar los widgets en el orden guardado y para manejar la actualización de dicho orden.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "cursor-move while-dragging:opacity-50 drop-zone:border-dashed",
+        "colorCoding": "Durante el modo de edición, los componentes arrastrables podrían tener un borde o una sombra distintiva. El área donde se puede soltar el componente debería tener un indicador visual."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un botón o interruptor para entrar/salir del 'Modo de Edición' en el dashboard.",
+        "En el 'Modo de Edición', puedo hacer clic y arrastrar cualquier widget del dashboard (KPIs, Gráficos, Listas, etc.).",
+        "Mientras arrastro un widget, puedo ver una previsualización de dónde se colocará.",
+        "Al soltar el widget, el layout del dashboard se actualiza instantáneamente.",
+        "El nuevo orden de los widgets se guarda y persiste después de recargar la página o cerrar e iniciar sesión nuevamente."
+      ],
+      "additionalSuggestions": [
+        "Añadir la capacidad de ocultar/mostrar widgets en lugar de solo reorganizarlos.",
+        "Ofrecer un botón para 'Restablecer al layout por defecto'."
+      ],
+      "aiEditorTask": "Integra una librería de arrastrar y soltar en `DashboardPrincipalPage.tsx`. Envuelve los componentes del dashboard para hacerlos arrastrables. Implementa la lógica en `useDashboardPrincipal.ts` para gestionar el estado del orden y guardarlo en `localStorage`.",
+      "priority": "Baja",
+      "estimatedHours": 16
+    }
+  ]
+}
+```

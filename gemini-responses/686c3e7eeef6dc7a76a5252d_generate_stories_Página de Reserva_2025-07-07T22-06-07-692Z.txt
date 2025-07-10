@@ -1,0 +1,245 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización de Disponibilidad en Calendario",
+      "description": "Como cliente, quiero ver el calendario de disponibilidad de un profesional para poder elegir una fecha que se ajuste a mi horario.",
+      "pageContext": "Página de Reserva",
+      "affectedFiles": [
+        "src/features/pgina-de-reserva/PáginadeReservaPage.tsx",
+        "src/features/pgina-de-reserva/hooks/usePáginadeReserva.ts",
+        "src/features/pgina-de-reserva/api.ts",
+        "src/features/pgina-de-reserva/components/CalendarView.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "CalendarView",
+            "path": "src/features/pgina-de-reserva/components/CalendarView.tsx",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El hook `usePáginadeReserva` debe realizar una llamada a la API (`api.ts`) para obtener la disponibilidad del profesional (`GET /api/professionals/:professionalId/availability`). La respuesta debe contener un array de fechas y/o rangos de fechas disponibles. El estado del hook gestionará la carga (`isLoading`), errores (`error`) y los datos de disponibilidad. El componente `CalendarView` recibirá estos datos y renderizará un calendario, deshabilitando los días no disponibles y destacando los que sí lo están.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "dias-disponibles: bg-green-200 text-green-800, dias-no-disponibles: bg-gray-100 text-gray-400 line-through, dia-seleccionado: ring-2 ring-blue-500",
+        "colorCoding": "Usar colores suaves para la disponibilidad y un color de acento fuerte para la selección."
+      },
+      "acceptanceCriteria": [
+        "Al cargar la página, se debe mostrar un calendario.",
+        "Los días en los que el profesional no tiene ninguna hora disponible deben aparecer visualmente deshabilitados (no seleccionables).",
+        "Los días con al menos una franja horaria disponible deben ser seleccionables.",
+        "Se debe mostrar un indicador de carga mientras se obtiene la información de disponibilidad.",
+        "Si ocurre un error al cargar la disponibilidad, se debe mostrar un mensaje de error al usuario."
+      ],
+      "additionalSuggestions": [
+        "Implementar paginación por meses en el calendario (botones 'mes anterior' y 'mes siguiente').",
+        "Considerar mostrar el número de franjas horarias disponibles directamente en el día dentro del calendario."
+      ],
+      "aiEditorTask": "Crea el componente `CalendarView.tsx` que reciba como props los días disponibles, el mes actual y funciones para navegar entre meses y seleccionar un día. Implementa el fetch de disponibilidad en `usePáginadeReserva.ts` usando el `professionalId` de la URL.",
+      "priority": "Alta",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Selección de Franja Horaria y Modalidad",
+      "description": "Como cliente, quiero seleccionar una franja horaria específica y la modalidad (online o presencial) después de elegir un día, para poder definir los detalles de mi cita.",
+      "pageContext": "Página de Reserva",
+      "affectedFiles": [
+        "src/features/pgina-de-reserva/PáginadeReservaPage.tsx",
+        "src/features/pgina-de-reserva/hooks/usePáginadeReserva.ts",
+        "src/features/pgina-de-reserva/components/TimeSlotPicker.tsx",
+        "src/features/pgina-de-reserva/components/ModalitySelector.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "TimeSlotPicker",
+            "path": "src/features/pgina-de-reserva/components/TimeSlotPicker.tsx",
+            "type": "component"
+          },
+          {
+            "name": "ModalitySelector",
+            "path": "src/features/pgina-de-reserva/components/ModalitySelector.tsx",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Al seleccionar un día en `CalendarView`, el hook `usePáginadeReserva` debe actualizar el estado con la fecha seleccionada. El componente `TimeSlotPicker` mostrará las franjas horarias disponibles para esa fecha. El profesional debe poder configurar qué modalidades ofrece. `ModalitySelector` mostrará las opciones disponibles (e.g., 'Presencial', 'Online'). La selección de ambos se guardará en el estado del hook.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "time-slot-button: border border-blue-500 text-blue-500 rounded-md p-2 hover:bg-blue-500 hover:text-white, modality-radio: accent-blue-600",
+        "colorCoding": "Usar el color primario de la aplicación para los elementos interactivos."
+      },
+      "acceptanceCriteria": [
+        "Al hacer clic en un día disponible, debe aparecer una lista de franjas horarias.",
+        "Cada franja horaria debe ser un elemento seleccionable (botón).",
+        "Las franjas ya reservadas no deben aparecer en la lista.",
+        "Se deben mostrar opciones (radio buttons o similar) para seleccionar 'Online' o 'Presencial'.",
+        "Si un profesional solo ofrece una modalidad, la otra debe estar deshabilitada o no mostrarse.",
+        "La selección de una franja horaria y modalidad debe quedar reflejada visualmente."
+      ],
+      "additionalSuggestions": [
+        "Mostrar la zona horaria del usuario para evitar confusiones (ej. 'Horarios mostrados en GMT-3').",
+        "Deshabilitar el botón de confirmar reserva hasta que se haya seleccionado fecha, hora y modalidad."
+      ],
+      "aiEditorTask": "Crea los componentes `TimeSlotPicker.tsx` y `ModalitySelector.tsx`. `TimeSlotPicker` debe renderizar botones con las horas disponibles para una fecha dada. `ModalitySelector` debe renderizar radio buttons para las modalidades. Actualiza `usePáginadeReserva.ts` para gestionar el estado de la hora y modalidad seleccionadas.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Confirmación de Reserva y Redirección a Pago",
+      "description": "Como cliente, quiero revisar un resumen de mi selección (profesional, fecha, hora, modalidad y precio) y confirmar mi reserva para proceder al pago.",
+      "pageContext": "Página de Reserva",
+      "affectedFiles": [
+        "src/features/pgina-de-reserva/PáginadeReservaPage.tsx",
+        "src/features/pgina-de-reserva/components/BookingSummary.tsx",
+        "src/components/Button.jsx",
+        "src/App.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "BookingSummary",
+            "path": "src/features/pgina-de-reserva/components/BookingSummary.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El componente `BookingSummary` mostrará los datos almacenados en el estado de `usePáginadeReserva`. Incluirá el nombre del profesional (obtenido a partir de :professionalId), la fecha, hora, modalidad y el coste de la sesión. El botón 'Confirmar y Pagar' estará deshabilitado hasta que todos los datos necesarios estén seleccionados. Al hacer clic, se debe crear la reserva en el backend con un estado 'pendiente de pago' y redirigir al usuario a la página de pago (`/payment/:bookingId`).",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "summary-card: bg-gray-50 p-6 rounded-lg shadow-md, confirm-button: bg-green-500 text-white hover:bg-green-600 w-full",
+        "colorCoding": "Usar un color de fondo neutro para el resumen y un color llamativo (verde) para el botón de confirmación."
+      },
+      "acceptanceCriteria": [
+        "Debe mostrarse un cuadro de resumen con la información correcta: profesional, fecha, hora y modalidad.",
+        "El precio de la sesión debe mostrarse claramente.",
+        "El botón de 'Confirmar y Pagar' debe estar inicialmente deshabilitado.",
+        "El botón se habilita solo cuando se ha seleccionado fecha, hora y modalidad.",
+        "Al hacer clic en el botón, el usuario es redirigido a la página de pago.",
+        "La información de la reserva debe pasarse a la página de pago (por ejemplo, a través del ID de la reserva en la URL)."
+      ],
+      "additionalSuggestions": [
+        "Mostrar la foto del profesional en el resumen para dar más confianza.",
+        "Si hay un sistema de cupones, añadir un campo para introducir un código de descuento."
+      ],
+      "aiEditorTask": "Crea el componente `BookingSummary.tsx`. En la lógica del botón de confirmación en `PáginadeReservaPage.tsx`, implementa la llamada a la API para crear la reserva y luego usa el router para navegar a la página de pago.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Recepción de Email de Confirmación de Cita",
+      "description": "Como cliente, quiero recibir un correo electrónico de confirmación después de haber completado la reserva y el pago, para tener un registro claro de mi cita y todos sus detalles.",
+      "pageContext": "Página de Reserva",
+      "affectedFiles": [
+        "src/features/pgina-de-pago/hooks/usePáginadePago.ts",
+        "src/features/pgina-de-pago/api.ts"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "Esta funcionalidad es principalmente de backend. Después de que el webhook de Stripe o PayPal confirme un pago exitoso, el servidor debe actualizar el estado de la reserva de 'pendiente de pago' a 'confirmada'. Inmediatamente después, debe activar un servicio de email transaccional (ej. SendGrid, Mailgun) para enviar un correo al usuario. El correo debe contener: nombre del profesional, fecha, hora, modalidad, y si es online, el enlace a la videollamada. Si es presencial, la dirección.",
+      "styling": {
+        "framework": "HTML Email",
+        "classes": "N/A. Se requiere una plantilla de correo electrónico bien diseñada y responsive.",
+        "colorCoding": "Usar la paleta de colores y el logo de TheraFlow para consistencia de marca."
+      },
+      "acceptanceCriteria": [
+        "El correo se envía automáticamente solo después de una confirmación de pago exitosa.",
+        "El correo electrónico debe llegar a la dirección de correo del usuario registrado.",
+        "El asunto del correo debe ser claro, ej: 'Confirmación de tu cita en TheraFlow'.",
+        "El cuerpo del correo debe incluir todos los detalles de la reserva: profesional, fecha, hora, duración y modalidad.",
+        "Si la modalidad es 'Online', el correo debe incluir el enlace para la sesión.",
+        "El correo debe incluir un enlace o instrucciones para cancelar o modificar la reserva."
+      ],
+      "additionalSuggestions": [
+        "Incluir un archivo .ics en el correo para que el usuario pueda añadir fácilmente la cita a su calendario (Google Calendar, Outlook, etc.).",
+        "Enviar un correo de recordatorio 24 horas antes de la cita."
+      ],
+      "aiEditorTask": "Esta tarea es de backend. En el endpoint que recibe la confirmación del pago, añade la lógica para invocar un servicio de envío de correos con una plantilla de confirmación de reserva.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Visualizar Dirección o Enlace de la Sesión",
+      "description": "Como cliente, quiero ver claramente la dirección de la consulta si mi cita es presencial, o el enlace a la videollamada si es online, para saber cómo asistir a mi sesión.",
+      "pageContext": "Página de Reserva",
+      "affectedFiles": [
+        "src/features/pgina-de-reserva/PáginadeReservaPage.tsx",
+        "src/features/pgina-de-reserva/components/BookingSummary.tsx",
+        "src/features/panel-del-usuario-cliente/PaneldelUsuario(Cliente)Page.tsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "La información de la dirección del profesional (para citas presenciales) o el enlace genérico de su sala de videollamadas debe obtenerse junto con los datos del profesional. En el `BookingSummary`, una vez seleccionada la modalidad, se debe mostrar la información correspondiente. Si es 'Presencial', mostrar la dirección. Si es 'Online', mostrar un texto indicando que el enlace se enviará por correo o estará disponible en su panel de usuario tras la confirmación.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "info-box: mt-4 p-3 bg-blue-50 border border-blue-200 rounded-md, link-icon: inline-block mr-2",
+        "colorCoding": "Usar un cuadro de información con un color suave para destacar esta información clave."
+      },
+      "acceptanceCriteria": [
+        "Si el usuario selecciona la modalidad 'Presencial', el resumen de la reserva debe mostrar la dirección física de la consulta.",
+        "Si el usuario selecciona la modalidad 'Online', el resumen debe mostrar un mensaje claro sobre cómo y cuándo se recibirá el enlace.",
+        "La información debe ser obtenida de los datos del perfil del profesional.",
+        "La información mostrada (dirección o mensaje de enlace) debe actualizarse dinámicamente al cambiar la modalidad."
+      ],
+      "additionalSuggestions": [
+        "Para la dirección, incluir un enlace a Google Maps para facilitar la navegación.",
+        "Una vez confirmada la reserva, esta misma información debe ser visible en el 'Panel del Usuario (Cliente)' junto a los detalles de la cita."
+      ],
+      "aiEditorTask": "Modifica `BookingSummary.tsx` para que, dependiendo de la modalidad seleccionada (pasada como prop), renderice condicionalmente un bloque con la dirección física o un mensaje informativo sobre el enlace de la sesión online. Obtén esta información a través de `usePáginadeReserva.ts`.",
+      "priority": "Media",
+      "estimatedHours": 4
+    },
+    {
+      "title": "Cancelar o Volver Atrás en el Proceso de Reserva",
+      "description": "Como cliente, quiero poder cancelar el proceso de reserva en cualquier momento o volver al paso anterior para poder corregir una selección sin tener que empezar de nuevo.",
+      "pageContext": "Página de Reserva",
+      "affectedFiles": [
+        "src/features/pgina-de-reserva/PáginadeReservaPage.tsx",
+        "src/components/Button.jsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "La página de reserva se puede concebir como un asistente de varios pasos (1. Elegir día, 2. Elegir hora/modalidad, 3. Confirmar). Se necesita gestionar un estado del paso actual. Habrá un botón 'Atrás' para volver al paso anterior (ej. de confirmar a elegir hora). También, un botón 'Cancelar' que limpie el estado del formulario y quizás redirija al perfil del profesional o a la página de búsqueda.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "back-button: bg-gray-200 text-gray-700, cancel-button: text-red-500 hover:underline",
+        "colorCoding": "Usar un botón de estilo secundario/neutro para 'Atrás' y un enlace de texto o botón de estilo 'destructive' para 'Cancelar'."
+      },
+      "acceptanceCriteria": [
+        "Debe existir un botón o enlace para 'Cancelar' visible durante todo el proceso.",
+        "Al hacer clic en 'Cancelar', se resetean todas las selecciones (fecha, hora, modalidad).",
+        "Cuando el usuario ha avanzado más allá del primer paso (selección de día), debe aparecer un botón 'Atrás'.",
+        "Al hacer clic en 'Atrás', el usuario vuelve al paso anterior y su selección previa para ese paso se mantiene (ej. si vuelve de 'Confirmar', la hora y modalidad seleccionadas deben seguir ahí).",
+        "El botón 'Atrás' no debe ser visible en el primer paso."
+      ],
+      "additionalSuggestions": [
+        "Al hacer clic en 'Cancelar', mostrar un diálogo de confirmación ('¿Estás seguro de que quieres cancelar la reserva?') para evitar cancelaciones accidentales."
+      ],
+      "aiEditorTask": "Implementa una máquina de estados simple o una variable de estado en `usePáginadeReserva.ts` para controlar el paso actual del formulario (`'date'`, `'time'`, `'summary'`). Renderiza condicionalmente los componentes y los botones 'Atrás' y 'Cancelar' en `PáginadeReservaPage.tsx` basándote en el estado actual.",
+      "priority": "Media",
+      "estimatedHours": 5
+    }
+  ]
+}
+```

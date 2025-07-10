@@ -1,0 +1,69 @@
+```json
+{
+  "pages": [
+    {
+      "name": "Página de Inicio (Landing Page)",
+      "description": "Página principal de marketing que presenta la propuesta de valor de CogniTutor AI, testimonios y llamadas a la acción (CTA) claras para el registro. Su objetivo principal es convertir visitantes en usuarios.",
+      "route": "/",
+      "isEssential": true,
+      "priority": 1
+    },
+    {
+      "name": "Página de Registro",
+      "description": "Formulario para que nuevos usuarios creen una cuenta. Es el portal de entrada a la plataforma y un paso crítico en el embudo de conversión.",
+      "route": "/signup",
+      "isEssential": true,
+      "priority": 2
+    },
+    {
+      "name": "Página de Inicio de Sesión",
+      "description": "Formulario para que los usuarios existentes accedan de forma segura a su cuenta personal y al panel de control.",
+      "route": "/login",
+      "isEssential": true,
+      "priority": 2
+    },
+    {
+      "name": "Panel de Control del Estudiante (Dashboard)",
+      "description": "Es la primera pantalla que ve el usuario al iniciar sesión. Ofrece un resumen de su progreso, acceso rápido a la tutoría, notificaciones de feedback de tareas y su ruta de estudio.",
+      "route": "/dashboard",
+      "isEssential": true,
+      "priority": 3
+    },
+    {
+      "name": "Sesión de Tutoría con IA",
+      "description": "Interfaz de chat interactiva donde el estudiante interactúa con el tutor de IA. Es el corazón de la funcionalidad de tutoría 24/7 y debe ser intuitiva y fluida.",
+      "route": "/tutor",
+      "isEssential": true,
+      "priority": 4
+    },
+    {
+      "name": "Revisión de Tareas y Feedback",
+      "description": "Área donde los estudiantes suben sus trabajos (ensayos, problemas) y visualizan el feedback instantáneo generado por la IA. Debe mostrar el análisis de forma clara y accionable.",
+      "route": "/assignments",
+      "isEssential": true,
+      "priority": 5
+    },
+    {
+      "name": "Ruta de Estudio Personalizada",
+      "description": "Visualización del plan de estudio adaptativo. Muestra al estudiante su progreso, los temas dominados y los siguientes pasos recomendados por el algoritmo de IA.",
+      "route": "/study-path",
+      "isEssential": true,
+      "priority": 6
+    },
+    {
+      "name": "Planes y Precios",
+      "description": "Página que detalla los diferentes niveles de suscripción, sus características y costos. Es fundamental para la monetización del servicio.",
+      "route": "/pricing",
+      "isEssential": true,
+      "priority": 7
+    },
+    {
+      "name": "Configuración de Cuenta y Perfil",
+      "description": "Permite al usuario gestionar su información personal, contraseña, método de pago, plan de suscripción y preferencias de notificación.",
+      "route": "/settings",
+      "isEssential": true,
+      "priority": 8
+    }
+  ]
+}
+```

@@ -1,0 +1,225 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización de Métricas Clave (KPIs) en el Panel de Control",
+      "description": "Como preparador/administrador de academia, quiero ver tarjetas con métricas clave (KPIs) en la parte superior del panel de control para tener una visión general instantánea del estado y la actividad de mi academia.",
+      "pageContext": "Panel de Control Principal",
+      "affectedFiles": [
+        "src/features/panel-de-control-principal/PaneldeControlPrincipalPage.tsx",
+        "src/features/panel-de-control-principal/hooks/usePaneldeControlPrincipal.ts",
+        "src/features/panel-de-control-principal/api.ts",
+        "src/features/panel-de-control-principal/components/KpiCard.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "KpiCard",
+            "path": "src/features/panel-de-control-principal/components/KpiCard.tsx",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El hook `usePaneldeControlPrincipal.ts` debe obtener datos agregados a través de un nuevo endpoint en `api.ts`. Este endpoint consolidará métricas como: número total de opositores activos (de `gestin-de-opositores`), número total de grupos, y número de simulacros pendientes de corrección (de `creador-de-simulacros`). El estado de carga y error debe ser manejado.",
+      "styling": {
+        "framework": "No especificado, sugerencia: Tailwind CSS",
+        "classes": "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6",
+        "colorCoding": "Utilizar colores de fondo distintos para cada tarjeta para una fácil diferenciación visual. Por ejemplo: azul para opositores, verde para grupos, naranja para simulacros."
+      },
+      "acceptanceCriteria": [
+        "Al cargar el dashboard, se deben mostrar al menos tres tarjetas de KPI en la parte superior.",
+        "Una tarjeta debe mostrar el 'Total de Opositores Activos' con su valor numérico.",
+        "Otra tarjeta debe mostrar el 'Total de Grupos' con su valor numérico.",
+        "Una tercera tarjeta debe mostrar los 'Simulacros Pendientes' de corrección.",
+        "Cada tarjeta debe tener un título claro, el valor numérico destacado y un icono representativo.",
+        "Al hacer clic en la tarjeta de 'Total de Opositores', el usuario debe ser redirigido a la página de 'Gestión de Opositores' (`/gestion-opositores`)."
+      ],
+      "additionalSuggestions": [
+        "Añadir una sutil animación al cargar los números en las tarjetas.",
+        "Considerar hacer que cada tarjeta sea un enlace a la sección correspondiente para una navegación más rápida."
+      ],
+      "aiEditorTask": "Crea un componente reutilizable `KpiCard.tsx` en `src/features/panel-de-control-principal/components/`. Debe aceptar props para título, valor, icono y un enlace opcional (onClick/href). Implementa la lógica en `usePaneldeControlPrincipal.ts` y `api.ts` para obtener estos datos agregados. Finalmente, renderiza 3-4 instancias de `KpiCard` en `PaneldeControlPrincipalPage.tsx` usando un layout de rejilla.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Listado de Últimos Opositores Inscritos",
+      "description": "Como preparador, quiero ver una lista de los opositores más recientes en el panel de control para poder darles la bienvenida y asignarlos a un grupo de manera oportuna.",
+      "pageContext": "Panel de Control Principal",
+      "affectedFiles": [
+        "src/features/panel-de-control-principal/PaneldeControlPrincipalPage.tsx",
+        "src/features/panel-de-control-principal/hooks/usePaneldeControlPrincipal.ts",
+        "src/features/panel-de-control-principal/api.ts",
+        "src/features/panel-de-control-principal/components/UltimosInscritosWidget.tsx",
+        "src/components/Table.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "UltimosInscritosWidget",
+            "path": "src/features/panel-de-control-principal/components/UltimosInscritosWidget.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Table",
+            "from": "src/components/Table.jsx"
+          }
+        ]
+      },
+      "logicData": "El hook `usePaneldeControlPrincipal.ts` debe llamar a un endpoint en `api.ts` que consulta la base de datos de opositores (relacionada con la feature `gestin-de-opositores`), ordenándolos por fecha de inscripción descendente y limitando el resultado a 5. Los datos necesarios por opositor son: id, nombre completo, fecha de inscripción y avatar/iniciales.",
+      "styling": {
+        "framework": "No especificado, sugerencia: Tailwind CSS",
+        "classes": "bg-white dark:bg-gray-800 shadow rounded-lg p-4",
+        "colorCoding": "Usar colores neutros. Resaltar los nombres de los opositores para que sean clicables."
+      },
+      "acceptanceCriteria": [
+        "Debe existir un widget en el dashboard con el título 'Últimos Opositores Inscritos'.",
+        "El widget debe mostrar una lista de hasta 5 de los opositores más recientes.",
+        "Cada entrada de la lista debe mostrar el nombre completo del opositor y su fecha de inscripción.",
+        "Si no hay opositores inscritos recientemente, se debe mostrar un mensaje como 'No hay inscripciones nuevas'.",
+        "Cada nombre de opositor en la lista debe ser un enlace que lleve a su página de detalle (`/detalle-y-progreso-del-opositor/:id`)."
+      ],
+      "additionalSuggestions": [
+        "Mostrar un avatar genérico con las iniciales del opositor al lado de su nombre.",
+        "La fecha de inscripción podría mostrarse en un formato relativo como 'hace 2 días'."
+      ],
+      "aiEditorTask": "Crea un componente `UltimosInscritosWidget.tsx`. Este componente debe renderizar un título y una lista o tabla (usando el `Table` component) con los datos de los opositores. Implementa un estado de carga y un mensaje para el caso vacío. Añade la lógica de fetching en `usePaneldeControlPrincipal.ts` y el endpoint en `api.ts`. Integra el widget en la página principal del dashboard.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Visualización de Próximos Simulacros Programados",
+      "description": "Como preparador, quiero ver una lista de los próximos simulacros en el panel principal para estar al tanto de las próximas evaluaciones y gestionar mi tiempo de preparación y corrección eficientemente.",
+      "pageContext": "Panel de Control Principal",
+      "affectedFiles": [
+        "src/features/panel-de-control-principal/PaneldeControlPrincipalPage.tsx",
+        "src/features/panel-de-control-principal/hooks/usePaneldeControlPrincipal.ts",
+        "src/features/panel-de-control-principal/api.ts",
+        "src/features/panel-de-control-principal/components/ProximosSimulacrosWidget.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ProximosSimulacrosWidget",
+            "path": "src/features/panel-de-control-principal/components/ProximosSimulacrosWidget.tsx",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El hook `usePaneldeControlPrincipal.ts` obtendrá datos del `api.ts`, que a su vez llamará a un endpoint que recupera información de la feature `creador-de-simulacros`. La consulta debe filtrar por simulacros con fecha futura, ordenarlos por fecha ascendente y limitarlos a los 3-5 más cercanos. Se necesita el nombre del simulacro, la fecha y hora, y el grupo/s al que está asignado.",
+      "styling": {
+        "framework": "No especificado, sugerencia: Tailwind CSS",
+        "classes": "bg-white dark:bg-gray-800 shadow rounded-lg p-4",
+        "colorCoding": "Usar un icono de calendario para cada entrada. Las fechas cercanas (ej. hoy o mañana) pueden tener un indicador visual de urgencia."
+      },
+      "acceptanceCriteria": [
+        "Un widget titulado 'Próximos Simulacros' debe ser visible en el dashboard.",
+        "El widget debe listar los próximos 5 simulacros, ordenados del más cercano al más lejano en el tiempo.",
+        "Cada simulacro en la lista debe mostrar su título, la fecha y hora programada.",
+        "Solo se deben mostrar simulacros con fecha futura.",
+        "Si no hay simulacros programados, se debe mostrar el mensaje 'No tienes simulacros pendientes'."
+      ],
+      "additionalSuggestions": [
+        "Añadir un botón 'Programar nuevo simulacro' en el widget, que enlace a la página de creación de simulacros.",
+        "Al hacer clic en un simulacro, se podría abrir un modal con más detalles sin salir del dashboard."
+      ],
+      "aiEditorTask": "Implementa `ProximosSimulacrosWidget.tsx` para mostrar una lista de simulacros. Cada ítem de la lista debe estar bien formateado. Agrega la lógica de obtención de datos al hook `usePaneldeControlPrincipal.ts` y define el endpoint correspondiente en `api.ts` que obtenga la información de la feature de simulacros. Integra el widget en `PaneldeControlPrincipalPage.tsx`.",
+      "priority": "Alta",
+      "estimatedHours": 5
+    },
+    {
+      "title": "Resumen Visual del Progreso General de Grupos",
+      "description": "Como preparador, quiero ver un resumen del progreso de mis grupos en el panel de control para identificar rápidamente qué grupos avanzan adecuadamente y cuáles necesitan atención o refuerzo.",
+      "pageContext": "Panel de Control Principal",
+      "affectedFiles": [
+        "src/features/panel-de-control-principal/PaneldeControlPrincipalPage.tsx",
+        "src/features/panel-de-control-principal/hooks/usePaneldeControlPrincipal.ts",
+        "src/features/panel-de-control-principal/api.ts",
+        "src/features/panel-de-control-principal/components/ProgresoGruposWidget.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ProgresoGruposWidget",
+            "path": "src/features/panel-de-control-principal/components/ProgresoGruposWidget.tsx",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Esta es una consulta compleja. El `api.ts` del dashboard necesitará un endpoint que calcule el progreso medio por grupo. Este cálculo podría basarse en el porcentaje de temas completados por los opositores del grupo (datos de `detalle-y-progreso-del-opositor` y `gestin-de-temarios`) o la nota media en simulacros. La API devolverá un array de objetos, cada uno con `nombreGrupo` y `porcentajeProgreso`.",
+      "styling": {
+        "framework": "No especificado, sugerencia: Tailwind CSS",
+        "classes": "bg-white dark:bg-gray-800 shadow rounded-lg p-4",
+        "colorCoding": "La barra de progreso puede cambiar de color según el porcentaje (rojo < 30%, amarillo < 70%, verde > 70%)."
+      },
+      "acceptanceCriteria": [
+        "Un widget titulado 'Progreso de Grupos' debe mostrarse en el dashboard.",
+        "El widget debe listar todos los grupos activos del preparador/academia.",
+        "Junto a cada nombre de grupo, se debe mostrar una barra de progreso visual que refleje el avance medio del grupo.",
+        "El valor porcentual numérico del progreso debe ser visible sobre o junto a la barra.",
+        "Al pasar el cursor sobre la barra de progreso, un tooltip debe mostrar el valor exacto del porcentaje."
+      ],
+      "additionalSuggestions": [
+        "Hacer que cada entrada de grupo sea un enlace a una vista de detalle del progreso de ese grupo en particular.",
+        "Considerar la instalación de una librería ligera de gráficos si no hay una disponible para las barras de progreso."
+      ],
+      "aiEditorTask": "Crea el componente `ProgresoGruposWidget.tsx`. Este componente mapeará los datos de los grupos y para cada uno renderizará su nombre y una barra de progreso visual. Define el endpoint complejo en `api.ts` que calcule estos datos y conéctalo mediante el hook `usePaneldeControlPrincipal.ts`. Añade el widget a la página del dashboard.",
+      "priority": "Media",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Widget de Notificaciones y Actividad Reciente",
+      "description": "Como preparador, quiero un widget de notificaciones en el panel de control para estar al tanto de eventos importantes como nuevos mensajes o entregas de tareas sin tener que revisar cada sección por separado.",
+      "pageContext": "Panel de Control Principal",
+      "affectedFiles": [
+        "src/features/panel-de-control-principal/PaneldeControlPrincipalPage.tsx",
+        "src/features/panel-de-control-principal/hooks/usePaneldeControlPrincipal.ts",
+        "src/features/panel-de-control-principal/api.ts",
+        "src/features/panel-de-control-principal/components/NotificacionesWidget.tsx",
+        "src/features/centro-de-comunicacin/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "NotificacionesWidget",
+            "path": "src/features/panel-de-control-principal/components/NotificacionesWidget.tsx",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El hook del dashboard llamará a un endpoint que agrega notificaciones no leídas de diversas fuentes, principalmente del `centro-de-comunicacin`. La API debe devolver las 5 notificaciones más recientes, incluyendo un mensaje, el tipo de notificación (mensaje, alerta, entrega), un timestamp y un enlace a la fuente original.",
+      "styling": {
+        "framework": "No especificado, sugerencia: Tailwind CSS",
+        "classes": "bg-white dark:bg-gray-800 shadow rounded-lg p-4 flex flex-col h-full",
+        "colorCoding": "Usar iconos y colores para diferenciar tipos de notificación: un icono de sobre para mensajes, un icono de campana para alertas, etc."
+      },
+      "acceptanceCriteria": [
+        "Un widget con el título 'Notificaciones' debe ser visible en el dashboard.",
+        "El widget debe mostrar una lista de las 5 notificaciones más recientes no leídas.",
+        "Cada notificación debe mostrar un texto descriptivo y la hora/fecha de forma relativa ('hace 1 hora').",
+        "Las notificaciones que correspondan a una acción (ej. 'Nuevo mensaje de...') deben ser clicables y redirigir al `centro-de-comunicacin`.",
+        "El widget debe incluir un enlace o botón 'Ver todas' que navegue a la página principal del centro de comunicación.",
+        "Si no hay notificaciones, se debe mostrar un mensaje como 'No tienes notificaciones nuevas'."
+      ],
+      "additionalSuggestions": [
+        "Implementar una acción para marcar una notificación como leída directamente desde el widget.",
+        "El número de notificaciones no leídas podría mostrarse también en el `Sidebar` junto al enlace del Centro de Comunicación."
+      ],
+      "aiEditorTask": "Crea `NotificacionesWidget.tsx` para listar las notificaciones. Cada notificación debe ser un ítem de lista con icono, texto y timestamp. Añade la lógica para obtener las notificaciones no leídas en `usePaneldeControlPrincipal.ts`, que llamará a un endpoint que agregue datos del `centro-de-comunicacin`. Integra el widget en la página principal del dashboard, incluyendo el botón 'Ver todas'.",
+      "priority": "Media",
+      "estimatedHours": 9
+    }
+  ]
+}
+```

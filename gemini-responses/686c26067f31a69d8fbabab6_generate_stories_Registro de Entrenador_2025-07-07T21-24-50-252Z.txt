@@ -1,0 +1,234 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Validación de correo electrónico en tiempo real",
+      "description": "Como un nuevo entrenador, quiero que el formulario verifique mi dirección de correo electrónico mientras escribo y al salir del campo para saber inmediatamente si el formato es válido y si el correo ya está en uso, evitando así enviar un formulario con errores.",
+      "pageContext": "Registro de Entrenador",
+      "affectedFiles": [
+        "src/features/registro-de-entrenador/RegistrodeEntrenadorPage.tsx",
+        "src/features/registro-de-entrenador/hooks/useRegistrodeEntrenador.ts",
+        "src/features/registro-de-entrenador/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ValidatedInput",
+            "type": "component",
+            "path": "src/features/registro-de-entrenador/components/ValidatedInput.tsx",
+            "description": "Un componente de input que encapsula la lógica de validación en tiempo real y muestra mensajes de error o éxito."
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "Implementar una función en el hook `useRegistrodeEntrenador.ts` que se active con el evento `onBlur` del campo de email. Esta función llamará a un nuevo endpoint en `api.ts` (ej. `GET /api/users/check-email?email=...`) para verificar la existencia del correo en la base de datos. El estado de validación (loading, error, success) debe ser manejado dentro del hook y pasado como props al componente `ValidatedInput`.",
+      "styling": {
+        "framework": "No especificado",
+        "classes": "input-error input-success input-loading",
+        "colorCoding": "Borde rojo para error, borde verde para éxito. Mensajes de texto pequeños debajo del campo."
+      },
+      "acceptanceCriteria": [
+        "Mientras el usuario escribe en el campo de email, se debe validar el formato (ej. `user@domain.com`).",
+        "Al quitar el foco del campo (onBlur), se debe realizar una llamada asíncrona para verificar si el email ya existe.",
+        "Si el email ya está registrado, se debe mostrar un mensaje de error claro como 'Este correo electrónico ya está en uso'.",
+        "Si el formato es inválido, se debe mostrar un mensaje como 'Por favor, introduce un correo electrónico válido'.",
+        "Si el email es válido y está disponible, se puede mostrar un indicador visual de éxito (ej. un check verde).",
+        "El botón de envío del formulario debe estar deshabilitado si la validación del correo es negativa."
+      ],
+      "additionalSuggestions": [
+        "Utilizar una técnica de 'debouncing' en la llamada a la API para no saturar el servidor con peticiones mientras el usuario escribe."
+      ],
+      "aiEditorTask": "Crea el componente `ValidatedInput.tsx` que acepte props para el estado de validación (valid, invalid, message) y las aplique visualmente. Modifica `useRegistrodeEntrenador.ts` para añadir la lógica de validación de email, incluyendo una función asíncrona que llame a la API. Finalmente, integra este nuevo componente y lógica en `RegistrodeEntrenadorPage.tsx`.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Alternar visibilidad de la contraseña",
+      "description": "Como un nuevo entrenador, quiero un botón para mostrar u ocultar mi contraseña mientras la escribo, para poder verificar que la he introducido correctamente sin errores tipográficos.",
+      "pageContext": "Registro de Entrenador",
+      "affectedFiles": [
+        "src/features/registro-de-entrenador/RegistrodeEntrenadorPage.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "PasswordInput",
+            "type": "component",
+            "path": "src/features/registro-de-entrenador/components/PasswordInput.tsx",
+            "description": "Un componente de input de contraseña que incluye un icono para alternar la visibilidad del texto."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El componente `PasswordInput` manejará un estado interno para controlar si el tipo de input es 'password' o 'text'. Un botón con un icono (ej. un ojo) al lado del campo alternará este estado. Esta funcionalidad debe ser autocontenida dentro del componente.",
+      "styling": {
+        "framework": "No especificado",
+        "classes": "password-input-wrapper input-group",
+        "colorCoding": "El icono debe ser de un color gris neutro y cambiar ligeramente al pasar el cursor sobre él para indicar que es interactivo."
+      },
+      "acceptanceCriteria": [
+        "Junto a los campos de contraseña y confirmación de contraseña, debe aparecer un icono.",
+        "Al hacer clic en el icono, el texto de la contraseña debe volverse visible.",
+        "Al hacer clic de nuevo, el texto de la contraseña debe volver a ocultarse (caracteres de punto).",
+        "El icono debe cambiar para reflejar el estado actual (ej. 'ojo abierto' para visible, 'ojo tachado' para oculto).",
+        "La funcionalidad debe aplicarse tanto al campo de contraseña como al de confirmación de contraseña."
+      ],
+      "additionalSuggestions": [
+        "Asegurarse de que el componente sea accesible, anunciando el estado del botón (ej. 'Mostrar contraseña') a los lectores de pantalla."
+      ],
+      "aiEditorTask": "Genera el componente `PasswordInput.tsx` en la carpeta de componentes de la feature 'registro-de-entrenador'. Este componente debe renderizar un input y un botón con un icono. Implementa la lógica de estado local con `useState` para alternar el tipo del input entre 'password' y 'text'. Luego, reemplaza los inputs de contraseña estándar en `RegistrodeEntrenadorPage.tsx` con este nuevo componente.",
+      "priority": "Media",
+      "estimatedHours": 3
+    },
+    {
+      "title": "Retroalimentación de estado en el envío del formulario",
+      "description": "Como un nuevo entrenador, quiero ver un indicador de carga cuando envío el formulario para saber que mi solicitud se está procesando y recibir un mensaje claro de éxito o error al finalizar.",
+      "pageContext": "Registro de Entrenador",
+      "affectedFiles": [
+        "src/features/registro-de-entrenador/RegistrodeEntrenadorPage.tsx",
+        "src/features/registro-de-entrenador/hooks/useRegistrodeEntrenador.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AlertMessage",
+            "type": "component",
+            "path": "src/components/AlertMessage.tsx",
+            "description": "Componente reutilizable para mostrar mensajes de alerta (éxito, error, información)."
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "El hook `useRegistrodeEntrenador.ts` debe exponer un estado de 'cargando' (isSubmitting) y un estado de 'error' (submissionError). Al iniciar el envío, `isSubmitting` se pone a `true`. El componente `Button` debe aceptar una prop `isLoading` para mostrar un spinner y deshabilitarse. Si la llamada a la API falla, `submissionError` se puebla con un mensaje y se muestra en `AlertMessage`. Si tiene éxito, se redirige al usuario o se muestra un mensaje de éxito.",
+      "styling": {
+        "framework": "No especificado",
+        "classes": "btn-loading alert-danger alert-success",
+        "colorCoding": "Botón: puede mostrar un spinner en lugar del texto. Alerta de error: fondo rojo. Alerta de éxito: fondo verde."
+      },
+      "acceptanceCriteria": [
+        "Al hacer clic en el botón 'Registrar', este se deshabilita para evitar envíos múltiples.",
+        "El botón 'Registrar' debe mostrar un indicador visual de carga (ej. un spinner) mientras la solicitud está en curso.",
+        "Si el registro es exitoso, el usuario es redirigido al dashboard (`/dashboard-principal`).",
+        "Si ocurre un error en el servidor (ej. API no disponible), se debe mostrar un mensaje de error genérico y persistente sobre el formulario.",
+        "Tras un error, el botón de envío debe volver a habilitarse para que el usuario pueda intentarlo de nuevo."
+      ],
+      "additionalSuggestions": [
+        "Considerar el uso de notificaciones 'toast' para los mensajes de éxito/error, ya que son menos intrusivas que las alertas estáticas."
+      ],
+      "aiEditorTask": "Modifica el componente `Button.jsx` para que acepte una prop `isLoading` y muestre un spinner. En `useRegistrodeEntrenador.ts`, añade los estados `isSubmitting` y `error`. En `RegistrodeEntrenadorPage.tsx`, utiliza estos estados para controlar el `Button` y para renderizar condicionalmente un componente de alerta con el mensaje de error.",
+      "priority": "Alta",
+      "estimatedHours": 5
+    },
+    {
+      "title": "Soporte para autocompletado del navegador",
+      "description": "Como un nuevo entrenador, quiero que los campos del formulario de registro sean compatibles con el autocompletado de mi navegador o gestor de contraseñas para poder rellenar mis datos rápidamente y generar una contraseña segura sin esfuerzo.",
+      "pageContext": "Registro de Entrenador",
+      "affectedFiles": [
+        "src/features/registro-de-entrenador/RegistrodeEntrenadorPage.tsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "Se requiere añadir los atributos `autocomplete` correctos a los elementos `<input>` correspondientes dentro del formulario. No se necesita lógica de JavaScript adicional, es una mejora a nivel de HTML semántico.",
+      "styling": {
+        "framework": "No especificado",
+        "classes": "",
+        "colorCoding": "El navegador aplicará su propio estilo a los campos autocompletados (generalmente un fondo amarillo claro o azul)."
+      },
+      "acceptanceCriteria": [
+        "El campo 'Nombre' debe tener el atributo `autocomplete=\"name\"`.",
+        "El campo 'Email' debe tener el atributo `autocomplete=\"email\"`.",
+        "El campo 'Contraseña' debe tener el atributo `autocomplete=\"new-password\"` para indicar al navegador que sugiera una contraseña nueva y segura.",
+        "Cada campo de entrada (`<input>`) debe estar correctamente asociado a su etiqueta (`<label>`) mediante los atributos `id` y `for` para mejorar la accesibilidad y el autocompletado."
+      ],
+      "additionalSuggestions": [
+        "Verificar que el formulario no tenga `autocomplete=\"off\"` en el elemento `<form>`, ya que esto anularía el comportamiento de los campos individuales."
+      ],
+      "aiEditorTask": "Edita el archivo `RegistrodeEntrenadorPage.tsx`. Localiza los campos de input para nombre, email y contraseña. Añade los atributos `autocomplete` correspondientes: `name` para el nombre, `email` para el correo y `new-password` para la contraseña.",
+      "priority": "Media",
+      "estimatedHours": 1
+    },
+    {
+      "title": "Navegación por teclado y accesibilidad del formulario",
+      "description": "Como un entrenador con diversidad funcional que depende del teclado para navegar, quiero poder moverme lógicamente entre todos los campos del formulario y elementos interactivos usando la tecla 'Tab' y activarlos con 'Enter' o 'Espacio', para poder completar mi registro sin necesidad de un ratón.",
+      "pageContext": "Registro de Entrenador",
+      "affectedFiles": [
+        "src/features/registro-de-entrenador/RegistrodeEntrenadorPage.tsx",
+        "src/components/Button.jsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "Asegurar que el orden de los elementos en el DOM sea lógico y secuencial. Los elementos interactivos (inputs, checkboxes, botones) deben ser accesibles por defecto. Se debe verificar que no haya 'trampas de foco' donde el usuario no pueda salir de un componente.",
+      "styling": {
+        "framework": "No especificado",
+        "classes": "focus:ring focus:outline-none",
+        "colorCoding": "Implementar un indicador de foco visible (ej. un anillo de color o un contorno resaltado) para todos los elementos interactivos cuando reciben el foco del teclado. Esto es crucial para la usabilidad."
+      },
+      "acceptanceCriteria": [
+        "Puedo navegar entre el campo de nombre, email, contraseña, confirmación de contraseña, checkbox de términos y el botón de registro usando solo la tecla 'Tab'.",
+        "El orden de navegación con 'Tab' debe seguir el orden visual de los campos en la página.",
+        "Cada elemento que recibe el foco debe tener un indicador visual claro (ej. un contorno azul).",
+        "Puedo marcar/desmarcar el checkbox de 'Aceptar Términos' usando la barra espaciadora.",
+        "Puedo enviar el formulario activando el botón de 'Registrar' con la tecla 'Enter' cuando tiene el foco o desde cualquier campo del formulario."
+      ],
+      "additionalSuggestions": [
+        "Utilizar herramientas de auditoría de accesibilidad como Lighthouse o axe para identificar y corregir problemas."
+      ],
+      "aiEditorTask": "Revisa el JSX en `RegistrodeEntrenadorPage.tsx` y asegúrate de que el orden de los elementos es semántico. Añade estilos de foco (`:focus` o `focus:`) a todos los elementos interactivos (inputs, checkboxes, botones) para que tengan un contorno visible y claro cuando se navega con el teclado.",
+      "priority": "Alta",
+      "estimatedHours": 4
+    },
+    {
+      "title": "Redirección automática si el usuario ya está autenticado",
+      "description": "Como un entrenador que ya ha iniciado sesión pero navega a la página de registro por error (ej. a través de un enlace guardado), quiero ser redirigido automáticamente a mi dashboard para evitar confusiones y no tener que registrarme de nuevo.",
+      "pageContext": "Registro de Entrenador",
+      "affectedFiles": [
+        "src/features/registro-de-entrenador/RegistrodeEntrenadorPage.tsx",
+        "src/hooks/useAuth.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "useAuth",
+            "type": "hook",
+            "path": "src/hooks/useAuth.ts",
+            "description": "Hook global para gestionar el estado de autenticación del usuario."
+          }
+        ],
+        "import": []
+      },
+      "logicData": "La página `RegistrodeEntrenadorPage.tsx` debe utilizar un hook de autenticación global (ej. `useAuth`). Al montarse el componente, este hook verificará si existe un usuario autenticado (ej. revisando un token en localStorage o el estado de la aplicación). Si el usuario está autenticado, se debe efectuar una redirección programática al '/dashboard-principal' utilizando el enrutador de la aplicación.",
+      "styling": {
+        "framework": "No especificado",
+        "classes": "",
+        "colorCoding": "No aplica. Es una redirección, por lo que el usuario no debería ver la página de registro. Se podría mostrar un spinner de carga brevemente."
+      },
+      "acceptanceCriteria": [
+        "Cuando un usuario con una sesión activa intenta acceder a la ruta '/signup', es redirigido inmediatamente a '/dashboard-principal'.",
+        "El usuario no debe ver el formulario de registro en ningún momento, o solo durante una fracción de segundo mientras se verifica el estado.",
+        "La redirección debe funcionar tanto si se navega directamente a la URL como si se hace clic en un enlace que lleva a '/signup'.",
+        "Un usuario no autenticado debe poder ver la página de registro sin ser redirigido."
+      ],
+      "additionalSuggestions": [
+        "Esta lógica puede abstraerse en un componente de orden superior (HOC) o en un componente de layout que envuelva las rutas públicas, para ser reutilizada en otras páginas como la de inicio de sesión."
+      ],
+      "aiEditorTask": "Crea un hook genérico `useAuth.ts` en `src/hooks` si no existe, que devuelva el estado de autenticación del usuario. En `RegistrodeEntrenadorPage.tsx`, utiliza este hook dentro de un `useEffect` para comprobar el estado de autenticación al cargar la página. Si el usuario está autenticado, utiliza el hook de enrutamiento de la aplicación (ej. `useNavigate` de React Router) para redirigir a `/dashboard-principal`.",
+      "priority": "Media",
+      "estimatedHours": 4
+    }
+  ]
+}
+```

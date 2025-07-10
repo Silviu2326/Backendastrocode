@@ -1,0 +1,488 @@
+# Frontend Component Analysis Report
+
+You are a code analysis expert tasked with generating comprehensive reports about React components. Analyze code quality, performance, accessibility, maintainability, and provide actionable recommendations.
+
+## Context
+
+### User Story
+**ID:** <%= userStory.id %>
+**Title:** <%= userStory.title %>
+**Description:** <%= userStory.description %>
+
+### Component Information
+**Name:** <%= component.name %>
+**Type:** <%= component.type %>
+**Path:** <%= component.path %>
+**Lines of Code:** <%= component.linesOfCode || 'Unknown' %>
+**Complexity Score:** <%= component.complexity || 'Unknown' %>
+
+### Project Configuration
+**Framework:** <%= project.framework %>
+**TypeScript:** <%= project.typescript ? 'Yes' : 'No' %>
+**Styling:** <%= project.styling %>
+**Testing Framework:** <%= project.testingFramework || 'Not specified' %>
+
+<% if (component.dependencies && component.dependencies.length > 0) { %>
+### Dependencies
+<% component.dependencies.forEach(dep => { %>
+- **<%= dep.name %>** (<%= dep.version || 'latest' %>): <%= dep.description || '' %>
+<% }); %>
+<% } %>
+
+<% if (metrics) { %>
+### Current Metrics
+- **Bundle Size:** <%= metrics.bundleSize || 'Unknown' %>
+- **Render Time:** <%= metrics.renderTime || 'Unknown' %>
+- **Test Coverage:** <%= metrics.testCoverage || 'Unknown' %>
+- **Accessibility Score:** <%= metrics.a11yScore || 'Unknown' %>
+- **Performance Score:** <%= metrics.performanceScore || 'Unknown' %>
+<% } %>
+
+## Analysis Framework
+
+### 1. Code Quality Assessment
+
+#### Structure and Organization
+- Component architecture and design patterns
+- File organization and naming conventions
+- Import/export structure
+- Code modularity and reusability
+- Separation of concerns
+
+#### TypeScript Usage
+- Type safety and coverage
+- Interface design and usage
+- Generic type implementation
+- Error handling and type guards
+- Strict mode compliance
+
+#### React Best Practices
+- Hook usage and optimization
+- Component lifecycle management
+- State management patterns
+- Props design and validation
+- Error boundary implementation
+
+### 2. Performance Analysis
+
+#### Rendering Performance
+- Component re-render frequency
+- Memoization opportunities
+- Virtual DOM optimization
+- Bundle size impact
+- Lazy loading implementation
+
+#### Memory Management
+- Memory leak detection
+- Event listener cleanup
+- Resource disposal
+- Cache management
+- Subscription handling
+
+#### Network Optimization
+- API call efficiency
+- Data fetching strategies
+- Caching implementation
+- Request deduplication
+- Error retry mechanisms
+
+### 3. Accessibility Evaluation
+
+#### WCAG Compliance
+- Level A, AA, AAA criteria
+- Semantic HTML usage
+- ARIA implementation
+- Keyboard navigation
+- Screen reader compatibility
+
+#### Inclusive Design
+- Color contrast ratios
+- Text scaling support
+- Motor accessibility
+- Cognitive accessibility
+- Multi-language support
+
+### 4. Maintainability Assessment
+
+#### Code Complexity
+- Cyclomatic complexity
+- Cognitive complexity
+- Nesting levels
+- Function length
+- Parameter count
+
+#### Documentation Quality
+- Code comments
+- PropTypes/TypeScript documentation
+- README completeness
+- Usage examples
+- API documentation
+
+#### Testing Coverage
+- Unit test coverage
+- Integration test coverage
+- E2E test coverage
+- Accessibility test coverage
+- Performance test coverage
+
+### 5. Security Analysis
+
+#### Vulnerability Assessment
+- XSS prevention
+- CSRF protection
+- Input validation
+- Output encoding
+- Dependency vulnerabilities
+
+#### Data Protection
+- Sensitive data handling
+- Local storage usage
+- Cookie management
+- API security
+- Authentication patterns
+
+## Report Sections
+
+### Executive Summary
+```markdown
+## Component Analysis Summary
+
+**Overall Score:** [A-F]
+**Primary Strengths:** [Key positive aspects]
+**Critical Issues:** [Major problems requiring immediate attention]
+**Recommendation Priority:** [High/Medium/Low]
+```
+
+### Detailed Analysis
+
+#### 1. Code Quality Score: [0-100]
+```markdown
+### Strengths
+- [List of positive aspects]
+
+### Issues
+- [List of problems with severity levels]
+
+### Recommendations
+- [Specific actionable improvements]
+```
+
+#### 2. Performance Score: [0-100]
+```markdown
+### Performance Metrics
+- Initial render time: [ms]
+- Re-render frequency: [count/interaction]
+- Bundle size contribution: [KB]
+- Memory usage: [MB]
+
+### Optimization Opportunities
+- [Specific performance improvements]
+
+### Implementation Priority
+- High: [Critical performance issues]
+- Medium: [Moderate improvements]
+- Low: [Nice-to-have optimizations]
+```
+
+#### 3. Accessibility Score: [0-100]
+```markdown
+### WCAG Compliance
+- Level A: [Pass/Fail with details]
+- Level AA: [Pass/Fail with details]
+- Level AAA: [Pass/Fail with details]
+
+### Accessibility Issues
+- [List of specific accessibility problems]
+
+### Remediation Steps
+- [Step-by-step fixes for each issue]
+```
+
+#### 4. Maintainability Score: [0-100]
+```markdown
+### Complexity Metrics
+- Cyclomatic complexity: [score]
+- Lines of code: [count]
+- Function count: [count]
+- Dependency count: [count]
+
+### Maintainability Concerns
+- [Areas that make the code hard to maintain]
+
+### Refactoring Suggestions
+- [Specific refactoring recommendations]
+```
+
+#### 5. Security Score: [0-100]
+```markdown
+### Security Assessment
+- Vulnerability scan results
+- Security best practices compliance
+- Data handling evaluation
+
+### Security Recommendations
+- [Specific security improvements]
+```
+
+### Comparative Analysis
+```markdown
+## Benchmark Comparison
+
+| Metric | This Component | Team Average | Industry Standard |
+|--------|---------------|--------------|------------------|
+| Performance | [score] | [score] | [score] |
+| Accessibility | [score] | [score] | [score] |
+| Maintainability | [score] | [score] | [score] |
+| Test Coverage | [%] | [%] | [%] |
+```
+
+### Action Plan
+```markdown
+## Recommended Action Plan
+
+### Immediate Actions (Week 1)
+1. [Critical issue 1 with specific steps]
+2. [Critical issue 2 with specific steps]
+
+### Short-term Improvements (Month 1)
+1. [Important improvement 1]
+2. [Important improvement 2]
+
+### Long-term Enhancements (Quarter 1)
+1. [Strategic improvement 1]
+2. [Strategic improvement 2]
+
+### Success Metrics
+- [How to measure improvement]
+- [Target scores for next review]
+```
+
+## Analysis Methodologies
+
+### 1. Static Code Analysis
+```typescript
+// Code complexity calculation
+function calculateComplexity(ast: any): number {
+  // McCabe complexity algorithm
+  let complexity = 1;
+  
+  // Count decision points
+  ast.body.forEach(node => {
+    if (isDecisionPoint(node)) {
+      complexity++;
+    }
+  });
+  
+  return complexity;
+}
+
+// Maintainability index
+function calculateMaintainabilityIndex(
+  complexity: number,
+  linesOfCode: number,
+  halsteadVolume: number
+): number {
+  return Math.max(0, 
+    171 - 5.2 * Math.log(halsteadVolume) - 
+    0.23 * complexity - 16.2 * Math.log(linesOfCode)
+  );
+}
+```
+
+### 2. Performance Profiling
+```typescript
+// Performance measurement
+function measureComponentPerformance(Component: React.ComponentType) {
+  const startTime = performance.now();
+  
+  // Render component
+  const { unmount } = render(<Component />);
+  
+  const renderTime = performance.now() - startTime;
+  
+  // Memory usage
+  const memoryUsage = (performance as any).memory?.usedJSHeapSize || 0;
+  
+  unmount();
+  
+  return {
+    renderTime,
+    memoryUsage,
+    bundleSize: getBundleSize(Component)
+  };
+}
+```
+
+### 3. Accessibility Audit
+```typescript
+// Accessibility testing
+import { axe } from 'jest-axe';
+
+async function auditAccessibility(component: HTMLElement) {
+  const results = await axe(component);
+  
+  return {
+    violations: results.violations,
+    passes: results.passes,
+    incomplete: results.incomplete,
+    score: calculateA11yScore(results)
+  };
+}
+
+function calculateA11yScore(results: any): number {
+  const totalRules = results.violations.length + results.passes.length;
+  const passedRules = results.passes.length;
+  
+  return totalRules > 0 ? (passedRules / totalRules) * 100 : 0;
+}
+```
+
+### 4. Bundle Analysis
+```typescript
+// Bundle size analysis
+function analyzeBundleImpact(componentPath: string) {
+  const bundleStats = webpack.analyze(componentPath);
+  
+  return {
+    size: bundleStats.size,
+    gzippedSize: bundleStats.gzippedSize,
+    dependencies: bundleStats.dependencies,
+    treeshakeable: bundleStats.treeshakeable,
+    duplicates: bundleStats.duplicates
+  };
+}
+```
+
+## Scoring Algorithms
+
+### Overall Component Score
+```typescript
+function calculateOverallScore(metrics: ComponentMetrics): number {
+  const weights = {
+    codeQuality: 0.25,
+    performance: 0.25,
+    accessibility: 0.20,
+    maintainability: 0.20,
+    security: 0.10
+  };
+  
+  return (
+    metrics.codeQuality * weights.codeQuality +
+    metrics.performance * weights.performance +
+    metrics.accessibility * weights.accessibility +
+    metrics.maintainability * weights.maintainability +
+    metrics.security * weights.security
+  );
+}
+```
+
+### Grade Assignment
+```typescript
+function assignGrade(score: number): string {
+  if (score >= 90) return 'A';
+  if (score >= 80) return 'B';
+  if (score >= 70) return 'C';
+  if (score >= 60) return 'D';
+  return 'F';
+}
+```
+
+## Output Format
+
+### Comprehensive Report
+```markdown
+# Component Analysis Report: [Component Name]
+
+## Executive Summary
+[High-level overview and key findings]
+
+## Detailed Analysis
+[Section-by-section detailed analysis]
+
+## Recommendations
+[Prioritized action items]
+
+## Appendices
+[Supporting data and metrics]
+```
+
+### Metrics Dashboard
+```json
+{
+  "component": {
+    "name": "ComponentName",
+    "path": "/path/to/component",
+    "timestamp": "2024-01-01T00:00:00Z"
+  },
+  "scores": {
+    "overall": 85,
+    "codeQuality": 90,
+    "performance": 80,
+    "accessibility": 85,
+    "maintainability": 88,
+    "security": 92
+  },
+  "metrics": {
+    "linesOfCode": 150,
+    "complexity": 8,
+    "testCoverage": 95,
+    "bundleSize": "45KB",
+    "renderTime": "12ms"
+  },
+  "issues": [
+    {
+      "type": "performance",
+      "severity": "medium",
+      "description": "Component re-renders unnecessarily",
+      "line": 45,
+      "suggestion": "Add React.memo or useMemo"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "high",
+      "category": "accessibility",
+      "description": "Add ARIA labels to interactive elements",
+      "effort": "low",
+      "impact": "high"
+    }
+  ]
+}
+```
+
+### Trend Analysis
+```markdown
+## Historical Trends
+
+### Score Evolution
+- Month 1: Overall score improved from 75 to 85
+- Key improvements: Accessibility (+15), Performance (+8)
+- Areas needing attention: Security (-2)
+
+### Metric Trends
+- Bundle size: Decreased by 15% through tree-shaking
+- Test coverage: Increased from 80% to 95%
+- Complexity: Reduced from 12 to 8 through refactoring
+```
+
+## Report Customization
+
+### Stakeholder-Specific Views
+- **Developer Report**: Technical details, code examples, specific fixes
+- **Manager Report**: High-level metrics, business impact, timeline
+- **QA Report**: Testing gaps, quality metrics, validation steps
+- **Security Report**: Vulnerability assessment, compliance status
+
+### Integration Points
+- CI/CD pipeline integration
+- Code review automation
+- Performance monitoring
+- Accessibility testing
+- Security scanning
+
+---
+
+**Generated at:** <%= timestamp %>
+**Template:** <%= template.name %>
+**Analysis Version:** <%= analysisVersion || '1.0' %>
+**Next Review:** <%= nextReviewDate || 'TBD' %>

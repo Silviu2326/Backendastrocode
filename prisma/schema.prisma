@@ -1,0 +1,214 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Epic {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  status      EpicStatus @default(PLANNING)
+  priority    Priority @default(MEDIUM)
+  startDate   DateTime?
+  endDate     DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  stories     Story[]
+  
+  @@map("epics")
+}
+
+model Story {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  acceptance  String?  // Acceptance criteria
+  status      StoryStatus @default(BACKLOG)
+  priority    Priority @default(MEDIUM)
+  points      Int?     // Story points for estimation
+  
+  // Frontend specific fields
+  componentType ComponentType?
+  framework   Framework?
+  styling     StylingType?
+  
+  // File tracking
+  sourceFiles Json?    // Array of source file paths
+  outputFiles Json?    // Array of generated file paths
+  
+  // Processing metadata
+  processingStarted DateTime?
+  processingCompleted DateTime?
+  errorMessage String?
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  epicId      String?
+  epic        Epic?    @relation(fields: [epicId], references: [id], onDelete: SetNull)
+  
+  // Processing jobs
+  jobs        Job[]
+  
+  @@map("stories")
+}
+
+model Job {
+  id          String   @id @default(cuid())
+  type        JobType
+  status      JobStatus @default(PENDING)
+  priority    Int      @default(0)
+  
+  // Job data
+  input       Json
+  output      Json?
+  error       String?
+  
+  // Processing metadata
+  attempts    Int      @default(0)
+  maxAttempts Int      @default(3)
+  startedAt   DateTime?
+  completedAt DateTime?
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  storyId     String?
+  story       Story?   @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  
+  @@map("jobs")
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  framework   Framework @default(REACT)
+  styling     StylingType @default(TAILWIND)
+  
+  // Configuration
+  config      Json?    // Project-specific configuration
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("projects")
+}
+
+model Template {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  type        ComponentType
+  framework   Framework
+  
+  // Template content
+  template    String   // EJS template content
+  variables   Json?    // Template variables schema
+  
+  // Metadata
+  version     String   @default("1.0.0")
+  isActive    Boolean  @default(true)
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@unique([name, framework, type])
+  @@map("templates")
+}
+
+// Enums
+enum EpicStatus {
+  PLANNING
+  IN_PROGRESS
+  REVIEW
+  COMPLETED
+  CANCELLED
+}
+
+enum StoryStatus {
+  BACKLOG
+  READY
+  IN_PROGRESS
+  DRAFT_COMPLETE
+  LOGIC_COMPLETE
+  STYLE_COMPLETE
+  TYPEFIX_COMPLETE
+  A11Y_COMPLETE
+  TEST_COMPLETE
+  REVIEW
+  COMPLETED
+  BLOCKED
+  CANCELLED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum ComponentType {
+  PAGE
+  COMPONENT
+  LAYOUT
+  HOOK
+  UTILITY
+  SERVICE
+  CONTEXT
+  PROVIDER
+}
+
+enum Framework {
+  REACT
+  VUE
+  ANGULAR
+  SVELTE
+  NEXT
+  NUXT
+}
+
+enum StylingType {
+  CSS
+  SCSS
+  TAILWIND
+  STYLED_COMPONENTS
+  EMOTION
+  CHAKRA
+  MATERIAL_UI
+}
+
+enum JobType {
+  FE_DRAFT
+  FE_LOGIC
+  FE_STYLE
+  FE_TYPEFIX
+  FE_A11Y
+  FE_TEST
+  FE_REPORT
+}
+
+enum JobStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+  CANCELLED
+  RETRYING
+}

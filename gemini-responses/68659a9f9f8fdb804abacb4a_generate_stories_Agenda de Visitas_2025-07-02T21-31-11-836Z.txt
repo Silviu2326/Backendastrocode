@@ -1,0 +1,258 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización del Calendario por Mes, Semana y Día",
+      "description": "Como agente inmobiliario, quiero poder cambiar la vista del calendario entre mes, semana y día para tener una perspectiva clara de mi agenda a corto y largo plazo.",
+      "pageContext": "Agenda de Visitas",
+      "affectedFiles": [
+        "src/app/calendar/page.jsx",
+        "src/components/calendar/CalendarToolbar.jsx",
+        "src/components/calendar/CalendarView.jsx",
+        "src/hooks/useCalendarView.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "CalendarToolbar",
+            "type": "component"
+          },
+          {
+            "name": "CalendarView",
+            "type": "component"
+          },
+          {
+            "name": "useCalendarView",
+            "type": "hook"
+          }
+        ],
+        "import": [
+          {
+            "name": "react-big-calendar",
+            "from": "react-big-calendar"
+          }
+        ]
+      },
+      "logicData": "Se debe gestionar un estado para la vista actual ('month', 'week', 'day'). El componente `CalendarToolbar` contendrá los botones para cambiar este estado. El componente `CalendarView` recibirá el estado de la vista como una prop y renderizará la librería de calendario correspondiente con la vista adecuada. Los eventos se obtendrán a través de un servicio `visitService.js`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex items-center space-x-2 p-4",
+        "colorCoding": "El botón de la vista activa debe tener un fondo de color primario (ej. bg-blue-600) y texto blanco, mientras que los inactivos tendrán un fondo claro (ej. bg-gray-200)."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un grupo de botones en la parte superior del calendario con las etiquetas 'Mes', 'Semana' y 'Día'.",
+        "Por defecto, el calendario se carga en la vista 'Mes'.",
+        "Al hacer clic en un botón de vista, el calendario debe cambiar su diseño para mostrar las visitas en el formato correspondiente.",
+        "El botón de la vista actualmente seleccionada debe estar visualmente destacado."
+      ],
+      "additionalSuggestions": [
+        "Añadir botones de navegación 'Anterior' y 'Siguiente' para moverse entre meses/semanas/días.",
+        "Mostrar el rango de fechas actual en la barra de herramientas (ej. 'Octubre 2023')."
+      ],
+      "aiEditorTask": "Crea el componente `CalendarToolbar.jsx` que contenga tres botones para cambiar la vista. Implementa un hook `useCalendarView.js` para gestionar el estado de la vista actual y las funciones para cambiarla. Integra este hook en la página principal `src/app/calendar/page.jsx` y pasa el estado a los componentes `CalendarToolbar` y `CalendarView`.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Filtrar Visitas por Agente Inmobiliario",
+      "description": "Como coordinador de visitas, quiero filtrar el calendario por uno o más agentes para revisar sus cargas de trabajo individuales y asignar nuevas visitas eficientemente.",
+      "pageContext": "Agenda de Visitas",
+      "affectedFiles": [
+        "src/app/calendar/page.jsx",
+        "src/components/calendar/FilterPanel.jsx",
+        "src/hooks/useVisits.js",
+        "src/services/visitService.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "FilterPanel",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "useAgents",
+            "from": "src/hooks/useAgents"
+          }
+        ]
+      },
+      "logicData": "El `FilterPanel` obtendrá la lista de agentes disponibles desde un endpoint (`agentService.js`). Mantendrá un estado de los agentes seleccionados. Al cambiar la selección, se volverá a llamar al hook `useVisits` con los IDs de los agentes como parámetro de filtro. El `visitService.getVisits` debe soportar un array de `agentIds` para filtrar los resultados.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-4 border-r bg-gray-50 w-64",
+        "colorCoding": "Utilizar un componente de selección múltiple (multiselect) con checkboxes para una fácil selección de agentes."
+      },
+      "acceptanceCriteria": [
+        "Debe existir un panel de filtros, visible en la página, que contenga un selector múltiple de 'Agentes'.",
+        "El selector debe poblarse con la lista de todos los agentes activos del CRM.",
+        "Al seleccionar uno o más agentes, el calendario debe actualizarse y mostrar únicamente las visitas asignadas a ellos.",
+        "Debe haber una opción para 'Deseleccionar todo' o 'Ver todos' que muestre nuevamente todas las visitas.",
+        "El filtro aplicado debe persistir al cambiar entre las vistas de mes/semana/día."
+      ],
+      "additionalSuggestions": [
+        "Añadir un campo de búsqueda dentro del selector de agentes para encontrar rápidamente a un agente por su nombre.",
+        "Considerar añadir otros filtros como 'Estado de la visita' (Confirmada, Pendiente, Cancelada) o por 'Inmueble'."
+      ],
+      "aiEditorTask": "Desarrolla el componente `FilterPanel.jsx`. Este componente debe usar un hook `useAgents` para obtener y mostrar una lista de agentes en un control de selección múltiple. Al cambiar la selección, debe invocar una función (pasada por props) para actualizar los filtros en la página principal.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Agendar una Nueva Visita desde el Calendario",
+      "description": "Como agente, quiero poder hacer clic en una franja horaria vacía del calendario para abrir un formulario y agendar una nueva visita, facilitando una programación rápida y contextual.",
+      "pageContext": "Agenda de Visitas",
+      "affectedFiles": [
+        "src/app/calendar/page.jsx",
+        "src/components/modals/ScheduleVisitModal.jsx",
+        "src/services/visitService.js",
+        "src/services/propertyService.js",
+        "src/services/clientService.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ScheduleVisitModal",
+            "type": "component"
+          }
+        ]
+      },
+      "logicData": "Al hacer clic en un slot de tiempo en el `CalendarView`, se debe abrir el `ScheduleVisitModal`. La fecha y hora seleccionadas deben precargarse en el formulario del modal. El formulario incluirá campos de autocompletado para buscar y seleccionar un cliente y una propiedad. Al guardar, se llamará a `visitService.createVisit(visitData)`. Tras una respuesta exitosa, el modal se cierra y el calendario se actualiza para mostrar la nueva visita.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center",
+        "colorCoding": "El botón de 'Guardar' debe ser de color primario y estar deshabilitado hasta que todos los campos requeridos estén completos."
+      },
+      "acceptanceCriteria": [
+        "Hacer clic en un espacio vacío del calendario (en vista de semana o día) abre un modal para crear una nueva visita.",
+        "El formulario en el modal tiene precargada la fecha y hora seleccionadas.",
+        "El formulario debe incluir campos para seleccionar un inmueble, un cliente y el agente asignado (por defecto, el usuario actual).",
+        "Se debe realizar una validación para asegurar que todos los campos obligatorios estén llenos antes de poder guardar.",
+        "Al guardar con éxito, la nueva visita aparece inmediatamente en el calendario sin necesidad de recargar la página."
+      ],
+      "additionalSuggestions": [
+        "Realizar una comprobación de disponibilidad en tiempo real para evitar la doble reserva de un inmueble o un agente.",
+        "Permitir añadir notas o comentarios opcionales a la visita."
+      ],
+      "aiEditorTask": "Implementa la lógica en `CalendarView.jsx` para detectar clics en slots vacíos y abrir `ScheduleVisitModal.jsx` con la fecha/hora. Desarrolla el modal con campos de formulario para inmueble, cliente y notas, y la lógica de envío al `visitService`.",
+      "priority": "Alta",
+      "estimatedHours": 16
+    },
+    {
+      "title": "Visualizar Detalles Completos de una Visita",
+      "description": "Como agente, quiero hacer clic en una visita existente en el calendario para ver todos sus detalles en una ventana emergente y así tener a mano la información del cliente, la propiedad y el estado.",
+      "pageContext": "Agenda de Visitas",
+      "affectedFiles": [
+        "src/components/calendar/CalendarEvent.jsx",
+        "src/components/modals/VisitDetailModal.jsx",
+        "src/services/visitService.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "CalendarEvent",
+            "type": "component"
+          },
+          {
+            "name": "VisitDetailModal",
+            "type": "component"
+          }
+        ]
+      },
+      "logicData": "El componente `CalendarEvent`, que representa una visita en el calendario, tendrá un manejador `onClick`. Este evento abrirá el `VisitDetailModal`, pasándole el ID de la visita. El modal usará este ID para llamar a `visitService.getVisitById(id)` y obtener los datos completos, que luego mostrará de forma estructurada.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "p-6 bg-white rounded-lg shadow-xl",
+        "colorCoding": "Confirmada: #3b82f6 (blue-500), Pendiente: #f59e0b (amber-500), Cancelada: #6b7280 (gray-500). Estos colores se usarán tanto en el evento del calendario como en una etiqueta de estado dentro del modal."
+      },
+      "acceptanceCriteria": [
+        "Al hacer clic en cualquier evento del calendario, se abre un modal.",
+        "El modal muestra información detallada: nombre y dirección del inmueble, nombre y teléfono del cliente, agente asignado, fecha, hora y estado de la visita.",
+        "El modal contiene un botón para cerrarlo.",
+        "La información mostrada es consistente con los datos del evento en el que se hizo clic."
+      ],
+      "additionalSuggestions": [
+        "Incluir un enlace directo a la ficha del inmueble y a la ficha del cliente desde el modal.",
+        "Añadir botones de acción en el modal como 'Reprogramar' o 'Cancelar'."
+      ],
+      "aiEditorTask": "Crea el componente `VisitDetailModal.jsx` que acepta un `visitId`, busca los datos y los muestra. Modifica el componente de evento del calendario (`CalendarEvent.jsx`) para que al hacer clic, se abra este modal con el ID correcto.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Reprogramar una Visita Arrastrando y Soltando",
+      "description": "Como coordinador, quiero poder reprogramar una visita simplemente arrastrándola a una nueva fecha u hora en el calendario para agilizar las actualizaciones de agenda de forma visual e intuitiva.",
+      "pageContext": "Agenda de Visitas",
+      "affectedFiles": [
+        "src/app/calendar/page.jsx",
+        "src/components/calendar/CalendarView.jsx",
+        "src/services/visitService.js",
+        "src/hooks/useVisits.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "withDragAndDrop",
+            "from": "react-big-calendar/lib/addons/dragAndDrop"
+          }
+        ]
+      },
+      "logicData": "Se debe integrar la funcionalidad de arrastrar y soltar (drag and drop) en el componente `CalendarView`, posiblemente usando un HOC o addon de la librería de calendario. Al soltar un evento (`onEventDrop`), se debe disparar una función que llame a `visitService.updateVisit(id, { newDate, newTime })`. Se recomienda mostrar un diálogo de confirmación antes de enviar la actualización a la API. La vista debe actualizarse optimistamente o tras la confirmación de la API.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "cursor-move",
+        "colorCoding": "Mientras se arrastra, el evento podría tener una opacidad reducida (ej. `opacity-75`) y una sombra para indicar que está en movimiento."
+      },
+      "acceptanceCriteria": [
+        "Los eventos en el calendario se pueden arrastrar con el ratón.",
+        "Al soltar un evento en una nueva franja horaria, aparece un diálogo de confirmación.",
+        "Si se confirma, la visita se mueve a la nueva posición en el calendario y los datos se actualizan en el backend.",
+        "Si se cancela el diálogo, el evento vuelve a su posición original.",
+        "Si se intenta mover a un horario no válido (ej. un horario ya ocupado por otra visita para el mismo agente), se muestra un error y el evento no se mueve."
+      ],
+      "additionalSuggestions": [
+        "Permitir también redimensionar el evento para cambiar su duración (si aplica).",
+        "Enviar una notificación automática al cliente y al agente informando sobre la reprogramación."
+      ],
+      "aiEditorTask": "Integra la funcionalidad de drag-and-drop en el componente `CalendarView.jsx` utilizando el addon correspondiente de `react-big-calendar`. Implementa la función `onEventDrop` que gestione la lógica de confirmación y la llamada al `visitService` para actualizar la fecha/hora de la visita.",
+      "priority": "Media",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Cancelar una Visita Programada",
+      "description": "Como agente, quiero poder cancelar una visita directamente desde sus detalles en el calendario para liberar el espacio de tiempo y la disponibilidad del inmueble de forma oficial.",
+      "pageContext": "Agenda de Visitas",
+      "affectedFiles": [
+        "src/components/modals/VisitDetailModal.jsx",
+        "src/services/visitService.js",
+        "src/hooks/useVisits.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": []
+      },
+      "logicData": "En el `VisitDetailModal`, añadir un botón de 'Cancelar Visita'. Al hacer clic, se mostrará un modal de confirmación. Si el usuario confirma, se llamará a `visitService.updateVisit(id, { status: 'canceled' })`. El hook `useVisits` deberá entonces refrescar los datos o actualizar el estado localmente para reflejar el cambio. El evento en el calendario cambiará su apariencia.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded",
+        "colorCoding": "El evento cancelado en el calendario debería mostrarse con un estilo diferente para distinguirlo fácilmente, por ejemplo, con fondo gris, texto tachado y menor opacidad (`bg-gray-400 line-through opacity-60`)."
+      },
+      "acceptanceCriteria": [
+        "El modal de detalles de la visita debe tener un botón de 'Cancelar Visita'.",
+        "Al hacer clic en el botón, aparece un diálogo pidiendo confirmación.",
+        "Tras la confirmación, el estado de la visita se cambia a 'Cancelada' en la base de datos.",
+        "El evento en el calendario cambia su estilo visual para indicar que está cancelado.",
+        "El botón de 'Cancelar Visita' no debe ser visible si la visita ya está cancelada."
+      ],
+      "additionalSuggestions": [
+        "Añadir un campo de texto opcional en el diálogo de confirmación para registrar el motivo de la cancelación.",
+        "Desencadenar una notificación por correo electrónico o SMS al cliente para informarle de la cancelación."
+      ],
+      "aiEditorTask": "Añade un botón 'Cancelar Visita' al `VisitDetailModal.jsx`. Implementa la lógica para mostrar un diálogo de confirmación (`window.confirm` o un modal personalizado) y, si se confirma, llamar al `visitService` para actualizar el estado de la visita. Asegúrate de que el calendario refleje visualmente el estado cancelado.",
+      "priority": "Media",
+      "estimatedHours": 8
+    }
+  ]
+}
+```

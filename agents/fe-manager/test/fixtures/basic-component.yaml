@@ -1,0 +1,83 @@
+name: "Basic Component Generation"
+description: "Test basic component generation workflow with single story"
+input:
+  stories:
+    - id: "story-001"
+      title: "Create Login Button"
+      description: "As a user, I want a login button that redirects to authentication page"
+      priority: 80
+      complexity: 3
+      tags: ["ui", "authentication", "button"]
+      metadata:
+        pageId: "login-page"
+        componentType: "button"
+        interactions: ["click"]
+  projectConfig:
+    framework: "react"
+    typescript: true
+    styling: "tailwind"
+  userContext:
+    theme: "modern"
+    accessibility: true
+expected:
+  queues:
+    - name: "fe-draft"
+      jobCount: 1
+      jobs:
+        - name: "generate-component"
+          priority: 80
+          data:
+            storyId: "story-001"
+            componentType: "button"
+    - name: "fe-logic"
+      jobCount: 1
+      jobs:
+        - name: "add-interactions"
+          priority: 75
+          delay: 500
+    - name: "fe-style"
+      jobCount: 1
+      jobs:
+        - name: "apply-styling"
+          priority: 70
+          delay: 1000
+    - name: "fe-a11y"
+      jobCount: 1
+      jobs:
+        - name: "add-accessibility"
+          priority: 65
+          delay: 1500
+    - name: "fe-test"
+      jobCount: 1
+      jobs:
+        - name: "generate-tests"
+          priority: 60
+          delay: 2000
+  processing:
+    totalJobs: 5
+    estimatedDuration: 3000
+    dependencies:
+      - from: "fe-draft"
+        to: "fe-logic"
+        type: "blocks"
+      - from: "fe-logic"
+        to: "fe-style"
+        type: "enhances"
+      - from: "fe-style"
+        to: "fe-a11y"
+        type: "enhances"
+      - from: "fe-a11y"
+        to: "fe-test"
+        type: "requires"
+  output:
+    components: ["LoginButton"]
+    files: [
+      "components/LoginButton.tsx",
+      "components/LoginButton.test.tsx",
+      "components/LoginButton.stories.tsx"
+    ]
+    metrics:
+      tokensUsed: 1500
+      processingTime: 2800
+timeout: 10000
+tags: ["basic", "component", "authentication"]

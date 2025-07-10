@@ -1,0 +1,62 @@
+```json
+{
+  "pages": [
+    {
+      "name": "Dashboard / Panel Principal",
+      "description": "Vista central para usuarios autenticados. Muestra un resumen de documentos recientes, tareas pendientes, notificaciones de fechas límite próximas y acceso rápido a las funciones principales como 'Crear Nuevo Documento'.",
+      "route": "/dashboard",
+      "isEssential": true,
+      "priority": 1
+    },
+    {
+      "name": "Página de Inicio (Landing Page)",
+      "description": "Página principal de marketing. Presenta PropDocs Secure, sus beneficios clave (automatización, seguridad, e-signature), testimonios y un llamado a la acción claro para registrarse o solicitar una demostración.",
+      "route": "/",
+      "isEssential": true,
+      "priority": 2
+    },
+    {
+      "name": "Gestión de Transacciones/Documentos",
+      "description": "Listado central de todas las transacciones inmobiliarias o carpetas de documentos. Permite al usuario buscar, filtrar (por estado, fecha, cliente) y organizar sus proyectos. Desde aquí se accede al detalle de cada transacción.",
+      "route": "/transactions",
+      "isEssential": true,
+      "priority": 3
+    },
+    {
+      "name": "Detalle de Transacción y Visor de Documentos",
+      "description": "Página detallada de una transacción específica. Muestra la lista de documentos asociados, su estado (borrador, pendiente de firma, completado), el historial de auditoría y las partes involucradas. Integra el visor de documentos para revisión y el flujo de firma electrónica.",
+      "route": "/transactions/{id}",
+      "isEssential": true,
+      "priority": 4
+    },
+    {
+      "name": "Inicio de Sesión y Registro",
+      "description": "Formularios para que los usuarios existentes inicien sesión y los nuevos usuarios creen una cuenta. Incluye opciones de 'recuperar contraseña' y podría ofrecer autenticación social.",
+      "route": "/auth",
+      "isEssential": true,
+      "priority": 5
+    },
+    {
+      "name": "Editor de Plantillas de Contratos",
+      "description": "Herramienta que permite a los usuarios crear, personalizar y guardar plantillas de contratos. Incluye campos dinámicos que se rellenan automáticamente al iniciar una nueva transacción para automatizar la creación de documentos.",
+      "route": "/templates",
+      "isEssential": true,
+      "priority": 6
+    },
+    {
+      "name": "Configuración de Cuenta y Perfil",
+      "description": "Permite al usuario gestionar su información personal, cambiar la contraseña, configurar notificaciones, gestionar la suscripción, los detalles de facturación y personalizar la configuración de la firma electrónica.",
+      "route": "/settings",
+      "isEssential": true,
+      "priority": 7
+    },
+    {
+      "name": "Página de Precios",
+      "description": "Página pública que detalla los diferentes planes de suscripción, sus características, límites y precios. Incluye una tabla comparativa y llamados a la acción para iniciar una prueba o contratar un plan.",
+      "route": "/pricing",
+      "isEssential": true,
+      "priority": 8
+    }
+  ]
+}
+```

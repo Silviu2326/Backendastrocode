@@ -1,0 +1,278 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización de la lista de automatizaciones existentes",
+      "description": "Como administrador del CRM, quiero ver una lista de todas las automatizaciones configuradas para tener una visión general de los flujos de trabajo activos e inactivos.",
+      "pageContext": "Configuración de Automatizaciones",
+      "affectedFiles": [
+        "src/pages/settings/automations/index.jsx",
+        "src/components/automations/AutomationList.jsx",
+        "src/components/automations/AutomationListItem.jsx",
+        "src/services/automationService.js",
+        "src/hooks/useAutomations.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AutomationList",
+            "type": "component"
+          },
+          {
+            "name": "AutomationListItem",
+            "type": "component"
+          },
+          {
+            "name": "useAutomations",
+            "type": "hook"
+          }
+        ],
+        "import": [
+          {
+            "name": "LoadingSpinner",
+            "from": "@/components/common/LoadingSpinner"
+          }
+        ]
+      },
+      "logicData": "El hook `useAutomations` se encargará de llamar a `automationService.getAutomations()` para obtener la lista. La respuesta debe ser un array de objetos, donde cada objeto contiene `id`, `name`, `status` ('active' o 'inactive'), `triggerType`, y `lastModified`. El componente `AutomationList` mapeará estos datos para renderizar un `AutomationListItem` por cada uno.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "divide-y divide-gray-200, bg-white shadow, p-4 sm:p-6",
+        "colorCoding": "Utilizar un punto verde (bg-green-500) para automatizaciones activas y un punto gris (bg-gray-400) para las inactivas."
+      },
+      "acceptanceCriteria": [
+        "Al cargar la página, se debe mostrar una lista o tabla de todas las automatizaciones.",
+        "Cada elemento en la lista debe mostrar su nombre, su estado (Activo/Inactivo) con un indicador de color y el tipo de disparador (ej. 'Nuevo Lead').",
+        "Si no hay automatizaciones creadas, se debe mostrar un mensaje claro y un botón para 'Crear primera automatización'.",
+        "Mientras se cargan los datos, se debe mostrar un indicador de carga (spinner)."
+      ],
+      "additionalSuggestions": [
+        "Implementar paginación si se espera que la lista crezca mucho.",
+        "Añadir un botón 'Crear Nueva' prominente en la parte superior de la lista."
+      ],
+      "aiEditorTask": "Implementa el componente `AutomationList` que usa el hook `useAutomations` para obtener y renderizar una lista de automatizaciones. Cada ítem debe ser un componente `AutomationListItem` mostrando nombre y un badge de estado.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Creación de una nueva automatización de seguimiento por email",
+      "description": "Como agente inmobiliario, quiero crear una automatización que envíe un email de bienvenida a un nuevo lead 24 horas después de su creación para asegurar un contacto rápido y estandarizado.",
+      "pageContext": "Configuración de Automatizaciones",
+      "affectedFiles": [
+        "src/components/automations/AutomationForm.jsx",
+        "src/pages/settings/automations/index.jsx",
+        "src/services/automationService.js",
+        "src/redux/slices/automationSlice.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AutomationForm",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "Modal",
+            "from": "@/components/common/Modal"
+          },
+          {
+            "name": "SelectInput",
+            "from": "@/components/common/forms/SelectInput"
+          },
+          {
+            "name": "EmailTemplateSelector",
+            "from": "@/components/emails/EmailTemplateSelector"
+          }
+        ]
+      },
+      "logicData": "El formulario debe permitir: 1. Nombrar la automatización. 2. Seleccionar el disparador ('Nuevo Lead Creado'). 3. Definir la acción ('Enviar Email'). 4. Configurar un retraso (ej. 24 horas). 5. Seleccionar una plantilla de email existente. Al guardar, se debe llamar a `automationService.createAutomation()` con el payload configurado.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "space-y-4, grid grid-cols-1 gap-6",
+        "colorCoding": "El formulario debe estar dentro de un modal o en una sub-página dedicada. Usar secciones claras para 'Disparador', 'Condiciones' y 'Acciones'."
+      },
+      "acceptanceCriteria": [
+        "Un botón 'Crear Nueva' debe abrir un formulario.",
+        "El formulario debe permitir configurar un nombre para la regla.",
+        "Debo poder seleccionar el disparador 'Cuando se crea un nuevo lead'.",
+        "Debo poder seleccionar la acción 'Enviar email'.",
+        "Al seleccionar 'Enviar email', debe aparecer un campo para seleccionar una plantilla de email y otro para definir un retraso (ej. en horas o días).",
+        "Al guardar, la nueva automatización aparece en la lista principal."
+      ],
+      "additionalSuggestions": [
+        "Añadir la opción de previsualizar la plantilla de email seleccionada.",
+        "Permitir añadir condiciones, como 'Solo si la fuente del lead es X'."
+      ],
+      "aiEditorTask": "Crea el componente `AutomationForm.jsx` dentro de un modal. Incluye un campo de texto para el nombre, un select para el disparador y selects anidados para la acción. Si la acción es 'Enviar Email', muestra un selector de plantillas y un input numérico para el retraso.",
+      "priority": "Alta",
+      "estimatedHours": 16
+    },
+    {
+      "title": "Activar o desactivar una automatización",
+      "description": "Como gerente de ventas, quiero poder activar o desactivar una automatización con un solo clic para pausar flujos de trabajo temporalmente sin tener que eliminarlos.",
+      "pageContext": "Configuración de Automatizaciones",
+      "affectedFiles": [
+        "src/components/automations/AutomationListItem.jsx",
+        "src/services/automationService.js",
+        "src/hooks/useAutomations.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ToggleSwitch",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "useUpdateAutomationStatus",
+            "from": "@/hooks/useAutomations"
+          }
+        ]
+      },
+      "logicData": "Cada `AutomationListItem` contendrá un componente `ToggleSwitch` que refleje el `status` actual. Al hacer clic, se llamará a una mutación (ej. `updateStatus`) del hook `useAutomations` que a su vez invoca `automationService.updateAutomationStatus(id, newStatus)`. La UI debe actualizarse optimistamente.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex items-center, cursor-pointer",
+        "colorCoding": "El toggle debe ser de color primario (ej. azul o verde) cuando está activo y gris cuando está inactivo."
+      },
+      "acceptanceCriteria": [
+        "Cada ítem en la lista de automatizaciones debe mostrar un interruptor (toggle switch).",
+        "El estado del interruptor (encendido/apagado) debe corresponder al estado de la automatización (Activo/Inactivo).",
+        "Hacer clic en el interruptor debe cambiar el estado de la automatización en el backend.",
+        "El cambio en la UI (el interruptor y el badge de estado) debe ser inmediato.",
+        "Se debe mostrar una notificación toast confirmando el cambio (ej: 'Automatización activada')."
+      ],
+      "additionalSuggestions": [
+        "Añadir un tooltip al interruptor que diga 'Activar/Desactivar automatización'.",
+        "Considerar deshabilitar el interruptor y mostrar un spinner mientras se procesa la solicitud para evitar clics múltiples."
+      ],
+      "aiEditorTask": "Crea un componente `ToggleSwitch` reutilizable. Intégralo en `AutomationListItem` y conecta su estado `onChange` para llamar a una función que simule una actualización de estado en el backend.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Eliminación de una automatización",
+      "description": "Como administrador, quiero eliminar permanentemente una automatización obsoleta para mantener la configuración limpia y relevante.",
+      "pageContext": "Configuración de Automatizaciones",
+      "affectedFiles": [
+        "src/components/automations/AutomationListItem.jsx",
+        "src/components/common/ConfirmationModal.jsx",
+        "src/services/automationService.js",
+        "src/hooks/useAutomations.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "ConfirmationModal",
+            "from": "@/components/common/ConfirmationModal"
+          },
+          {
+            "name": "TrashIcon",
+            "from": "@heroicons/react/24/outline"
+          }
+        ]
+      },
+      "logicData": "En `AutomationListItem`, un ícono de papelera abrirá un `ConfirmationModal`. Al confirmar, se llamará a la función `deleteAutomation(id)` del hook `useAutomations`. Esta función llamará a `automationService.deleteAutomation(id)` y, si tiene éxito, actualizará el estado local para eliminar el ítem de la lista.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "text-red-600 hover:text-red-800",
+        "colorCoding": "El botón de confirmación en el modal debe ser de color rojo para denotar una acción destructiva."
+      },
+      "acceptanceCriteria": [
+        "Cada ítem de la lista debe tener un ícono o botón para 'Eliminar'.",
+        "Al hacer clic en 'Eliminar', debe aparecer un modal de confirmación.",
+        "El modal debe preguntar '¿Estás seguro de que quieres eliminar la automatización \"[Nombre de la Automatización]\"?'.",
+        "Si hago clic en 'Confirmar', la automatización se elimina y desaparece de la lista.",
+        "Si hago clic en 'Cancelar', el modal se cierra sin realizar ninguna acción."
+      ],
+      "additionalSuggestions": [
+        "Implementar 'soft deletes' (archivado) en lugar de una eliminación permanente, para poder restaurar en caso de error."
+      ],
+      "aiEditorTask": "En `AutomationListItem`, añade un ícono de papelera. Al hacerle clic, utiliza un estado local para mostrar un `ConfirmationModal`. La acción de confirmar en el modal debe invocar una función pasada por props para eliminar el ítem.",
+      "priority": "Media",
+      "estimatedHours": 5
+    },
+    {
+      "title": "Editar una automatización existente",
+      "description": "Como gerente de ventas, quiero editar las reglas de una automatización existente para ajustar los criterios de asignación de leads a medida que el equipo cambia.",
+      "pageContext": "Configuración de Automatizaciones",
+      "affectedFiles": [
+        "src/components/automations/AutomationForm.jsx",
+        "src/components/automations/AutomationListItem.jsx",
+        "src/services/automationService.js"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "PencilIcon",
+            "from": "@heroicons/react/24/outline"
+          }
+        ]
+      },
+      "logicData": "El botón 'Editar' en `AutomationListItem` abrirá el mismo `AutomationForm.jsx` usado para crear, pero se le pasará la data de la automatización seleccionada. El formulario se pre-llenará con estos datos. La acción del botón 'Guardar' llamará a `automationService.updateAutomation(id, data)` en lugar de `createAutomation`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "text-gray-500 hover:text-blue-600",
+        "colorCoding": "El formulario de edición es idéntico al de creación, pero el título del modal o página dirá 'Editar Automatización'."
+      },
+      "acceptanceCriteria": [
+        "Cada ítem de la lista debe tener un ícono o botón para 'Editar'.",
+        "Al hacer clic en 'Editar', se debe abrir el formulario con los datos de esa automatización cargados.",
+        "Puedo modificar cualquiera de los campos: nombre, condiciones, acciones, etc.",
+        "Al guardar los cambios, el formulario se cierra y la lista se actualiza para reflejar la nueva configuración.",
+        "Debe haber un botón 'Cancelar' que cierre el formulario sin guardar los cambios."
+      ],
+      "additionalSuggestions": [
+        "Mostrar un historial de cambios simple para la automatización.",
+        "Deshabilitar el botón de 'Guardar' si no se ha realizado ningún cambio en el formulario."
+      ],
+      "aiEditorTask": "Modifica `AutomationForm.jsx` para que acepte una prop `initialData`. Si esta prop existe, el formulario debe inicializar sus estados con esos valores. Añade un botón de editar a `AutomationListItem` que abra el modal con los datos correspondientes.",
+      "priority": "Media",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Filtrar automatizaciones por estado",
+      "description": "Como administrador con docenas de reglas, quiero filtrar rápidamente la lista para ver solo las automatizaciones 'Activas' o 'Inactivas' y así poder gestionarlas más eficientemente.",
+      "pageContext": "Configuración de Automatizaciones",
+      "affectedFiles": [
+        "src/pages/settings/automations/index.jsx",
+        "src/components/common/FilterTabs.jsx",
+        "src/hooks/useAutomations.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "FilterTabs",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "En la página principal, sobre la lista, se agregará un componente `FilterTabs` con las opciones 'Todas', 'Activas', 'Inactivas'. El estado del filtro seleccionado se mantendrá en la página. La lista de automatizaciones mostrada se filtrará del lado del cliente basándose en el estado seleccionado antes de renderizarse.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex space-x-4 border-b, py-2 px-3 text-sm font-medium",
+        "colorCoding": "La pestaña activa debe tener un borde inferior de color primario y un texto más oscuro para indicar que está seleccionada."
+      },
+      "acceptanceCriteria": [
+        "Sobre la lista de automatizaciones, deben aparecer las opciones de filtro: 'Todas', 'Activas', 'Inactivas'.",
+        "Por defecto, se debe seleccionar 'Todas'.",
+        "Al hacer clic en 'Activas', la lista debe mostrar únicamente las automatizaciones con estado activo.",
+        "Al hacer clic en 'Inactivas', la lista debe mostrar únicamente las automatizaciones con estado inactivo.",
+        "El filtro seleccionado debe estar visualmente destacado."
+      ],
+      "additionalSuggestions": [
+        "Añadir un contador numérico a cada pestaña de filtro (ej. 'Activas (5)').",
+        "Combinar esta funcionalidad con una barra de búsqueda por nombre."
+      ],
+      "aiEditorTask": "Crea un componente `FilterTabs` que acepte una lista de opciones y una función `onSelect`. Impleméntalo en la página de automatizaciones para filtrar la lista de automatizaciones renderizada basándose en la pestaña seleccionada.",
+      "priority": "Media",
+      "estimatedHours": 4
+    }
+  ]
+}
+```

@@ -1,0 +1,123 @@
+```json
+{
+  "softwares": [
+    {
+      "name": "FitOS - The Trainer's Operating System",
+      "description": "Una plataforma todo-en-uno diseñada para gestionar y escalar un negocio de entrenamiento personal. Centraliza la gestión de clientes, programación de entrenamientos y nutrición, calendarios, facturación automatizada y herramientas de marketing en un único panel de control.",
+      "targetClient": "Entrenadores personales independientes (25-45 años) con una base de clientes establecida (5-20 clientes) que se sienten abrumados por las tareas administrativas. Buscan profesionalizar su servicio, ahorrar tiempo y encontrar una forma escalable de aumentar sus ingresos.",
+      "pages": [
+        {
+          "name": "Dashboard Principal",
+          "description": "Vista general de tareas diarias, citas próximas, actividad de clientes y métricas de ingresos clave.",
+          "route": "/dashboard"
+        },
+        {
+          "name": "Clientes (CRM)",
+          "description": "Gestión de la base de datos de clientes, con perfiles individuales, historial, seguimiento de progreso y notas.",
+          "route": "/clients"
+        },
+        {
+          "name": "Programador de Contenido",
+          "description": "Creación y asignación de planes de entrenamiento y nutrición personalizados usando una biblioteca de ejercicios y alimentos.",
+          "route": "/planner"
+        },
+        {
+          "name": "Calendario y Reservas",
+          "description": "Sincronización de calendario, gestión de disponibilidad y portal de auto-reserva para clientes.",
+          "route": "/schedule"
+        },
+        {
+          "name": "Finanzas y Pagos",
+          "description": "Creación de suscripciones, envío de facturas y seguimiento de pagos integrados con Stripe/PayPal.",
+          "route": "/billing"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$70,000 - $120,000 USD",
+        "monthlyRevenuePotential": "$25,000 - $80,000 USD",
+        "breakEvenTime": "18-24 meses",
+        "marketSize": "Creciente, con más de 350,000 entrenadores solo en EE.UU. que buscan digitalizar sus servicios.",
+        "competitionLevel": "Alto"
+      }
+    },
+    {
+      "name": "ScaleTrainr - Plataforma de Coaching Grupal e Híbrido",
+      "description": "Software diseñado para entrenadores que desean escalar más allá del 1-a-1. Facilita la creación y gestión de programas de coaching grupal, cursos online y modelos de entrenamiento híbridos (presencial + online) con potentes herramientas comunitarias.",
+      "targetClient": "Entrenadores experimentados (30-50 años) con una marca personal sólida y una audiencia online. Su principal necesidad es monetizar su conocimiento a gran escala, creando productos digitales y comunidades de pago para no depender de su tiempo.",
+      "pages": [
+        {
+          "name": "Gestor de Programas",
+          "description": "Creación de cursos o programas grupales con contenido liberado por goteo (drip content), lecciones y recursos.",
+          "route": "/programs"
+        },
+        {
+          "name": "Comunidad",
+          "description": "Foro privado para los miembros del programa, con canales, eventos en vivo y mensajería directa.",
+          "route": "/community"
+        },
+        {
+          "name": "Videoteca On-Demand",
+          "description": "Sube y organiza una biblioteca de videos de entrenamientos o clases a la que los clientes pueden acceder según su plan.",
+          "route": "/library"
+        },
+        {
+          "name": "Páginas de Venta",
+          "description": "Constructor de landing pages para promocionar y vender acceso a los diferentes programas y membresías.",
+          "route": "/sales-pages"
+        },
+        {
+          "name": "Analíticas de Cohorte",
+          "description": "Métricas sobre el progreso y la participación del grupo, tasas de finalización de cursos y retención.",
+          "route": "/analytics/cohorts"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$90,000 - $150,000 USD",
+        "monthlyRevenuePotential": "$30,000 - $100,000 USD",
+        "breakEvenTime": "20-30 meses",
+        "marketSize": "Nicho emergente dentro del mercado de fitness, enfocado en la 'Creator Economy' de entrenadores.",
+        "competitionLevel": "Medio"
+      }
+    },
+    {
+      "name": "ApexCoach - Inteligencia de Rendimiento",
+      "description": "Una plataforma de élite que se integra con wearables (Garmin, Whoop, Apple Watch) para transformar datos biométricos en planes de entrenamiento y recuperación accionables. Utiliza IA para analizar el sueño, VFC y estrés, ofreciendo recomendaciones proactivas.",
+      "targetClient": "Entrenadores de alto rendimiento y 'health coaches' enfocados en data. Trabajan con atletas o ejecutivos ocupados que valoran la optimización de la salud basada en datos precisos y buscan un servicio premium y diferenciado.",
+      "pages": [
+        {
+          "name": "Panel Biométrico",
+          "description": "Visualización de datos agregados de los wearables de todos los clientes (sueño, VFC, estrés, actividad).",
+          "route": "/bio-dashboard"
+        },
+        {
+          "name": "Perfil de Cliente Avanzado",
+          "description": "Vista detallada de las métricas diarias de un cliente, con gráficos de tendencias y correlaciones.",
+          "route": "/client/:id/performance"
+        },
+        {
+          "name": "Motor de Recomendaciones (IA)",
+          "description": "Panel con alertas y sugerencias generadas por IA, como 'Recomendar día de descanso' o 'Ajustar intensidad'.",
+          "route": "/insights"
+        },
+        {
+          "name": "Gestor de Integraciones",
+          "description": "Conecta y gestiona las fuentes de datos de los clientes (Garmin Connect, Apple Health, Oura, etc.).",
+          "route": "/integrations"
+        },
+        {
+          "name": "Reportes de Rendimiento",
+          "description": "Generador de informes semanales o mensuales en PDF para compartir con los clientes, resumiendo su progreso y logros.",
+          "route": "/reports"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$100,000 - $180,000 USD",
+        "monthlyRevenuePotential": "$20,000 - $70,000 USD",
+        "breakEvenTime": "24-36 meses",
+        "marketSize": "Nicho de alto poder adquisitivo, pero más pequeño que el mercado general de entrenadores.",
+        "competitionLevel": "Bajo"
+      }
+    }
+  ]
+}
+```

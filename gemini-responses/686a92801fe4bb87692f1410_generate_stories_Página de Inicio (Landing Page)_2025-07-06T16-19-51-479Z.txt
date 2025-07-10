@@ -1,0 +1,244 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización del Encabezado Principal (Hero Section)",
+      "description": "Como un instalador de paneles solares que visita el sitio por primera vez, quiero ver una sección principal clara y concisa que explique el valor de SolarQuote AI para poder entender rápidamente cómo puede beneficiar a mi negocio y decidir si quiero seguir explorando.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/features/pgina-de-inicio-landing-page/components/HeroSection.tsx",
+        "src/components/Button.jsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "HeroSection",
+            "type": "component",
+            "path": "src/features/pgina-de-inicio-landing-page/components/HeroSection.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          },
+          {
+            "name": "HeroSection",
+            "from": "./components/HeroSection"
+          }
+        ]
+      },
+      "logicData": "El componente HeroSection contendrá un título principal (H1), un subtítulo (p), y dos botones de llamada a la acción (CTA) principales. Un botón llevará a la página de registro ('/registro-de-usuario') y el otro a solicitar una demo (este podría abrir un modal o enlazar a una sección de contacto). El contenido será estático y definido directamente en el componente.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex flex-col items-center justify-center text-center py-20 px-4 bg-gray-50",
+        "colorCoding": "Usar colores primarios de la marca para los botones y el título principal para captar la atención. Fondo claro para maximizar la legibilidad."
+      },
+      "acceptanceCriteria": [
+        "La sección debe ser lo primero que se ve al cargar la página.",
+        "Debe mostrar un título principal claro y atractivo, por ejemplo: 'Genera Propuestas Solares en Minutos, no en Días'.",
+        "Debe incluir un párrafo de apoyo que resuma el beneficio principal.",
+        "Debe haber un botón principal de CTA, 'Registrarse Gratis', que enlace a '/registro-de-usuario'.",
+        "Debe haber un botón secundario, 'Solicitar Demo', visible.",
+        "La sección debe ser completamente responsive y verse bien en dispositivos móviles, tablets y escritorio."
+      ],
+      "additionalSuggestions": [
+        "Considerar añadir una imagen o video de fondo sutil relacionado con la energía solar o el software para hacerlo más atractivo visualmente.",
+        "Realizar pruebas A/B con diferentes textos en los títulos y botones para optimizar la conversión."
+      ],
+      "aiEditorTask": "Crea el componente `HeroSection.tsx` dentro de `src/features/pgina-de-inicio-landing-page/components/`. Este componente debe renderizar un título (h1), un párrafo (p) y dos instancias del componente `Button` importado desde `src/components/Button.jsx`. Luego, importa e integra `HeroSection` en `PáginadeInicio(LandingPage)Page.tsx`.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Visualización de Características Clave del Producto",
+      "description": "Como un gerente de proyectos de una empresa solar, quiero ver una sección que destaque las características más importantes de SolarQuote AI para poder evaluar si la herramienta cubre las necesidades de mi equipo.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/features/pgina-de-inicio-landing-page/components/FeaturesSection.tsx",
+        "src/features/pgina-de-inicio-landing-page/components/FeatureCard.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "FeaturesSection",
+            "type": "component",
+            "path": "src/features/pgina-de-inicio-landing-page/components/FeaturesSection.tsx"
+          },
+          {
+            "name": "FeatureCard",
+            "type": "component",
+            "path": "src/features/pgina-de-inicio-landing-page/components/FeatureCard.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "FeaturesSection",
+            "from": "./components/FeaturesSection"
+          }
+        ]
+      },
+      "logicData": "El componente `FeaturesSection` mostrará un título y una grilla de componentes `FeatureCard`. Cada `FeatureCard` aceptará props como 'icono', 'titulo' y 'descripcion'. Inicialmente, se mostrarán 3-4 características clave con contenido estático.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-1 md:grid-cols-3 gap-8 py-16",
+        "colorCoding": "Cada tarjeta (`FeatureCard`) podría tener un borde sutil o una sombra al pasar el cursor. Los iconos deben ser consistentes en estilo y color."
+      },
+      "acceptanceCriteria": [
+        "La sección debe tener un título claro como 'Todo lo que necesitas para cerrar más ventas'.",
+        "Se deben mostrar al menos tres características distintas (ej. 'Diseño y Cotización con IA', 'Gestión de Proyectos', 'Propuestas Personalizables').",
+        "Cada característica debe tener un icono representativo, un título corto y una descripción de 1-2 frases.",
+        "El layout debe ser una grilla que se adapte a una sola columna en móviles y múltiples columnas en escritorio.",
+        "El diseño debe ser limpio y facilitar la lectura rápida de cada característica."
+      ],
+      "additionalSuggestions": [
+        "Añadir un pequeño enlace 'Leer más' en cada tarjeta si hay páginas de detalle para cada característica.",
+        "Usar animaciones sutiles para que las tarjetas aparezcan al hacer scroll, mejorando la experiencia de usuario."
+      ],
+      "aiEditorTask": "Crea dos componentes nuevos: `FeatureCard.tsx` (que acepta props para icono, título y descripción) y `FeaturesSection.tsx` (que organiza varias `FeatureCard` en una grilla responsive). Colócalos en `src/features/pgina-de-inicio-landing-page/components/`. Luego, añade la `FeaturesSection` al entry-point `PáginadeInicio(LandingPage)Page.tsx`.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Visualización de Testimonios de Clientes (Prueba Social)",
+      "description": "Como un visitante escéptico, quiero ver testimonios de otros profesionales del sector solar para ganar confianza en la efectividad y fiabilidad de SolarQuote AI antes de considerar registrarme.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/features/pgina-de-inicio-landing-page/components/TestimonialsSection.tsx",
+        "src/features/pgina-de-inicio-landing-page/hooks/usePáginadeInicio(LandingPage).ts",
+        "src/features/pgina-de-inicio-landing-page/api.ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "TestimonialsSection",
+            "type": "component",
+            "path": "src/features/pgina-de-inicio-landing-page/components/TestimonialsSection.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "TestimonialsSection",
+            "from": "./components/TestimonialsSection"
+          },
+          {
+            "name": "usePáginadeInicio(LandingPage)",
+            "from": "../hooks/usePáginadeInicio(LandingPage)"
+          }
+        ]
+      },
+      "logicData": "Los datos de los testimonios (cita, autor, empresa, foto opcional) podrían ser obtenidos desde un endpoint de la API. Se creará una función en `api.ts` para obtener estos datos y se consumirá a través del hook `usePáginadeInicio(LandingPage).ts`. El componente `TestimonialsSection` usará este hook para obtener y mostrar los datos. Para la fase inicial, se pueden mockear los datos en el hook.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-blue-50 py-16 px-4 flex flex-col items-center",
+        "colorCoding": "Fondo de color suave para diferenciar esta sección. El texto de la cita debe ser prominente, quizás en itálicas. El nombre del autor y la empresa con menor peso visual."
+      },
+      "acceptanceCriteria": [
+        "La sección debe mostrar al menos dos testimonios de clientes.",
+        "Cada testimonio debe incluir el texto de la cita, el nombre del autor y su empresa.",
+        "Si hay una foto del autor, debe mostrarse junto al testimonio.",
+        "El diseño debe ser profesional y generar confianza.",
+        "Se podría implementar como un carrusel o slider si hay más de 2-3 testimonios, con controles de navegación claros."
+      ],
+      "additionalSuggestions": [
+        "Incluir logos de las empresas de los clientes para aumentar la credibilidad.",
+        "Considerar añadir un enlace a un caso de estudio completo si existe."
+      ],
+      "aiEditorTask": "Modifica `api.ts` para incluir una función `fetchTestimonials`. Actualiza el hook `usePáginadeInicio(LandingPage).ts` para que llame a esta función y gestione el estado de los testimonios. Crea el componente `TestimonialsSection.tsx` que use este hook y renderice los testimonios. Finalmente, integra la sección en `PáginadeInicio(LandingPage)Page.tsx`.",
+      "priority": "Media",
+      "estimatedHours": 9
+    },
+    {
+      "title": "Visualización de la sección 'Cómo Funciona'",
+      "description": "Como un usuario potencial interesado, quiero entender el proceso de uso de la herramienta en unos simples pasos para visualizar el flujo de trabajo y ver qué tan fácil es de usar.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/features/pgina-de-inicio-landing-page/components/HowItWorksSection.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "HowItWorksSection",
+            "type": "component",
+            "path": "src/features/pgina-de-inicio-landing-page/components/HowItWorksSection.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "HowItWorksSection",
+            "from": "./components/HowItWorksSection"
+          }
+        ]
+      },
+      "logicData": "Componente estático que muestra una secuencia de 3 a 4 pasos. Cada paso tendrá un número, un título y una breve descripción. El layout será visualmente secuencial, usando líneas o flechas para conectar los pasos.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex flex-col md:flex-row justify-between items-center py-16 relative",
+        "colorCoding": "Usar elementos gráficos como líneas punteadas o flechas para guiar la vista del usuario a través de los pasos. Cada paso puede tener un ícono simple y numeración grande y clara."
+      },
+      "acceptanceCriteria": [
+        "La sección debe presentar el proceso en 3 o 4 pasos claros y numerados.",
+        "Ejemplo de pasos: 1. Ingresa los datos del cliente, 2. La IA genera el diseño óptimo, 3. Personaliza y envía la propuesta.",
+        "Cada paso debe ser conciso y fácil de entender.",
+        "El diseño debe guiar al usuario visualmente de un paso al siguiente.",
+        "La sección debe ser responsive, mostrando los pasos en vertical en móvil y en horizontal en escritorio."
+      ],
+      "additionalSuggestions": [
+        "Utilizar GIFs cortos o imágenes para ilustrar cada paso en acción.",
+        "Asegurarse de que el lenguaje sea simple y enfocado en la acción del usuario."
+      ],
+      "aiEditorTask": "Crea el componente `HowItWorksSection.tsx` en la carpeta de componentes de la feature. Debe renderizar una lista ordenada o una serie de divs que representen 3-4 pasos con número, título y descripción. Impórtalo y úsalo en `PáginadeInicio(LandingPage)Page.tsx`.",
+      "priority": "Media",
+      "estimatedHours": 5
+    },
+    {
+      "title": "Visualización del pie de página (Footer) con navegación",
+      "description": "Como visitante del sitio, quiero encontrar un pie de página con enlaces importantes y información de contacto para poder navegar a otras secciones como 'Precios' o 'Login' y encontrar información de la empresa.",
+      "pageContext": "Página de Inicio (Landing Page)",
+      "affectedFiles": [
+        "src/features/pgina-de-inicio-landing-page/PáginadeInicio(LandingPage)Page.tsx",
+        "src/components/Footer.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "Footer",
+            "type": "component",
+            "path": "src/components/Footer.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Footer",
+            "from": "src/components/Footer.tsx"
+          }
+        ]
+      },
+      "logicData": "Este será un componente reutilizable, por lo que se creará en `src/components`. Contendrá varias columnas con listas de enlaces: Producto (Características, Precios), Empresa (Sobre nosotros, Contacto), Legal (Términos, Privacidad). También incluirá el logo de la empresa y el aviso de copyright.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-gray-800 text-gray-300 py-12 px-4",
+        "colorCoding": "Fondo oscuro para indicar el final de la página. Los enlaces deben tener un color claro y un estado 'hover' para indicar interactividad."
+      },
+      "acceptanceCriteria": [
+        "El pie de página debe estar presente al final de la página.",
+        "Debe incluir el logo de SolarQuote AI.",
+        "Debe contener enlaces de navegación a páginas clave como 'Precios' (`/pgina-de-precios`), 'Inicio de Sesión' (`/inicio-de-sesin`) y 'Registro' (`/registro-de-usuario`).",
+        "Debe mostrar enlaces a las páginas de 'Términos de Servicio' y 'Política de Privacidad'.",
+        "Debe incluir el año actual y el nombre de la empresa en un aviso de copyright (ej. © 2025 SolarQuote AI)."
+      ],
+      "additionalSuggestions": [
+        "Añadir iconos de redes sociales si la empresa tiene perfiles activos.",
+        "Considerar un campo de suscripción a un boletín informativo (newsletter)."
+      ],
+      "aiEditorTask": "Crea un nuevo componente reutilizable `Footer.tsx` en `src/components`. Este componente debe estructurar los enlaces de navegación y la información de copyright. Luego, importa este `Footer` en el layout principal de la aplicación o directamente en `PáginadeInicio(LandingPage)Page.tsx` para que aparezca en la parte inferior.",
+      "priority": "Baja",
+      "estimatedHours": 4
+    }
+  ]
+}
+```

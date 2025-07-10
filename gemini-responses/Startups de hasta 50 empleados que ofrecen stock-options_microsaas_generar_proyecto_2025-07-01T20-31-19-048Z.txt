@@ -1,0 +1,113 @@
+```json
+{
+  "softwares": [
+    {
+      "name": "EquityViz",
+      "description": "Una plataforma interactiva que ayuda a los empleados de startups a visualizar y comprender el valor potencial de sus stock options. Transforma documentos complejos en un dashboard sencillo y motivador, mejorando la retención y el compromiso del equipo.",
+      "targetClient": "Fundadores y líderes de RRHH en startups de 10-50 empleados. Necesitan una herramienta para comunicar eficazmente el valor del paquete de compensación de capital, sin la complejidad y el coste de un software de gestión de cap table completo.",
+      "pages": [
+        {
+          "name": "Dashboard de Empleado",
+          "description": "Visualización personal de opciones concedidas, calendario de vesting y valor potencial total.",
+          "route": "/dashboard"
+        },
+        {
+          "name": "Simulador de Valor",
+          "description": "Herramienta interactiva para que los empleados proyecten el valor de sus opciones según diferentes escenarios de valoración de la empresa.",
+          "route": "/simulator"
+        },
+        {
+          "name": "Dashboard de Administrador",
+          "description": "Panel para que los fundadores gestionen los perfiles de los empleados, carguen los datos de los grants de opciones y vean un resumen general.",
+          "route": "/admin/dashboard"
+        },
+        {
+          "name": "Centro de Recursos",
+          "description": "Sección educativa con explicaciones sencillas sobre términos clave como 'vesting', 'cliff', 'strike price' y 'ejercicio de opciones'.",
+          "route": "/learn"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$5,000 - $12,000 USD",
+        "monthlyRevenuePotential": "$2,000 - $7,500 USD",
+        "breakEvenTime": "9-18 meses",
+        "marketSize": "Miles de startups en etapa de crecimiento que utilizan equity como herramienta de retención.",
+        "competitionLevel": "Bajo/Medio"
+      }
+    },
+    {
+      "name": "CapTrack Lite",
+      "description": "La alternativa simple y asequible a las hojas de cálculo para la gestión de stock options. Permite a los fundadores registrar grants, seguir los calendarios de vesting y mantener un registro claro y sin errores del equity de los empleados.",
+      "targetClient": "Fundadores de startups en etapa muy temprana (menos de 25 empleados) que actualmente usan Excel/Google Sheets. Buscan una solución organizada y a prueba de errores que sea más barata y sencilla que las plataformas enterprise.",
+      "pages": [
+        {
+          "name": "Cap Table Simplificado",
+          "description": "Vista de tabla con todos los poseedores de opciones, número de opciones y porcentaje diluido.",
+          "route": "/captable"
+        },
+        {
+          "name": "Gestión de Grants",
+          "description": "Formulario para añadir, editar y visualizar los grants de opciones individuales de cada empleado.",
+          "route": "/admin/grants"
+        },
+        {
+          "name": "Calendario de Vesting",
+          "description": "Vista de calendario que muestra los próximos hitos de vesting para todo el equipo, con filtros por empleado.",
+          "route": "/vesting-calendar"
+        },
+        {
+          "name": "Reportes Simples",
+          "description": "Funcionalidad para exportar el cap table y los calendarios de vesting a formato CSV o PDF.",
+          "route": "/reports"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$4,000 - $10,000 USD",
+        "monthlyRevenuePotential": "$1,500 - $6,000 USD",
+        "breakEvenTime": "10-20 meses",
+        "marketSize": "Decenas de miles de startups globales en sus primeras etapas que necesitan una solución inicial de cap table.",
+        "competitionLevel": "Alto"
+      }
+    },
+    {
+      "name": "OptionPort",
+      "description": "Un portal de autoservicio para empleados que centraliza todos los documentos, comunicaciones y datos relacionados con sus stock options. Simplifica el proceso de aceptación de grants y mantiene a todos informados y organizados.",
+      "targetClient": "Gerentes de People Ops o fundadores en startups de 20-50 empleados. Su dolor es la gestión manual de documentos y la comunicación repetitiva sobre el estado del equity de cada empleado.",
+      "pages": [
+        {
+          "name": "Portal de Empleado",
+          "description": "Página de inicio para el empleado donde ve sus documentos, estado de vesting y notificaciones.",
+          "route": "/my-equity"
+        },
+        {
+          "name": "Gestor Documental (Admin)",
+          "description": "Área para que el administrador suba, organice y asigne documentos (cartas de oferta, acuerdos de opciones) a los empleados.",
+          "route": "/admin/documents"
+        },
+        {
+          "name": "Firma Electrónica",
+          "description": "Flujo para que los empleados revisen y firmen digitalmente la aceptación de sus grants de opciones.",
+          "route": "/documents/sign/:id"
+        },
+        {
+          "name": "Dashboard de Cumplimiento (Admin)",
+          "description": "Vista para el administrador para rastrear qué empleados han firmado sus documentos y enviar recordatorios.",
+          "route": "/admin/compliance"
+        },
+        {
+          "name": "Notificaciones Automáticas",
+          "description": "Configuración de emails automáticos para hitos de vesting, vencimiento de plazos de ejercicio, etc.",
+          "route": "/admin/settings/notifications"
+        }
+      ],
+      "financialReport": {
+        "estimatedDevelopmentCost": "$8,000 - $20,000 USD",
+        "monthlyRevenuePotential": "$3,000 - $10,000 USD",
+        "breakEvenTime": "12-24 meses",
+        "marketSize": "Startups que buscan formalizar y escalar sus procesos de RRHH y gestión de compensaciones.",
+        "competitionLevel": "Medio"
+      }
+    }
+  ]
+}
+```

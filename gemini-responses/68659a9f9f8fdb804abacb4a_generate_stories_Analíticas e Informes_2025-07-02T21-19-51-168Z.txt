@@ -1,0 +1,266 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización de Analíticas por Rango de Fechas",
+      "description": "Como Gerente de Ventas, quiero filtrar todos los informes del panel por un rango de fechas específico para poder analizar el rendimiento en periodos concretos como el último trimestre o una campaña de marketing específica.",
+      "pageContext": "Analíticas e Informes",
+      "affectedFiles": [
+        "src/pages/reports/index.jsx",
+        "src/components/filters/DateRangeFilter.jsx",
+        "src/hooks/useReportsData.js",
+        "src/services/api/reports.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "DateRangeFilter",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "DateRangeFilter",
+            "from": "@/components/filters/DateRangeFilter"
+          },
+          {
+            "name": "useReportsData",
+            "from": "@/hooks/useReportsData"
+          }
+        ]
+      },
+      "logicData": "El hook `useReportsData` deberá aceptar parámetros `startDate` y `endDate`. Al cambiar las fechas en el componente `DateRangeFilter`, se volverá a llamar al hook con las nuevas fechas, que a su vez realizará una nueva petición a la API a través de `services/api/reports.js` para obtener los datos filtrados.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "flex items-center gap-4 p-4 bg-gray-50 rounded-lg",
+        "colorCoding": "Utilizar los colores primarios de la aplicación para los elementos activos del calendario y los botones."
+      },
+      "acceptanceCriteria": [
+        "Debe existir un componente de filtro de fecha en la parte superior de la página.",
+        "El usuario debe poder seleccionar rangos predefinidos como 'Últimos 7 días', 'Este mes', 'Último mes'.",
+        "El usuario debe poder seleccionar un rango de fechas personalizado utilizando un calendario.",
+        "Al aplicar un filtro de fecha, todos los gráficos de la página deben actualizarse para reflejar los datos de ese período.",
+        "Por defecto, el panel debe cargar los datos de los 'Últimos 30 días'."
+      ],
+      "additionalSuggestions": [
+        "Considerar el uso de una librería como `react-date-range` para una implementación rápida y robusta.",
+        "Añadir un estado de carga visible en los gráficos mientras se obtienen los nuevos datos."
+      ],
+      "aiEditorTask": "Crea el componente `DateRangeFilter.jsx` en `src/components/filters/`. Este componente debe renderizar un selector de fechas y manejar el estado de las fechas seleccionadas, comunicando el cambio a la página principal `reports/index.jsx` a través de una función callback.",
+      "priority": "Alta",
+      "estimatedHours": 12
+    },
+    {
+      "title": "Visualización del Gráfico de Rendimiento por Agente",
+      "description": "Como Gerente de Ventas, quiero ver un gráfico de barras que compare el rendimiento de mis agentes (p. ej., número de leads asignados vs. ventas cerradas) para poder identificar a los agentes con mejor y peor desempeño y ofrecerles apoyo o reconocimiento.",
+      "pageContext": "Analíticas e Informes",
+      "affectedFiles": [
+        "src/pages/reports/index.jsx",
+        "src/components/charts/BarChart.jsx",
+        "src/hooks/useReportsData.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AgentPerformanceChart",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "BarChart",
+            "from": "@/components/charts/BarChart"
+          }
+        ]
+      },
+      "logicData": "El servicio `services/api/reports.js` debe tener un endpoint que devuelva datos de rendimiento por agente, como `{ agentId, agentName, assignedLeads, closedDeals }`. El componente `AgentPerformanceChart` recibirá estos datos y los pasará al componente genérico `BarChart` para su renderización.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-white p-6 rounded-lg shadow-md",
+        "colorCoding": "Usar un color para 'leads asignados' y otro contrastante para 'ventas cerradas' para una fácil comparación visual."
+      },
+      "acceptanceCriteria": [
+        "Debe mostrarse un gráfico de barras titulado 'Rendimiento por Agente'.",
+        "Cada barra o grupo de barras debe representar a un agente inmobiliario.",
+        "El gráfico debe mostrar al menos dos métricas por agente (leads asignados y ventas cerradas).",
+        "Al pasar el cursor sobre una barra, debe aparecer un tooltip con el nombre del agente y los valores exactos.",
+        "El gráfico debe actualizarse en función del filtro de fecha seleccionado en la página."
+      ],
+      "additionalSuggestions": [
+        "Permitir ordenar el gráfico por nombre de agente, número de leads o ventas cerradas.",
+        "Hacer que cada barra sea un enlace al perfil del agente dentro del CRM."
+      ],
+      "aiEditorTask": "En `reports/index.jsx`, importa un nuevo componente `AgentPerformanceChart` y renderízalo. Pásale los datos de agentes obtenidos desde el hook `useReportsData`. El `AgentPerformanceChart` debe usar un componente genérico `BarChart` para mostrar los datos.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Análisis de Efectividad por Canal de Adquisición",
+      "description": "Como Director de Marketing, quiero visualizar un gráfico de pastel o dona que muestre el porcentaje de leads generados por cada canal (ej. Portal Inmobiliario, Redes Sociales, Sitio Web) para evaluar el ROI de cada canal y ajustar la estrategia de marketing.",
+      "pageContext": "Analíticas e Informes",
+      "affectedFiles": [
+        "src/pages/reports/index.jsx",
+        "src/components/charts/PieChart.jsx",
+        "src/hooks/useReportsData.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ChannelEffectivenessChart",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "PieChart",
+            "from": "@/components/charts/PieChart"
+          }
+        ]
+      },
+      "logicData": "El hook `useReportsData` obtendrá datos sobre el origen de los leads. La API devolverá un array de objetos, ej: `[{ channel: 'Sitio Web', leadCount: 150 }, { channel: 'Redes Sociales', leadCount: 95 }]`. Este dato se usará para alimentar el componente `PieChart`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-white p-6 rounded-lg shadow-md",
+        "colorCoding": "Asignar un color único y consistente a cada canal de adquisición. Incluir una leyenda clara."
+      },
+      "acceptanceCriteria": [
+        "Debe mostrarse un gráfico de pastel (o dona) titulado 'Efectividad por Canal'.",
+        "Cada porción del gráfico debe representar un canal de adquisición.",
+        "Al pasar el cursor sobre una porción, se debe mostrar el nombre del canal y el número/porcentaje de leads.",
+        "Debe existir una leyenda que asocie cada color con un canal.",
+        "El gráfico se debe recalcular al cambiar el filtro de fecha."
+      ],
+      "additionalSuggestions": [
+        "Considerar la posibilidad de hacer clic en una porción del gráfico para filtrar el resto del dashboard por ese canal específico."
+      ],
+      "aiEditorTask": "Crea el componente genérico `PieChart.jsx` en `src/components/charts/`. Luego, en `reports/index.jsx`, utiliza este componente dentro de un wrapper `ChannelEffectivenessChart` para mostrar los datos de efectividad de canales obtenidos del hook `useReportsData`.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Exportación de Informes a CSV",
+      "description": "Como Analista de Datos, quiero exportar los datos brutos de los gráficos (ej. rendimiento de agentes) a un archivo CSV para poder realizar un análisis más profundo y personalizado en herramientas externas como Excel o Google Sheets.",
+      "pageContext": "Analíticas e Informes",
+      "affectedFiles": [
+        "src/pages/reports/index.jsx",
+        "src/components/charts/BarChart.jsx",
+        "src/utils/csvExporter.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "csvExporter",
+            "type": "utility"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "Se creará una función de utilidad en `csvExporter.js` que acepte un array de objetos de datos y el nombre del archivo. Cada componente de gráfico (ej. `AgentPerformanceChart`) tendrá un botón de 'Exportar a CSV' que llamará a esta utilidad con sus datos actuales.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "absolute top-2 right-2 text-gray-500 hover:text-gray-800",
+        "colorCoding": "Usar un icono estándar de descarga, que sea discreto pero accesible en la esquina de cada tarjeta de gráfico."
+      },
+      "acceptanceCriteria": [
+        "Cada tarjeta de gráfico debe tener un botón o icono de 'Exportar a CSV'.",
+        "Al hacer clic en el botón, se debe descargar un archivo .csv.",
+        "El archivo CSV debe contener las cabeceras de columna correctas (ej. 'Agente', 'Leads Asignados', 'Ventas Cerradas').",
+        "Los datos en el CSV deben corresponder a los datos actualmente mostrados en el gráfico, respetando los filtros aplicados (como el rango de fechas)."
+      ],
+      "additionalSuggestions": [
+        "El nombre del archivo exportado podría incluir el tipo de reporte y el rango de fechas, ej. `rendimiento_agentes_2023-01-01_a_2023-03-31.csv`."
+      ],
+      "aiEditorTask": "Crea el módulo de utilidad `src/utils/csvExporter.js`. Debe exportar una función `exportToCsv(data, filename)`. Luego, modifica el componente `AgentPerformanceChart` para que incluya un botón que, al ser pulsado, llame a esta función con los datos del gráfico.",
+      "priority": "Media",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Visualización del Embudo de Conversión de Leads",
+      "description": "Como Gerente de Ventas, quiero ver un gráfico de embudo que muestre cuántos leads pasan por cada etapa del proceso de venta (Nuevo > Contactado > Calificado > Cierre) para identificar en qué etapa estamos perdiendo más prospectos.",
+      "pageContext": "Analíticas e Informes",
+      "affectedFiles": [
+        "src/pages/reports/index.jsx",
+        "src/components/charts/FunnelChart.jsx",
+        "src/hooks/useReportsData.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "FunnelChart",
+            "type": "component"
+          },
+          {
+            "name": "LeadConversionFunnel",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "La API debe proporcionar los datos del embudo en orden, ej: `[{ stage: 'Nuevo', count: 500 }, { stage: 'Contactado', count: 400 }, ...]`. El componente `LeadConversionFunnel` recibirá estos datos y usará `FunnelChart` para visualizarlos. Se debe calcular la tasa de conversión entre etapas.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-white p-6 rounded-lg shadow-md",
+        "colorCoding": "Usar un degradado de color a lo largo del embudo, de más claro a más oscuro, para indicar el progreso."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un gráfico de embudo titulado 'Embudo de Conversión'.",
+        "Cada sección del embudo debe representar una etapa del ciclo de venta.",
+        "Cada sección debe mostrar el nombre de la etapa y el número de leads en ella.",
+        "Se debe mostrar el porcentaje de conversión entre una etapa y la siguiente.",
+        "Los datos del embudo deben actualizarse al cambiar el filtro de fecha."
+      ],
+      "additionalSuggestions": [
+        "Al pasar el cursor, un tooltip podría mostrar la tasa de abandono en esa etapa."
+      ],
+      "aiEditorTask": "Crea un componente genérico `FunnelChart.jsx` en `src/components/charts/`. Luego, crea un componente `LeadConversionFunnel.jsx` que importe y utilice `FunnelChart` para mostrar los datos de conversión de leads obtenidos del hook `useReportsData`.",
+      "priority": "Alta",
+      "estimatedHours": 14
+    },
+    {
+      "title": "Filtrado de Informes por Agente Específico",
+      "description": "Como Gerente de Ventas, quiero filtrar todo el panel de analíticas para ver los datos de un único agente, para poder tener reuniones de seguimiento 1 a 1 con datos precisos sobre su rendimiento de conversión, efectividad por canal, etc.",
+      "pageContext": "Analíticas e Informes",
+      "affectedFiles": [
+        "src/pages/reports/index.jsx",
+        "src/components/filters/AgentFilter.jsx",
+        "src/hooks/useReportsData.js",
+        "src/services/api/users.js"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "AgentFilter",
+            "type": "component"
+          }
+        ],
+        "import": [
+          {
+            "name": "AgentFilter",
+            "from": "@/components/filters/AgentFilter"
+          }
+        ]
+      },
+      "logicData": "El componente `AgentFilter` será un dropdown que se poblará con una lista de agentes obtenida de un nuevo endpoint en `services/api/users.js`. Al seleccionar un agente, su ID se pasará al hook `useReportsData`, que a su vez lo incluirá en todas las peticiones a la API de reportes para filtrar los datos.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "w-full md:w-64",
+        "colorCoding": "Utilizar un estilo de dropdown consistente con el resto de la UI, con avatares de los agentes si es posible."
+      },
+      "acceptanceCriteria": [
+        "Debe haber un filtro desplegable de 'Agente' junto al filtro de fecha.",
+        "El desplegable debe listar todos los agentes activos del sistema.",
+        "El usuario debe poder seleccionar un agente de la lista.",
+        "Al seleccionar un agente, todos los gráficos del panel deben actualizarse para mostrar únicamente los datos asociados a ese agente.",
+        "Debe haber una opción 'Todos los agentes' para volver a la vista global."
+      ],
+      "additionalSuggestions": [
+        "Implementar un campo de búsqueda dentro del dropdown si la lista de agentes es larga.",
+        "Permitir la selección múltiple de agentes para comparar equipos."
+      ],
+      "aiEditorTask": "Crea el componente `AgentFilter.jsx` en `src/components/filters/`. Este componente debe obtener la lista de agentes y permitir la selección de uno. Modifica el hook `useReportsData` para que acepte un `agentId` opcional y lo añada a los parámetros de la API. Finalmente, integra `AgentFilter` en la página `reports/index.jsx`.",
+      "priority": "Media",
+      "estimatedHours": 14
+    }
+  ]
+}
+```

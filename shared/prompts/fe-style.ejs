@@ -1,0 +1,333 @@
+# Frontend Styling Implementation
+
+You are an expert frontend developer and UI/UX designer tasked with creating comprehensive styling for a React component based on a user story and existing component structure.
+
+## Context
+
+### User Story
+**ID:** <%= userStory.id %>
+**Title:** <%= userStory.title %>
+**Description:** <%= userStory.description %>
+
+**Acceptance Criteria:**
+<% userStory.acceptanceCriteria.forEach(criteria => { %>
+- <%= criteria %>
+<% }); %>
+
+**Priority:** <%= userStory.priority %> | **Complexity:** <%= userStory.complexity %>
+**Tags:** <%= userStory.tags.join(', ') %>
+
+### Component Information
+**Name:** <%= component.name %>
+**Type:** <%= component.type %>
+**Path:** <%= component.path %>
+
+### Project Configuration
+**Framework:** <%= project.framework %>
+**TypeScript:** <%= project.typescript ? 'Yes' : 'No' %>
+**Styling Approach:** <%= project.styling %>
+<% if (project.stateManagement) { %>
+**State Management:** <%= project.stateManagement %>
+<% } %>
+
+<% if (context && context.designSystem) { %>
+### Design System
+```json
+<%= JSON.stringify(context.designSystem, null, 2) %>
+```
+<% } %>
+
+<% if (context && context.existingComponents && context.existingComponents.length > 0) { %>
+### Available Components for Reference
+<% context.existingComponents.forEach(comp => { %>
+- <%= comp %>
+<% }); %>
+<% } %>
+
+## Styling Requirements
+
+### 1. Design Principles
+- **Consistency**: Follow established design patterns and conventions
+- **Accessibility**: Ensure WCAG 2.1 AA compliance
+- **Responsiveness**: Support all device sizes (mobile-first approach)
+- **Performance**: Optimize for fast loading and smooth animations
+- **Maintainability**: Write clean, organized, and reusable styles
+
+### 2. Visual Design Guidelines
+- Use modern, clean, and professional design aesthetics
+- Implement proper visual hierarchy and typography
+- Ensure sufficient color contrast for accessibility
+- Use consistent spacing and layout patterns
+- Implement smooth transitions and micro-interactions
+
+### 3. Responsive Design
+- Mobile-first responsive design approach
+- Breakpoints: 320px (mobile), 768px (tablet), 1024px (desktop), 1440px (large desktop)
+- Flexible layouts using CSS Grid and Flexbox
+- Responsive typography and spacing
+- Touch-friendly interface elements
+
+### 4. Accessibility Styling
+- High contrast color combinations (minimum 4.5:1 ratio)
+- Focus indicators for keyboard navigation
+- Proper visual feedback for interactive elements
+- Screen reader friendly styling
+- Reduced motion support for users with vestibular disorders
+
+## Styling Implementation
+
+<% if (project.styling === 'tailwind') { %>
+### Tailwind CSS Implementation
+
+Implement styles using Tailwind CSS utility classes:
+
+#### Design Tokens
+- Use Tailwind's design tokens for consistency
+- Implement custom color palette if provided in design system
+- Use spacing scale (4, 8, 12, 16, 20, 24, 32, 40, 48, 64px)
+- Implement typography scale with proper line heights
+
+#### Component Styling
+- Use utility-first approach with Tailwind classes
+- Create component variants using conditional classes
+- Implement responsive design with Tailwind breakpoints
+- Use Tailwind's state variants (hover, focus, active, disabled)
+
+#### Custom Styles
+- Use @apply directive for complex component styles
+- Create custom utilities for project-specific needs
+- Implement custom animations and transitions
+
+<% } else if (project.styling === 'styled-components') { %>
+### Styled Components Implementation
+
+Implement styles using styled-components:
+
+#### Theme Integration
+- Use theme provider for consistent design tokens
+- Implement color palette, typography, and spacing scales
+- Create reusable theme utilities and mixins
+
+#### Component Styling
+- Create styled components for each UI element
+- Implement props-based styling for component variants
+- Use template literals for dynamic styling
+- Implement proper TypeScript interfaces for styled props
+
+#### Advanced Features
+- Use css helper for complex styles
+- Implement keyframes for animations
+- Create global styles and CSS reset
+- Use attrs for default props and optimizations
+
+<% } else if (project.styling === 'scss') { %>
+### SCSS Implementation
+
+Implement styles using SCSS with modules:
+
+#### Architecture
+- Follow 7-1 SCSS architecture pattern
+- Use SCSS modules for component isolation
+- Implement BEM methodology for class naming
+- Create mixins and functions for reusable styles
+
+#### Design System
+- Define SCSS variables for design tokens
+- Create mixins for common patterns
+- Implement functions for calculations and utilities
+- Use maps for organized configuration
+
+#### Component Styling
+- Create modular SCSS files for each component
+- Use nested selectors appropriately
+- Implement responsive mixins
+- Create modifier classes for component variants
+
+<% } else { %>
+### CSS Modules Implementation
+
+Implement styles using CSS Modules:
+
+#### Module Structure
+- Create separate CSS module files for each component
+- Use camelCase naming for CSS classes
+- Implement local scope for component styles
+- Use :global() for global styles when needed
+
+#### Design System
+- Use CSS custom properties for design tokens
+- Implement consistent naming conventions
+- Create utility classes for common patterns
+- Use CSS Grid and Flexbox for layouts
+
+<% } %>
+
+## Specific Styling Areas
+
+### 1. Layout and Structure
+- Implement proper container and wrapper styles
+- Create flexible grid systems
+- Design responsive card layouts
+- Implement proper spacing and alignment
+
+### 2. Typography
+- Define heading hierarchy (h1-h6)
+- Implement body text styles
+- Create emphasis and utility text styles
+- Ensure proper line heights and letter spacing
+- Implement responsive typography
+
+### 3. Color System
+- Primary color palette implementation
+- Secondary and accent colors
+- Neutral color scale (grays)
+- Semantic colors (success, warning, error, info)
+- Dark mode support (if applicable)
+
+### 4. Interactive Elements
+- Button styles and variants
+- Form input styling
+- Link and navigation styles
+- Hover and focus states
+- Active and disabled states
+
+### 5. Feedback and States
+- Loading state styling
+- Error state presentation
+- Success state feedback
+- Empty state design
+- Skeleton loading animations
+
+### 6. Animations and Transitions
+- Smooth hover transitions
+- Loading animations
+- Micro-interactions
+- Page transition effects
+- Scroll-based animations (if applicable)
+
+### 7. Mobile Optimization
+- Touch-friendly button sizes (minimum 44px)
+- Optimized spacing for mobile
+- Readable font sizes on small screens
+- Proper viewport handling
+- Mobile-specific interactions
+
+## Output Format
+
+<% if (project.styling === 'tailwind') { %>
+### Tailwind CSS Classes
+```typescript
+// Component with Tailwind classes
+```
+
+### Custom Tailwind Configuration (if needed)
+```javascript
+// tailwind.config.js additions
+```
+
+<% } else if (project.styling === 'styled-components') { %>
+### Styled Components
+```typescript
+// Styled components implementation
+```
+
+### Theme Configuration
+```typescript
+// Theme object and provider
+```
+
+<% } else if (project.styling === 'scss') { %>
+### SCSS Styles
+```scss
+// Component SCSS module
+```
+
+### SCSS Variables and Mixins
+```scss
+// Variables, mixins, and functions
+```
+
+<% } else { %>
+### CSS Module Styles
+```css
+// Component CSS module
+```
+
+### CSS Custom Properties
+```css
+// Design tokens and variables
+```
+
+<% } %>
+
+### Component Integration
+```typescript
+// Updated component with styling integration
+```
+
+## Styling Checklist
+
+Ensure your styling implementation includes:
+
+- [ ] Responsive design for all screen sizes
+- [ ] Accessibility compliance (WCAG 2.1 AA)
+- [ ] Consistent design system implementation
+- [ ] Proper color contrast ratios
+- [ ] Touch-friendly interactive elements
+- [ ] Smooth animations and transitions
+- [ ] Loading and error state styling
+- [ ] Focus indicators for keyboard navigation
+- [ ] Print-friendly styles (if applicable)
+- [ ] Dark mode support (if required)
+- [ ] Cross-browser compatibility
+- [ ] Performance optimized styles
+- [ ] Maintainable and organized code
+- [ ] Proper documentation and comments
+
+## Design Patterns to Implement
+
+### 1. Visual Hierarchy
+- Clear heading structure
+- Proper use of whitespace
+- Strategic use of color and contrast
+- Consistent typography scale
+
+### 2. Layout Patterns
+- Card-based layouts
+- Grid systems
+- Sidebar layouts
+- Modal and overlay designs
+
+### 3. Interactive Patterns
+- Button variations and states
+- Form styling and validation feedback
+- Navigation and menu designs
+- Tab and accordion interfaces
+
+### 4. Feedback Patterns
+- Toast notifications
+- Progress indicators
+- Loading spinners
+- Error and success messages
+
+## Performance Considerations
+
+- Minimize CSS bundle size
+- Use efficient selectors
+- Optimize animations for 60fps
+- Implement critical CSS for above-the-fold content
+- Use CSS containment where appropriate
+- Optimize for paint and layout performance
+
+## Browser Support
+
+- Modern browsers (Chrome, Firefox, Safari, Edge)
+- Mobile browsers (iOS Safari, Chrome Mobile)
+- Graceful degradation for older browsers
+- Progressive enhancement approach
+
+---
+
+**Generated at:** <%= timestamp %>
+**Template:** <%= template.name %>
+**Output Format:** <%= template.outputFormat %>

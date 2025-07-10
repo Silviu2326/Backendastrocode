@@ -1,0 +1,31 @@
+{
+  "timestamp": 1750009206908,
+  "data": {
+    "models": [],
+    "controllers": [],
+    "routes": [
+      {
+        "name": "ConfiguracionRoutes",
+        "fileName": "v1/configuracion.routes.js",
+        "content": "const express = require('express');\nconst rateLimit = require('express-rate-limit');\nconst { z } = require('zod');\nconst { validate } = require('zod-express-middleware');\n\nconst ConfiguracionController = require('../../controllers/configuracion.controller');\nconst authMiddleware = require('../../middleware/auth.middleware'); // Middleware de autenticación JWT\n\nconst router = express.Router();\n\n// Configuración del Rate Limiter: 10 peticiones por minuto por IP\nconst configuracionLimiter = rateLimit({\n  windowMs: 60 * 1000, // 1 minuto\n  max: 10, \n  message: 'Demasiadas solicitudes para este endpoint, por favor intente de nuevo en un minuto.',\n  standardHeaders: true,\n  legacyHeaders: false,\n});\n\n// Esquema de validación para actualizar la configuración (usado en PATCH)\n// Basado en el modelo Mongoose, pero con todos los campos opcionales para permitir actualizaciones parciales.\nconst updateConfiguracionSchema = z.object({\n  idioma: z.enum(['es', 'en', 'pt', 'fr']).optional(),\n  profundidad: z.enum(['basica', 'media', 'avanzada', 'experta']).optional(),\n  ttsVelocidad: z.number().min(0.5).max(2.0).optional(),\n  formatosExportacion: z.array(z.string()).optional(),\n  accesibilidad: z.object({\n    modoOscuro: z.boolean().optional(),\n    altoContraste: z.boolean().optional(),\n    tamañoFuente: z.enum(['pequeño', 'normal', 'grande']).optional(),\n    reducirAnimaciones: z.boolean().optional(),\n    lecturaAutomatica: z.boolean().optional(),\n  }).partial().optional(), // .partial() hace que los campos internos sean opcionales\n  conectores: z.array(z.string()).optional(),\n  notificaciones: z.object({\n    email: z.boolean().optional(),\n    push: z.boolean().optional(),\n    frecuencia: z.enum(['diario', 'semanal', 'nunca']).optional(),\n  }).partial().optional(),\n});\n\n/**\n * @openapi\n * /api/v1/configuracion/me:\n *   get:\n *     summary: Obtiene la configuración global del usuario autenticado\n *     tags: [Configuracion]\n *     security:\n *       - bearerAuth: []\n *     responses:\n *       200:\n *         description: Configuración obtenida con éxito.\n *         content:\n *           application/json:\n *             schema:\n *               $ref: '#/components/schemas/Configuracion'\n *       401:\n *         description: No autorizado (token no válido o ausente).\n *       404:\n *         description: No se encontró la configuración (el servicio la crea si no existe, por lo que este error es poco probable).\n *       429:\n *         description: Demasiadas solicitudes.\n */\nrouter.get(\n  '/me',\n  configuracionLimiter,\n  authMiddleware('user'), // Protegido por JWT, requiere rol 'user'\n  ConfiguracionController.getMiConfiguracion\n);\n\n/**\n * @openapi\n * /api/v1/configuracion/me:\n *   patch:\n *     summary: Actualiza la configuración global del usuario autenticado\n *     tags: [Configuracion]\n *     security:\n *       - bearerAuth: []\n *     requestBody:\n *       required: true\n *       content:\n *         application/json:\n *           schema:\n *             $ref: '#/components/schemas/UpdateConfiguracionInput'\n *     responses:\n *       200:\n *         description: Configuración actualizada con éxito.\n *         content:\n *           application/json:\n *             schema:\n *               $ref: '#/components/schemas/Configuracion'\n *       400:\n *         description: Datos de entrada inválidos (error de validación de esquema).\n *       401:\n *         description: No autorizado.\n *       429:\n *         description: Demasiadas solicitudes.\n */\nrouter.patch(\n  '/me',\n  configuracionLimiter,\n  authMiddleware('user'),\n  validate({ body: updateConfiguracionSchema }), // Valida el cuerpo de la solicitud con Zod\n  ConfiguracionController.updateMiConfiguracion\n);\n\nmodule.exports = router;\n",
+        "description": "Este archivo define las rutas para la gestión de la configuración del usuario, bajo el prefijo `/api/v1/configuracion`. Las rutas están diseñadas para ser seguras y robustas, utilizando una arquitectura por capas al conectarse con `ConfiguracionController`. Incluye: rate limiting por IP (10 req/min), protección mediante JWT con roles (`user`), y validación de esquemas con Zod para las operaciones de escritura. Las rutas operan sobre la configuración del usuario autenticado (`/me`), obteniendo su ID directamente del token JWT procesado por el middleware de autenticación."
+      }
+    ],
+    "services": [],
+    "middleware": [],
+    "config": [],
+    "utils": [],
+    "tests": []
+  },
+  "metadata": {
+    "promptLength": 7910,
+    "options": {
+      "type": "routes",
+      "framework": "express",
+      "includeDatabase": true,
+      "apiFile": "Configuracion"
+    },
+    "generatedAt": "2025-06-15T17:40:06.908Z",
+    "size": 4624
+  }
+}

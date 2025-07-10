@@ -1,0 +1,276 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualizar Información Principal del Perfil del Profesional",
+      "description": "Como un potencial cliente, quiero ver la información clave del profesional (foto, nombre, especialidades, y una descripción personal) para poder formar una primera impresión y evaluar si se ajusta a mis necesidades.",
+      "pageContext": "Ficha de Profesional",
+      "affectedFiles": [
+        "src/features/ficha-de-profesional/FichadeProfesionalPage.tsx",
+        "src/features/ficha-de-profesional/hooks/useFichadeProfesional.ts",
+        "src/features/ficha-de-profesional/api.ts",
+        "src/features/ficha-de-profesional/components/ProfileHeader.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ProfileHeader",
+            "type": "component",
+            "path": "src/features/ficha-de-profesional/components/ProfileHeader.tsx"
+          },
+          {
+            "name": "ProfileDescription",
+            "type": "component",
+            "path": "src/features/ficha-de-profesional/components/ProfileDescription.tsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El hook `useFichadeProfesional` debe realizar una llamada a la API (`api.ts`) para obtener los datos del profesional basándose en el `:id` de la URL. Los datos necesarios son: `fullName`, `profilePictureUrl`, `specialties` (array de strings), `title` (ej. 'Psicólogo Clínico'), y `aboutMe` (texto largo). Estos datos se pasarán como props a los componentes `ProfileHeader` y `ProfileDescription`.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "grid grid-cols-1 md:grid-cols-3 gap-8",
+        "colorCoding": "Usar colores neutros para el texto y el color primario de la marca para destacar el nombre o los títulos."
+      },
+      "acceptanceCriteria": [
+        "La página debe mostrar una foto de perfil clara del profesional.",
+        "El nombre completo y el título principal del profesional deben ser prominentes.",
+        "Una lista o etiquetas de sus especialidades (ej. 'Ansiedad', 'Terapia de Pareja') deben estar visibles.",
+        "Debe haber una sección 'Sobre mí' o 'Descripción' con el texto proporcionado por el profesional.",
+        "Si algún dato no está disponible (ej. sin descripción), la sección correspondiente no debe mostrarse o debe indicar que no hay información."
+      ],
+      "additionalSuggestions": [
+        "Considerar añadir una insignia de 'Verificado' si el perfil ha sido validado por un administrador para aumentar la confianza.",
+        "Las especialidades podrían ser enlaces que lleven a la página de búsqueda con ese filtro aplicado."
+      ],
+      "aiEditorTask": "Crea los componentes `ProfileHeader.tsx` y `ProfileDescription.tsx` dentro de `src/features/ficha-de-profesional/components/`. Implementa la lógica de obtención de datos en `FichadeProfesionalPage.tsx` usando el hook `useFichadeProfesional` y renderiza los nuevos componentes con los datos obtenidos.",
+      "priority": "Alta",
+      "estimatedHours": 6
+    },
+    {
+      "title": "Consultar la Lista de Servicios Ofrecidos",
+      "description": "Como un usuario, quiero ver una lista detallada de los servicios que ofrece el profesional, incluyendo nombre, descripción y precio, para entender sus ofertas y costes.",
+      "pageContext": "Ficha de Profesional",
+      "affectedFiles": [
+        "src/features/ficha-de-profesional/FichadeProfesionalPage.tsx",
+        "src/features/ficha-de-profesional/components/ServiceList.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ServiceList",
+            "type": "component",
+            "path": "src/features/ficha-de-profesional/components/ServiceList.tsx"
+          },
+          {
+            "name": "ServiceCard",
+            "type": "component",
+            "path": "src/features/ficha-de-profesional/components/ServiceCard.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "La respuesta de la API para el perfil del profesional debe incluir un array `services`. Cada objeto de servicio debe contener `id`, `name`, `description`, `durationInMinutes`, y `price`. El componente `ServiceList` iterará sobre este array y renderizará un `ServiceCard` para cada uno.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "divide-y divide-gray-200",
+        "colorCoding": "Cada tarjeta de servicio debe tener un diseño limpio, con una clara jerarquía visual para el precio y el nombre del servicio."
+      },
+      "acceptanceCriteria": [
+        "Una sección titulada 'Servicios' debe mostrar todos los servicios activos del profesional.",
+        "Cada servicio en la lista debe mostrar su nombre, precio, duración y una breve descripción.",
+        "Cada servicio debe tener un botón o enlace para 'Reservar' que dirija al flujo de reserva con ese servicio preseleccionado.",
+        "Si el profesional no tiene servicios definidos, se debe mostrar un mensaje informativo como 'Este profesional aún no ha publicado sus servicios'."
+      ],
+      "additionalSuggestions": [
+        "Permitir que los servicios se puedan expandir/colapsar para ver la descripción completa y no saturar la vista inicial."
+      ],
+      "aiEditorTask": "Crea los componentes `ServiceList.tsx` y `ServiceCard.tsx`. `ServiceCard` debe mostrar la información de un servicio y un `Button` para reservar. `ServiceList` debe recibir la lista de servicios y renderizar múltiples `ServiceCard`. Integra `ServiceList` en `FichadeProfesionalPage.tsx`.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Visualizar la Ubicación de la Consulta en un Mapa",
+      "description": "Como un potencial cliente que prefiere terapia presencial, quiero ver la dirección de la consulta del profesional en un mapa interactivo para determinar si la ubicación es conveniente para mí.",
+      "pageContext": "Ficha de Profesional",
+      "affectedFiles": [
+        "src/features/ficha-de-profesional/FichadeProfesionalPage.tsx",
+        "src/features/ficha-de-profesional/components/LocationMap.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "LocationMap",
+            "type": "component",
+            "path": "src/features/ficha-de-profesional/components/LocationMap.tsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El objeto del profesional obtenido de la API debe incluir un objeto `location` con `address` (string), `coordinates` (`lat`, `lng`). El componente `LocationMap` utilizará una librería de mapas (como Leaflet o Google Maps) para mostrar un marcador en las coordenadas proporcionadas. Se necesitará una API key para el servicio de mapas, que debe ser gestionada a través de variables de entorno.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "h-64 w-full rounded-lg shadow-md",
+        "colorCoding": "El marcador del mapa debe usar el color primario de la marca para consistencia."
+      },
+      "acceptanceCriteria": [
+        "La página debe mostrar un mapa interactivo si el profesional ofrece consultas presenciales.",
+        "Un marcador debe señalar la ubicación exacta de la consulta.",
+        "La dirección completa debe mostrarse en formato de texto cerca del mapa.",
+        "El usuario debe poder hacer zoom y moverse por el mapa.",
+        "Si el profesional solo ofrece servicios online, la sección del mapa debe ocultarse o mostrar un mensaje indicándolo."
+      ],
+      "additionalSuggestions": [
+        "Añadir un botón 'Cómo llegar' que abra la ubicación en Google Maps o la aplicación de mapas por defecto del usuario."
+      ],
+      "aiEditorTask": "Crea el componente `LocationMap.tsx` que integre un proveedor de mapas (ej. react-leaflet). El componente debe aceptar las coordenadas como props. Condiciona su renderizado en `FichadeProfesionalPage.tsx` basándote en si el profesional tiene una ubicación física.",
+      "priority": "Media",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Leer Valoraciones y Puntuación de Clientes Anteriores",
+      "description": "Como un usuario, quiero leer reseñas y ver la puntuación media de otros clientes para generar confianza y tomar una decisión más informada antes de reservar.",
+      "pageContext": "Ficha de Profesional",
+      "affectedFiles": [
+        "src/features/ficha-de-profesional/FichadeProfesionalPage.tsx",
+        "src/features/ficha-de-profesional/components/ReviewsSection.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ReviewsSection",
+            "type": "component",
+            "path": "src/features/ficha-de-profesional/components/ReviewsSection.tsx"
+          },
+          {
+            "name": "RatingSummary",
+            "type": "component",
+            "path": "src/features/ficha-de-profesional/components/RatingSummary.tsx"
+          },
+          {
+            "name": "ReviewCard",
+            "type": "component",
+            "path": "src/features/ficha-de-profesional/components/ReviewCard.tsx"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "La API debe proveer un objeto `reviewsSummary` con `averageRating` y `totalReviews`, y un array `reviewsList` con las valoraciones. Cada valoración debe tener `rating` (1-5), `comment` (texto), `clientName` (puede ser anónimo), y `date`. Se debe implementar paginación para las reseñas si la lista es muy larga.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "mt-8 space-y-4",
+        "colorCoding": "Las estrellas de valoración deben ser de un color llamativo, como amarillo o el primario de la marca."
+      },
+      "acceptanceCriteria": [
+        "Se debe mostrar una puntuación media general, preferiblemente con estrellas.",
+        "El número total de valoraciones debe ser visible.",
+        "Se debe mostrar una lista de valoraciones individuales.",
+        "Cada valoración debe mostrar la puntuación, el comentario, el nombre del cliente (o 'Anónimo') y la fecha.",
+        "Si no hay valoraciones, se debe mostrar un mensaje del tipo 'Este profesional todavía no tiene valoraciones. ¡Sé el primero!'."
+      ],
+      "additionalSuggestions": [
+        "Permitir al usuario filtrar las valoraciones por puntuación (ej. ver solo las de 5 estrellas)."
+      ],
+      "aiEditorTask": "Crea los componentes `ReviewsSection`, `RatingSummary` y `ReviewCard`. `ReviewsSection` orquestará la visualización, obteniendo los datos de la API. `RatingSummary` mostrará la media y el total. `ReviewCard` mostrará una reseña individual. Intégralos en `FichadeProfesionalPage.tsx`.",
+      "priority": "Alta",
+      "estimatedHours": 9
+    },
+    {
+      "title": "Iniciar el Proceso de Reserva desde un Panel de Acciones",
+      "description": "Como un cliente convencido, quiero un panel de acciones claro y persistente con un botón para 'Reservar Cita', para poder iniciar el proceso de reserva sin tener que buscar la opción por toda la página.",
+      "pageContext": "Ficha de Profesional",
+      "affectedFiles": [
+        "src/features/ficha-de-profesional/FichadeProfesionalPage.tsx",
+        "src/features/ficha-de-profesional/components/BookingPanel.tsx",
+        "src/App.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "BookingPanel",
+            "type": "component",
+            "path": "src/features/ficha-de-profesional/components/BookingPanel.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          },
+          {
+            "name": "useNavigate",
+            "from": "react-router-dom"
+          }
+        ]
+      },
+      "logicData": "El componente `BookingPanel` mostrará el precio base ('Desde X €') y un botón de 'Reservar Cita'. Al hacer clic, debe navegar a la ruta de la página de reserva (`/features/pgina-de-reserva`), pasando el ID del profesional. En pantallas de escritorio, este panel podría ser 'sticky' y permanecer visible al hacer scroll.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "sticky top-8 p-4 border rounded-lg shadow-lg",
+        "colorCoding": "El botón de reserva debe usar el color primario de la marca para máxima visibilidad, siendo el principal Call To Action de la página."
+      },
+      "acceptanceCriteria": [
+        "Un panel o tarjeta de reserva es visible en la página.",
+        "El panel muestra el precio inicial del profesional (ej. 'Desde 50€/sesión').",
+        "El panel contiene un botón de llamada a la acción principal para 'Reservar Cita'.",
+        "Al hacer clic en el botón, el usuario es redirigido a la página de reserva del profesional.",
+        "En pantallas grandes, el panel se mantiene fijo en la pantalla al hacer scroll vertical."
+      ],
+      "additionalSuggestions": [
+        "El panel también podría incluir un botón secundario para 'Contactar' o 'Guardar en favoritos'."
+      ],
+      "aiEditorTask": "Crea el componente `BookingPanel.tsx`. Debe ser un panel que muestre el precio y un `Button`. Implementa la lógica de navegación al hacer clic. Añade el componente a `FichadeProfesionalPage.tsx`, preferiblemente en una columna lateral que pueda hacerse sticky.",
+      "priority": "Alta",
+      "estimatedHours": 7
+    },
+    {
+      "title": "Acceder al Enlace de la Sesión Online Confirmada",
+      "description": "Como un cliente con una reserva confirmada, quiero poder volver a la ficha del profesional y encontrar fácilmente el enlace para unirme a mi sesión online, para no tener que buscarlo en mis correos electrónicos.",
+      "pageContext": "Ficha de Profesional",
+      "affectedFiles": [
+        "src/features/ficha-de-profesional/FichadeProfesionalPage.tsx",
+        "src/features/ficha-de-profesional/components/OnlineSessionLink.tsx"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "OnlineSessionLink",
+            "type": "component",
+            "path": "src/features/ficha-de-profesional/components/OnlineSessionLink.tsx"
+          }
+        ],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "Esta funcionalidad requiere que el usuario esté autenticado. El hook `useFichadeProfesional` debe comprobar si el usuario actual (obtenido de un contexto de autenticación global) tiene una reserva futura y confirmada con este profesional. Si es así, la API devolverá el `onlineSessionUrl`. El componente `OnlineSessionLink` se renderizará condicionalmente.",
+      "styling": {
+        "framework": "tailwind",
+        "classes": "bg-green-100 border-l-4 border-green-500 text-green-700 p-4",
+        "colorCoding": "Usar colores que indiquen éxito o acción positiva (ej. verdes) para el banner o botón de la sesión."
+      },
+      "acceptanceCriteria": [
+        "Si un usuario autenticado visita la ficha y tiene una cita online próxima, se debe mostrar un banner o sección destacada.",
+        "Esta sección debe mostrar la fecha y hora de la próxima cita.",
+        "Debe haber un botón claramente visible que diga 'Unirse a la sesión online'.",
+        "El botón debe ser un enlace directo a la URL de la videollamada.",
+        "Si el usuario no está logueado o no tiene una cita próxima, esta sección no debe ser visible."
+      ],
+      "additionalSuggestions": [
+        "Mostrar una cuenta atrás hasta el inicio de la sesión para crear anticipación y claridad."
+      ],
+      "aiEditorTask": "Crea el componente `OnlineSessionLink.tsx`. En `FichadeProfesionalPage.tsx`, añade lógica para verificar el estado de autenticación del usuario y si tiene una cita confirmada con el profesional actual. Si se cumplen las condiciones, renderiza `OnlineSessionLink` con la información de la cita.",
+      "priority": "Media",
+      "estimatedHours": 8
+    }
+  ]
+}
+```

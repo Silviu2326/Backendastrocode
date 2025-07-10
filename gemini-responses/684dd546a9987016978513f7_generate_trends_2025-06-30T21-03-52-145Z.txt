@@ -1,0 +1,78 @@
+```json
+{
+  "trends": {
+    "cagr": {
+      "value": "36.5%",
+      "period": "2024-2030",
+      "methodology": "Análisis basado en la proyección del mercado global de IA en la Educación, triangulando datos de informes de mercado (e.g., Grand View Research, MarketsandMarkets) y ajustado por el potencial de disrupción de nuevas plataformas."
+    },
+    "growthDrivers": [
+      {
+        "driver": "Personalización del Aprendizaje a Escala",
+        "description": "La IA permite adaptar rutas de aprendizaje, contenidos y evaluaciones a las necesidades individuales de cada estudiante, mejorando la eficacia educativa y el compromiso del alumno, algo inalcanzable para los modelos tradicionales.",
+        "impact": "Alto"
+      },
+      {
+        "driver": "Demanda de 'Upskilling' y 'Reskilling' Corporativo",
+        "description": "La rápida evolución tecnológica en el mercado laboral exige una formación continua. Las empresas buscan soluciones eficientes y medibles como Eduplatform para capacitar a su fuerza laboral y cerrar las brechas de habilidades.",
+        "impact": "Alto"
+      },
+      {
+        "driver": "Democratización y Acceso a la Educación",
+        "description": "Las plataformas en línea eliminan las barreras geográficas y económicas, permitiendo el acceso a educación de alta calidad a una base de usuarios global mucho más amplia que la educación presencial.",
+        "impact": "Medio"
+      },
+      {
+        "driver": "Eficiencia Operativa para Instituciones",
+        "description": "La IA puede automatizar tareas administrativas y de evaluación, como la calificación de exámenes y la gestión de progreso, liberando recursos y tiempo para que los educadores se centren en la enseñanza y mentoría.",
+        "impact": "Medio"
+      }
+    ],
+    "barriers": [
+      {
+        "barrier": "Alta Competencia y Saturación del Mercado",
+        "description": "El sector EdTech está altamente competido con jugadores establecidos (Coursera, Khan Academy, Duolingo) y una constante afluencia de nuevos competidores, lo que eleva el costo de adquisición de clientes.",
+        "severity": "Alto"
+      },
+      {
+        "barrier": "Costo y Complejidad del Desarrollo de IA",
+        "description": "El desarrollo, entrenamiento y mantenimiento de modelos de IA robustos, éticos y libres de sesgos requiere una inversión significativa en talento especializado (científicos de datos, ingenieros de ML) e infraestructura de computación.",
+        "severity": "Alto"
+      },
+      {
+        "barrier": "Regulación de Datos y Privacidad (GDPR, etc.)",
+        "description": "El manejo de datos de estudiantes es extremadamente sensible y está sujeto a estrictas regulaciones. Garantizar la seguridad, privacidad y el uso ético de los datos es un desafío legal y técnico crítico.",
+        "severity": "Alto"
+      },
+      {
+        "barrier": "Resistencia a la Adopción y Brecha Digital",
+        "description": "La inercia de los sistemas educativos tradicionales, la falta de capacitación digital de algunos educadores y la brecha en el acceso a internet de alta velocidad pueden ralentizar la adopción masiva de la plataforma.",
+        "severity": "Medio"
+      }
+    ],
+    "techTrends": [
+      "IA Generativa para creación de contenido y tutores conversacionales",
+      "Analítica Predictiva para la detección temprana de estudiantes en riesgo",
+      "Plataformas de Aprendizaje Adaptativo (Adaptive Learning)",
+      "Gamificación y aprendizaje inmersivo con AR/VR",
+      "Microcredenciales y certificaciones basadas en Blockchain"
+    ],
+    "macroFactors": [
+      "Inversión pública y privada en la digitalización de la educación",
+      "Evolución del mercado laboral y la demanda de nuevas competencias (Future of Work)",
+      "Ciclos económicos que afectan los presupuestos de formación corporativa y personal",
+      "Globalización y la necesidad de estándares educativos internacionales"
+    ],
+    "dataSources": [
+      "HolonIQ",
+      "Grand View Research",
+      "MarketsandMarkets",
+      "PitchBook",
+      "Crunchbase",
+      "Gartner Hype Cycle for Education",
+      "OECD Education at a Glance",
+      "World Bank Open Data"
+    ]
+  }
+}
+```

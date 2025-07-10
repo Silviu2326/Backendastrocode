@@ -1,0 +1,200 @@
+```json
+{
+  "userStories": [
+    {
+      "title": "Visualización del Resumen de Progreso General",
+      "description": "Como estudiante, quiero ver un resumen visual de mi progreso general en el curso para poder evaluar rápidamente mi rendimiento y mantenerme motivado.",
+      "pageContext": "Panel de Control del Estudiante (Dashboard)",
+      "affectedFiles": [
+        "src/features/panel-de-control-del-estudiante-dashboard/PaneldeControldelEstudiante(Dashboard)Page.tsx",
+        "src/features/panel-de-control-del-estudiante-dashboard/api.ts",
+        "src/features/panel-de-control-del-estudiante-dashboard/hooks/usePaneldeControldelEstudiante(Dashboard).ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "ProgressSummaryCard.tsx",
+            "path": "src/features/panel-de-control-del-estudiante-dashboard/components/",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El hook `usePaneldeControldelEstudiante(Dashboard).ts` debe llamar a un nuevo endpoint en `api.ts` para obtener los datos de progreso del estudiante (ej. porcentaje completado, calificación promedio, módulos finalizados). Estos datos se pasarán como props al nuevo componente `ProgressSummaryCard.tsx`, que se encargará de la representación visual (p. ej., usando una barra de progreso circular o lineal).",
+      "styling": {
+        "framework": "No especificado (ej. Tailwind CSS)",
+        "classes": "p-6 bg-white rounded-xl shadow-md flex flex-col items-center space-y-4",
+        "colorCoding": "Usar colores primarios de la marca para la barra de progreso (ej. azul para el progreso, gris para el fondo) y texto oscuro para la legibilidad."
+      },
+      "acceptanceCriteria": [
+        "El dashboard debe mostrar un componente o 'card' titulado 'Mi Progreso'.",
+        "Dentro del componente, se debe mostrar un porcentaje que represente el avance total del curso.",
+        "Debe haber un elemento gráfico (como una barra de progreso o un gráfico de dona) que represente visualmente dicho porcentaje.",
+        "El componente debe mostrar un estado de carga (skeleton) mientras se obtienen los datos del progreso.",
+        "Si no se pueden cargar los datos, se debe mostrar un mensaje de error amigable."
+      ],
+      "additionalSuggestions": [
+        "Considerar añadir una estadística adicional como 'Calificación Promedio'.",
+        "Hacer que el componente sea un enlace a una página de progreso más detallada."
+      ],
+      "aiEditorTask": "Crea el componente `ProgressSummaryCard.tsx` que acepte `percentage` y `averageScore` como props y los muestre. Implementa la lógica de fetching en el hook `usePaneldeControldelEstudiante(Dashboard).ts` y el endpoint correspondiente en `api.ts`. Integra el nuevo componente en la página `PaneldeControldelEstudiante(Dashboard)Page.tsx`.",
+      "priority": "Alta",
+      "estimatedHours": 8
+    },
+    {
+      "title": "Acceso Rápido a la Sesión de Tutoría con IA",
+      "description": "Como estudiante, quiero un botón de acceso rápido en mi panel de control para iniciar una nueva sesión de tutoría con la IA, para poder resolver mis dudas sin tener que navegar por varios menús.",
+      "pageContext": "Panel de Control del Estudiante (Dashboard)",
+      "affectedFiles": [
+        "src/features/panel-de-control-del-estudiante-dashboard/PaneldeControldelEstudiante(Dashboard)Page.tsx"
+      ],
+      "componentsModules": {
+        "create": [],
+        "import": [
+          {
+            "name": "Button",
+            "from": "src/components/Button.jsx"
+          }
+        ]
+      },
+      "logicData": "Se colocará un componente `Button` en una ubicación prominente de la página del dashboard. El botón tendrá un evento `onClick` que utilizará el sistema de enrutamiento (probablemente React Router) para navegar al usuario a la ruta '/sesion-de-tutoria-con-ia'. No requiere fetching de datos.",
+      "styling": {
+        "framework": "No especificado (ej. Tailwind CSS)",
+        "classes": "w-full py-3 px-6 text-lg font-bold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors",
+        "colorCoding": "Usar un color de acción primario y llamativo para asegurar que el botón destaque del resto de los elementos del dashboard."
+      },
+      "acceptanceCriteria": [
+        "Debe existir un botón claramente visible y etiquetado como 'Iniciar Tutoría con IA' (o similar) en el dashboard.",
+        "Al hacer clic en el botón, el usuario debe ser redirigido a la página 'Sesión de Tutoría con IA'.",
+        "El botón debe tener un estado hover para mejorar la retroalimentación visual.",
+        "El botón debe ocupar un espacio prioritario en la jerarquía visual de la página."
+      ],
+      "additionalSuggestions": [
+        "Añadir un ícono de un robot o un chat junto al texto del botón para mejorar el reconocimiento.",
+        "Considerar mostrar el número de sesiones de tutoría restantes si el plan del usuario es limitado."
+      ],
+      "aiEditorTask": "Importa el componente `Button` en `PaneldeControldelEstudiante(Dashboard)Page.tsx`. Añádelo a la página con el texto y el estilo sugeridos. Configura el evento `onClick` para que navegue al usuario a la ruta '/sesion-de-tutoria-con-ia'.",
+      "priority": "Alta",
+      "estimatedHours": 3
+    },
+    {
+      "title": "Visualización de Notificaciones de Feedback Reciente",
+      "description": "Como estudiante, quiero ver una lista de las notificaciones más recientes sobre el feedback de mis tareas en el panel de control, para estar al tanto de mis calificaciones y poder acceder directamente a la revisión.",
+      "pageContext": "Panel de Control del Estudiante (Dashboard)",
+      "affectedFiles": [
+        "src/features/panel-de-control-del-estudiante-dashboard/PaneldeControldelEstudiante(Dashboard)Page.tsx",
+        "src/features/panel-de-control-del-estudiante-dashboard/api.ts",
+        "src/features/panel-de-control-del-estudiante-dashboard/hooks/usePaneldeControldelEstudiante(Dashboard).ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "FeedbackNotificationList.tsx",
+            "path": "src/features/panel-de-control-del-estudiante-dashboard/components/",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El hook `usePaneldeControldelEstudiante` debe obtener una lista de las 3-5 notificaciones de feedback más recientes desde la API. Cada notificación debe incluir el nombre de la tarea, la fecha y un ID o enlace para navegar a la página de detalle de 'Revisión de Tareas y Feedback'. El componente `FeedbackNotificationList.tsx` recibirá esta lista y la renderizará. Cada elemento de la lista será navegable.",
+      "styling": {
+        "framework": "No especificado (ej. Tailwind CSS)",
+        "classes": "bg-white p-4 rounded-lg shadow-md divide-y divide-gray-200",
+        "colorCoding": "Las notificaciones no leídas podrían tener un indicador visual (ej. un punto azul) o un fondo ligeramente diferente para destacarlas."
+      },
+      "acceptanceCriteria": [
+        "El dashboard debe mostrar una sección titulada 'Feedback Reciente'.",
+        "La sección debe listar las últimas notificaciones de tareas revisadas, mostrando el nombre de la tarea y hace cuánto tiempo se recibió (ej. 'hace 2 días').",
+        "Cada notificación en la lista debe ser un enlace que redirija al usuario a la página específica de 'Revisión de Tareas y Feedback'.",
+        "Si no hay notificaciones nuevas, se debe mostrar un mensaje claro como 'No tienes feedback nuevo'."
+      ],
+      "additionalSuggestions": [
+        "Incluir un enlace 'Ver todas' que lleve al listado completo de feedbacks.",
+        "Mostrar un ícono diferente según el tipo de tarea (ej. ensayo, cuestionario)."
+      ],
+      "aiEditorTask": "Crea el componente `FeedbackNotificationList.tsx` que renderice una lista de notificaciones. Añade la lógica de fetching al hook y al API. Integra el componente en la página del dashboard y asegúrate de que la navegación funcione correctamente.",
+      "priority": "Media",
+      "estimatedHours": 10
+    },
+    {
+      "title": "Vista Previa de la Ruta de Estudio",
+      "description": "Como estudiante, quiero ver los próximos pasos de mi ruta de estudio personalizada directamente en el panel de control, para saber en qué debo enfocarme a continuación y mantener el impulso.",
+      "pageContext": "Panel de Control del Estudiante (Dashboard)",
+      "affectedFiles": [
+        "src/features/panel-de-control-del-estudiante-dashboard/PaneldeControldelEstudiante(Dashboard)Page.tsx",
+        "src/features/panel-de-control-del-estudiante-dashboard/api.ts",
+        "src/features/panel-de-control-del-estudiante-dashboard/hooks/usePaneldeControldelEstudiante(Dashboard).ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "StudyPathPreview.tsx",
+            "path": "src/features/panel-de-control-del-estudiante-dashboard/components/",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "La API debe exponer un endpoint que devuelva los próximos 2 o 3 elementos de la ruta de estudio del usuario (lección actual y siguientes). El hook `usePaneldeControldelEstudiante` consumirá este endpoint. El componente `StudyPathPreview.tsx` mostrará estos elementos en un formato de lista o línea de tiempo simple. Cada elemento será un enlace a su respectiva lección o módulo.",
+      "styling": {
+        "framework": "No especificado (ej. Tailwind CSS)",
+        "classes": "bg-white p-4 rounded-lg shadow-md",
+        "colorCoding": "Destacar visualmente el elemento 'actual' o 'siguiente' para guiar al usuario. Usar íconos para diferenciar tipos de contenido (video, lectura, quiz)."
+      },
+      "acceptanceCriteria": [
+        "El dashboard debe mostrar un componente titulado 'Próximos Pasos'.",
+        "El componente debe listar al menos la lección actual y la siguiente en la ruta de estudio.",
+        "Cada elemento de la lista debe mostrar el título de la lección y ser un enlace que lleve directamente a ella.",
+        "Debe haber un enlace o botón visible que diga 'Ver Ruta Completa', que redirija a la página de 'Ruta de Estudio Personalizada'.",
+        "Debe mostrar un estado de carga mientras se obtienen los datos."
+      ],
+      "additionalSuggestions": [
+        "Mostrar una pequeña barra de progreso para cada módulo o sección dentro de la vista previa.",
+        "Permitir al usuario marcar una lección como completada directamente desde el dashboard."
+      ],
+      "aiEditorTask": "Implementa el componente `StudyPathPreview.tsx`, el endpoint en `api.ts` y la lógica en el hook `usePaneldeControldelEstudiante`. Integra el componente en la página del dashboard, asegurando que los enlaces de navegación funcionen.",
+      "priority": "Alta",
+      "estimatedHours": 9
+    },
+    {
+      "title": "Mensaje de Bienvenida Personalizado",
+      "description": "Como estudiante, quiero ser recibido con un mensaje de bienvenida que use mi nombre para que la experiencia se sienta más personal y acogedora.",
+      "pageContext": "Panel de Control del Estudiante (Dashboard)",
+      "affectedFiles": [
+        "src/features/panel-de-control-del-estudiante-dashboard/PaneldeControldelEstudiante(Dashboard)Page.tsx",
+        "src/features/panel-de-control-del-estudiante-dashboard/api.ts",
+        "src/features/panel-de-control-del-estudiante-dashboard/hooks/usePaneldeControldelEstudiante(Dashboard).ts"
+      ],
+      "componentsModules": {
+        "create": [
+          {
+            "name": "WelcomeHeader.tsx",
+            "path": "src/features/panel-de-control-del-estudiante-dashboard/components/",
+            "type": "component"
+          }
+        ],
+        "import": []
+      },
+      "logicData": "El nombre del estudiante debe obtenerse del estado de autenticación global o a través de una llamada a la API que devuelva los datos del perfil del usuario. El hook `usePaneldeControldelEstudiante` se encargará de obtener este dato y pasarlo al componente `WelcomeHeader.tsx` para su renderización.",
+      "styling": {
+        "framework": "No especificado (ej. Tailwind CSS)",
+        "classes": "text-2xl md:text-3xl font-bold text-gray-800 mb-2",
+        "colorCoding": "Usar el color de texto principal del tema. El nombre del usuario podría tener un color de acento para destacarlo."
+      },
+      "acceptanceCriteria": [
+        "Al cargar el dashboard, se debe mostrar un saludo en la parte superior de la página.",
+        "El saludo debe incluir el nombre de pila del estudiante (ej. '¡Hola de nuevo, María!').",
+        "El nombre del estudiante debe obtenerse dinámicamente, no debe estar codificado.",
+        "Mientras se carga el nombre, se puede mostrar un saludo genérico o un placeholder."
+      ],
+      "additionalSuggestions": [
+        "Cambiar el saludo según la hora del día ('Buenos días', 'Buenas tardes').",
+        "Añadir un avatar del usuario junto al mensaje de bienvenida, obtenido desde su perfil."
+      ],
+      "aiEditorTask": "Crea un componente `WelcomeHeader.tsx` que reciba el nombre del usuario como prop. Actualiza el hook `usePaneldeControldelEstudiante` para obtener el nombre del usuario (puedes simularlo si la API de perfil no existe) e intégralo en la página del dashboard.",
+      "priority": "Media",
+      "estimatedHours": 4
+    }
+  ]
+}
+```
